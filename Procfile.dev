@@ -1,0 +1,2 @@
+webpacker: ./bin/webpack-dev-server
+guard: bundle exec guard
