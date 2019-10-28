@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_24_220217) do
+ActiveRecord::Schema.define(version: 2019_10_28_144908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,48 @@ ActiveRecord::Schema.define(version: 2019_10_24_220217) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "categoria_recetas", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ciudades", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.bigint "provincia_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provincia_id"], name: "index_ciudades_on_provincia_id"
+  end
+
+  create_table "provincias", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "publicaciones", force: :cascade do |t|
+    t.string "titulo", null: false
+    t.text "cuerpo", null: false
+    t.jsonb "puntajes"
+    t.bigint "ciudad_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ciudad_id"], name: "index_publicaciones_on_ciudad_id"
+    t.index ["titulo"], name: "index_publicaciones_on_titulo"
+  end
+
+  create_table "recetas", force: :cascade do |t|
+    t.string "titulo", null: false
+    t.text "cuerpo"
+    t.jsonb "puntaje"
+    t.bigint "categoria_receta_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["categoria_receta_id"], name: "index_recetas_on_categoria_receta_id"
+    t.index ["titulo"], name: "index_recetas_on_titulo"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest"
@@ -62,4 +104,7 @@ ActiveRecord::Schema.define(version: 2019_10_24_220217) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ciudades", "provincias"
+  add_foreign_key "publicaciones", "ciudades"
+  add_foreign_key "recetas", "categoria_recetas"
 end

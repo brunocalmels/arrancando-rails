@@ -35,6 +35,7 @@ gem 'simple_command'
 gem 'haml'
 # gem 'rails_bootstrap_navbar'
 gem 'pundit'
+gem 'kaminari'
 
 
 group :development, :test do

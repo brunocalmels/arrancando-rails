@@ -27,3 +27,17 @@ FactoryBot.create(
   password: "123456",
   activo: true
 )
+
+PROVINCIAS.each do |prov|
+  provincia = Provincia.create(nombre: prov[:nombre])
+  prov[:ciudades].each do |ciudad|
+    Ciudad.create(nombre: ciudad, provincia: provincia)
+  end
+end
+
+10.times { FactoryBot.create(:publicacion) }
+
+CATEGORIAS_RECETAS.each do |cat|
+  CategoriaReceta.create(nombre: cat)
+end
+10.times { FactoryBot.create(:receta) }
