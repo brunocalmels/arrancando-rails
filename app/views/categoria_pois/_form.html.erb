@@ -1,0 +1,17 @@
+<%= form_with(model: categoria_poi, local: true) do |form| %>
+  <% if categoria_poi.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(categoria_poi.errors.count, "error") %> prohibited this categoria_poi from being saved:</h2>
+
+      <ul>
+        <% categoria_poi.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

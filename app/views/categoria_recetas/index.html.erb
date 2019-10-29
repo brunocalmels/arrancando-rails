@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Categoria Recetas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @categoria_recetas.each do |categoria_receta| %>
+      <tr>
+        <td><%= link_to 'Show', categoria_receta %></td>
+        <td><%= link_to 'Edit', edit_categoria_receta_path(categoria_receta) %></td>
+        <td><%= link_to 'Destroy', categoria_receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Categoria Receta', new_categoria_receta_path %>

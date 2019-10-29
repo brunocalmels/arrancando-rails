@@ -1,0 +1,2 @@
+module CategoriaRecetasHelper
+end

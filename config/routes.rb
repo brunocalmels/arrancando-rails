@@ -7,5 +7,8 @@ Rails.application.routes.draw do
   resources :publicaciones
   get "pois/search", to: "pois#search"
   resources :pois
+  resources :ciudades, only: %i[index]
+  resources :categoria_pois, only: %i[index]
+  resources :categoria_recetas, only: %i[index]
   get "/", to: "home#index"
 end
