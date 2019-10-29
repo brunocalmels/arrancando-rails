@@ -59,6 +59,9 @@ GEM
     activerecord (6.0.0)
       activemodel (= 6.0.0)
       activesupport (= 6.0.0)
+    activerecord-postgis-adapter (6.0.0)
+      activerecord (~> 6.0)
+      rgeo-activerecord (~> 6.0)
     activestorage (6.0.0)
       actionpack (= 6.0.0)
       activejob (= 6.0.0)
@@ -124,6 +127,7 @@ GEM
     ffi (1.11.1)
     foreman (0.86.0)
     formatador (0.2.5)
+    geocoder (1.5.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     guard (2.15.1)
@@ -256,6 +260,10 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rgeo (2.1.1)
+    rgeo-activerecord (6.2.1)
+      activerecord (>= 5.0)
+      rgeo (>= 1.0.0)
     rspec-core (3.9.0)
       rspec-support (~> 3.9.0)
     rspec-expectations (3.9.0)
@@ -332,6 +340,7 @@ PLATFORMS
 
 DEPENDENCIES
   actiontext
+  activerecord-postgis-adapter
   annotate (>= 2.5.0)
   awesome_print
   bcrypt (~> 3.1.7)
@@ -344,6 +353,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   foreman
+  geocoder
   guard
   guard-livereload
   haml
