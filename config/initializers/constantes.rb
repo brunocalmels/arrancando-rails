@@ -20,3 +20,9 @@ CATEGORIAS_RECETAS = %w[
   Marinados
   Parrilla
 ].freeze
+
+CATEGORIAS_POIS = %w[
+  Carne
+  Leña
+  Artesanos del hierro
+].freeze

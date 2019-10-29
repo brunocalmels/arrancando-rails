@@ -41,3 +41,8 @@ CATEGORIAS_RECETAS.each do |cat|
   CategoriaReceta.create(nombre: cat)
 end
 10.times { FactoryBot.create(:receta) }
+
+CATEGORIAS_POIS.each do |cat|
+  CategoriaPoi.create(nombre: cat)
+end
+10.times { FactoryBot.create(:poi) }

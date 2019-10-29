@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_144908) do
+ActiveRecord::Schema.define(version: 2019_10_29_135159) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,12 @@ ActiveRecord::Schema.define(version: 2019_10_28_144908) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "categoria_pois", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "categoria_recetas", force: :cascade do |t|
     t.string "nombre", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -58,6 +64,19 @@ ActiveRecord::Schema.define(version: 2019_10_28_144908) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["provincia_id"], name: "index_ciudades_on_provincia_id"
+  end
+
+  create_table "pois", force: :cascade do |t|
+    t.string "titulo", null: false
+    t.text "cuerpo"
+    t.float "lat", null: false
+    t.float "long", null: false
+    t.jsonb "puntaje"
+    t.bigint "categoria_poi_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["categoria_poi_id"], name: "index_pois_on_categoria_poi_id"
+    t.index ["titulo"], name: "index_pois_on_titulo"
   end
 
   create_table "provincias", force: :cascade do |t|
@@ -105,6 +124,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_144908) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ciudades", "provincias"
+  add_foreign_key "pois", "categoria_pois"
   add_foreign_key "publicaciones", "ciudades"
   add_foreign_key "recetas", "categoria_recetas"
 end

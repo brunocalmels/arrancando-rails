@@ -1,0 +1,2 @@
+class CategoriaPoi < ApplicationRecord
+end
