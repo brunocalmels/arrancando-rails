@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: publicaciones
+#
+#  id         :integer          not null, primary key
+#  titulo     :string           not null
+#  cuerpo     :text             not null
+#  puntajes   :jsonb
+#  ciudad_id  :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Publicacion < ApplicationRecord
   belongs_to :ciudad
 
