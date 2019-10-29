@@ -1,0 +1,37 @@
+<%= form_with(model: receta, local: true) do |form| %>
+  <% if receta.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(receta.errors.count, "error") %> prohibited this receta from being saved:</h2>
+
+      <ul>
+        <% receta.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :titulo %>
+    <%= form.text_field :titulo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cuerpo %>
+    <%= form.text_area :cuerpo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :puntaje %>
+    <%= form.text_field :puntaje %>
+  </div>
+
+  <div class="field">
+    <%= form.label :categoria_receta_id %>
+    <%= form.text_field :categoria_receta_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

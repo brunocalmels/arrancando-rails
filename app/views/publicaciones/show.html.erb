@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Titulo:</strong>
+  <%= @publicacion.titulo %>
+</p>
+
+<p>
+  <strong>Cuerpo:</strong>
+  <%= @publicacion.cuerpo %>
+</p>
+
+<p>
+  <strong>Cuerpo Rich:</strong>
+  <%= @publicacion.cuerpo_rich %>
+</p>
+
+<p>
+  <strong>Puntajes:</strong>
+  <%= @publicacion.puntajes %>
+</p>
+
+<p>
+  <strong>Ciudad:</strong>
+  <%= @publicacion.ciudad.nombre %>
+</p>
+
+<%= link_to 'Edit', edit_publicacion_path(@publicacion) %> |
+<%= link_to 'Back', publicaciones_path %>

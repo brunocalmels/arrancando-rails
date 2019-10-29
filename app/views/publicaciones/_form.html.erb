@@ -1,0 +1,42 @@
+<%= form_with(model: publicacion, local: true) do |form| %>
+  <% if publicacion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(publicacion.errors.count, "error") %> prohibited this publicacion from being saved:</h2>
+
+      <ul>
+        <% publicacion.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :titulo %>
+    <%= form.text_field :titulo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cuerpo %>
+    <%= form.text_area :cuerpo %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cuerpo_rich %>
+    <%= form.rich_text_area :cuerpo_rich %>
+  </div>
+
+  <div class="field">
+    <%= form.label :puntajes %>
+    <%= form.text_field :puntajes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ciudad_id %>
+    <%= form.text_field :ciudad_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
