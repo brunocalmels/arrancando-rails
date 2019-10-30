@@ -42,16 +42,17 @@ class PoisController < ApplicationController
   def create
     @poi = Poi.new(poi_params)
     @poi.geo_point = "POINT(#{poit_params['long']} #{poit_params['lat']})",
+                     save_images
 
-                     respond_to do |format|
-                       if @poi.save
-                         format.html { redirect_to @poi, notice: "Poi was successfully created." }
-                         format.json { render :show, status: :created, location: @poi }
-                       else
-                         format.html { render :new }
-                         format.json { render json: @poi.errors, status: :unprocessable_entity }
-                       end
-                     end
+    respond_to do |format|
+      if @poi.save
+        format.html { redirect_to @poi, notice: "Poi was successfully created." }
+        format.json { render :show, status: :created, location: @poi }
+      else
+        format.html { render :new }
+        format.json { render json: @poi.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # PATCH/PUT /pois/1
@@ -87,6 +88,18 @@ class PoisController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def poi_params
-    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :puntaje, :categoria_poi_id)
+    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :puntaje, :direccion, :categoria_poi_id)
+  end
+
+  def save_images
+    params[:imagenes].each do |img|
+      tempfile = Tempfile.new("fileupload")
+      tempfile.binmode
+      tempfile.write(Base64.decode64(img))
+      tempfile.rewind
+      mime_type = Mime::Type.lookup_by_extension(File.extname("filename.jpg")[1..-1]).to_s
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
+      @poi.imagenes.attach(uploaded_file)
+    end
   end
 end

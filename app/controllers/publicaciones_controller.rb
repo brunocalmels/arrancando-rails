@@ -41,6 +41,7 @@ class PublicacionesController < ApplicationController
   # POST /publicaciones.json
   def create
     @publicacion = Publicacion.new(publicacion_params)
+    save_images if params[:imagenes].class == Array
 
     respond_to do |format|
       if @publicacion.save
@@ -87,5 +88,17 @@ class PublicacionesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def publicacion_params
     params.require(:publicacion).permit(:titulo, :cuerpo, :puntajes, :ciudad_id)
+  end
+
+  def save_images
+    params[:imagenes].each do |img|
+      tempfile = Tempfile.new("fileupload")
+      tempfile.binmode
+      tempfile.write(Base64.decode64(img))
+      tempfile.rewind
+      mime_type = Mime::Type.lookup_by_extension(File.extname("filename.jpg")[1..-1]).to_s
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
+      @publicacion.imagenes.attach(uploaded_file)
+    end
   end
 end

@@ -39,6 +39,7 @@ class RecetasController < ApplicationController
   # POST /recetas.json
   def create
     @receta = Receta.new(receta_params)
+    save_images
 
     respond_to do |format|
       if @receta.save
@@ -85,5 +86,17 @@ class RecetasController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
     params.require(:receta).permit(:titulo, :cuerpo, :puntaje, :categoria_receta_id)
+  end
+
+  def save_images
+    params[:imagenes].each do |img|
+      tempfile = Tempfile.new("fileupload")
+      tempfile.binmode
+      tempfile.write(Base64.decode64(img))
+      tempfile.rewind
+      mime_type = Mime::Type.lookup_by_extension(File.extname("filename.jpg")[1..-1]).to_s
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
+      @receta.imagenes.attach(uploaded_file)
+    end
   end
 end

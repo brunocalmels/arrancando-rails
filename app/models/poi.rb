@@ -16,8 +16,9 @@
 
 class Poi < ApplicationRecord
   belongs_to :categoria_poi
-
+  has_many_attached :imagenes
   has_rich_text :cuerpo_rich
+  paginates_per 10
 
   scope :search, lambda { |term|
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
