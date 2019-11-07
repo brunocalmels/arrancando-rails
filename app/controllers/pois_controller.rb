@@ -4,9 +4,12 @@ class PoisController < ApplicationController
   # GET /pois
   # GET /pois.json
   def index
-    @lim = params[:limit]
-    @pois = Poi.all.limit @lim
-    @pois = @pois.page params[:page]
+    @pois = Poi
+    filter_by_categria_poi_id
+    filter_by_term
+    @pois = @pois
+            .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+    render :index
   end
 
   # GET /pois/1
@@ -17,15 +20,7 @@ class PoisController < ApplicationController
   # GET /pois/search
   # GET /pois/search.json
   def search
-    @term = params[:term]
-    @lim = params[:limit]
-    @pois = Poi
-            .search(@term)
-            .limit(@lim)
-            .page(params[:page])
-    respond_to do |format|
-      format.json { render json: @pois }
-    end
+    index
   end
 
   # GET /pois/new
@@ -80,6 +75,20 @@ class PoisController < ApplicationController
   end
 
   private
+
+  def filter_by_categria_poi_id
+    return unless params.key? :categoria_poi_id
+
+    @pois = @pois
+            .where(categoria_poi_id: params[:categoria_poi_id].to_i)
+  end
+
+  def filter_by_term
+    return unless params.key? :term
+
+    @pois = @pois
+            .search(params[:term])
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_poi

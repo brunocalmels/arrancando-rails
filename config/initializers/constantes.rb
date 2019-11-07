@@ -21,8 +21,8 @@ CATEGORIAS_RECETAS = %w[
   Parrilla
 ].freeze
 
-CATEGORIAS_POIS = %w[
-  Carne
-  Leña
-  Artesanos del hierro
+CATEGORIAS_POIS = [
+  "Carne",
+  "Leña",
+  "Artesanos del hierro"
 ].freeze

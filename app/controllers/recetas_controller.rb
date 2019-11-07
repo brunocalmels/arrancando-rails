@@ -4,7 +4,12 @@ class RecetasController < ApplicationController
   # GET /recetas
   # GET /recetas.json
   def index
-    @recetas = Receta.all
+    @recetas = Receta
+    filter_by_categoria_receta_id
+    filter_by_term
+    @recetas = @recetas
+               .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+    render :index
   end
 
   # GET /recetas/1
@@ -15,15 +20,7 @@ class RecetasController < ApplicationController
   # GET /recetas/search
   # GET /recetas/search.json
   def search
-    @term = params[:term]
-    @lim = params[:limit]
-    @recetas = Receta
-               .search(@term)
-               .limit(@lim)
-               .page(params[:page])
-    respond_to do |format|
-      format.json { render json: @recetas }
-    end
+    index
   end
 
   # GET /recetas/new
@@ -77,6 +74,20 @@ class RecetasController < ApplicationController
   end
 
   private
+
+  def filter_by_categoria_receta_id
+    return unless params.key? :categoria_receta_id
+
+    @recetas = @recetas
+               .where(categoria_receta_id: params[:categoria_receta_id].to_i)
+  end
+
+  def filter_by_term
+    return unless params.key? :term
+
+    @recetas = @recetas
+               .search(params[:term])
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_receta

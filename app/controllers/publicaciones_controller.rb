@@ -4,9 +4,13 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones
   # GET /publicaciones.json
   def index
-    @lim = params[:limit]
-    @publicaciones = Publicacion.all.limit @lim
-    @publicaciones = @publicaciones.page params[:page]
+    @publicaciones = Publicacion
+    filter_by_ciudad_id
+    filter_by_term
+    @publicaciones = @publicaciones
+                     .order(created_at: :desc)
+                     .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+    render :index
   end
 
   # GET /publicaciones/1
@@ -17,15 +21,7 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/search
   # GET /publicaciones/search.json
   def search
-    @term = params[:term]
-    @lim = params[:limit]
-    @publicaciones = Publicacion
-                     .search(@term)
-                     .limit(@lim)
-                     .page(params[:page])
-    respond_to do |format|
-      format.json { render json: @publicaciones }
-    end
+    index
   end
 
   # GET /publicaciones/new
@@ -79,6 +75,20 @@ class PublicacionesController < ApplicationController
   end
 
   private
+
+  def filter_by_ciudad_id
+    return unless params.key? :ciudad_id
+
+    @publicaciones = @publicaciones
+                     .where(ciudad_id: params[:ciudad_id].to_i)
+  end
+
+  def filter_by_term
+    return unless params.key? :term
+
+    @publicaciones = @publicaciones
+                     .search(params[:term])
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_publicacion

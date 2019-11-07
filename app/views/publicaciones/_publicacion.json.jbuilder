@@ -15,7 +15,7 @@ if publicacion.imagenes.attached?
     json.array! @imgs
   end
 else
-  json.imagenes ["/images/#{["missing", "missing2", "missing3"].sample}.jpg"]
+  json.imagenes ["/images/#{%w[missing missing2 missing3].sample}.jpg"]
 end
 
 json.url publicacion_url(publicacion,
