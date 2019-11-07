@@ -2,12 +2,15 @@ json.extract! poi,
               :id,
               :titulo,
               :cuerpo,
-              :lat,
-              :long,
+              # :lat,
+              # :long,
               :puntaje,
               :direccion,
               :created_at,
               :updated_at
+
+json.latitud poi.lat
+json.longitud poi.long
 
 if poi.imagenes.attached?
   @imgs = poi.imagenes.attachments.map do |img|
@@ -17,7 +20,7 @@ if poi.imagenes.attached?
     json.array! @imgs
   end
 else
-  json.imagenes "/images/missing.jpg"
+  json.imagenes ["/images/#{["missing", "missing2", "missing3"].sample}.jpg"]
 end
 
 json.url poi_url(poi,

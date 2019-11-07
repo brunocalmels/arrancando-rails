@@ -15,7 +15,7 @@ if receta.imagenes.attached?
     json.array! @imgs
   end
 else
-  json.imagenes "/images/missing.jpg"
+  json.imagenes ["/images/#{["missing", "missing2", "missing3"].sample}.jpg"]
 end
 
 json.url receta_url(receta, format: :json)

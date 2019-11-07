@@ -5,7 +5,7 @@ class PoisController < ApplicationController
   # GET /pois.json
   def index
     @lim = params[:limit]
-    @pois = Pois.all.limit @lim
+    @pois = Poi.all.limit @lim
     @pois = @pois.page params[:page]
   end
 
@@ -41,8 +41,8 @@ class PoisController < ApplicationController
   # POST /pois.json
   def create
     @poi = Poi.new(poi_params)
-    @poi.geo_point = "POINT(#{poit_params['long']} #{poit_params['lat']})",
-                     save_images
+    @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
+    save_images
 
     respond_to do |format|
       if @poi.save
