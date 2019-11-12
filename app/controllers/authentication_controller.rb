@@ -2,32 +2,34 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def authenticate
-    # command = AuthenticateUser.call(params[:control_field], params[:password])
     command = AuthenticateUser.call(params[:email], params[:password])
 
     unless command.success?
       render(json: { error: command.errors }, status: :unauthorized) && return
     end
 
-    # @u = find_user_by_control_field(params[:control_field])
     @u = User.find_by_email(params[:email])
     if @u.activo
-      # @avatar = if @u.avatar.attached?
-      #             rails_blob_path(@u.avatar)
-      #           else
-      #             "/images/missing.jpg"
-      #           end
-      render json: {
-        auth_token: command.result,
-        id: @u.id,
-        nombre: @u.nombre,
-        apellido: @u.apellido,
-        email: @u.email,
-        username: @u.username
-        # avatar: @avatar,
-        # preferencia: !@u.preferencia.nil? ? @u.preferencia.attributes.merge(keys: KEYS_PREFERENCIAS) : nil
-      }
+      respond_to do |format|
+        format.json do
+          render json: {
+            auth_token: command.result,
+            id: @u.id,
+            nombre: @u.nombre,
+            apellido: @u.apellido,
+            email: @u.email,
+            username: @u.username
+            # avatar: @avatar,
+            # preferencia: !@u.preferencia.nil? ? @u.preferencia.attributes.merge(keys: KEYS_PREFERENCIAS) : nil
+          }
+        end
+        format.html do
+          session[:auth_token] = command.result
+          redirect_to root_url
+        end
+      end
     elsif @u.credentials["activation_token"]
       render json: { message: "Cuenta no activada" }, status: :locked
     else
@@ -36,4 +38,5 @@ class AuthenticationController < ApplicationController
   end
 
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 end

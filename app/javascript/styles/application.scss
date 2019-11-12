@@ -1,0 +1,79 @@
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import 'bootstrap_custom';
+@import 'custom';
+@import 'colors';
+@import 'forms';
+@import 'guias';
+@import 'home';
+@import 'heights';
+@import 'navbar';
+@import 'pagination';
+@import 'renspas';
+
+.alert {
+  text-align: center;
+}
+
+h1.title {
+  text-align: center;
+  margin: 30px;
+}
+
+.main_container {
+  margin: 20px;
+}
+
+#botonera {
+  margin-bottom: 20px;
+}
+
+table {
+  th {
+    // border-top: 0 !important;
+  }
+}
+
+.btn.inline {
+  margin-left: 10px;
+  padding: 3px 5px;
+}
+
+* {
+  font-family: "Raleway", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav * {
+  font-family: "Montserrat Alternates", sans-serif;
+}
+
+h1,
+h2 {
+  font-weight: bold;
+  color: $celeste;
+}
+
+td .btn {
+  border-radius: 5px;
+}
+
+.show_outer_cont {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .show_inner_cont {
+    border: 1px solid $negro_claro;
+    border-radius: 5px;
+    padding: 20px 25px 5px;
+    margin-bottom: 20px;
+  }
+}

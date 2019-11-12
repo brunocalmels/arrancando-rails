@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :users
+  get "login", to: "users#login"
   post "authenticate", to: "authentication#authenticate"
   put "recetas/:id/puntuar", to: "recetas#puntuar"
   get "recetas/search", to: "recetas#search"
@@ -13,5 +14,5 @@ Rails.application.routes.draw do
   resources :ciudades, only: %i[index]
   resources :categoria_pois, only: %i[index]
   resources :categoria_recetas, only: %i[index]
-  get "/", to: "home#index"
+  root to: "home#index"
 end

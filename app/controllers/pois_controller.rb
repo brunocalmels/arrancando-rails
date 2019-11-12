@@ -31,6 +31,7 @@ class PoisController < ApplicationController
 
   # GET /pois/1/edit
   def edit
+    authorize @poi
   end
 
   # POST /pois
@@ -38,7 +39,7 @@ class PoisController < ApplicationController
   def create
     @poi = Poi.new(poi_params)
     @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
-    @publicacion.user = current_user
+    @poi.user = current_user
     save_images
 
     respond_to do |format|
@@ -55,6 +56,7 @@ class PoisController < ApplicationController
   # PATCH/PUT /pois/1
   # PATCH/PUT /pois/1.json
   def update
+    authorize @poi
     respond_to do |format|
       if @poi.update(poi_params)
         format.html { redirect_to @poi, notice: "Poi was successfully updated." }
@@ -69,6 +71,7 @@ class PoisController < ApplicationController
   # DELETE /pois/1
   # DELETE /pois/1.json
   def destroy
+    authorize @poi
     @poi.destroy
     respond_to do |format|
       format.html { redirect_to pois_url, notice: "Poi was successfully destroyed." }
@@ -103,7 +106,7 @@ class PoisController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def poi_params
-    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :puntaje, :direccion, :categoria_poi_id)
+    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :puntajes, :direccion, :categoria_poi_id)
   end
 
   def save_images

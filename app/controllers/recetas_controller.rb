@@ -31,13 +31,14 @@ class RecetasController < ApplicationController
 
   # GET /recetas/1/edit
   def edit
+    authorize @receta
   end
 
   # POST /recetas
   # POST /recetas.json
   def create
     @receta = Receta.new(receta_params)
-    @publicacion.user = current_user
+    @receta.user = current_user
     save_images
 
     respond_to do |format|
@@ -54,6 +55,7 @@ class RecetasController < ApplicationController
   # PATCH/PUT /recetas/1
   # PATCH/PUT /recetas/1.json
   def update
+    authorize @receta
     respond_to do |format|
       if @receta.update(receta_params)
         format.html { redirect_to @receta, notice: "Receta was successfully updated." }
@@ -68,6 +70,7 @@ class RecetasController < ApplicationController
   # DELETE /recetas/1
   # DELETE /recetas/1.json
   def destroy
+    authorize @receta
     @receta.destroy
     respond_to do |format|
       format.html { redirect_to recetas_url, notice: "Receta was successfully destroyed." }
@@ -102,7 +105,7 @@ class RecetasController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
-    params.require(:receta).permit(:titulo, :cuerpo, :puntaje, :categoria_receta_id)
+    params.require(:receta).permit(:titulo, :cuerpo, :puntajes, :categoria_receta_id)
   end
 
   def save_images

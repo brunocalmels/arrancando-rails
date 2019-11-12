@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create]
-  skip_before_action :authenticate_request, only: %i[create]
+  before_action :assure_admin!, except: %i[create login]
+  skip_before_action :authenticate_request, only: %i[create login]
 
   # GET /users
   # GET /users.json
@@ -61,6 +61,10 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  # GET /login
+  def login
   end
 
   private
