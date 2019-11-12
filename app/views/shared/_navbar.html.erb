@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
+  <%= link_to 'Arrancando', root_path, class: "navbar-brand" %>
+  <%# link_to image_pack_tag("logo2.png", width: 150), root_path, class: "navbar-brand" %>
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="sr-only">Desplegar navegación</span>
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="navbar-collapse collapse" id='navbarSupportedContent'>
+    <ul class="navbar-nav mr-auto">
+      <% if signed_in? %>
+        <% if current_user&.admin? %>
+          <li class="navbar-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios<b class="caret"></b></a>
+            <div class="dropdown-menu">
+              <%= link_to("Comunes", '/users?rol=normal', class: 'dropdown-item' ) %>
+              <%= link_to("Admins", '/users?rol=admin', class: 'dropdown-item' ) %>
+            </div>
+          </li>
+        <% end %>
+
+        <li class="navbar-item">
+          <%= link_to("Publicaciones", publicaciones_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("Recetas", recetas_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("PoIs", pois_path, class: 'nav-link' ) %>
+        </li>
+      <% end %>
+    </ul>
+
+    <ul class="navbar-nav navbar-right">
+      <% if signed_in? %>
+        <li class="navbar-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Mi perfil<b class="caret"></b></a>
+          <div class="dropdown-menu">
+            <%= link_to("Editar perfil", edit_user_registration_url(current_user), class: 'nav-item' ) %>
+          </div>
+        </li>
+
+        <%# delete_button_to "Salir", destroy_user_session_url, class: 'nav-item' %>
+      <% elsif false %>
+        <li class="nav-item">
+          <%= link_to "Ingresar", new_user_session_path, class: 'nav-link', id: 'navbar-ingresar' %>
+        </li>
+      <% end%>
+    </ul>
+  </div>
+</nav>

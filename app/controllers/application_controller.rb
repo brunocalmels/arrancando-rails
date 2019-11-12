@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pundit
   include ActionController::MimeResponds
   include ActionController::Live
 
@@ -25,7 +26,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_request
-    @current_user = AuthorizeApiRequest.call(request.headers).result
+    @current_user = AuthorizeApiRequest.call(request.headers, session["auth_token"]).result
     render json: { error: "Not Authorized" }, status: 401 unless @current_user
   end
 end

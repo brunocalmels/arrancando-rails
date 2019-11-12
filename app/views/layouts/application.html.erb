@@ -10,6 +10,23 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'shared/navbar' %>
+    <h1 class="title">
+      <%= content_for?(:title) ? yield(:title) : '' %>
+    </h1>
+    <% if notice.present? %>
+        <p class='alert alert-success'>
+          <%= notice %>
+        </p>
+    <% end %>
+    <% if alert.present? %>
+      <p class='alert alert-danger'>
+        <%= alert %>
+      </p>
+    <% end %>
+    <div class="main">
+      <%= yield %>
+    </div>
+
   </body>
 </html>

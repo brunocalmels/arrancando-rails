@@ -32,12 +32,14 @@ class PublicacionesController < ApplicationController
 
   # GET /publicaciones/1/edit
   def edit
+    authorize @publicacion
   end
 
   # POST /publicaciones
   # POST /publicaciones.json
   def create
     @publicacion = Publicacion.new(publicacion_params)
+    @publicacion.user = current_user
     save_images if params[:imagenes].class == Array
 
     respond_to do |format|
@@ -54,6 +56,7 @@ class PublicacionesController < ApplicationController
   # PATCH/PUT /publicaciones/1
   # PATCH/PUT /publicaciones/1.json
   def update
+    authorize @publicacion
     respond_to do |format|
       if @publicacion.update(publicacion_params)
         format.html { redirect_to @publicacion, notice: "Publicacion was successfully updated." }
@@ -68,6 +71,7 @@ class PublicacionesController < ApplicationController
   # DELETE /publicaciones/1
   # DELETE /publicaciones/1.json
   def destroy
+    authorize @publicacion
     @publicacion.destroy
     respond_to do |format|
       format.html { redirect_to publicaciones_url, notice: "Publicacion was successfully destroyed." }
