@@ -7,10 +7,12 @@ json.extract! publicacion,
               :created_at,
               :updated_at
 
+@puntajes = publicacion.puntajes.map do |k, v|
+  { usuario: { id: k.to_i }, puntaje: v }
+end
+
 json.puntajes do
-  json.array! publicacion.puntajes.map do |k, v|
-    { usuario: { id: k.to_i }, puntaje: v }
-  end
+  json.array! @puntajes
 end
 
 if publicacion.imagenes.attached?
