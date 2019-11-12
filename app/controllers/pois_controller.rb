@@ -38,6 +38,7 @@ class PoisController < ApplicationController
   def create
     @poi = Poi.new(poi_params)
     @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
+    @publicacion.user = current_user
     save_images
 
     respond_to do |format|

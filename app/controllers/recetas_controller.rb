@@ -37,6 +37,7 @@ class RecetasController < ApplicationController
   # POST /recetas.json
   def create
     @receta = Receta.new(receta_params)
+    @publicacion.user = current_user
     save_images
 
     respond_to do |format|

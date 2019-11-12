@@ -38,6 +38,7 @@ class PublicacionesController < ApplicationController
   # POST /publicaciones.json
   def create
     @publicacion = Publicacion.new(publicacion_params)
+    @publicacion.user = current_user
     save_images if params[:imagenes].class == Array
 
     respond_to do |format|
