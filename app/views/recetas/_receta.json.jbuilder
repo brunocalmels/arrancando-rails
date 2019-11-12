@@ -26,4 +26,6 @@ else
   json.imagenes ["/images/#{%w[missing missing2 missing3].sample}.jpg"]
 end
 
+json.user receta.user
+
 json.url receta_url(receta, format: :json)

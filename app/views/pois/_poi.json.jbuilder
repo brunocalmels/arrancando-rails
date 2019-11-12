@@ -5,6 +5,7 @@ json.extract! poi,
               # :lat,
               # :long,
               # :puntaje,
+              :categoria_poi_id,
               :direccion,
               :created_at,
               :updated_at
@@ -30,6 +31,8 @@ if poi.imagenes.attached?
 else
   json.imagenes ["/images/#{%w[missing missing2 missing3].sample}.jpg"]
 end
+
+json.user poi.user
 
 json.url poi_url(poi,
                  format: :json)

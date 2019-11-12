@@ -26,5 +26,7 @@ else
   json.imagenes ["/images/#{%w[missing missing2 missing3].sample}.jpg"]
 end
 
+json.user publicacion.user
+
 json.url publicacion_url(publicacion,
                          format: :json)
