@@ -3,7 +3,8 @@ class CreateRecetas < ActiveRecord::Migration[6.0]
     create_table :recetas do |t|
       t.string :titulo, null: false
       t.text :cuerpo
-      t.jsonb :puntaje
+      t.jsonb :puntajes, default: {}
+      t.references :user, null: false, foreign_key: true
       t.references :categoria_receta, null: false, foreign_key: true
 
       t.timestamps

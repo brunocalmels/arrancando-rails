@@ -5,7 +5,8 @@ class CreatePois < ActiveRecord::Migration[6.0]
       t.text :cuerpo
       t.float :lat, null: false
       t.float :long, null: false
-      t.jsonb :puntaje
+      t.jsonb :puntajes, default: {}
+      t.references :user, null: false, foreign_key: true
       t.references :categoria_poi, null: false, foreign_key: true
 
       t.timestamps

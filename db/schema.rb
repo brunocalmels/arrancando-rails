@@ -72,7 +72,8 @@ ActiveRecord::Schema.define(version: 2019_10_30_154815) do
     t.text "cuerpo"
     t.float "lat", null: false
     t.float "long", null: false
-    t.jsonb "puntaje"
+    t.jsonb "puntajes", default: {}
+    t.bigint "user_id", null: false
     t.bigint "categoria_poi_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 2019_10_30_154815) do
     t.index ["categoria_poi_id"], name: "index_pois_on_categoria_poi_id"
     t.index ["geo_point"], name: "index_pois_on_geo_point", using: :gist
     t.index ["titulo"], name: "index_pois_on_titulo"
+    t.index ["user_id"], name: "index_pois_on_user_id"
   end
 
   create_table "provincias", force: :cascade do |t|
@@ -92,23 +94,27 @@ ActiveRecord::Schema.define(version: 2019_10_30_154815) do
   create_table "publicaciones", force: :cascade do |t|
     t.string "titulo", null: false
     t.text "cuerpo", null: false
-    t.jsonb "puntajes"
+    t.jsonb "puntajes", default: {}
+    t.bigint "user_id", null: false
     t.bigint "ciudad_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["ciudad_id"], name: "index_publicaciones_on_ciudad_id"
     t.index ["titulo"], name: "index_publicaciones_on_titulo"
+    t.index ["user_id"], name: "index_publicaciones_on_user_id"
   end
 
   create_table "recetas", force: :cascade do |t|
     t.string "titulo", null: false
     t.text "cuerpo"
-    t.jsonb "puntaje"
+    t.jsonb "puntajes", default: {}
+    t.bigint "user_id", null: false
     t.bigint "categoria_receta_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["categoria_receta_id"], name: "index_recetas_on_categoria_receta_id"
     t.index ["titulo"], name: "index_recetas_on_titulo"
+    t.index ["user_id"], name: "index_recetas_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -129,6 +135,9 @@ ActiveRecord::Schema.define(version: 2019_10_30_154815) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ciudades", "provincias"
   add_foreign_key "pois", "categoria_pois"
+  add_foreign_key "pois", "users"
   add_foreign_key "publicaciones", "ciudades"
+  add_foreign_key "publicaciones", "users"
   add_foreign_key "recetas", "categoria_recetas"
+  add_foreign_key "recetas", "users"
 end

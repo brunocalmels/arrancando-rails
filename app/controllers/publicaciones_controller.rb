@@ -1,5 +1,6 @@
 class PublicacionesController < ApplicationController
-  before_action :set_publicacion, only: %i[show edit update destroy]
+  include ContentHelper
+  before_action :set_publicacion, only: %i[show edit update destroy puntuar]
 
   # GET /publicaciones
   # GET /publicaciones.json
@@ -72,6 +73,10 @@ class PublicacionesController < ApplicationController
       format.html { redirect_to publicaciones_url, notice: "Publicacion was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def puntuar
+    puntuar_obj(@publicacion)
   end
 
   private

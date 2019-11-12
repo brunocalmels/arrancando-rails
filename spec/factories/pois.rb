@@ -23,7 +23,8 @@ FactoryBot.define do
     # latitud { Faker::Address.latitude }
     long { -67.923975 + rand * (-68.2923527 + 67.923975) }
     direccion { %w[Urquiza Sarmiento Esmeralda].sample + " " + rand(1..1000).to_s }
-    puntaje { "" }
+    puntajes { {} }
+    user { User.all.sample }
     categoria_poi { CategoriaPoi.all.sample }
   end
 end

@@ -2,10 +2,16 @@ json.extract! publicacion,
               :id,
               :titulo,
               :cuerpo,
-              :puntajes,
+              # :puntajes,
               :ciudad_id,
               :created_at,
               :updated_at
+
+json.puntajes do
+  json.array! publicacion.puntajes.map do |k, v|
+    { usuario: { id: k.to_i }, puntaje: v }
+  end
+end
 
 if publicacion.imagenes.attached?
   @imgs = publicacion.imagenes.attachments.map do |img|

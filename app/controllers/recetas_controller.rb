@@ -1,5 +1,6 @@
 class RecetasController < ApplicationController
-  before_action :set_receta, only: %i[show edit update destroy]
+  include ContentHelper
+  before_action :set_receta, only: %i[show edit update destroy puntuar]
 
   # GET /recetas
   # GET /recetas.json
@@ -71,6 +72,10 @@ class RecetasController < ApplicationController
       format.html { redirect_to recetas_url, notice: "Receta was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def puntuar
+    puntuar_obj(@receta)
   end
 
   private

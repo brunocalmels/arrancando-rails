@@ -2,10 +2,16 @@ json.extract! receta,
               :id,
               :titulo,
               :cuerpo,
-              :puntaje,
+              # :puntaje,
               :categoria_receta_id,
               :created_at,
               :updated_at
+
+json.puntajes do
+  json.array! receta.puntajes.map do |k, v|
+    { usuario: { id: k.to_i }, puntaje: v }
+  end
+end
 
 if receta.imagenes.attached?
   @imgs = receta.imagenes.attachments.map do |img|

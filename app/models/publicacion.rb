@@ -13,6 +13,7 @@
 
 class Publicacion < ApplicationRecord
   belongs_to :ciudad
+  belongs_to :user
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
   paginates_per 10

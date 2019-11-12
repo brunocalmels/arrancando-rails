@@ -15,7 +15,8 @@ FactoryBot.define do
   factory :receta do
     titulo { Faker::Dessert.variety }
     cuerpo { Faker::Restaurant.description }
-    puntaje { "" }
+    puntajes { {} }
+    user { User.all.sample }
     categoria_receta { CategoriaReceta.all.sample }
   end
 end

@@ -1,5 +1,6 @@
 class PoisController < ApplicationController
-  before_action :set_poi, only: %i[show edit update destroy]
+  include ContentHelper
+  before_action :set_poi, only: %i[show edit update destroy puntuar]
 
   # GET /pois
   # GET /pois.json
@@ -72,6 +73,10 @@ class PoisController < ApplicationController
       format.html { redirect_to pois_url, notice: "Poi was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def puntuar
+    puntuar_obj(@poi)
   end
 
   private

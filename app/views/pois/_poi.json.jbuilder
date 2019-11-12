@@ -4,10 +4,16 @@ json.extract! poi,
               :cuerpo,
               # :lat,
               # :long,
-              :puntaje,
+              # :puntaje,
               :direccion,
               :created_at,
               :updated_at
+
+json.puntajes do
+  json.array! poi.puntajes.map do |k, v|
+    { usuario: { id: k.to_i }, puntaje: v }
+  end
+end
 
 json.latitud poi.lat
 json.longitud poi.long
