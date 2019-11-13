@@ -57,6 +57,7 @@ class PoisController < ApplicationController
   # PATCH/PUT /pois/1.json
   def update
     authorize @poi
+    update_images
     respond_to do |format|
       if @poi.update(poi_params)
         format.html { redirect_to @poi, notice: "Poi was successfully updated." }
@@ -119,5 +120,10 @@ class PoisController < ApplicationController
       uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
       @poi.imagenes.attach(uploaded_file)
     end
+  end
+
+  def update_images
+    remove_imagenes(@poi) if params['remove_imagenes']
+    save_images if params[:imagenes].class == Array
   end
 end

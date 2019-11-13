@@ -29,7 +29,8 @@ if poi.imagenes.attached?
     json.array! @imgs
   end
 else
-  json.imagenes ["/images/#{%w[missing missing2 missing3].sample}.jpg"]
+  # json.imagenes ["/images/#{%w[missing missing2 missing3].sample}.jpg"]
+  json.imagenes []
 end
 
 json.user poi.user

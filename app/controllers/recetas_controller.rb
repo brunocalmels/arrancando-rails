@@ -56,6 +56,7 @@ class RecetasController < ApplicationController
   # PATCH/PUT /recetas/1.json
   def update
     authorize @receta
+    update_images
     respond_to do |format|
       if @receta.update(receta_params)
         format.html { redirect_to @receta, notice: "Receta was successfully updated." }
@@ -118,5 +119,10 @@ class RecetasController < ApplicationController
       uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
       @receta.imagenes.attach(uploaded_file)
     end
+  end
+
+  def update_images
+    remove_imagenes(@receta) if params['remove_imagenes']
+    save_images if params[:imagenes].class == Array
   end
 end

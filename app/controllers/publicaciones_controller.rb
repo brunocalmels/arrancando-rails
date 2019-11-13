@@ -57,6 +57,7 @@ class PublicacionesController < ApplicationController
   # PATCH/PUT /publicaciones/1.json
   def update
     authorize @publicacion
+    update_images
     respond_to do |format|
       if @publicacion.update(publicacion_params)
         format.html { redirect_to @publicacion, notice: "Publicacion was successfully updated." }
@@ -119,5 +120,10 @@ class PublicacionesController < ApplicationController
       uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
       @publicacion.imagenes.attach(uploaded_file)
     end
+  end
+
+  def update_images
+    remove_imagenes(@publicacion) if params['remove_imagenes']
+    save_images if params[:imagenes].class == Array
   end
 end

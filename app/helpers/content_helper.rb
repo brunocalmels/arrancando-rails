@@ -10,4 +10,10 @@ module ContentHelper
       render json: "Invalid data", status: :unprocessable_entity
     end
   end
+
+  def remove_imagenes(obj)
+    obj.imagenes.attachments.map do |img|
+      img.purge if params["remove_imagenes"].include? rails_blob_path(img)
+    end
+  end
 end
