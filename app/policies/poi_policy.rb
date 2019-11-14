@@ -14,6 +14,6 @@ class PoiPolicy < ApplicationPolicy
   end
 
   def destroy?
-    update?
+    user.admin?
   end
 end

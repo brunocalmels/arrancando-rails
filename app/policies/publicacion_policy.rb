@@ -14,6 +14,6 @@ class PublicacionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    update?
+    user.admin?
   end
 end

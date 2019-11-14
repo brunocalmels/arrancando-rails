@@ -14,6 +14,6 @@ class RecetaPolicy < ApplicationPolicy
   end
 
   def destroy?
-    update?
+    user.admin?
   end
 end
