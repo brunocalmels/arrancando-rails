@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create login]
+  before_action :assure_admin!, except: %i[create login set_avatar]
   skip_before_action :authenticate_request, only: %i[create login]
 
   # GET /users
@@ -65,6 +65,16 @@ class UsersController < ApplicationController
 
   # GET /login
   def login
+  end
+
+  # POST /users/avatar
+  def set_avatar
+    if params[:avatar].class == ActionDispatch::Http::UploadedFile
+      current_user.set_avatar_file(params[:avatar])
+    else
+      current_user.set_avatar(params[:avatar])
+    end
+    render json: { avatar: rails_blob_path(current_user.avatar) }, status: :ok
   end
 
   private

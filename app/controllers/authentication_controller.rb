@@ -11,6 +11,8 @@ class AuthenticationController < ApplicationController
     end
 
     @u = User.find_by_email(params[:email])
+    @avatar = rails_blob_path(@u.avatar) if @u.avatar.attached?
+
     if @u.activo
       respond_to do |format|
         format.json do
@@ -20,8 +22,8 @@ class AuthenticationController < ApplicationController
             nombre: @u.nombre,
             apellido: @u.apellido,
             email: @u.email,
-            username: @u.username
-            # avatar: @avatar,
+            username: @u.username,
+            avatar: @avatar
             # preferencia: !@u.preferencia.nil? ? @u.preferencia.attributes.merge(keys: KEYS_PREFERENCIAS) : nil
           }
         end

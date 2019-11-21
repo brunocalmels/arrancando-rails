@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :users
+  post :avatar, to: "users#set_avatar"
   get "login", to: "users#login"
   post "authenticate", to: "authentication#authenticate"
   put "recetas/:id/puntuar", to: "recetas#puntuar"
