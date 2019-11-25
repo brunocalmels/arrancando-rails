@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "content", to: "content#index"
   resources :users
   post :avatar, to: "users#set_avatar"
   get "login", to: "users#login"
