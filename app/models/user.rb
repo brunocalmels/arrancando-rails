@@ -16,12 +16,14 @@
 #
 
 class User < ApplicationRecord
+  # ActiveModel::Dirty
+  before_save :store_username
+
   enum rol: { normal: 0, admin: 1 }
 
   validates :email, uniqueness: true, presence: true
   validates :username, uniqueness: true
-  # validates :nombre, presence: true
-  # validates :apellido, presence: true
+  validate :not_used_username
   has_secure_password
 
   has_one_attached :avatar
@@ -47,4 +49,27 @@ class User < ApplicationRecord
   end
 
   # rubocop: enable Naming/AccessorMethodName
+
+  private
+
+  def store_username
+    return unless username_changed?
+
+    usernames_pasados.nil? ? self.usernames_pasados = [] : nil
+    usernames_pasados << username
+    return unless usernames_pasados.count > 10
+
+    self.usernames_pasados = usernames_pasados.drop(1)
+  end
+
+  def not_used_username
+    unless username.in? User
+           .where("id != ?", id)
+           .pluck(:usernames_pasados)
+           .flatten
+      return
+    end
+
+    errors.add(:username, "Ya utilizado")
+  end
 end
