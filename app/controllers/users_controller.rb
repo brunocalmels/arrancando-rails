@@ -136,7 +136,7 @@ class UsersController < ApplicationController
     # )
     @access_token = @client.auth_code.get_token(
       params[:code],
-      redirect_uri: "http://192.168.1.3.xip.io:5000/google-login"
+      redirect_uri: "http://arrancando.herokuapp.com/google-login"
     )
 
     unless @access_token.params["id_token"]
