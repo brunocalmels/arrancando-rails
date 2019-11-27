@@ -1,4 +1,4 @@
-# rubocop:disable ClassLength
+# rubocop:disable Metrics/ClassLength
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
@@ -130,7 +130,10 @@ class UsersController < ApplicationController
   end
 
   def oauth_access_token
-    # @access_token = @client.auth_code.get_token(params[:code], redirect_uri: "http://arrancando.com.ar/google-login")
+    # @access_token = @client.auth_code.get_token(
+    #   params[:code],
+    #   redirect_uri: "http://arrancando.com.ar/google-login"
+    # )
     @access_token = @client.auth_code.get_token(
       params[:code],
       redirect_uri: "http://192.168.1.3.xip.io:5000/google-login"
@@ -171,7 +174,10 @@ class UsersController < ApplicationController
       password: encode64(nombre)
     )
     # user.grab_image(@metadata["picture"])
+  rescue StandardError => e
+    puts e
+    redirect_to "https://arrancando.com.ar"
   end
 end
 
-# rubocop:enable ClassLength
+# rubocop:enable Metrics/ClassLength
