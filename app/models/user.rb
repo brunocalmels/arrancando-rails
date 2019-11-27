@@ -48,6 +48,11 @@ class User < ApplicationRecord
     self.avatar.attach(uploaded_file)
   end
 
+  def grab_image(url)
+    downloaded_image = URI.parse(url).open
+    avatar.attach(io: downloaded_image, filename: "downloaded.jpg")
+  end
+
   # rubocop: enable Naming/AccessorMethodName
 
   private

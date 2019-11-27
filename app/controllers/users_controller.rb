@@ -1,7 +1,10 @@
+# rubocop:disable ClassLength
+
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create login udpate set_avatar]
-  skip_before_action :authenticate_request, only: %i[create login]
+  before_action :assure_admin!, except: %i[create login udpate set_avatar google_client]
+  skip_before_action :authenticate_request, only: %i[create login google_client]
+  before_action :user_by_email, only: %i[google_client]
 
   # GET /users
   # GET /users.json
@@ -68,6 +71,24 @@ class UsersController < ApplicationController
   def login
   end
 
+  def google_client
+    data = {
+      auth_token: JsonWebToken.encode(user_id: @user.id),
+      id: @user.id,
+      nombre: @user.nombre,
+      apellido: @user.apellido,
+      email: @user.email,
+      username: @user.username
+    }
+
+    data[:avatar] = if @user.avatar.attached?
+                      rails_blob_path(user.avatar)
+                    else
+                      "/images/missing.jpg"
+                    end
+    redirect_to "https://arrancando.com.ar/google-signin/" + encode64(data.to_json) + "/"
+  end
+
   # POST /users/avatar
   def set_avatar
     if params[:avatar].class == ActionDispatch::Http::UploadedFile
@@ -89,4 +110,68 @@ class UsersController < ApplicationController
   def user_params
     params.permit(:nombre, :apellido, :email, :username, :password, :telefono)
   end
+
+  def encode64(data)
+    Base64.encode64(data).gsub("+", "-").gsub("/", "_")
+  end
+
+  def oauth_client
+    @client = OAuth2::Client.new(
+      ENV["GOOGLE_APP_ID"],
+      ENV["GOOGLE_APP_SEC"],
+      site: "https://www.googleapis.com/",
+      token_url: "/oauth2/v4/token",
+      raise_errors: false,
+      additional_parameters: {
+        access_type: "offline",
+        include_granted_scopes: true
+      }
+    )
+  end
+
+  def oauth_access_token
+    # @access_token = @client.auth_code.get_token(params[:code], redirect_uri: "http://arrancando.com.ar/google-login")
+    @access_token = @client.auth_code.get_token(
+      params[:code],
+      redirect_uri: "http://192.168.1.3.xip.io:5000/google-login"
+    )
+
+    unless @access_token.params["id_token"]
+      render json: @access_token.params.to_json, status: :unprocessable_entity
+    end
+
+    return unless @access_token.params["id_token"]
+  end
+
+  def user_metadata
+    response = @access_token.get("/oauth2/v2/userinfo?fields=*")
+
+    unless response
+      render json: "Response no encontrada", status: :unprocessable_entity && return
+    end
+    @metadata = JSON.parse(response.body)
+    unless @metadata && @metadata["email"]
+      render json: "Respuesta de formato incorrecto", status: :unprocessable_entity && return
+    end
+
+    @metadata
+  end
+
+  def user_by_email
+    oauth_client
+    oauth_access_token
+    user_metadata
+
+    nombre = @metadata['email'].split("@")[0].gsub(".", "_")
+
+    @user = User.find_by_email(@metadata['email']) || User.create!(
+      nombre: nombre,
+      username: nombre,
+      email: @metadata['email'],
+      password: encode64(nombre)
+    )
+    # user.grab_image(@metadata["picture"])
+  end
 end
+
+# rubocop:enable ClassLength

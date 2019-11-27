@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "google-login", to: "users#google_client"
   get "content", to: "content#index"
   resources :users
   post :avatar, to: "users#set_avatar"
