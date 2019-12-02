@@ -1,0 +1,15 @@
+@import 'colors';
+
+.pagination {
+  align-items: center;
+  justify-content: center;
+
+  span {
+    min-width: 40px;
+    text-align: center;
+    border: 1px solid $gris_bordes;
+    border-radius: 5px;
+    padding: 3px 10px;
+    margin: 2px 5px;
+  }
+}

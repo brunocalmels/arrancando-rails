@@ -1,0 +1,18 @@
+.negrita {
+  font-weight: 500;
+}
+
+.centrado {
+  text-align: center;
+}
+
+.cursiva {
+  font-style: italic;
+}
+
+@mixin flexcenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
