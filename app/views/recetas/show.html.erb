@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Receta") %>
 
 <p>
   <strong>Titulo:</strong>
@@ -20,5 +20,5 @@
   <%= @receta.categoria_receta_id %>
 </p>
 
-<%= link_to 'Edit', edit_receta_path(@receta) %> |
-<%= link_to 'Back', recetas_path %>
+<%=  link_to 'Editar', edit_receta_path(@receta) %> |
+<%= link_to 'Volver', recetas_path %>

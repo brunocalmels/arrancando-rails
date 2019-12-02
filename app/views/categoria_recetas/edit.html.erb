@@ -1,6 +1,6 @@
-<h1>Editing Categoria Receta</h1>
+<% provide(:title, "Editar Categoría Recetas") %>
 
 <%= render 'form', categoria_receta: @categoria_receta %>
 
-<%= link_to 'Show', @categoria_receta %> |
-<%= link_to 'Back', categoria_recetas_path %>
+<%= link_to 'Ver', @categoria_receta %> |
+<%= link_to 'Volver', categoria_recetas_path %>

@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Poi") %>
 
 <p>
   <strong>Titulo:</strong>
@@ -25,5 +25,5 @@
   <%= @poi.puntajes %>
 </p>
 
-<%= link_to 'Edit', edit_poi_path(@poi) %> |
-<%= link_to 'Back', pois_path %>
+<%=  link_to 'Editar', edit_poi_path(@poi) %> |
+<%= link_to 'Volver', pois_path %>

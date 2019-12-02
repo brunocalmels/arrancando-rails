@@ -29,13 +29,22 @@ class AuthenticationController < ApplicationController
         end
         format.html do
           session[:auth_token] = command.result
-          redirect_to root_url
+          redirect_to root_url, notice: "Te logueaste correctamente."
         end
       end
     elsif @u.credentials["activation_token"]
       render json: { message: "Cuenta no activada" }, status: :locked
     else
       render json: { message: "No permitido" }, status: :unauthorized
+    end
+  end
+
+  def deauthenticate
+    respond_to do |format|
+      format.html do
+        session[:auth_token] = nil
+        redirect_to root_url, notice: "Te deslogueaste correctamente."
+      end
     end
   end
 

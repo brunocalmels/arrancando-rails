@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Categoria Recetas</h1>
+<% provide(:title, "Categorías Recetas") %>
 
 <table>
   <thead>
@@ -12,8 +10,8 @@
   <tbody>
     <% @categoria_recetas.each do |categoria_receta| %>
       <tr>
-        <td><%= link_to 'Show', categoria_receta %></td>
-        <td><%= link_to 'Edit', edit_categoria_receta_path(categoria_receta) %></td>
+        <td><%= link_to 'Ver', categoria_receta %></td>
+        <td><%=  link_to 'Editar', edit_categoria_receta_path(categoria_receta) %></td>
         <td><%= link_to 'Destroy', categoria_receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

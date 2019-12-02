@@ -9,7 +9,12 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @scope = params[:rol]
+    @users = if !@scope.nil?
+               User.where(rol: @scope)
+             else
+               User.all
+             end
   end
 
   # GET /users/1
@@ -48,7 +53,7 @@ class UsersController < ApplicationController
     authorize @user
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: "User was successfully updated." }
+        format.html { redirect_to @user, notice: "Usuario satisfactoriamente guardado." }
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit }
@@ -62,7 +67,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+      format.html { redirect_to users_url, notice: "Usuario satisfactoriamente eliminado." }
       format.json { head :no_content }
     end
   end
@@ -108,7 +113,7 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.permit(:nombre, :apellido, :email, :username, :password, :telefono)
+    params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono)
   end
 
   def encode64(data)
@@ -165,12 +170,12 @@ class UsersController < ApplicationController
     oauth_access_token
     user_metadata
 
-    nombre = @metadata['email'].split("@")[0].gsub(".", "_")
+    nombre = @metadata["email"].split("@")[0].gsub(".", "_")
 
-    @user = User.find_by_email(@metadata['email']) || User.create!(
+    @user = User.find_by_email(@metadata["email"]) || User.create!(
       nombre: nombre,
       username: nombre,
-      email: @metadata['email'],
+      email: @metadata["email"],
       password: encode64(nombre)
     )
     # user.grab_image(@metadata["picture"])

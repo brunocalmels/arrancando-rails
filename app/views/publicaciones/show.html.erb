@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Publicación") %>
 
 <p>
   <strong>Titulo:</strong>
@@ -25,5 +25,5 @@
   <%= @publicacion.ciudad.nombre %>
 </p>
 
-<%= link_to 'Edit', edit_publicacion_path(@publicacion) %> |
-<%= link_to 'Back', publicaciones_path %>
+<%=  link_to 'Editar', edit_publicacion_path(@publicacion) %> |
+<%= link_to 'Volver', publicaciones_path %>

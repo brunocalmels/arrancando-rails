@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Pois</h1>
+<% provide(:title, "Pois") %>
 
 <table>
   <thead>
@@ -22,8 +20,8 @@
         <td><%= poi.lat %></td>
         <td><%= poi.long %></td>
         <td><%= poi.puntajes %></td>
-        <td><%= link_to 'Show', poi %></td>
-        <td><%= link_to 'Edit', edit_poi_path(poi) %></td>
+        <td><%= link_to 'Ver', poi %></td>
+        <td><%=  link_to 'Editar', edit_poi_path(poi) %></td>
         <td><%= link_to 'Destroy', poi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

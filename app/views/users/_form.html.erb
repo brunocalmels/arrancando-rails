@@ -11,7 +11,20 @@
     </div>
   <% end %>
 
+    <div class="field">
+      <%= form.label "Nombre(s)" %>
+      <%= form.text_field :nombre %>
+    </div>
+    <div class="field">
+      <%= form.label "Apellido" %>
+      <%= form.text_field :apellido %>
+    </div>
+    <div class="field">
+      <%= form.label "Username" %>
+      <%= form.text_field :username %>
+    </div>
+
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :Guardar %>
   </div>
 <% end %>

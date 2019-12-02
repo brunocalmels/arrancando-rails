@@ -14,7 +14,9 @@
     "popper.js": "^1.16.0",
     "rails-erb-loader": "^5.5.2",
     "trix": "^1.0.0",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "expose-loader": "^0.7.5",
+    "webpack": "^4.0.0"
   },
   "version": "0.1.0",
   "devDependencies": {

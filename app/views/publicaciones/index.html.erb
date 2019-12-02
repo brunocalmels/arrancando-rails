@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Publicaciones</h1>
+<% provide(:title, "Publicaciones") %>
 
 <table>
   <thead>
@@ -20,8 +18,8 @@
         <td><%= publicacion.cuerpo %></td>
         <td><%= publicacion.puntajes %></td>
         <td><%= publicacion.ciudad_id %></td>
-        <td><%= link_to 'Show', publicacion %></td>
-        <td><%= link_to 'Edit', edit_publicacion_path(publicacion) %></td>
+        <td><%= link_to 'Ver', publicacion %></td>
+        <td><%=  link_to 'Editar', edit_publicacion_path(publicacion) %></td>
         <td><%= link_to 'Destroy', publicacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

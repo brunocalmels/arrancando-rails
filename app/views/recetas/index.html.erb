@@ -1,6 +1,4 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Recetas</h1>
+<% provide(:title, "Recetas") %>
 
 <table>
   <thead>
@@ -20,8 +18,8 @@
         <td><%= receta.cuerpo %></td>
         <td><%= receta.puntajes %></td>
         <td><%= receta.categoria_receta_id %></td>
-        <td><%= link_to 'Show', receta %></td>
-        <td><%= link_to 'Edit', edit_receta_path(receta) %></td>
+        <td><%= link_to 'Ver', receta %></td>
+        <td><%=  link_to 'Editar', edit_receta_path(receta) %></td>
         <td><%= link_to 'Destroy', receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>

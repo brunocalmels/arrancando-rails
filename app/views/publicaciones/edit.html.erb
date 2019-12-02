@@ -1,6 +1,6 @@
-<h1>Editing Publicacion</h1>
+<% provide(:title, "Editar Publicación") %>
 
 <%= render 'form', publicacion: @publicacion %>
 
-<%= link_to 'Show', @publicacion %> |
-<%= link_to 'Back', publicaciones_path %>
+<%= link_to 'Ver', @publicacion %> |
+<%= link_to 'Volver', publicaciones_path %>

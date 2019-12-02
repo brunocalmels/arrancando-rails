@@ -27,6 +27,15 @@ class ApplicationController < ActionController::Base
 
   def authenticate_request
     @current_user = AuthorizeApiRequest.call(request.headers, session["auth_token"]).result
-    render json: { error: "Not Authorized" }, status: 401 unless @current_user
+    respond_to do |format|
+      format.html do
+        # redirect_to root_url, notice: "No estás logueado" unless current_user
+      end
+      format.json do
+        unless @current_user
+          render json: { error: "Not Authorized" }, status: 401
+        end
+      end
+    end
   end
 end
