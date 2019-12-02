@@ -1,31 +1,34 @@
 <% provide(:title, "Recetas") %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Titulo</th>
-      <th>Cuerpo</th>
-      <th>Puntaje</th>
-      <th>Categoria receta</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @recetas.each do |receta| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= receta.titulo %></td>
-        <td><%= receta.cuerpo %></td>
-        <td><%= receta.puntajes %></td>
-        <td><%= receta.categoria_receta_id %></td>
-        <td><%= link_to 'Ver', receta %></td>
-        <td><%=  link_to 'Editar', edit_receta_path(receta) %></td>
-        <td><%= link_to 'Destroy', receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Título</th>
+        <th>Cuerpo</th>
+        <th>Puntaje</th>
+        <th>Categoria receta</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @recetas.each do |receta| %>
+        <tr>
+          <td><%= receta.titulo %></td>
+          <td><%= receta.cuerpo %></td>
+          <td><%= receta.puntajes %></td>
+          <td><%= receta.categoria_receta_id %></td>
+          <td><%= link_to 'Ver', receta %></td>
+          <td><%=  link_to 'Editar', edit_receta_path(receta) %></td>
+          <td><%= link_to 'Eliminar', receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
-<%= link_to 'New Receta', new_receta_path %>
+<%= link_to 'Nueva Receta', new_receta_path %>

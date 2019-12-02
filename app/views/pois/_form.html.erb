@@ -1,7 +1,7 @@
 <%= form_with(model: poi, local: true) do |form| %>
   <% if poi.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(poi.errors.count, "error") %> prohibited this poi from being saved:</h2>
+      <h2><%= pluralize(poi.errors.count, "error") %> impidió que este Poi se guardara:</h2>
 
       <ul>
         <% poi.errors.full_messages.each do |message| %>
@@ -33,15 +33,17 @@
 
   <div class="field">
     <%= form.label :categoria_poi_id %>
-    <%= form.text_field :categoria_poi_id %>
+    <%= form.select :categoria_poi_id, CategoriaPoi.all.collect { |c| [c.nombre, c.id] } %>
   </div>
 
+  <!--
   <div class="field">
     <%= form.label :puntaje %>
     <%= form.text_field :puntaje %>
   </div>
+  -->
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :Guardar %>
   </div>
 <% end %>

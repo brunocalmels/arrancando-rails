@@ -23,26 +23,6 @@ es:
           has_one: No se puede eliminar el registro porque existe un %{record} dependiente
           has_many: No se puede eliminar el registro porque existen %{record} dependientes
       models:
-        inversion:
-          attributes:
-            monto:
-              required: Monto requerido
-            plan:
-              required: Plan requerido
-            mov_outbound:
-              required: Movimiento crédito requerido
-              blank: Se debe informar un movimiento crédito
-            mov_inbound:
-              required: Movimiento débito requerido
-              blank: Se debe informar un movimiento débito
-        emprendimiento:
-          attributes:
-            descripcion:
-              blank: La descripción no puede estar en blanco.
-            nombre:
-              blank: El nombre no puede estar en blanco.
-            razon_social:
-              taken: Esa razón social ya ha sido registrada.
         user:
           attributes:
             current_password:
@@ -69,31 +49,33 @@ es:
               blank: Debe ingresar sus nombres
             apellido:
               blank: Debe ingresar su apellido
-        transporte:
+        publicacion:
           attributes:
-            cuit:
-              blank: Debe ingresar su CUIT
-              not_a_number: El CUIT debe ser un número.
-              inclusion: CUIT fuera de rango.
+            titulo:
+              blank: El título no puede estar vacío
+            cuerpo:
+              blank: El cuerpo no puede estar vacío
+            lat:
+              blank: La latitud no puede estar vacía
+            long:
+              blank: La longitud no puede estar vacía
+        receta:
+          attributes:
+            titulo:
+              blank: El título no puede estar vacío
+            cuerpo:
+              blank: El cuerpo no puede estar vacío
+        poi:
+          attributes:
+            titulo:
+              blank: El título no puede estar vacío
+            cuerpo:
+              blank: El cuerpo no puede estar vacío
+            lat:
+              blank: La latitud no puede estar vacía
+            long:
+              blank: La longitud no puede estar vacía
 
-        institucion:
-          attributes:
-            servicios:
-              inclusion: Los servicios deben estar incluidos en la lista de servicios provista.
-            email:
-              invalid: El email es inválido.
-        reserva:
-          attributes:
-            user:
-              required: Se requiere de un usuario para el turno.
-            descripcion:
-              blank: Requerida.
-              too_short: Mínimo 10 caracteres.
-              too_long: Máximo 200 caracteres.
-            nombre:
-              blank: Requerido.
-              too_short: Mínimo 10 caracteres.
-              too_long: Máximo 40 caracteres.
   date:
     abbr_day_names:
     - dom

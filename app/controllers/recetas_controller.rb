@@ -43,7 +43,7 @@ class RecetasController < ApplicationController
 
     respond_to do |format|
       if @receta.save
-        format.html { redirect_to @receta, notice: "Receta was successfully created." }
+        format.html { redirect_to @receta, notice: "Receta satisfactoriamente creada." }
         format.json { render :show, status: :created, location: @receta }
       else
         format.html { render :new }
@@ -59,7 +59,7 @@ class RecetasController < ApplicationController
     update_images
     respond_to do |format|
       if @receta.update(receta_params)
-        format.html { redirect_to @receta, notice: "Receta was successfully updated." }
+        format.html { redirect_to @receta, notice: "Receta satisfactoriamente actualizada." }
         format.json { render :show, status: :ok, location: @receta }
       else
         format.html { render :edit }
@@ -74,7 +74,7 @@ class RecetasController < ApplicationController
     authorize @receta
     @receta.destroy
     respond_to do |format|
-      format.html { redirect_to recetas_url, notice: "Receta was successfully destroyed." }
+      format.html { redirect_to recetas_url, notice: "Receta satisfactoriamente eliminada." }
       format.json { head :no_content }
     end
   end
@@ -106,10 +106,12 @@ class RecetasController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
-    params.require(:receta).permit(:titulo, :cuerpo, :puntajes, :categoria_receta_id)
+    params.require(:receta).permit(:titulo, :cuerpo, :categoria_receta_id)
   end
 
   def save_images
+    return if params[:imagenes].nil?
+
     params[:imagenes].each do |img|
       tempfile = Tempfile.new("fileupload")
       tempfile.binmode
@@ -122,7 +124,7 @@ class RecetasController < ApplicationController
   end
 
   def update_images
-    remove_imagenes(@receta) if params['remove_imagenes']
+    remove_imagenes(@receta) if params["remove_imagenes"]
     save_images if params[:imagenes].class == Array
   end
 end

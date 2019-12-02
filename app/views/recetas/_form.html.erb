@@ -1,7 +1,7 @@
 <%= form_with(model: receta, local: true) do |form| %>
   <% if receta.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(receta.errors.count, "error") %> prohibited this receta from being saved:</h2>
+      <h2><%= pluralize(receta.errors.count, "error") %> impidió que este receta se guardara:</h2>
 
       <ul>
         <% receta.errors.full_messages.each do |message| %>
@@ -21,17 +21,19 @@
     <%= form.text_area :cuerpo %>
   </div>
 
+<!--
   <div class="field">
     <%= form.label :puntaje %>
     <%= form.text_field :puntaje %>
   </div>
+-->
 
   <div class="field">
     <%= form.label :categoria_receta_id %>
-    <%= form.text_field :categoria_receta_id %>
+    <%= form.select :categoria_receta_id, CategoriaReceta.all.collect { |c| [c.nombre, c.id] } %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :Guardar %>
   </div>
 <% end %>

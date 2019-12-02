@@ -1,7 +1,7 @@
 <% provide(:title, "Publicación") %>
 
 <p>
-  <strong>Titulo:</strong>
+  <strong>Título:</strong>
   <%= @publicacion.titulo %>
 </p>
 
@@ -11,9 +11,16 @@
 </p>
 
 <p>
+  <strong>Autor:</strong>
+  <%= link_to @publicacion.user.username, @publicacion.user %>
+</p>
+
+<!--
+<p>
   <strong>Cuerpo Rich:</strong>
   <%= @publicacion.cuerpo_rich %>
 </p>
+-->
 
 <p>
   <strong>Puntajes:</strong>

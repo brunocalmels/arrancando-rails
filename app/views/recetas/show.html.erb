@@ -1,13 +1,23 @@
 <% provide(:title, "Receta") %>
 
 <p>
-  <strong>Titulo:</strong>
+  <strong>Título:</strong>
   <%= @receta.titulo %>
 </p>
 
 <p>
   <strong>Cuerpo:</strong>
   <%= @receta.cuerpo %>
+</p>
+
+<p>
+  <strong>Autor:</strong>
+  <%= link_to @receta.user.username, @receta.user %>
+</p>
+
+<p>
+  <strong>Categoría:</strong>
+  <%= @receta.categoria_receta.nombre %>
 </p>
 
 <p>

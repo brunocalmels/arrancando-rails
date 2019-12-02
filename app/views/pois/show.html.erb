@@ -1,13 +1,23 @@
 <% provide(:title, "Poi") %>
 
 <p>
-  <strong>Titulo:</strong>
+  <strong>Título:</strong>
   <%= @poi.titulo %>
 </p>
 
 <p>
   <strong>Cuerpo:</strong>
   <%= @poi.cuerpo %>
+</p>
+
+<p>
+  <strong>Autor:</strong>
+  <%= link_to @poi.user.username, @poi.user %>
+</p>
+
+<p>
+  <strong>Categoría:</strong>
+  <%= @poi.categoria_poi.nombre %>
 </p>
 
 <p>

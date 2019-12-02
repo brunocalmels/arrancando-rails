@@ -44,7 +44,7 @@ class PoisController < ApplicationController
 
     respond_to do |format|
       if @poi.save
-        format.html { redirect_to @poi, notice: "Poi was successfully created." }
+        format.html { redirect_to @poi, notice: "Poi satisfactoriamente creado." }
         format.json { render :show, status: :created, location: @poi }
       else
         format.html { render :new }
@@ -60,7 +60,7 @@ class PoisController < ApplicationController
     update_images
     respond_to do |format|
       if @poi.update(poi_params)
-        format.html { redirect_to @poi, notice: "Poi was successfully updated." }
+        format.html { redirect_to @poi, notice: "Poi satisfactoriamente actualizado." }
         format.json { render :show, status: :ok, location: @poi }
       else
         format.html { render :edit }
@@ -75,7 +75,7 @@ class PoisController < ApplicationController
     authorize @poi
     @poi.destroy
     respond_to do |format|
-      format.html { redirect_to pois_url, notice: "Poi was successfully destroyed." }
+      format.html { redirect_to pois_url, notice: "Poi satisfactoriamente eliminado." }
       format.json { head :no_content }
     end
   end
@@ -107,10 +107,12 @@ class PoisController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def poi_params
-    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :puntajes, :direccion, :categoria_poi_id)
+    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id)
   end
 
   def save_images
+    return if params[:imagenes].nil?
+
     params[:imagenes].each do |img|
       tempfile = Tempfile.new("fileupload")
       tempfile.binmode
