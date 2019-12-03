@@ -14,10 +14,10 @@ RailsUjs.start();
 Turbolinks.start();
 ActiveStorage.start();
 
-$(document).on("turbolinks:load", function() {
+$(document).on("turbolinks:load", function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
-require.context("../images", true);
+// require.context("../images", true);
 
 import "./bootstrap_custom.js";
 
