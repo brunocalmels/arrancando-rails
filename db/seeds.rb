@@ -45,4 +45,34 @@ end
 CATEGORIAS_POIS.each do |cat|
   CategoriaPoi.create(nombre: cat)
 end
-10.times { FactoryBot.create(:poi) }
+
+# 10.times { FactoryBot.create(:poi) }
+
+carnicerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/carnicerías.json")))
+verdulerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/verdulerías.json")))
+
+carnicerias.each do |c|
+  Poi.create(
+    titulo: c["name"],
+    cuerpo: c["name"],
+    lat: c["geometry"]["location"]["lat"],
+    long: c["geometry"]["location"]["lng"],
+    direccion: c["formatted_address"],
+    puntajes: {},
+    user: User.first,
+    categoria_poi: CategoriaPoi.first
+  )
+end
+
+verdulerias.each do |c|
+  Poi.create(
+    titulo: c["name"],
+    cuerpo: c["name"],
+    lat: c["geometry"]["location"]["lat"],
+    long: c["geometry"]["location"]["lng"],
+    direccion: c["formatted_address"],
+    puntajes: {},
+    user: User.first,
+    categoria_poi: CategoriaPoi.second
+  )
+end

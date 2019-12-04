@@ -112,12 +112,14 @@ class PublicacionesController < ApplicationController
 
   def save_images
     params[:imagenes].each do |img|
+      file = img['file']
+      data = img['data']
       tempfile = Tempfile.new("fileupload")
       tempfile.binmode
-      tempfile.write(Base64.decode64(img))
+      tempfile.write(Base64.decode64(data))
       tempfile.rewind
-      mime_type = Mime::Type.lookup_by_extension(File.extname("filename.jpg")[1..-1]).to_s
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
+      mime_type = Mime::Type.lookup_by_extension(File.extname(file)[1..-1]).to_s
+      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: file, type: mime_type)
       @publicacion.imagenes.attach(uploaded_file)
     end
   end

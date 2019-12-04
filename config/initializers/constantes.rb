@@ -23,6 +23,7 @@ CATEGORIAS_RECETAS = %w[
 
 CATEGORIAS_POIS = [
   "Carne",
+  "Verdura",
   "Leña",
   "Artesanos del hierro"
 ].freeze
