@@ -16,7 +16,6 @@
 #
 
 class User < ApplicationRecord
-  # ActiveModel::Dirty
   before_save :store_username
 
   enum rol: { normal: 0, admin: 1 }
@@ -28,6 +27,10 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   # validates :avatar, content_type: ["image/png", "image/jpeg"]
+
+  has_many :publicaciones, dependent: :destroy
+  has_many :recetas, dependent: :destroy
+  has_many :pois, dependent: :destroy
 
   # rubocop: disable Naming/AccessorMethodName
   # TODO: Arreglar esto

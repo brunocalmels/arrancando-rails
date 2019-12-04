@@ -1,33 +1,34 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Publicaciones") %>
 
-<h1>Publicaciones</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Titulo</th>
-      <th>Cuerpo</th>
-      <th>Puntajes</th>
-      <th>Ciudad</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @publicaciones.each do |publicacion| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= publicacion.titulo %></td>
-        <td><%= publicacion.cuerpo %></td>
-        <td><%= publicacion.puntajes %></td>
-        <td><%= publicacion.ciudad_id %></td>
-        <td><%= link_to 'Show', publicacion %></td>
-        <td><%= link_to 'Edit', edit_publicacion_path(publicacion) %></td>
-        <td><%= link_to 'Destroy', publicacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Título</th>
+        <th>Cuerpo</th>
+        <th>Puntajes</th>
+        <th>Ciudad</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @publicaciones.each do |publicacion| %>
+        <tr>
+          <td><%= publicacion.titulo %></td>
+          <td><%= publicacion.cuerpo %></td>
+          <td><%= publicacion.puntajes %></td>
+          <td><%= publicacion.ciudad_id %></td>
+          <td><%= link_to 'Ver', publicacion %></td>
+          <td><%=  link_to 'Editar', edit_publicacion_path(publicacion) %></td>
+          <td><%= link_to 'Eliminar', publicacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
-<%= link_to 'New Publicacion', new_publicacion_path %>
+<%= link_to 'Nueva Publicación', new_publicacion_path %>

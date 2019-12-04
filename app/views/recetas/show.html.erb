@@ -1,13 +1,23 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Receta") %>
 
 <p>
-  <strong>Titulo:</strong>
+  <strong>Título:</strong>
   <%= @receta.titulo %>
 </p>
 
 <p>
   <strong>Cuerpo:</strong>
   <%= @receta.cuerpo %>
+</p>
+
+<p>
+  <strong>Autor:</strong>
+  <%= link_to @receta.user.username, @receta.user %>
+</p>
+
+<p>
+  <strong>Categoría:</strong>
+  <%= @receta.categoria_receta.nombre %>
 </p>
 
 <p>
@@ -20,5 +30,5 @@
   <%= @receta.categoria_receta_id %>
 </p>
 
-<%= link_to 'Edit', edit_receta_path(@receta) %> |
-<%= link_to 'Back', recetas_path %>
+<%=  link_to 'Editar', edit_receta_path(@receta) %> |
+<%= link_to 'Volver', recetas_path %>

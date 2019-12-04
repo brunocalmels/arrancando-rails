@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Arrancando</title>
+    <title>Arrancando Admin</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
     <%= render 'shared/navbar' %>
+
+     <!-- <div class="title">
+      <% if content_for?(:title) %>
+        <%= yield(:title) + " | Arrancando Admin" %>
+      <% else %>
+        Arrancando Admin
+      <% end %>
+    </div> -->
+
     <h1 class="title">
       <%= content_for?(:title) ? yield(:title) : '' %>
     </h1>

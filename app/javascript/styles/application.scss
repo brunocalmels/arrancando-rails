@@ -1,15 +1,12 @@
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import 'bootstrap_custom';
-@import 'custom';
-@import 'colors';
-@import 'forms';
-@import 'guias';
-@import 'home';
-@import 'heights';
-@import 'navbar';
-@import 'pagination';
-@import 'renspas';
+@import "bootstrap_custom";
+@import "custom";
+@import "colors";
+@import "forms";
+@import "heights";
+@import "navbar";
+@import "pagination";
 
 .alert {
   text-align: center;

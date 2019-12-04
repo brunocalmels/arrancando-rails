@@ -1,4 +1,27 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Usuario") %>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th class="row-sm-2">Nombre</th>
+        <td><%= @user.nombre %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Apellido</th>
+        <td><%= @user.apellido %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Username</th>
+        <td><%= @user.username %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Email</th>
+        <td><%= @user.email %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<%= link_to 'Editar', edit_user_path(@user) %> |
+<%= link_to 'Volver', users_path %>

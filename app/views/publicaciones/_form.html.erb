@@ -1,7 +1,7 @@
 <%= form_with(model: publicacion, local: true) do |form| %>
   <% if publicacion.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(publicacion.errors.count, "error") %> prohibited this publicacion from being saved:</h2>
+      <h2><%= pluralize(publicacion.errors.count, "error") %> impidió que este publicacion se guardara:</h2>
 
       <ul>
         <% publicacion.errors.full_messages.each do |message| %>
@@ -21,6 +21,7 @@
     <%= form.text_area :cuerpo %>
   </div>
 
+  <!--
   <div class="field">
     <%= form.label :cuerpo_rich %>
     <%= form.rich_text_area :cuerpo_rich %>
@@ -30,13 +31,14 @@
     <%= form.label :puntajes %>
     <%= form.text_field :puntajes %>
   </div>
+  -->
 
   <div class="field">
-    <%= form.label :ciudad_id %>
-    <%= form.text_field :ciudad_id %>
+    <%= form.label :ciudad %>
+    <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre, c.id] } %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :Guardar %>
   </div>
 <% end %>

@@ -1,6 +1,6 @@
-<h1>Editing Receta</h1>
+<% provide(:title, "Editar Receta") %>
 
 <%= render 'form', receta: @receta %>
 
-<%= link_to 'Show', @receta %> |
-<%= link_to 'Back', recetas_path %>
+<%= link_to 'Ver', @receta %> |
+<%= link_to 'Volver', recetas_path %>

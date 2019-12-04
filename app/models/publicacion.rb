@@ -18,6 +18,9 @@ class Publicacion < ApplicationRecord
   has_rich_text :cuerpo_rich
   paginates_per 10
 
+  validates :titulo, presence: true
+  validates :cuerpo, presence: true
+
   scope :search, lambda { |term|
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }

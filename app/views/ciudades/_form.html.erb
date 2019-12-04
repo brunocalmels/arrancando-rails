@@ -1,7 +1,7 @@
 <%= form_with(model: ciudad, local: true) do |form| %>
   <% if ciudad.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(ciudad.errors.count, "error") %> prohibited this ciudad from being saved:</h2>
+      <h2><%= pluralize(ciudad.errors.count, "error") %> impidió que este ciudad se guardara:</h2>
 
       <ul>
         <% ciudad.errors.full_messages.each do |message| %>

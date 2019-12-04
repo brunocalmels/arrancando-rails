@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post :avatar, to: "users#set_avatar"
   get "login", to: "users#login"
   post "authenticate", to: "authentication#authenticate"
+  delete "deauthenticate", to: "authentication#deauthenticate"
   put "recetas/:id/puntuar", to: "recetas#puntuar"
   get "recetas/search", to: "recetas#search"
   resources :recetas

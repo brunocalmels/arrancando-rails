@@ -1,13 +1,23 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Poi") %>
 
 <p>
-  <strong>Titulo:</strong>
+  <strong>Título:</strong>
   <%= @poi.titulo %>
 </p>
 
 <p>
   <strong>Cuerpo:</strong>
   <%= @poi.cuerpo %>
+</p>
+
+<p>
+  <strong>Autor:</strong>
+  <%= link_to @poi.user.username, @poi.user %>
+</p>
+
+<p>
+  <strong>Categoría:</strong>
+  <%= @poi.categoria_poi.nombre %>
 </p>
 
 <p>
@@ -25,5 +35,5 @@
   <%= @poi.puntajes %>
 </p>
 
-<%= link_to 'Edit', edit_poi_path(@poi) %> |
-<%= link_to 'Back', pois_path %>
+<%=  link_to 'Editar', edit_poi_path(@poi) %> |
+<%= link_to 'Volver', pois_path %>
