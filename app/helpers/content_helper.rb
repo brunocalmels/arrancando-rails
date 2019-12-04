@@ -16,4 +16,22 @@ module ContentHelper
       img.purge if params["remove_imagenes"].include? rails_blob_path(img)
     end
   end
+
+  def tempfile(data)
+    tempfile = Tempfile.new("fileupload")
+    tempfile.binmode
+    tempfile.write(Base64.decode64(data))
+    tempfile.rewind
+    tempfile
+  end
+
+  def build_base64_img(img)
+    ActionDispatch::Http::UploadedFile.new(
+      tempfile: tempfile(img["data"]),
+      filename: img["file"],
+      type: Mime::Type.lookup_by_extension(
+        File.extname(img["file"])[1..-1]
+      ).to_s
+    )
+  end
 end

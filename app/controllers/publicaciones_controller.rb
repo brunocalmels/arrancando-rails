@@ -114,15 +114,9 @@ class PublicacionesController < ApplicationController
     return if params[:imagenes].nil?
 
     params[:imagenes].each do |img|
-      file = img['file']
-      data = img['data']
-      tempfile = Tempfile.new("fileupload")
-      tempfile.binmode
-      tempfile.write(Base64.decode64(data))
-      tempfile.rewind
-      mime_type = Mime::Type.lookup_by_extension(File.extname(file)[1..-1]).to_s
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: file, type: mime_type)
-      @publicacion.imagenes.attach(uploaded_file)
+      @publicacion.imagenes.attach(
+        build_base64_img(img)
+      )
     end
   end
 
