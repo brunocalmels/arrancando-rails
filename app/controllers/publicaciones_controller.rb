@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class PublicacionesController < ApplicationController
   include ContentHelper
   before_action :set_publicacion, only: %i[show edit update destroy puntuar]
@@ -40,12 +41,17 @@ class PublicacionesController < ApplicationController
   def create
     @publicacion = Publicacion.new(publicacion_params)
     @publicacion.user = current_user
-    save_images if params[:imagenes].class == Array
 
     respond_to do |format|
       if @publicacion.save
-        format.html { redirect_to @publicacion, notice: "Publicación satisfactoriamente creada." }
-        format.json { render :show, status: :created, location: @publicacion }
+        format.html do
+          save_images_html
+          redirect_to @publicacion, notice: "Publicación satisfactoriamente creada."
+        end
+        format.json do
+          save_images_json if params[:imagenes].class == Array
+          render :show, status: :created, location: @publicacion
+        end
       else
         format.html { render :new }
         format.json { render json: @publicacion.errors, status: :unprocessable_entity }
@@ -53,21 +59,33 @@ class PublicacionesController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   # PATCH/PUT /publicaciones/1
   # PATCH/PUT /publicaciones/1.json
   def update
     authorize @publicacion
-    update_images
     respond_to do |format|
       if @publicacion.update(publicacion_params)
-        format.html { redirect_to @publicacion, notice: "Publicación satisfactoriamente actualizada." }
-        format.json { render :show, status: :ok, location: @publicacion }
+        format.html do
+          unless params[:publicacion][:imagenes].nil? && params["remove_imagenes"].nil?
+            update_images_html
+          end
+          redirect_to @publicacion, notice: "Publicación satisfactoriamente actualizada."
+        end
+        format.json do
+          unless params[:imagenes].nil? && params["remove_imagenes"].nil?
+            update_images_json
+          end
+          render :show, status: :ok, location: @publicacion
+        end
       else
         format.html { render :edit }
         format.json { render json: @publicacion.errors, status: :unprocessable_entity }
       end
     end
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   # DELETE /publicaciones/1
   # DELETE /publicaciones/1.json
@@ -110,9 +128,7 @@ class PublicacionesController < ApplicationController
     params.require(:publicacion).permit(:titulo, :cuerpo, :puntajes, :ciudad_id)
   end
 
-  def save_images
-    return if params[:imagenes].nil?
-
+  def save_images_json
     params[:imagenes].each do |img|
       @publicacion.imagenes.attach(
         build_base64_img(img)
@@ -120,8 +136,22 @@ class PublicacionesController < ApplicationController
     end
   end
 
-  def update_images
+  def save_images_html
+    imagenes = params[:publicacion][:imagenes]
+    imagenes.each do |img|
+      @publicacion.imagenes.attach img
+    end
+  end
+
+  def update_images_json
     remove_imagenes(@publicacion) if params["remove_imagenes"]
-    save_images if params[:imagenes].class == Array
+    save_images_json
+  end
+
+  def update_images_html
+    remove_imagenes(@publicacion) if params["remove_imagenes"]
+    save_images_html unless params[:publicacion][:imagenes].nil?
   end
 end
+
+# rubocop:enable Metrics/ClassLength

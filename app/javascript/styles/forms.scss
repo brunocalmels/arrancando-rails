@@ -25,7 +25,7 @@ form {
   }
 }
 
-form label {
+form label:not(.inline) {
   width: 150px;
   font-weight: bold;
 }

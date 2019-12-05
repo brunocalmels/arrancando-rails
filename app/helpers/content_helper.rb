@@ -13,7 +13,9 @@ module ContentHelper
 
   def remove_imagenes(obj)
     obj.imagenes.attachments.map do |img|
-      img.purge if params["remove_imagenes"].include? rails_blob_path(img)
+      img.purge if
+        params["remove_imagenes"].include?(rails_blob_path(img)) || # JSON
+        params["remove_imagenes"].values.include?(rails_blob_path(img)) # HTML
     end
   end
 

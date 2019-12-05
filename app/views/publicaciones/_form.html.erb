@@ -1,4 +1,4 @@
-<%= form_with(model: publicacion, local: true) do |form| %>
+<%= form_with(model: publicacion, local: true, multipart: true) do |form| %>
   <% if publicacion.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(publicacion.errors.count, "error") %> impidió que este publicacion se guardara:</h2>
@@ -36,6 +36,30 @@
   <div class="field">
     <%= form.label :ciudad %>
     <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre, c.id] } %>
+  </div>
+
+  <div class="field">
+    <% publicacion.imagenes.any? && publicacion.imagenes.each_with_index do |img, i| %>
+    <div class="item_multimedia">
+      <% case img.blob.content_type %>
+      <% when 'video/mp4' %>
+        <video controls>
+          <source src=<%= rails_blob_path(img) %> />
+        </video>
+      <% when 'image/jpg', 'image/jpeg', 'image/png' %>
+        <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
+      <% end %>
+      <div>
+        <%= label :Eliminar, "Eliminar", class: "inline"%>
+        <%= check_box_tag "remove_imagenes[#{i}]", rails_blob_path(img) %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :imagenes %>
+    <%= form.file_field :imagenes, multiple: true, class: :input %>
   </div>
 
   <div class="actions">
