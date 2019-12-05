@@ -113,13 +113,9 @@ class RecetasController < ApplicationController
     return if params[:imagenes].nil?
 
     params[:imagenes].each do |img|
-      tempfile = Tempfile.new("fileupload")
-      tempfile.binmode
-      tempfile.write(Base64.decode64(img))
-      tempfile.rewind
-      mime_type = Mime::Type.lookup_by_extension(File.extname("filename.jpg")[1..-1]).to_s
-      uploaded_file = ActionDispatch::Http::UploadedFile.new(tempfile: tempfile, filename: "filename.jpg", type: mime_type)
-      @receta.imagenes.attach(uploaded_file)
+      @receta.imagenes.attach(
+        build_base64_img(img)
+      )
     end
   end
 
