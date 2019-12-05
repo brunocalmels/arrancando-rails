@@ -44,7 +44,7 @@ class PublicacionesController < ApplicationController
     respond_to do |format|
       if @publicacion.save
         format.html do
-          save_images_html(params, @publicacion)
+          save_images_html(params, @publicacion, :publicacion)
           redirect_to @publicacion, notice: "Publicación satisfactoriamente creada."
         end
         format.json do
@@ -69,7 +69,7 @@ class PublicacionesController < ApplicationController
       if @publicacion.update(publicacion_params)
         format.html do
           unless params[:publicacion][:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_html(params, @publicacion)
+            update_images_html(params, @publicacion, :publicacion)
           end
           redirect_to @publicacion, notice: "Publicación satisfactoriamente actualizada."
         end

@@ -21,18 +21,32 @@
 </p>
 
 <p>
-  <strong>Lat:</strong>
+  <strong>Latitud:</strong>
   <%= @poi.lat %>
 </p>
 
 <p>
-  <strong>Long:</strong>
+  <strong>Longitud:</strong>
   <%= @poi.long %>
 </p>
 
 <p>
   <strong>Puntaje:</strong>
   <%= @poi.puntajes %>
+</p>
+
+<p>
+  <strong>Multimedia:</strong>
+  <% @poi.imagenes.any? && @poi.imagenes.each_with_index do |img, i| %>
+    <% case img.blob.content_type %>
+    <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+      <video controls>
+        <source src=<%= rails_blob_path(img) %> />
+      </video>
+    <% when 'image/jpg', 'image/jpeg', 'image/png' %>
+      <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
+    <% end %>
+  <% end %>
 </p>
 
 <%=  link_to 'Editar', edit_poi_path(@poi) %> |

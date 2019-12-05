@@ -33,14 +33,13 @@
 </p>
 
 
-<%# FIXME: Falta achicar el video en el show. Hacer idem en Edit y para Recetas y Pois. %>
-<%# Validación del largo o peso de los videos %>
+<%# FIXME: Validación del largo o peso de los videos %>
 
 <p>
   <strong>Multimedia:</strong>
   <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>
     <% case img.blob.content_type %>
-    <% when 'video/mp4' %>
+    <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
       <video controls>
         <source src=<%= rails_blob_path(img) %> />
       </video>

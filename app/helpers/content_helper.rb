@@ -45,8 +45,8 @@ module ContentHelper
     end
   end
 
-  def save_images_html(params, obj)
-    imagenes = params[:publicacion][:imagenes]
+  def save_images_html(params, obj, tipo)
+    imagenes = params[tipo][:imagenes]
     imagenes.each do |img|
       obj.imagenes.attach img
     end
@@ -57,8 +57,8 @@ module ContentHelper
     save_images_json(params, obj)
   end
 
-  def update_images_html(params, obj)
+  def update_images_html(params, obj, tipo)
     remove_imagenes(obj) if params["remove_imagenes"]
-    save_images_html(params, obj) unless params[:publicacion][:imagenes].nil?
+    save_images_html(params, obj, tipo) unless params[tipo][:imagenes].nil?
   end
 end

@@ -39,12 +39,17 @@ class RecetasController < ApplicationController
   def create
     @receta = Receta.new(receta_params)
     @receta.user = current_user
-    save_images
 
     respond_to do |format|
       if @receta.save
-        format.html { redirect_to @receta, notice: "Receta satisfactoriamente creada." }
-        format.json { render :show, status: :created, location: @receta }
+        format.html do
+          save_images_html(params, @receta, :receta)
+          redirect_to @receta, notice: "Receta satisfactoriamente creada."
+        end
+        format.json do
+          save_images_json(params, @receta) if params[:imagenes].class == Array
+          render :show, status: :created, location: @receta
+        end
       else
         format.html { render :new }
         format.json { render json: @receta.errors, status: :unprocessable_entity }
@@ -52,21 +57,34 @@ class RecetasController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
+
   # PATCH/PUT /recetas/1
   # PATCH/PUT /recetas/1.json
   def update
     authorize @receta
-    update_images
     respond_to do |format|
       if @receta.update(receta_params)
-        format.html { redirect_to @receta, notice: "Receta satisfactoriamente actualizada." }
-        format.json { render :show, status: :ok, location: @receta }
+        format.html do
+          unless params[:receta][:imagenes].nil? && params["remove_imagenes"].nil?
+            update_images_html(params, @receta, :receta)
+          end
+          redirect_to @receta, notice: "Receta satisfactoriamente actualizada."
+        end
+        format.json do
+          unless params[:imagenes].nil? && params["remove_imagenes"].nil?
+            update_images_json(params, @receta)
+          end
+          render :show, status: :ok, location: @receta
+        end
       else
         format.html { render :edit }
         format.json { render json: @receta.errors, status: :unprocessable_entity }
       end
     end
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   # DELETE /recetas/1
   # DELETE /recetas/1.json
@@ -107,20 +125,5 @@ class RecetasController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
     params.require(:receta).permit(:titulo, :cuerpo, :categoria_receta_id)
-  end
-
-  def save_images
-    return if params[:imagenes].nil?
-
-    params[:imagenes].each do |img|
-      @receta.imagenes.attach(
-        build_base64_img(img)
-      )
-    end
-  end
-
-  def update_images
-    remove_imagenes(@receta) if params["remove_imagenes"]
-    save_images if params[:imagenes].class == Array
   end
 end

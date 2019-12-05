@@ -34,18 +34,24 @@ class PoisController < ApplicationController
     authorize @poi
   end
 
+  # rubocop:disable Metrics/AbcSize
   # POST /pois
   # POST /pois.json
   def create
     @poi = Poi.new(poi_params)
     @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
     @poi.user = current_user
-    save_images
 
     respond_to do |format|
       if @poi.save
-        format.html { redirect_to @poi, notice: "Poi satisfactoriamente creado." }
-        format.json { render :show, status: :created, location: @poi }
+        format.html do
+          save_images_html(params, @poi, :poi)
+          redirect_to @poi, notice: "Poi satisfactoriamente creado."
+        end
+        format.json do
+          save_images_json(params, @poi) if params[:imagenes].class == Array
+          render :show, status: :created, location: @poi
+        end
       else
         format.html { render :new }
         format.json { render json: @poi.errors, status: :unprocessable_entity }
@@ -57,17 +63,27 @@ class PoisController < ApplicationController
   # PATCH/PUT /pois/1.json
   def update
     authorize @poi
-    update_images
     respond_to do |format|
       if @poi.update(poi_params)
-        format.html { redirect_to @poi, notice: "Poi satisfactoriamente actualizado." }
-        format.json { render :show, status: :ok, location: @poi }
+        format.html do
+          unless params[:poi][:imagenes].nil? && params["remove_imagenes"].nil?
+            update_images_html(params, @poi, :poi)
+          end
+          redirect_to @poi, notice: "Poi satisfactoriamente actualizado."
+        end
+        format.json do
+          unless params[:imagenes].nil? && params["remove_imagenes"].nil?
+            update_images_json(params, @poi)
+          end
+          render :show, status: :ok, location: @poi
+        end
       else
         format.html { render :edit }
         format.json { render json: @poi.errors, status: :unprocessable_entity }
       end
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   # DELETE /pois/1
   # DELETE /pois/1.json
@@ -108,20 +124,5 @@ class PoisController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def poi_params
     params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id)
-  end
-
-  def save_images
-    return if params[:imagenes].nil?
-
-    params[:imagenes].each do |img|
-      @poi.imagenes.attach(
-        build_base64_img(img)
-      )
-    end
-  end
-
-  def update_images
-    remove_imagenes(@poi) if params['remove_imagenes']
-    save_images if params[:imagenes].class == Array
   end
 end

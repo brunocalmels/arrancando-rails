@@ -42,7 +42,7 @@
     <% publicacion.imagenes.any? && publicacion.imagenes.each_with_index do |img, i| %>
     <div class="item_multimedia">
       <% case img.blob.content_type %>
-      <% when 'video/mp4' %>
+      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
         <video controls>
           <source src=<%= rails_blob_path(img) %> />
         </video>

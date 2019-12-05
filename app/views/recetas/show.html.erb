@@ -27,7 +27,21 @@
 
 <p>
   <strong>Categoria receta:</strong>
-  <%= @receta.categoria_receta_id %>
+  <%= @receta.categoria_receta.nombre %>
+</p>
+
+<p>
+  <strong>Multimedia:</strong>
+  <% @receta.imagenes.any? && @receta.imagenes.each_with_index do |img, i| %>
+    <% case img.blob.content_type %>
+    <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+      <video controls>
+        <source src=<%= rails_blob_path(img) %> />
+      </video>
+    <% when 'image/jpg', 'image/jpeg', 'image/png' %>
+      <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
+    <% end %>
+  <% end %>
 </p>
 
 <%=  link_to 'Editar', edit_receta_path(@receta) %> |
