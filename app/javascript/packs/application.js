@@ -22,4 +22,3 @@ $(document).on("turbolinks:load", function () {
 import "./bootstrap_custom.js";
 
 import "../styles/application";
-import "controllers"
