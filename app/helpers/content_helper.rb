@@ -43,6 +43,7 @@ module ContentHelper
         build_base64_img(img)
       )
     end
+    obj.valid?
   end
 
   def save_images_html(params, obj, tipo)
@@ -50,6 +51,7 @@ module ContentHelper
     imagenes.each do |img|
       obj.imagenes.attach img
     end
+    obj.valid?
   end
 
   def update_images_json(params, obj)

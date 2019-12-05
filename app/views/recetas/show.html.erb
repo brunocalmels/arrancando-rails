@@ -30,7 +30,7 @@
   <%= @receta.categoria_receta.nombre %>
 </p>
 
-<p>
+<div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @receta.imagenes.any? && @receta.imagenes.each_with_index do |img, i| %>
     <% case img.blob.content_type %>
@@ -42,7 +42,7 @@
       <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
     <% end %>
   <% end %>
-</p>
+</div>
 
 <%=  link_to 'Editar', edit_receta_path(@receta) %> |
 <%= link_to 'Volver', recetas_path %>

@@ -32,10 +32,7 @@
   <%= @publicacion.ciudad.nombre %>
 </p>
 
-
-<%# FIXME: Validación del largo o peso de los videos %>
-
-<p>
+<div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>
     <% case img.blob.content_type %>
@@ -47,7 +44,7 @@
       <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
     <% end %>
   <% end %>
-</p>
+</div>
 
 <%=  link_to 'Editar', edit_publicacion_path(@publicacion) %> |
 <%= link_to 'Volver', publicaciones_path %>

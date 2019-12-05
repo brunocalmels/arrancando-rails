@@ -35,6 +35,10 @@ class PublicacionesController < ApplicationController
     authorize @publicacion
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop: disable Metrics/PerceivedComplexity
+  # rubocop: disable Metrics/AbcSize
+
   # POST /publicaciones
   # POST /publicaciones.json
   def create
@@ -42,51 +46,48 @@ class PublicacionesController < ApplicationController
     @publicacion.user = current_user
 
     respond_to do |format|
-      if @publicacion.save
-        format.html do
-          save_images_html(params, @publicacion, :publicacion)
+      format.html do
+        if @publicacion.save && (params[:publicacion][:imagenes].nil? || save_images_html(params, @publicacion, :publicacion))
           redirect_to @publicacion, notice: "Publicación satisfactoriamente creada."
+        else
+          render :new
         end
-        format.json do
-          if params[:imagenes].class == Array
-            save_images_json(params, @publicacion)
-          end
+      end
+      format.json do
+        if @publicacion.save && (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @publicacion))
           render :show, status: :created, location: @publicacion
+        else
+          render json: @publicacion.errors, status: :unprocessable_entity
         end
-      else
-        format.html { render :new }
-        format.json { render json: @publicacion.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # rubocop:disable Metrics/AbcSize
   # PATCH/PUT /publicaciones/1
   # PATCH/PUT /publicaciones/1.json
   def update
     authorize @publicacion
     respond_to do |format|
-      if @publicacion.update(publicacion_params)
-        format.html do
-          unless params[:publicacion][:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_html(params, @publicacion, :publicacion)
-          end
+      format.html do
+        if @publicacion.update(publicacion_params) && (params[:publicacion][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @publicacion, :publicacion))
           redirect_to @publicacion, notice: "Publicación satisfactoriamente actualizada."
+        else
+          render :edit
         end
-        format.json do
-          unless params[:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_json(params, @publicacion)
-          end
+      end
+      format.json do
+        if @publicacion.update(publicacion_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @publicacion))
           render :show, status: :ok, location: @publicacion
+        else
+          render json: @publicacion.errors, status: :unprocessable_entity
         end
-      else
-        format.html { render :edit }
-        format.json { render json: @publicacion.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # rubocop:enable Metrics/AbcSize
+  # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/PerceivedComplexity
 
   # DELETE /publicaciones/1
   # DELETE /publicaciones/1.json

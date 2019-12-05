@@ -34,6 +34,8 @@ class PoisController < ApplicationController
     authorize @poi
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop: disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/AbcSize
   # POST /pois
   # POST /pois.json
@@ -43,18 +45,19 @@ class PoisController < ApplicationController
     @poi.user = current_user
 
     respond_to do |format|
-      if @poi.save
-        format.html do
-          save_images_html(params, @poi, :poi)
-          redirect_to @poi, notice: "Poi satisfactoriamente creado."
+      format.html do
+        if @poi.save && (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi))
+          redirect_to @poi, notice: "PoI satisfactoriamente creado."
+        else
+          render :new
         end
         format.json do
-          save_images_json(params, @poi) if params[:imagenes].class == Array
-          render :show, status: :created, location: @poi
+          if @poi.save && (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @poi))
+            render :show, status: :created, location: @poi
+          else
+            render json: @poi.errors, status: :unprocessable_entity
+          end
         end
-      else
-        format.html { render :new }
-        format.json { render json: @poi.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -64,26 +67,27 @@ class PoisController < ApplicationController
   def update
     authorize @poi
     respond_to do |format|
-      if @poi.update(poi_params)
-        format.html do
-          unless params[:poi][:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_html(params, @poi, :poi)
-          end
-          redirect_to @poi, notice: "Poi satisfactoriamente actualizado."
+      format.html do
+        if @poi.update(poi_params) && (params[:poi][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @poi, :poi))
+          redirect_to @poi, notice: "PoI satisfactoriamente actualizado."
+        else
+          render :edit
         end
+
         format.json do
-          unless params[:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_json(params, @poi)
+          if @poi.update(poi_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @poi))
+            render :show, status: :ok, location: @poi
+          else
+            render json: @poi.errors, status: :unprocessable_entity
           end
-          render :show, status: :ok, location: @poi
         end
-      else
-        format.html { render :edit }
-        format.json { render json: @poi.errors, status: :unprocessable_entity }
       end
     end
   end
-  # rubocop:enable Metrics/AbcSize
+
+  # rubocop: enable Metrics/AbcSize
+  # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/PerceivedComplexity
 
   # DELETE /pois/1
   # DELETE /pois/1.json

@@ -27,3 +27,5 @@ CATEGORIAS_POIS = [
   "Leña",
   "Artesanos del hierro"
 ].freeze
+
+MAX_ATTACHMENT_SIZE_BYTES = 2.megabytes

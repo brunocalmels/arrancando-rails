@@ -34,6 +34,9 @@ class RecetasController < ApplicationController
     authorize @receta
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop: disable Metrics/PerceivedComplexity
+  # rubocop:disable Metrics/AbcSize
   # POST /recetas
   # POST /recetas.json
   def create
@@ -41,50 +44,48 @@ class RecetasController < ApplicationController
     @receta.user = current_user
 
     respond_to do |format|
-      if @receta.save
-        format.html do
-          save_images_html(params, @receta, :receta)
+      format.html do
+        if @receta.save && (params[:receta][:imagenes].nil? || save_images_html(params, @receta, :receta))
           redirect_to @receta, notice: "Receta satisfactoriamente creada."
+        else
+          render :new
         end
-        format.json do
-          save_images_json(params, @receta) if params[:imagenes].class == Array
+      end
+      format.json do
+        if @receta.save && (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @receta))
           render :show, status: :created, location: @receta
+        else
+          render json: @receta.errors, status: :unprocessable_entity
         end
-      else
-        format.html { render :new }
-        format.json { render json: @receta.errors, status: :unprocessable_entity }
       end
     end
   end
-
-  # rubocop:disable Metrics/AbcSize
 
   # PATCH/PUT /recetas/1
   # PATCH/PUT /recetas/1.json
   def update
     authorize @receta
     respond_to do |format|
-      if @receta.update(receta_params)
-        format.html do
-          unless params[:receta][:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_html(params, @receta, :receta)
-          end
+      format.html do
+        if @receta.update(receta_params) && (params[:receta][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @receta, :receta))
           redirect_to @receta, notice: "Receta satisfactoriamente actualizada."
+        else
+          render :edit
         end
-        format.json do
-          unless params[:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_json(params, @receta)
-          end
+      end
+      format.json do
+        if @receta.update(receta_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @receta))
           render :show, status: :ok, location: @receta
+        else
+          render json: @receta.errors, status: :unprocessable_entity
         end
-      else
-        format.html { render :edit }
-        format.json { render json: @receta.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # rubocop:enable Metrics/AbcSize
+  # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/PerceivedComplexity
 
   # DELETE /recetas/1
   # DELETE /recetas/1.json

@@ -35,7 +35,7 @@
   <%= @poi.puntajes %>
 </p>
 
-<p>
+<div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @poi.imagenes.any? && @poi.imagenes.each_with_index do |img, i| %>
     <% case img.blob.content_type %>
@@ -47,7 +47,7 @@
       <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
     <% end %>
   <% end %>
-</p>
+</div>
 
 <%=  link_to 'Editar', edit_poi_path(@poi) %> |
 <%= link_to 'Volver', pois_path %>

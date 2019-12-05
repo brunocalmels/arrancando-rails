@@ -24,8 +24,23 @@ class Poi < ApplicationRecord
   validates :titulo, presence: true
   validates :lat, presence: true
   validates :long, presence: true
+  validate :attachments_max_length
 
   scope :search, lambda { |term|
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }
+
+  private
+
+  def attachments_max_length
+    imagenes.each do |att|
+      next unless att.byte_size > MAX_ATTACHMENT_SIZE_BYTES
+
+      errors.add(
+        :archivos,
+        "No pueden pesar más de #{MAX_ATTACHMENT_SIZE_BYTES / 1.megabytes} MB."
+      )
+      break
+    end
+  end
 end
