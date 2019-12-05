@@ -38,7 +38,7 @@
     <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre, c.id] } %>
   </div>
 
-  <div class="field">
+  <div class="multimedia">
     <% publicacion.imagenes.any? && publicacion.imagenes.each_with_index do |img, i| %>
     <div class="item_multimedia">
       <% case img.blob.content_type %>
@@ -50,7 +50,7 @@
         <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
       <% end %>
       <div>
-        <%= label :Eliminar, "Eliminar", class: "inline"%>
+        <%= label :Eliminar, "Eliminar", class: "inline alert"%>
         <%= check_box_tag "remove_imagenes[#{i}]", rails_blob_path(img) %>
       </div>
     </div>

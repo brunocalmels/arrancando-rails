@@ -36,4 +36,29 @@ module ContentHelper
       ).to_s
     )
   end
+
+  def save_images_json(params, obj)
+    params[:imagenes].each do |img|
+      obj.imagenes.attach(
+        build_base64_img(img)
+      )
+    end
+  end
+
+  def save_images_html(params, obj)
+    imagenes = params[:publicacion][:imagenes]
+    imagenes.each do |img|
+      obj.imagenes.attach img
+    end
+  end
+
+  def update_images_json(params, obj)
+    remove_imagenes(obj) if params["remove_imagenes"]
+    save_images_json(params, obj)
+  end
+
+  def update_images_html(params, obj)
+    remove_imagenes(obj) if params["remove_imagenes"]
+    save_images_html(params, obj) unless params[:publicacion][:imagenes].nil?
+  end
 end

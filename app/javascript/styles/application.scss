@@ -80,14 +80,24 @@ video {
   max-height: 250px;
 }
 
-.item_multimedia {
+.multimedia {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  border: 1px solid $gris_bordes;
-  padding: 10px;
-  margin: 10px 15px;
-  border-radius: 5px;
 
+  .item_multimedia {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid $gris_bordes;
+    padding: 10px;
+    margin: 10px 15px;
+    border-radius: 5px;
+
+    label.alert {
+      color: $rojo;
+    }
+  }
 }

@@ -21,7 +21,7 @@ Layout/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space
 
 Metrics/AbcSize:
-  Max: 20
+  Max: 24
   Exclude:
     - "test/**/*"
 

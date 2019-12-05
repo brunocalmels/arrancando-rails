@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class PublicacionesController < ApplicationController
   include ContentHelper
   before_action :set_publicacion, only: %i[show edit update destroy puntuar]
@@ -45,11 +44,13 @@ class PublicacionesController < ApplicationController
     respond_to do |format|
       if @publicacion.save
         format.html do
-          save_images_html
+          save_images_html(params, @publicacion)
           redirect_to @publicacion, notice: "Publicación satisfactoriamente creada."
         end
         format.json do
-          save_images_json if params[:imagenes].class == Array
+          if params[:imagenes].class == Array
+            save_images_json(params, @publicacion)
+          end
           render :show, status: :created, location: @publicacion
         end
       else
@@ -68,13 +69,13 @@ class PublicacionesController < ApplicationController
       if @publicacion.update(publicacion_params)
         format.html do
           unless params[:publicacion][:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_html
+            update_images_html(params, @publicacion)
           end
           redirect_to @publicacion, notice: "Publicación satisfactoriamente actualizada."
         end
         format.json do
           unless params[:imagenes].nil? && params["remove_imagenes"].nil?
-            update_images_json
+            update_images_json(params, @publicacion)
           end
           render :show, status: :ok, location: @publicacion
         end
@@ -127,31 +128,4 @@ class PublicacionesController < ApplicationController
   def publicacion_params
     params.require(:publicacion).permit(:titulo, :cuerpo, :puntajes, :ciudad_id)
   end
-
-  def save_images_json
-    params[:imagenes].each do |img|
-      @publicacion.imagenes.attach(
-        build_base64_img(img)
-      )
-    end
-  end
-
-  def save_images_html
-    imagenes = params[:publicacion][:imagenes]
-    imagenes.each do |img|
-      @publicacion.imagenes.attach img
-    end
-  end
-
-  def update_images_json
-    remove_imagenes(@publicacion) if params["remove_imagenes"]
-    save_images_json
-  end
-
-  def update_images_html
-    remove_imagenes(@publicacion) if params["remove_imagenes"]
-    save_images_html unless params[:publicacion][:imagenes].nil?
-  end
 end
-
-# rubocop:enable Metrics/ClassLength
