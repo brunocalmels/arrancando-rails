@@ -29,6 +29,10 @@
   </table>
 </div>
 
+<%= paginate @recetas %>
+
 <br>
 
-<%= link_to 'Nueva Receta', new_receta_path %>
+<div class="botonera">
+  <%= link_to 'Nueva Receta', new_receta_path, class: "btn btn-success" %>
+</div>

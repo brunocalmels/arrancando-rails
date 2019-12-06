@@ -2,5 +2,7 @@
 
 <%= render 'form', publicacion: @publicacion %>
 
-<%= link_to 'Ver', @publicacion %> |
-<%= link_to 'Volver', publicaciones_path %>
+<div class="botonera">
+  <%= link_to 'Ver', @publicacion, class: 'btn btn-info'  %>
+  <%= link_to 'Volver', publicaciones_path, class: 'btn btn-default'  %>
+</div>

@@ -9,7 +9,7 @@ class RecetasController < ApplicationController
     filter_by_categoria_receta_id
     filter_by_term
     @recetas = @recetas
-               .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+               .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
     render :index
   end
 

@@ -44,5 +44,7 @@
   <% end %>
 </div>
 
-<%=  link_to 'Editar', edit_receta_path(@receta) %> |
-<%= link_to 'Volver', recetas_path %>
+<div class="botonera">
+  <%= link_to 'Editar', edit_receta_path(@receta), class: "btn btn-info" %>
+  <%= link_to 'Volver', recetas_path, class: "btn btn-default" %>
+</div>

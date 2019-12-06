@@ -29,6 +29,10 @@
   </table>
 </div>
 
+<%= paginate @publicaciones %>
+
 <br>
 
-<%= link_to 'Nueva Publicación', new_publicacion_path %>
+<div class="botonera">
+  <%= link_to 'Nueva Publicación', new_publicacion_path, class: 'btn btn-success' %>
+</div>

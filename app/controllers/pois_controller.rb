@@ -9,7 +9,7 @@ class PoisController < ApplicationController
     filter_by_categria_poi_id
     filter_by_term
     @pois = @pois
-            .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+            .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
     render :index
   end
 

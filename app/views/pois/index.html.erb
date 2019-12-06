@@ -22,14 +22,18 @@
           <td><%= poi.long %></td>
           <td><%= poi.puntajes %></td>
           <td><%= link_to 'Ver', poi %></td>
-          <td><%=  link_to 'Editar', edit_poi_path(poi) %></td>
-          <td><%= link_to 'Eliminar', poi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Editar', edit_poi_path(poi) %></td>
+          <td><%= link_to 'Eliminar', poi, method: :delete, data: { confirm: 'Seguro?' } %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
+<%= paginate @pois %>
+
 <br>
 
-<%= link_to 'Nuevo Poi', new_poi_path %>
+<div class="botonera">
+  <%= link_to 'Nuevo Poi', new_poi_path, class: "btn btn-success" %>
+</div>

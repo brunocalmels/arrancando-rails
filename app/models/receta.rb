@@ -16,7 +16,7 @@ class Receta < ApplicationRecord
   belongs_to :user
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
-  paginates_per 10
+  paginates_per 5
 
   validates :titulo, presence: true
   validates :cuerpo, presence: true

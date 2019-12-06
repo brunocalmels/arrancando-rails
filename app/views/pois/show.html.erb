@@ -49,5 +49,7 @@
   <% end %>
 </div>
 
-<%=  link_to 'Editar', edit_poi_path(@poi) %> |
-<%= link_to 'Volver', pois_path %>
+<div class="botonera">
+  <%= link_to 'Editar', edit_poi_path(@poi), class: "btn btn-info" %>
+  <%= link_to 'Volver', pois_path, class: "btn btn-default" %>
+</div>

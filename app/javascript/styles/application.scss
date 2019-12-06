@@ -21,8 +21,10 @@ h1.title {
   margin: 20px;
 }
 
-#botonera {
+.botonera {
   margin-bottom: 20px;
+  text-align: center;
+  margin-top: 30px;
 }
 
 table {
@@ -53,7 +55,7 @@ nav * {
 h1,
 h2 {
   font-weight: bold;
-  color: $celeste;
+  color: $rojo;
 }
 
 td .btn {
@@ -75,6 +77,10 @@ td .btn {
   }
 }
 
+.main {
+  margin: 15px 8vw;
+}
+
 video {
   max-width: 250px;
   max-height: 250px;
@@ -84,6 +90,7 @@ video {
   display: flex;
   flex-direction: row;
   align-items: center;
+
   // justify-content: center;
   * {
     margin: 10px 15px;

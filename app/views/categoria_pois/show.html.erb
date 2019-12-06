@@ -1,4 +1,6 @@
 <% provide(:title, "Categoría Poi") %>
 
-<%=  link_to 'Editar', edit_categoria_poi_path(@categoria_poi) %> |
-<%= link_to 'Volver', categoria_pois_path %>
+<div class="botonera">
+  <%= link_to 'Editar', edit_categoria_poi_path(@categoria_poi), class: "btn btn-info" %>
+  <%= link_to 'Volver', categoria_pois_path, class: "btn btn-default" %>
+</div>
