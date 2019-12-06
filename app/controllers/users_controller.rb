@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create login udpate set_avatar google_client]
+  before_action :assure_admin!, except: %i[create login update set_avatar google_client]
   skip_before_action :authenticate_request, only: %i[create login google_client]
   before_action :user_by_email, only: %i[google_client]
 
