@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_25_143826) do
+ActiveRecord::Schema.define(version: 2019_12_10_192201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,26 @@ ActiveRecord::Schema.define(version: 2019_11_25_143826) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["provincia_id"], name: "index_ciudades_on_provincia_id"
+  end
+
+  create_table "comentario_publicaciones", force: :cascade do |t|
+    t.bigint "publicacion_id", null: false
+    t.bigint "user_id", null: false
+    t.text "mensaje", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["publicacion_id"], name: "index_comentario_publicaciones_on_publicacion_id"
+    t.index ["user_id"], name: "index_comentario_publicaciones_on_user_id"
+  end
+
+  create_table "comentario_recetas", force: :cascade do |t|
+    t.bigint "receta_id", null: false
+    t.bigint "user_id", null: false
+    t.text "mensaje", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["receta_id"], name: "index_comentario_recetas_on_receta_id"
+    t.index ["user_id"], name: "index_comentario_recetas_on_user_id"
   end
 
   create_table "pois", force: :cascade do |t|
@@ -135,6 +155,10 @@ ActiveRecord::Schema.define(version: 2019_11_25_143826) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ciudades", "provincias"
+  add_foreign_key "comentario_publicaciones", "publicaciones"
+  add_foreign_key "comentario_publicaciones", "users"
+  add_foreign_key "comentario_recetas", "recetas"
+  add_foreign_key "comentario_recetas", "users"
   add_foreign_key "pois", "categoria_pois"
   add_foreign_key "pois", "users"
   add_foreign_key "publicaciones", "ciudades"

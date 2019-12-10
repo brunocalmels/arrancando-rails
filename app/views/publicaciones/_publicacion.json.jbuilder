@@ -30,5 +30,11 @@ json.user publicacion.user.as_json.merge(
   has_avatar ? rails_blob_path(publicacion.user.avatar) : nil
 )
 
+json.comentarios do
+  json.array! publicacion.comentarios,
+              partial: "comentario_publicaciones/comentario_publicacion",
+              as: :comentario_publicacion
+end
+
 json.url publicacion_url(publicacion,
                          format: :json)

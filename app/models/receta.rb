@@ -5,7 +5,8 @@
 #  id                  :integer          not null, primary key
 #  titulo              :string           not null
 #  cuerpo              :text
-#  puntaje             :jsonb
+#  puntajes            :jsonb            default("{}")
+#  user_id             :integer          not null
 #  categoria_receta_id :integer          not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
@@ -17,6 +18,10 @@ class Receta < ApplicationRecord
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
   paginates_per 10
+
+  has_many :comentarios,
+           dependent: :destroy,
+           class_name: "ComentarioReceta"
 
   validates :titulo, presence: true
   validates :cuerpo, presence: true

@@ -1,0 +1,2 @@
+module ComentarioPublicacionesHelper
+end
