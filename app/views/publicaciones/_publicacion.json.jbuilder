@@ -23,7 +23,12 @@ else
   json.imagenes []
 end
 
-json.user publicacion.user
+has_avatar = publicacion.user.avatar.attached?
+
+json.user publicacion.user.as_json.merge(
+  "avatar" =>
+  has_avatar ? rails_blob_path(publicacion.user.avatar) : nil
+)
 
 json.url publicacion_url(publicacion,
                          format: :json)

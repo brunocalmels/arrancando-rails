@@ -23,6 +23,11 @@ else
   json.imagenes []
 end
 
-json.user receta.user
+has_avatar = receta.user.avatar.attached?
+
+json.user receta.user.as_json.merge(
+  "avatar" =>
+  has_avatar ? rails_blob_path(receta.user.avatar) : nil
+)
 
 json.url receta_url(receta, format: :json)
