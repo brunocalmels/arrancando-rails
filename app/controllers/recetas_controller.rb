@@ -45,14 +45,14 @@ class RecetasController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @receta.save && (params[:receta][:imagenes].nil? || save_images_html(params, @receta, :receta))
+        if (params[:receta][:imagenes].nil? || save_images_html(params, @receta, :receta)) && @receta.valid? && @receta.save
           redirect_to @receta, notice: "Receta satisfactoriamente creada."
         else
           render :new
         end
       end
       format.json do
-        if @receta.save && (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @receta))
+        if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @receta)) && @receta.valid? && @receta.save
           render :show, status: :created, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity

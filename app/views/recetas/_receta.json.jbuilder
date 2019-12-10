@@ -7,12 +7,8 @@ json.extract! receta,
               :created_at,
               :updated_at
 
-@puntajes = receta.puntajes.map do |k, v|
-  { usuario: { id: k.to_i }, puntaje: v }
-end
-
 json.puntajes do
-  json.array! @puntajes
+  json.array! receta.my_puntajes
 end
 
 if receta.imagenes.attached?
