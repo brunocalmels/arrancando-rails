@@ -28,4 +28,4 @@ CATEGORIAS_POIS = [
   "Artesanos del hierro"
 ].freeze
 
-MAX_ATTACHMENT_SIZE_BYTES = 2.megabytes
+MAX_ATTACHMENT_SIZE_BYTES = 8.megabytes

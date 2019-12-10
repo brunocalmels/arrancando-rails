@@ -28,6 +28,17 @@ FactoryBot.create(
   activo: true
 )
 
+FactoryBot.create(
+  :user,
+  rol: :admin,
+  email: "mt@mtgroupsrl.com.ar",
+  nombre: "Matías",
+  apellido: "Tonelli",
+  username: "masterAsadero",
+  password: "123456",
+  activo: true
+)
+
 PROVINCIAS.each do |prov|
   provincia = Provincia.create(nombre: prov[:nombre])
   prov[:ciudades].each do |ciudad|
