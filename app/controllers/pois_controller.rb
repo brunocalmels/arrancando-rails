@@ -46,17 +46,17 @@ class PoisController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @poi.save && (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi))
+        if (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi)) && @poi.valid? && @poi.save
           redirect_to @poi, notice: "PoI satisfactoriamente creado."
         else
           render :new
         end
-        format.json do
-          if @poi.save && (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @poi))
-            render :show, status: :created, location: @poi
-          else
-            render json: @poi.errors, status: :unprocessable_entity
-          end
+      end
+      format.json do
+        if params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @poi) && @poi.valid? && @poi.save
+          render :show, status: :created, location: @poi
+        else
+          render json: @poi.errors, status: :unprocessable_entity
         end
       end
     end

@@ -47,14 +47,14 @@ class PublicacionesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        if @publicacion.save && (params[:publicacion][:imagenes].nil? || save_images_html(params, @publicacion, :publicacion))
+        if (params[:publicacion][:imagenes].nil? || save_images_html(params, @publicacion, :publicacion)) && @publicacion.valid? && @publicacion.save
           redirect_to @publicacion, notice: "Publicación satisfactoriamente creada."
         else
           render :new
         end
       end
       format.json do
-        if @publicacion.save && (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @publicacion))
+        if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @publicacion)) && @publicacion.valid? && @publicacion.save
           render :show, status: :created, location: @publicacion
         else
           render json: @publicacion.errors, status: :unprocessable_entity

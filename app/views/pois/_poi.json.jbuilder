@@ -10,12 +10,8 @@ json.extract! poi,
               :created_at,
               :updated_at
 
-@puntajes = poi.puntajes.map do |k, v|
-  { usuario: { id: k.to_i }, puntaje: v }
-end
-
 json.puntajes do
-  json.array! @puntajes
+  json.array! poi.my_puntajes
 end
 
 json.latitud poi.lat
