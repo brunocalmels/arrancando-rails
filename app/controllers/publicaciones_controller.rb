@@ -12,8 +12,7 @@ class PublicacionesController < ApplicationController
     end
     @publicaciones = @publicaciones
                      .order(created_at: :desc)
-                     .limit(params.key?(:limit) ? params[:limit].to_i : 10)
-                     .page params[:page]
+                     .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
     render :index
   end
 
