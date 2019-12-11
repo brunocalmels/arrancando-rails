@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     }
 
     data[:avatar] = if @user.avatar.attached?
-                      rails_blob_path(user.avatar)
+                      rails_blob_path(@user.avatar)
                     else
                       "/images/missing.jpg"
                     end

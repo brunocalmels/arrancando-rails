@@ -29,7 +29,12 @@ else
   json.imagenes []
 end
 
-json.user poi.user
+has_avatar = poi.user.avatar.attached?
+
+json.user poi.user.as_json.merge(
+  "avatar" =>
+  has_avatar ? rails_blob_path(poi.user.avatar) : nil
+)
 
 json.url poi_url(poi,
                  format: :json)

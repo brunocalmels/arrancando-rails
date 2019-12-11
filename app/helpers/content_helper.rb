@@ -11,13 +11,23 @@ module ContentHelper
     end
   end
 
+  def purge_images_json(params, img)
+    (!params["remove_imagenes"].nil? &&
+     params["remove_imagenes"].class == Array &&
+     params["remove_imagenes"].include?(rails_blob_path(img)))
+  end
+
+  def purge_images_html(params, img)
+    (!params["remove_imagenes"].nil? &&
+     params["remove_imagenes"].class == Hash &&
+     params["remove_imagenes"].values.include?(rails_blob_path(img)))
+  end
+
   def remove_imagenes(obj)
     obj.imagenes.attachments.map do |img|
-      if params["remove_imagenes"].class == Array # JSON
-        img.purge if params["remove_imagenes"].include?(rails_blob_path(img))
-      else # HTML
-        params["remove_imagenes"].values.include?(rails_blob_path(img))
-      end
+      img.purge if
+        purge_images_json(params, img) || # JSON
+        purge_images_html(params, img) # HTML
     end
   end
 
