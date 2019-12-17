@@ -1,2 +1,5 @@
 ENV["GOOGLE_APP_ID"] = "585563708448-5n5f3dg0ptbbm4p3eoh1l0c4u7fhrbrl.apps.googleusercontent.com"
 ENV["GOOGLE_APP_SEC"] = "ET8ibddpSXEFlkOLW-Sd4cHJ"
+
+ENV["FACEBOOK_APP_ID"] = "2249429565349776"
+ENV["FACEBOOK_APP_SECRET"] = "c1f2ee8c7b8d3af9b8e2033bbfec1cca"
