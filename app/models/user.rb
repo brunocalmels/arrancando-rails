@@ -9,7 +9,7 @@
 #  apellido          :string
 #  username          :string
 #  telefono          :integer
-#  rol               :integer
+#  rol               :integer          default("0")
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  activo            :boolean

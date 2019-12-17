@@ -13,7 +13,12 @@
 
   <div class="field">
     <%= form.label "Rol" %>
-    <%= form.select :rol, User.roles.collect { |k, v| [k.capitalize, v] } %>
+    <%= form.select :rol, User.roles.collect { |k, v| [k.capitalize, k] } %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Username" %>
+    <%= form.text_field :username %>
   </div>
 
   <div class="field">
@@ -27,13 +32,13 @@
   </div>
 
   <div class="field">
-    <%= form.label "Username" %>
-    <%= form.text_field :username %>
+    <%= form.label "Teléfono" %>
+    <%= form.text_field :telefono %>
   </div>
 
   <div class="field">
-    <%= form.label "Teléfono" %>
-    <%= form.text_field :telefono %>
+    <%= form.label "Activo" %>
+    <%= form.check_box :activo %>
   </div>
 
   <div class="actions">

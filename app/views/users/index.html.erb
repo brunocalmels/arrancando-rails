@@ -4,10 +4,11 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
         <th>Username</th>
         <th>Email</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Activo</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -15,10 +16,11 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.nombre %></td>
-          <td><%= user.apellido %></td>
           <td><%= user.username %></td>
           <td><%= user.email %></td>
+          <td><%= user.nombre %></td>
+          <td><%= user.apellido %></td>
+          <td><%= user.activo? ? "Sí" : "No" %></td>
           <td>
             <%= link_to user_path(user), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>
@@ -42,6 +44,8 @@
 
 <br>
 
+<!--
 <div class="botonera">
   <%= link_to 'Nuevo Usuario', new_user_path, class: "btn btn-success"%>
 </div>
+-->

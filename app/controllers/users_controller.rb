@@ -113,7 +113,11 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono)
+    if request.format.json?
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono)
+    else # HTML
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :rol, :telefono, :activo)
+    end
   end
 
   def encode64(data)
