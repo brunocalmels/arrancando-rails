@@ -75,6 +75,14 @@ es:
               blank: La latitud no puede estar vacía
             long:
               blank: La longitud no puede estar vacía
+        categoria_receta:
+          attributes:
+            nombre:
+              taken: ya tomado
+        categoria_poi:
+          attributes:
+            nombre:
+              taken: ya tomado
 
   date:
     abbr_day_names:

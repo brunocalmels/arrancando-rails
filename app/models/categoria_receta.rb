@@ -9,5 +9,5 @@
 #
 
 class CategoriaReceta < ApplicationRecord
-  validates :nombre, presence: true
+  validates :nombre, presence: true, uniqueness: true
 end

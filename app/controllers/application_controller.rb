@@ -21,6 +21,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def allow_only_html
+    return if request.format.html?
+
+    render json: { error: "Not Authorized" }, status: 401
+  end
+
   def json_request?
     request.format.json?
   end

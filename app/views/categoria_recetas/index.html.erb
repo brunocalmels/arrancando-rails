@@ -1,25 +1,32 @@
 <% provide(:title, "Categorías Recetas") %>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @categoria_recetas.each do |categoria_receta| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= link_to 'Ver', categoria_receta %></td>
-        <td><%=  link_to 'Editar', edit_categoria_receta_path(categoria_receta) %></td>
-        <td><%= link_to 'Eliminar', categoria_receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @categoria_recetas.each do |categoria_receta| %>
+        <tr>
+          <td><%= categoria_receta.id %></td>
+          <td><%= categoria_receta.nombre %></td>
+          <!--<td><%= link_to 'Ver', categoria_receta %></td>-->
+          <td><%= link_to 'Editar', edit_categoria_receta_path(categoria_receta) %></td>
+          <td><%= link_to 'Eliminar', categoria_receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <br>
 
 <div class="botonera">
-  <%= link_to 'Nueva Categoria Receta', new_categoria_receta_path, class: "btn btn-success" %>
+  <%= link_to 'Nueva Categoría Receta', new_categoria_receta_path, class: "btn btn-success" %>
 </div>
