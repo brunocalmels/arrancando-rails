@@ -33,6 +33,7 @@ class ContentController < ApplicationController
     o["imagenes"] = item.imagenes.attached? ? [rails_blob_path(item.imagenes.attachments.first)] : []
     o["puntaje"] = nil
     o["puntajes"] = puntajes
+    o["comentarios"] = item.comentarios unless type == 'pois'
     o
   end
 
@@ -46,13 +47,15 @@ class ContentController < ApplicationController
     when "pois"
       ac_record = Poi
     end
-    ac_record.order(created_at: :desc).first(5 + params[:offset].to_i).map do |p|
-      get_object(
-        p,
-        type,
-        p.my_puntajes
-      )
-    end
+    ac_record
+      .where(user: current_user)
+      .order(created_at: :desc).first(5 + params[:offset].to_i).map do |p|
+        get_object(
+          p,
+          type,
+          p.my_puntajes
+        )
+      end
   end
 
   def build_feed(_params)
