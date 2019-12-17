@@ -30,4 +30,10 @@ json.user receta.user.as_json.merge(
   has_avatar ? rails_blob_path(receta.user.avatar) : nil
 )
 
+json.comentarios do
+  json.array! receta.comentarios,
+              partial: "comentario_recetas/comentario_receta.json",
+              as: :comentario_receta
+end
+
 json.url receta_url(receta, format: :json)

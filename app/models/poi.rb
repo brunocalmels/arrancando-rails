@@ -7,11 +7,13 @@
 #  cuerpo           :text
 #  lat              :float            not null
 #  long             :float            not null
-#  puntaje          :jsonb
+#  puntajes         :jsonb            default("{}")
+#  user_id          :integer          not null
 #  categoria_poi_id :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  geo_point        :geography({:srid point, 4326
+#  direccion        :string
 #
 
 class Poi < ApplicationRecord

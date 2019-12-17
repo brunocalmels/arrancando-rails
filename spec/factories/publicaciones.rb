@@ -5,7 +5,8 @@
 #  id         :integer          not null, primary key
 #  titulo     :string           not null
 #  cuerpo     :text             not null
-#  puntajes   :jsonb
+#  puntajes   :jsonb            default("{}")
+#  user_id    :integer          not null
 #  ciudad_id  :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
