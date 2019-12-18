@@ -41,10 +41,10 @@
     <% case img.blob.content_type %>
     <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
       <video controls>
-        <source src=<%= rails_blob_path(img) %> />
+        <source src=<%= url_for(img.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB,MAX_IMAGE_HEIGHT_WEB])) %> />
       </video>
     <% when 'image/jpg', 'image/jpeg', 'image/png' %>
-      <%= image_tag(img.variant(resize_to_limit: [200,200])) %>
+      <%= image_tag(img.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB,MAX_IMAGE_HEIGHT_WEB])) %>
     <% end %>
   <% end %>
 </div>
