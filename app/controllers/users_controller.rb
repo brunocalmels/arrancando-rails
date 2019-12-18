@@ -9,12 +9,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @scope = params[:rol]
-    @users = if !@scope.nil?
-               User.where(rol: @scope)
-             else
-               User.all
-             end
+    @rol = params[:rol]
+    @filterrific = initialize_filterrific(User, params[:filterrific], select_options: {})
+    @users = policy_scope(UserPolicy::Scope
+      .new(current_user, @filterrific.try(:find) || User)
+      .send("rol_#{@rol}"))
   end
 
   # GET /users/1

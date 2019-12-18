@@ -143,6 +143,7 @@ GEM
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
+    filterrific (5.2.1)
     foreman (0.86.0)
     formatador (0.2.5)
     geocoder (1.5.1)
@@ -396,6 +397,7 @@ DEPENDENCIES
   devise
   factory_bot_rails
   faker
+  filterrific
   foreman
   geocoder
   guard

@@ -33,6 +33,27 @@ class User < ApplicationRecord
   has_many :recetas, dependent: :destroy
   has_many :pois, dependent: :destroy
 
+  scope :admins, -> { where(rol: :admin) }
+  scope :normales, -> { where(rol: :normal) }
+
+  filterrific(
+    persistance_id: false,
+    # default_filter_params: { order(apellido: :asc).order(nombres: :asc) },
+    available_filters: [
+      :search_query
+    ]
+  )
+  scope :search_query, lambda { |query|
+    where(
+      "LOWER(apellido) LIKE ?
+      OR LOWER(nombre) LIKE ?
+      OR LOWER(username) LIKE ?",
+      "%#{query.to_s.downcase}%",
+      "%#{query.to_s.downcase}%",
+      "%#{query.to_s.downcase}%"
+    )
+  }
+
   # rubocop: disable Naming/AccessorMethodName
   # TODO: Arreglar esto
   def set_avatar(avatar)

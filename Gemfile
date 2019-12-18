@@ -40,6 +40,7 @@ gem 'haml'
 # gem 'rails_bootstrap_navbar'
 gem 'pundit'
 gem 'kaminari'
+gem 'filterrific'
 
 gem 'omniauth-google-oauth2'
 gem 'signet'
