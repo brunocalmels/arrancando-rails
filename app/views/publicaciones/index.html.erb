@@ -18,8 +18,7 @@
       <%= f.select(
         :ciudad_id,
         Ciudad.all.collect { |c| [c.nombre, c.id] },
-        include_blank: true,
-        placeholder: 'Título o cuerpo'
+        include_blank: true
       ) %>
     </div>
     <div id="aplicar_filtros">

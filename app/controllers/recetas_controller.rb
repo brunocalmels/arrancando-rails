@@ -5,9 +5,14 @@ class RecetasController < ApplicationController
   # GET /recetas
   # GET /recetas.json
   def index
-    @recetas = Receta
-    filter_by_categoria_receta_id
-    filter_by_term
+    @filterrific = initialize_filterrific(Receta, params[:filterrific], select_options: {})
+    @recetas = policy_scope(@filterrific.try(:find) || Receta)
+
+    if request.format.json?
+      filter_by_categoria_receta_id
+      filter_by_term
+    end
+
     @recetas = @recetas
                .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
     render :index

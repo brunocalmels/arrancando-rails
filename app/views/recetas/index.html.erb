@@ -1,5 +1,38 @@
 <% provide(:title, "Recetas") %>
 
+<% if @recetas.any? || @filterrific.search_query.present? %>
+  <%= form_for_filterrific @filterrific, url: "/recetas" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Título o cuerpo'
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
+        Categoría
+      </p>
+      <%= f.select(
+        :categoria_receta_id,
+        CategoriaReceta.all.collect { |c| [c.nombre, c.id] },
+        include_blank: true
+      ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Buscar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/recetas?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
 
 <div class="table-responsive">
   <table class="table table-striped">

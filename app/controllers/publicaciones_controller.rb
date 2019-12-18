@@ -6,7 +6,7 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones.json
   def index
     @filterrific = initialize_filterrific(Publicacion, params[:filterrific], select_options: {})
-    @publicaciones = policy_scope(@filterrific.try(:find) || User)
+    @publicaciones = policy_scope(@filterrific.try(:find) || Publicacion)
 
     if request.format.json?
       filter_by_ciudad_id
