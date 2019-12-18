@@ -19,9 +19,9 @@
           <td><%= receta.titulo %></td>
           <td><%= receta.cuerpo %></td>
           <td><%= receta.puntajes %></td>
-          <td><%= receta.categoria_receta_id %></td>
+          <td><%= receta.categoria_receta.nombre %></td>
           <td><%= link_to 'Ver', receta %></td>
-          <td><%=  link_to 'Editar', edit_receta_path(receta) %></td>
+          <td><%= link_to 'Editar', edit_receta_path(receta) %></td>
           <td><%= link_to 'Eliminar', receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>

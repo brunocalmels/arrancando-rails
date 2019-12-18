@@ -1,5 +1,39 @@
 <% provide(:title, "Publicaciones") %>
 
+<% if @publicaciones.any? || @filterrific.search_query.present? %>
+  <%= form_for_filterrific @filterrific, url: "/publicaciones" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Título o cuerpo'
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
+        Ciudad
+      </p>
+      <%= f.select(
+        :ciudad_id,
+        Ciudad.all.collect { |c| [c.nombre, c.id] },
+        include_blank: true,
+        placeholder: 'Título o cuerpo'
+      ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Buscar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/publicaciones?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
 
 <div class="table-responsive">
   <table class="table table-striped">
@@ -19,9 +53,9 @@
           <td><%= publicacion.titulo %></td>
           <td><%= publicacion.cuerpo %></td>
           <td><%= publicacion.puntajes %></td>
-          <td><%= publicacion.ciudad_id %></td>
+          <td><%= publicacion.ciudad.nombre %></td>
           <td><%= link_to 'Ver', publicacion %></td>
-          <td><%=  link_to 'Editar', edit_publicacion_path(publicacion) %></td>
+          <td><%= link_to 'Editar', edit_publicacion_path(publicacion) %></td>
           <td><%= link_to 'Eliminar', publicacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
