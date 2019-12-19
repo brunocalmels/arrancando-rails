@@ -31,6 +31,26 @@ class Publicacion < ApplicationRecord
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }
 
+  filterrific(
+    persistance_id: false,
+    available_filters: %i[
+      search_query
+      ciudad_id
+    ]
+  )
+  scope :search_query, lambda { |query|
+    where(
+      "LOWER(titulo) LIKE ?
+      OR LOWER(cuerpo) LIKE ?",
+      "%#{query.to_s.downcase}%",
+      "%#{query.to_s.downcase}%"
+    )
+  }
+
+  scope :ciudad_id, lambda { |ciudad_id|
+    where(ciudad_id: ciudad_id)
+  }
+
   def my_puntajes
     puntajes.map do |k, v|
       { usuario: { id: k.to_i }, puntaje: v }

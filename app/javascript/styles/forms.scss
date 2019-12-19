@@ -26,7 +26,7 @@ form {
 }
 
 form label:not(.inline) {
-  width: 150px;
+  width: 100px;
   font-weight: bold;
 }
 
@@ -209,5 +209,32 @@ form.fechas {
 
   div:first-of-type {
     margin-right: 10px;
+  }
+}
+
+form.new_filterrific {
+  div {
+    display: flex;
+
+    p {
+      margin-bottom: 0;
+      margin-right: 10px;
+    }
+  }
+
+  input[type=submit] {
+    margin-left: 15px;
+  }
+}
+
+div.field {
+
+  input[type=text],
+  textarea {
+    width: 40vw;
+  }
+
+  textarea {
+    height: 200px;
   }
 }

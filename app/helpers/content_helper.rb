@@ -13,14 +13,14 @@ module ContentHelper
 
   def purge_images_json(params, img)
     (!params["remove_imagenes"].nil? &&
-      params["remove_imagenes"].class == Array &&
-      params["remove_imagenes"].include?(rails_blob_path(img)))
+     params["remove_imagenes"].class == Array &&
+     params["remove_imagenes"].include?(rails_blob_path(img)))
   end
 
   def purge_images_html(params, img)
     (!params["remove_imagenes"].nil? &&
-      params["remove_imagenes"].class == Hash &&
-      params["remove_imagenes"].values.include?(rails_blob_path(img)))
+     params["remove_imagenes"].class == ActionController::Parameters &&
+     params["remove_imagenes"].values.include?(rails_blob_path(img)))
   end
 
   def remove_imagenes(obj)
@@ -74,5 +74,6 @@ module ContentHelper
   def update_images_html(params, obj, tipo)
     remove_imagenes(obj) if params["remove_imagenes"]
     save_images_html(params, obj, tipo) unless params[tipo][:imagenes].nil?
+    true
   end
 end

@@ -23,5 +23,7 @@
   </table>
 </div>
 
-<%= link_to 'Editar', edit_user_path(@user) %> |
-<%= link_to 'Volver', users_path %>
+<div class="botonera">
+  <%= link_to 'Editar', edit_user_path(@user), class: "btn btn-info" %>
+  <%= link_to 'Volver', users_path, class: "btn btn-default" %>
+</div>

@@ -2,5 +2,7 @@
 
 <%= render 'form', poi: @poi %>
 
-<%= link_to 'Ver', @poi %> |
-<%= link_to 'Volver', pois_path %>
+<div class="botonera">
+  <%= link_to 'Ver', @poi, class: 'btn btn-info'  %>
+  <%= link_to 'Volver', pois_path, class: 'btn btn-default'  %>
+</div>

@@ -40,6 +40,7 @@ gem 'haml'
 # gem 'rails_bootstrap_navbar'
 gem 'pundit'
 gem 'kaminari'
+gem 'filterrific'
 
 gem 'omniauth-google-oauth2'
 gem 'signet'
@@ -80,6 +81,10 @@ group :test do
   gem 'foreman'
   gem 'rb-readline'
   gem 'webdrivers'
+end
+
+group :production do
+  gem 'aws-sdk-s3'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

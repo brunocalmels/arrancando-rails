@@ -1,4 +1,6 @@
 <% provide(:title, "Ciudad") %>
 
-<%=  link_to 'Editar', edit_ciudad_path(@ciudad) %> |
-<%= link_to 'Volver', ciudades_path %>
+<div class="botonera">
+  <%= link_to 'Editar', edit_ciudad_path(@ciudad), class: "btn btn-info" %>
+  <%= link_to 'Volver', ciudades_path, class: "btn btn-default" %>
+</div>

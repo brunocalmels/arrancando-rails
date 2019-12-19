@@ -19,7 +19,10 @@ json.longitud poi.long
 
 if poi.imagenes.attached?
   @imgs = poi.imagenes.attachments.map do |img|
-    rails_blob_path(img)
+    # rails_blob_path(img)
+    url_for(img.variant(
+              resize_to_limit: [MAX_IMAGE_WIDTH_APP, MAX_IMAGE_HEIGHT_APP]
+            ))
   end
   json.imagenes do
     json.array! @imgs
@@ -32,8 +35,7 @@ end
 has_avatar = poi.user.avatar.attached?
 
 json.user poi.user.as_json.merge(
-  "avatar" =>
-  has_avatar ? rails_blob_path(poi.user.avatar) : nil
+  "avatar" => has_avatar ? rails_blob_path(poi.user.avatar) : nil
 )
 
 json.url poi_url(poi,

@@ -2,5 +2,7 @@
 
 <%= render 'form', categoria_receta: @categoria_receta %>
 
-<%= link_to 'Ver', @categoria_receta %> |
-<%= link_to 'Volver', categoria_recetas_path %>
+<div class="botonera">
+  <%= link_to 'Ver', @categoria_receta, class: 'btn btn-info' %>
+  <%= link_to 'Volver', categoria_recetas_path, class: 'btn btn-default'  %>
+</div>

@@ -1,4 +1,6 @@
 <% provide(:title, "Categoría Recetas") %>
 
-<%=  link_to 'Editar', edit_categoria_receta_path(@categoria_receta) %> |
-<%= link_to 'Volver', categoria_recetas_path %>
+<div class="botonera">
+  <%= link_to 'Editar', edit_categoria_receta_path(@categoria_receta), class: "btn btn-info" %>
+  <%= link_to 'Volver', categoria_recetas_path, class: "btn btn-default" %>
+</div>

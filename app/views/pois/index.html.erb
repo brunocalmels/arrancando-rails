@@ -1,11 +1,47 @@
 <% provide(:title, "Pois") %>
 
+<% if @pois.any? || @filterrific.search_query.present? %>
+  <%= form_for_filterrific @filterrific, url: "/pois" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Título o cuerpo'
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
+        Categoría
+      </p>
+      <%= f.select(
+        :categoria_poi_id,
+        CategoriaPoi.all.collect { |c| [c.nombre, c.id] },
+        include_blank: true
+      ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Buscar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/pois?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
+
+
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
         <th>Título</th>
         <th>Cuerpo</th>
+        <th>Categoría</th>
         <th>Lat</th>
         <th>Long</th>
         <th>Puntaje</th>
@@ -18,18 +54,23 @@
         <tr>
           <td><%= poi.titulo %></td>
           <td><%= poi.cuerpo %></td>
+          <td><%= poi.categoria_poi.nombre %></td>
           <td><%= poi.lat %></td>
           <td><%= poi.long %></td>
           <td><%= poi.puntajes %></td>
           <td><%= link_to 'Ver', poi %></td>
-          <td><%=  link_to 'Editar', edit_poi_path(poi) %></td>
-          <td><%= link_to 'Eliminar', poi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to 'Editar', edit_poi_path(poi) %></td>
+          <td><%= link_to 'Eliminar', poi, method: :delete, data: { confirm: 'Seguro?' } %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 
+<%= paginate @pois %>
+
 <br>
 
-<%= link_to 'Nuevo Poi', new_poi_path %>
+<div class="botonera">
+  <%= link_to 'Nuevo Poi', new_poi_path, class: "btn btn-success" %>
+</div>

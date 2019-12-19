@@ -1,13 +1,37 @@
 <% provide(:title, "Usuarios") %>
 
+<% if @users.any? || @filterrific.search_query.present? %>
+  <%= form_for_filterrific @filterrific, url: "/users?rol=#{@rol}" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Username, nombre, apellido'
+      ) %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/users?rol=#{@rol}&filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+    <%# render_filterrific_spinner %>
+  <% end %>
+<% end %>
+
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
         <th>Username</th>
         <th>Email</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Activo</th>
+        <th>Admin</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -15,10 +39,12 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.nombre %></td>
-          <td><%= user.apellido %></td>
           <td><%= user.username %></td>
           <td><%= user.email %></td>
+          <td><%= user.nombre %></td>
+          <td><%= user.apellido %></td>
+          <td><%= user.activo? ? "Sí" : "No" %></td>
+          <td><%= user.admin? ? "Sí" : "No" %></td>
           <td>
             <%= link_to user_path(user), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>
@@ -42,4 +68,8 @@
 
 <br>
 
-<%= link_to 'Nuevo Usuario', new_user_path %>
+<!--
+<div class="botonera">
+  <%= link_to 'Nuevo Usuario', new_user_path, class: "btn btn-success"%>
+</div>
+-->

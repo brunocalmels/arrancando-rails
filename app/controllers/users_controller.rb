@@ -10,12 +10,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @scope = params[:rol]
-    @users = if !@scope.nil?
-               User.where(rol: @scope)
-             else
-               User.all
-             end
+    @rol = params[:rol]
+    @filterrific = initialize_filterrific(User, params[:filterrific], select_options: {})
+    @users = policy_scope(UserPolicy::Scope
+      .new(current_user, @filterrific.try(:find) || User)
+      .send("rol_#{@rol}"))
   end
 
   # GET /users/1
@@ -88,7 +87,7 @@ class UsersController < ApplicationController
     }
 
     data[:avatar] = if @user.avatar.attached?
-                      rails_blob_path(user.avatar)
+                      rails_blob_path(@user.avatar)
                     else
                       "/images/missing.jpg"
                     end
@@ -132,7 +131,11 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono)
+    if request.format.json?
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono)
+    else # HTML
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :rol, :telefono, :activo)
+    end
   end
 
   def encode64(data)
@@ -164,10 +167,6 @@ class UsersController < ApplicationController
   end
 
   def oauth_access_token
-    # @access_token = @client.auth_code.get_token(
-    #   params[:code],
-    #   redirect_uri: "http://arrancando.com.ar/google-login"
-    # )
     @access_token = @client.auth_code.get_token(
       params[:code],
       redirect_uri: "http://arrancando.herokuapp.com/google-login"
@@ -181,10 +180,6 @@ class UsersController < ApplicationController
   end
 
   def oauth_access_token_fb
-    # @access_token = @client.auth_code.get_token(
-    #   params[:code],
-    #   redirect_uri: "http://arrancando.com.ar/google-login"
-    # )
     @access_token = @client.auth_code.get_token(
       params[:code],
       redirect_uri: "http://arrancando.herokuapp.com/google-login"

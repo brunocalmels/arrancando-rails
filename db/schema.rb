@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_192201) do
+ActiveRecord::Schema.define(version: 2019_12_17_195922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(version: 2019_12_10_192201) do
     t.string "apellido"
     t.string "username"
     t.bigint "telefono"
-    t.integer "rol"
+    t.integer "rol", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "activo"

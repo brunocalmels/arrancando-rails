@@ -5,11 +5,17 @@ class PoisController < ApplicationController
   # GET /pois
   # GET /pois.json
   def index
-    @pois = Poi
-    filter_by_categria_poi_id
-    filter_by_term
+    @filterrific = initialize_filterrific(Poi, params[:filterrific], select_options: {})
+    @pois = policy_scope(@filterrific.try(:find) || Poi)
+
+    if request.format.json?
+      filter_by_categria_poi_id
+      filter_by_term
+    end
+
     @pois = @pois
-            .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+            .order(titulo: :asc)
+            .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
     render :index
   end
 

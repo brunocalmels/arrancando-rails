@@ -5,12 +5,17 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones
   # GET /publicaciones.json
   def index
-    @publicaciones = Publicacion
-    filter_by_ciudad_id
-    filter_by_term
+    @filterrific = initialize_filterrific(Publicacion, params[:filterrific], select_options: {})
+    @publicaciones = policy_scope(@filterrific.try(:find) || Publicacion)
+
+    if request.format.json?
+      filter_by_ciudad_id
+      filter_by_term
+    end
+
     @publicaciones = @publicaciones
                      .order(created_at: :desc)
-                     .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+                     .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
     render :index
   end
 
