@@ -2,9 +2,10 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create login update set_avatar google_client]
-  skip_before_action :authenticate_request, only: %i[create login google_client]
+  before_action :assure_admin!, except: %i[create login udpate set_avatar google_client facebook_client]
+  skip_before_action :authenticate_request, only: %i[create login google_client facebook_client]
   before_action :user_by_email, only: %i[google_client]
+  before_action :user_by_email_fb, only: %i[facebook_client]
 
   # GET /users
   # GET /users.json
@@ -93,6 +94,24 @@ class UsersController < ApplicationController
     redirect_to "https://arrancando.com.ar/google-signin/" + encode64(data.to_json) + "/"
   end
 
+  def facebook_client
+    data = {
+      auth_token: JsonWebToken.encode(user_id: @user.id),
+      id: @user.id,
+      nombre: @user.nombre,
+      apellido: @user.apellido,
+      email: @user.email,
+      username: @user.username
+    }
+
+    data[:avatar] = if @user.avatar.attached?
+                      rails_blob_path(user.avatar)
+                    else
+                      "/images/missing.jpg"
+                    end
+    redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
+  end
+
   # POST /users/avatar
   def set_avatar
     if params[:avatar].class == ActionDispatch::Http::UploadedFile
@@ -137,14 +156,33 @@ class UsersController < ApplicationController
     )
   end
 
+  def oauth_client_fb
+    @client = OAuth2::Client.new(
+      ENV["FACEBOOK_APP_ID"],
+      ENV["FACEBOOK_APP_SECRET"],
+      site: "https://graph.facebook.com/v5.0",
+      token_url: "/oauth/access_token",
+      raise_errors: false
+    )
+  end
+
   def oauth_access_token
-    # @access_token = @client.auth_code.get_token(
-    #   params[:code],
-    #   redirect_uri: "http://arrancando.com.ar/google-login"
-    # )
     @access_token = @client.auth_code.get_token(
       params[:code],
       redirect_uri: "http://arrancando.herokuapp.com/google-login"
+    )
+
+    unless @access_token.params["id_token"]
+      render json: @access_token.params.to_json, status: :unprocessable_entity
+    end
+
+    return unless @access_token.params["id_token"]
+  end
+
+  def oauth_access_token_fb
+    @access_token = @client.auth_code.get_token(
+      params[:code],
+      redirect_uri: "https://arrancando.herokuapp.com/facebook-login"
     )
 
     unless @access_token.params["id_token"]
@@ -168,10 +206,43 @@ class UsersController < ApplicationController
     @metadata
   end
 
+  def user_metadata_fb
+    response = @access_token.get("/v5.0/me?fields=email")
+
+    unless response
+      render json: "Response no encontrada", status: :unprocessable_entity && return
+    end
+    @metadata = JSON.parse(response.body)
+    unless @metadata && @metadata["email"]
+      render json: "Respuesta de formato incorrecto", status: :unprocessable_entity && return
+    end
+
+    @metadata
+  end
+
   def user_by_email
     oauth_client
     oauth_access_token
     user_metadata
+
+    nombre = @metadata["email"].split("@")[0].gsub(".", "_")
+
+    @user = User.find_by_email(@metadata["email"]) || User.create!(
+      nombre: nombre,
+      username: nombre,
+      email: @metadata["email"],
+      password: encode64(nombre)
+    )
+    # user.grab_image(@metadata["picture"])
+  rescue StandardError => e
+    puts e
+    redirect_to "https://arrancando.com.ar"
+  end
+
+  def user_by_email_fb
+    oauth_client_fb
+    oauth_access_token_fb
+    user_metadata_fb
 
     nombre = @metadata["email"].split("@")[0].gsub(".", "_")
 

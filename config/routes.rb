@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :comentario_recetas
   resources :comentario_publicaciones
   get "google-login", to: "users#google_client"
+  get "facebook-login", to: "users#facebook_client"
   get "content", to: "content#index"
   get "content/saved", to: "content#saved"
   resources :users
