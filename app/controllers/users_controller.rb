@@ -182,7 +182,7 @@ class UsersController < ApplicationController
   def oauth_access_token_fb
     @access_token = @client.auth_code.get_token(
       params[:code],
-      redirect_uri: "http://arrancando.herokuapp.com/google-login"
+      redirect_uri: "https://arrancando.herokuapp.com/facebook-login"
     )
 
     unless @access_token.params["id_token"]
