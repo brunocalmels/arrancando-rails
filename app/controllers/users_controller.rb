@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :assure_admin!, except: %i[create login udpate set_avatar google_client facebook_client]
   skip_before_action :authenticate_request, only: %i[create login google_client facebook_client]
   before_action :user_by_email, only: %i[google_client]
-  before_action :user_by_email_fb, only: %i[facebook_client]
+  # before_action :user_by_email_fb, only: %i[facebook_client]
 
   # GET /users
   # GET /users.json
@@ -256,12 +256,6 @@ class UsersController < ApplicationController
     # user.grab_image(@metadata["picture"])
   rescue StandardError => e
     puts e
-
-    puts "*************************************************"
-    puts "*************************************************"
-    puts "*************************************************"
-    puts "*************************************************"
-
     redirect_to "https://arrancando.com.ar"
   end
 end
