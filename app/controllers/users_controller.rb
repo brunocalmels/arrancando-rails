@@ -95,21 +95,22 @@ class UsersController < ApplicationController
   end
 
   def facebook_client
-    data = {
-      auth_token: JsonWebToken.encode(user_id: @user.id),
-      id: @user.id,
-      nombre: @user.nombre,
-      apellido: @user.apellido,
-      email: @user.email,
-      username: @user.username
-    }
+    # data = {
+    #   auth_token: JsonWebToken.encode(user_id: @user.id),
+    #   id: @user.id,
+    #   nombre: @user.nombre,
+    #   apellido: @user.apellido,
+    #   email: @user.email,
+    #   username: @user.username
+    # }
 
-    data[:avatar] = if @user.avatar.attached?
-                      rails_blob_path(user.avatar)
-                    else
-                      "/images/missing.jpg"
-                    end
-    redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
+    # data[:avatar] = if @user.avatar.attached?
+    #                   rails_blob_path(user.avatar)
+    #                 else
+    #                   "/images/missing.jpg"
+    #                 end
+    # redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
+    render json: nil, status: :ok
   end
 
   # POST /users/avatar
