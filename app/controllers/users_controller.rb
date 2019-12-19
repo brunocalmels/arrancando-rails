@@ -104,6 +104,10 @@ class UsersController < ApplicationController
       username: @user.username
     }
 
+    puts "******************************************"
+    puts data
+    puts "******************************************"
+
     data[:avatar] = if @user.avatar.attached?
                       rails_blob_path(user.avatar)
                     else
