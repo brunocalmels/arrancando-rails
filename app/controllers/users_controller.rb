@@ -95,10 +95,6 @@ class UsersController < ApplicationController
   end
 
   def facebook_client
-    puts "***********************************"
-    puts "CERO"
-    puts "***********************************"
-
     data = {
       auth_token: JsonWebToken.encode(user_id: @user.id),
       id: @user.id,
@@ -107,10 +103,6 @@ class UsersController < ApplicationController
       email: @user.email,
       username: @user.username
     }
-
-    puts "***********************************"
-    puts "CUATRO"
-    puts "***********************************"
 
     data[:avatar] = if @user.avatar.attached?
                       rails_blob_path(user.avatar)
@@ -193,10 +185,6 @@ class UsersController < ApplicationController
       redirect_uri: "https://arrancando.herokuapp.com/facebook-login"
     )
 
-    puts "***********************************"
-    puts "UNO"
-    puts "***********************************"
-
     unless @access_token.params["id_token"]
       render json: @access_token.params.to_json, status: :unprocessable_entity
     end
@@ -225,11 +213,6 @@ class UsersController < ApplicationController
       render json: "Response no encontrada", status: :unprocessable_entity && return
     end
     @metadata = JSON.parse(response.body)
-
-    puts "***********************************"
-    puts "DOS"
-    puts "***********************************"
-
     unless @metadata && @metadata["email"]
       render json: "Respuesta de formato incorrecto", status: :unprocessable_entity && return
     end
@@ -269,16 +252,15 @@ class UsersController < ApplicationController
       email: @metadata["email"],
       password: encode64(nombre)
     )
-
-    puts "***********************************"
-    puts "TRES"
-    puts "***********************************"
-
-    pry
-
     # user.grab_image(@metadata["picture"])
   rescue StandardError => e
     puts e
+
+    puts "*************************************************"
+    puts "*************************************************"
+    puts "*************************************************"
+    puts "*************************************************"
+
     redirect_to "https://arrancando.com.ar"
   end
 end
