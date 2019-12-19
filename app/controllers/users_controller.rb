@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_action :assure_admin!, except: %i[create login udpate set_avatar google_client facebook_client]
   skip_before_action :authenticate_request, only: %i[create login google_client facebook_client]
   before_action :user_by_email, only: %i[google_client]
-  # before_action :user_by_email_fb, only: %i[facebook_client]
+  before_action :user_by_email_fb, only: %i[facebook_client]
 
   # GET /users
   # GET /users.json
@@ -95,22 +95,21 @@ class UsersController < ApplicationController
   end
 
   def facebook_client
-    # data = {
-    #   auth_token: JsonWebToken.encode(user_id: @user.id),
-    #   id: @user.id,
-    #   nombre: @user.nombre,
-    #   apellido: @user.apellido,
-    #   email: @user.email,
-    #   username: @user.username
-    # }
+    data = {
+      auth_token: JsonWebToken.encode(user_id: @user.id),
+      id: @user.id,
+      nombre: @user.nombre,
+      apellido: @user.apellido,
+      email: @user.email,
+      username: @user.username
+    }
 
-    # data[:avatar] = if @user.avatar.attached?
-    #                   rails_blob_path(user.avatar)
-    #                 else
-    #                   "/images/missing.jpg"
-    #                 end
-    # redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
-    render json: nil, status: :ok
+    data[:avatar] = if @user.avatar.attached?
+                      rails_blob_path(user.avatar)
+                    else
+                      "/images/missing.jpg"
+                    end
+    redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
   end
 
   # POST /users/avatar
@@ -186,11 +185,11 @@ class UsersController < ApplicationController
       redirect_uri: "https://arrancando.herokuapp.com/facebook-login"
     )
 
-    unless @access_token.params["id_token"]
+    unless @access_token.params["token_type"]
       render json: @access_token.params.to_json, status: :unprocessable_entity
     end
 
-    return unless @access_token.params["id_token"]
+    return unless @access_token.params["token_type"]
   end
 
   def user_metadata
