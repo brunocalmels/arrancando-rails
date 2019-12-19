@@ -274,9 +274,7 @@ class UsersController < ApplicationController
     puts "TRES"
     puts "***********************************"
 
-    # rubocop:disable Lint/Debugger
-    byebug
-    # rubocop:enable Lint/Debugger
+    pry
 
     # user.grab_image(@metadata["picture"])
   rescue StandardError => e
