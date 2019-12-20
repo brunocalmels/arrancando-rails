@@ -38,7 +38,7 @@
     <% case img.blob.content_type %>
     <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
       <video controls>
-        <source src=<%= url_for(img.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB,MAX_IMAGE_HEIGHT_WEB])) %> />
+        <source src=<%= url_for(img) %> />
       </video>
     <% when 'image/jpg', 'image/jpeg', 'image/png' %>
       <%= image_tag(img.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB,MAX_IMAGE_HEIGHT_WEB])) %>
