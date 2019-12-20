@@ -12,7 +12,6 @@
 #  categoria_poi_id :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  geo_point        :geography({:srid point, 4326
 #  direccion        :string
 #
 

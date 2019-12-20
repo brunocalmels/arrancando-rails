@@ -14,9 +14,9 @@ end
 if publicacion.imagenes.attached?
   @imgs = publicacion.imagenes.attachments.map do |img|
     case img.blob.content_type
-    when 'video/mp4', 'video/mpg', 'video/mpeg'
+    when "video/mp4", "video/mpg", "video/mpeg"
       url_for(img)
-    when 'image/jpg', 'image/jpeg', 'image/png'
+    when "image/jpg", "image/jpeg", "image/png"
       url_for(img.variant(
                 resize_to_limit: [MAX_IMAGE_WIDTH_APP, MAX_IMAGE_HEIGHT_APP]
               ))

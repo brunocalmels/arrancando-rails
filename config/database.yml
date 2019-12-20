@@ -18,7 +18,7 @@ development:
   adapter: postgis
   postgis_extension: true
   encoding: unicode
-  database: arrancando #fix_postgis
+  database: arrancando
   pool: 5
   username: <%= ENV.fetch('DB_USERNAME_DEV', '') %>
   password: <%= ENV.fetch('DB_PASSWORD_DEV', '') %>
