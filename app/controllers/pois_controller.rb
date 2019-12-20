@@ -46,7 +46,7 @@ class PoisController < ApplicationController
   # POST /pois.json
   def create
     @poi = Poi.new(poi_params)
-    @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
+    # @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
     @poi.user = current_user
 
     respond_to do |format|
