@@ -13,8 +13,8 @@ class RecetasController < ApplicationController
       filter_by_term
     end
 
-    @recetas = @recetas
-               .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
+    fetch_items
+
     render :index
   end
 
@@ -126,6 +126,14 @@ class RecetasController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_receta
     @receta = Receta.find(params[:id])
+  end
+
+  def fetch_items
+    @recetas = @recetas
+               .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+    return if params[:limit] && request.format.json?
+
+    @recetas = @recetas.page(params[:page])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

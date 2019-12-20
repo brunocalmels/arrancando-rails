@@ -13,9 +13,8 @@ class PoisController < ApplicationController
       filter_by_term
     end
 
-    @pois = @pois
-            .order(titulo: :asc)
-            .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
+    fetch_items
+
     render :index
   end
 
@@ -129,6 +128,16 @@ class PoisController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_poi
     @poi = Poi.find(params[:id])
+  end
+
+  def fetch_items
+    @pois = @pois
+            .order(titulo: :asc)
+            .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+
+    return if params[:limit] && request.format.json?
+
+    @pois = @pois.page(params[:page])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

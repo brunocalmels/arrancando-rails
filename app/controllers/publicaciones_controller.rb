@@ -13,9 +13,8 @@ class PublicacionesController < ApplicationController
       filter_by_term
     end
 
-    @publicaciones = @publicaciones
-                     .order(created_at: :desc)
-                     .limit(params.key?(:limit) ? params[:limit].to_i : 10).page params[:page]
+    fetch_items
+
     render :index
   end
 
@@ -128,6 +127,15 @@ class PublicacionesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_publicacion
     @publicacion = Publicacion.find(params[:id])
+  end
+
+  def fetch_items
+    @publicaciones = @publicaciones
+                     .order(created_at: :desc)
+                     .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+    return if params[:limit] && request.format.json?
+
+    @publicaciones = @publicaciones.page(params[:page])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

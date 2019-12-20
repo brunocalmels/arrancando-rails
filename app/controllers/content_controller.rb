@@ -47,8 +47,8 @@ class ContentController < ApplicationController
     when "pois"
       ac_record = Poi
     end
+    # .where(user: current_user)
     ac_record
-      .where(user: current_user)
       .order(created_at: :desc).first(5 + params[:offset].to_i).map do |p|
         get_object(
           p,
