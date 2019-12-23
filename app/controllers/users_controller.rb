@@ -1,4 +1,5 @@
 # rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/CyclomaticComplexity
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
@@ -105,7 +106,7 @@ class UsersController < ApplicationController
     }
 
     data[:avatar] = if @user.avatar.attached?
-                      rails_blob_path(user.avatar)
+                      rails_blob_path(@user.avatar)
                     else
                       "/images/missing.jpg"
                     end
@@ -123,6 +124,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def random_string
+    (0...8).map { rand(65..90).chr }.join.downcase
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
@@ -199,11 +204,11 @@ class UsersController < ApplicationController
       render json: "Response no encontrada", status: :unprocessable_entity && return
     end
     @metadata = JSON.parse(response.body)
-    unless @metadata && @metadata["email"]
+    unless @metadata && (@metadata["email"] || @metadata["id"])
       render json: "Respuesta de formato incorrecto", status: :unprocessable_entity && return
     end
 
-    @metadata
+    fix_user_metadata
   end
 
   def user_metadata_fb
@@ -213,11 +218,31 @@ class UsersController < ApplicationController
       render json: "Response no encontrada", status: :unprocessable_entity && return
     end
     @metadata = JSON.parse(response.body)
-    unless @metadata && @metadata["email"]
+    unless @metadata && (@metadata["email"] || @metadata["id"])
       render json: "Respuesta de formato incorrecto", status: :unprocessable_entity && return
     end
 
-    @metadata
+    fix_user_metadata_fb
+  end
+
+  def fix_user_metadata
+    @email = @metadata["email"] || "#{@metadata['id']}@not-gmail.com"
+    @nombre = if @metadata["email"]
+                @metadata["email"].split("@")[0].gsub(".", "_")
+              else
+                @metadata["id"]
+              end
+    @password = "#{encode64(@nombre)}-#{random_string}"
+  end
+
+  def fix_user_metadata_fb
+    @email = @metadata["email"] || "#{@metadata['id']}@not-facebook.com"
+    @nombre = if @metadata["email"]
+                @metadata["email"].split("@")[0].gsub(".", "_")
+              else
+                @metadata["id"]
+              end
+    @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
   def user_by_email
@@ -225,14 +250,8 @@ class UsersController < ApplicationController
     oauth_access_token
     user_metadata
 
-    nombre = @metadata["email"].split("@")[0].gsub(".", "_")
+    build_user
 
-    @user = User.find_by_email(@metadata["email"]) || User.create!(
-      nombre: nombre,
-      username: nombre,
-      email: @metadata["email"],
-      password: encode64(nombre)
-    )
     # user.grab_image(@metadata["picture"])
   rescue StandardError => e
     puts e
@@ -244,19 +263,23 @@ class UsersController < ApplicationController
     oauth_access_token_fb
     user_metadata_fb
 
-    nombre = @metadata["email"].split("@")[0].gsub(".", "_")
+    build_user
 
-    @user = User.find_by_email(@metadata["email"]) || User.create!(
-      nombre: nombre,
-      username: nombre,
-      email: @metadata["email"],
-      password: encode64(nombre)
-    )
     # user.grab_image(@metadata["picture"])
   rescue StandardError => e
     puts e
     redirect_to "https://arrancando.com.ar"
   end
+
+  def build_user
+    @user = User.find_by_email(@email) || User.create!(
+      nombre: @nombre,
+      username: @nombre,
+      email: @email,
+      password: @password
+    )
+  end
 end
 
 # rubocop:enable Metrics/ClassLength
+# rubocop:enable Metrics/CyclomaticComplexity
