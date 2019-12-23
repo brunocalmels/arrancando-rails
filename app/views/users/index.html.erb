@@ -4,12 +4,25 @@
   <%= form_for_filterrific @filterrific, url: "/users?rol=#{@rol}" do |f| %>
     <div>
       <p class='etiqueta'>
+        Rol
+      </p>
+    <%= f.select(
+        :rol,
+        User.roles.collect { |c| [c[0].capitalize, c[1]] },
+        include_blank: true
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
         Buscar
       </p>
       <%= f.text_field(
         :search_query,
         placeholder: 'Username, nombre, apellido'
       ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Aplicar', class: 'btn btn-success' %>
     </div>
     <div id="borrar_filtros">
       <%= link_to(

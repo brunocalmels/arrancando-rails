@@ -35,12 +35,16 @@ class User < ApplicationRecord
 
   scope :admins, -> { where(rol: :admin) }
   scope :normales, -> { where(rol: :normal) }
+  scope :rol, lambda { |rol|
+    where(rol: rol)
+  }
 
   filterrific(
     persistance_id: false,
     # default_filter_params: { order(apellido: :asc).order(nombres: :asc) },
-    available_filters: [
-      :search_query
+    available_filters: %i[
+      search_query
+      rol
     ]
   )
   scope :search_query, lambda { |query|
