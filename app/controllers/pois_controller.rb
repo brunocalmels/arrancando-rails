@@ -78,13 +78,12 @@ class PoisController < ApplicationController
         else
           render :edit
         end
-
-        format.json do
-          if @poi.update(poi_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @poi))
-            render :show, status: :ok, location: @poi
-          else
-            render json: @poi.errors, status: :unprocessable_entity
-          end
+      end
+      format.json do
+        if @poi.update(poi_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @poi))
+          render :show, status: :ok, location: @poi
+        else
+          render json: @poi.errors, status: :unprocessable_entity
         end
       end
     end

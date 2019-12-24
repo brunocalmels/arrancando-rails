@@ -62,8 +62,18 @@ end
 carnicerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/carnicerías.json")))
 verdulerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/verdulerías.json")))
 
+def get_maps_image(poi, item)
+  unless item["photos"] && item["photos"][0] && item["photos"][0]["photo_reference"]
+    return
+  end
+
+  max_size = 400
+  downloaded_image = URI.parse("https://maps.googleapis.com/maps/api/place/photo?photoreference=#{item['photos'][0]['photo_reference']}&sensor=false&maxheight=#{max_size}&maxwidth=#{max_size}&key=AIzaSyBkCPG-1sCRn-vu-TJDc71xY-Ueprv1ZwM").open
+  poi.imagenes.attach(io: downloaded_image, filename: "#{poi.id}-maps-image.jpg")
+end
+
 carnicerias.each do |c|
-  Poi.create(
+  poi = Poi.create!(
     titulo: c["name"],
     cuerpo: c["name"],
     lat: c["geometry"]["location"]["lat"],
@@ -73,10 +83,11 @@ carnicerias.each do |c|
     user: User.first,
     categoria_poi: CategoriaPoi.first
   )
+  get_maps_image(poi, c)
 end
 
 verdulerias.each do |c|
-  Poi.create(
+  poi = Poi.create!(
     titulo: c["name"],
     cuerpo: c["name"],
     lat: c["geometry"]["location"]["lat"],
@@ -86,4 +97,5 @@ verdulerias.each do |c|
     user: User.first,
     categoria_poi: CategoriaPoi.second
   )
+  get_maps_image(poi, c)
 end
