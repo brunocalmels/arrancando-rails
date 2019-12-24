@@ -1,6 +1,6 @@
 <% provide(:title, "Recetas") %>
 
-<% if @recetas.any? || @filterrific.search_query.present? %>
+<% if @recetas.any? || @filterrific.present? %>
   <%= form_for_filterrific @filterrific, url: "/recetas" do |f| %>
     <div>
       <p class='etiqueta'>

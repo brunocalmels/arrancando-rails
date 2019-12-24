@@ -1,6 +1,6 @@
 <% provide(:title, "Publicaciones") %>
 
-<% if @publicaciones.any? || @filterrific.search_query.present? %>
+<% if @publicaciones.any? || @filterrific.present? %>
   <%= form_for_filterrific @filterrific, url: "/publicaciones" do |f| %>
     <div>
       <p class='etiqueta'>
