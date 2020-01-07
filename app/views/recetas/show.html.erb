@@ -10,10 +10,13 @@
   <%= @receta.cuerpo %>
 </p>
 
-<p>
-  <strong>Autor:</strong>
-  <%= link_to @receta.user.username, @receta.user %>
-</p>
+<div class="user-info">
+  <p>
+    <strong>Autor:</strong>
+    <%= link_to @receta.user.username, @receta.user %>
+  </p>
+  <%= @receta.user.avatar.attached? ? image_tag(@receta.user.avatar.variant(resize_to_limit: [120, 120])) : nil %>
+</div>
 
 <p>
   <strong>Categoría:</strong>

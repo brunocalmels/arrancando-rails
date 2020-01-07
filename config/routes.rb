@@ -22,5 +22,6 @@ Rails.application.routes.draw do
   resources :ciudades, only: %i[index]
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
+  post "contacto", to: "home#contacto"
   root to: "home#index"
 end

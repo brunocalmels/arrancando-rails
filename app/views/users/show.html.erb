@@ -19,6 +19,10 @@
         <th class="row-sm-2">Email</th>
         <td><%= @user.email %></td>
       </tr>
+      <tr>
+        <th class="row-sm-2">Avatar</th>
+        <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [70, 70])) : nil %></td>
+      </tr>
     </tbody>
   </table>
 </div>

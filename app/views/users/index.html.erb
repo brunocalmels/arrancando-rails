@@ -39,6 +39,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Avatar</th>
         <th>Username</th>
         <th>Email</th>
         <th>Nombre</th>
@@ -52,6 +53,11 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
+          <td><%= user.avatar.attached? ?
+                  image_tag(user.avatar.variant(resize_to_limit:
+                    [70, 70])) :
+                  nil %>
+          </td>
           <td><%= user.username %></td>
           <td><%= user.email %></td>
           <td><%= user.nombre %></td>

@@ -41,6 +41,7 @@
       <tr>
         <th>Título</th>
         <th>Cuerpo</th>
+        <th>Usuario</th>
         <th>Categoría</th>
         <th>Lat</th>
         <th>Long</th>
@@ -54,6 +55,7 @@
         <tr>
           <td><%= poi.titulo %></td>
           <td><%= poi.cuerpo %></td>
+          <td><%= link_to(poi.user.username, poi.user) %></td>
           <td><%= poi.categoria_poi.nombre %></td>
           <td><%= poi.lat %></td>
           <td><%= poi.long %></td>
