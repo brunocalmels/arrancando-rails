@@ -61,7 +61,19 @@ module ContentHelper
   def save_images_html(params, obj, tipo)
     imagenes = params[tipo][:imagenes]
     imagenes.each do |img|
-      obj.imagenes.attach img
+      if img.size > MIN_IMAGE_SIZE_TO_ENFORCE_COMPRESSION
+        path = img.tempfile.path
+        img_resized = MiniMagick::Image
+                      .new(path)
+        img_resized = img_resized.resize \
+          "#{MAX_IMAGE_WIDTH_APP}x#{MAX_IMAGE_HEIGHT_APP}"
+        fi = File.open(img_resized.path)
+        obj.imagenes.attach(io: fi,
+                            filename: img.original_filename,
+                            content_type: img.content_type)
+      else
+        obj.imagenes.attach img
+      end
     end
     obj.valid?
   end

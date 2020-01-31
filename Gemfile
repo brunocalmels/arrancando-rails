@@ -41,6 +41,7 @@ gem 'haml'
 gem 'pundit'
 gem 'kaminari'
 gem 'filterrific'
+gem 'mini_magick'
 
 gem 'omniauth-google-oauth2'
 gem 'signet'
