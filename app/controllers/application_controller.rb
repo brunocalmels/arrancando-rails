@@ -4,6 +4,9 @@ class ApplicationController < ActionController::Base
   include ActionController::Live
 
   before_action :authenticate_request
+  before_action :set_last_seen_at, if: lambda {
+                                         current_user.last_seen_at.nil? || current_user.last_seen_at < 15.minutes.ago
+                                       }
   skip_before_action :verify_authenticity_token, if: :json_request?
 
   attr_reader :current_user
@@ -20,6 +23,10 @@ class ApplicationController < ActionController::Base
   # rubocop: enable Style/GuardClause
 
   private
+
+  def set_last_seen_at
+    current_user.update_column(:last_seen_at, Time.zone.now)
+  end
 
   def allow_only_html
     return if request.format.html?

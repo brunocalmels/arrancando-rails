@@ -20,6 +20,18 @@
         <td><%= @user.email %></td>
       </tr>
       <tr>
+        <th class="row-sm-2">Activo</th>
+        <td><%= @user.activo? ? "Sí" : "No" %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Admin</th>
+        <td><%= @user.admin? ? "Sí" : "No" %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Última actividad</th>
+        <td><%= !@user.last_seen_at.nil? ? @user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : ''  %></td>
+      </tr>
+      <tr>
         <th class="row-sm-2">Avatar</th>
         <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [70, 70])) : nil %></td>
       </tr>
