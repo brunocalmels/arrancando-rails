@@ -120,3 +120,16 @@ video {
     margin: 20px;
   }
 }
+
+#user_count {
+  margin-top: 30px;
+  text-align: center;
+  h1, h2, h3, h4, h5 {
+    color: $rojo;
+    font-weight: bold;
+  }
+  p {
+    font-style: italic;
+    color: #333;
+  }
+}

@@ -41,6 +41,23 @@
     <%= form.check_box :activo %>
   </div>
 
+
+  <div class="multimedia">
+    <% if user.avatar.attached?  %>
+      <div class="item_multimedia">
+        <% case user.avatar.blob.content_type %>
+        <% when 'image/jpg', 'image/jpeg', 'image/png' %>
+          <%= image_tag(user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB,MAX_IMAGE_HEIGHT_WEB])) %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :avatar %>
+    <%= form.file_field :avatar, class: :input, accept: 'image/png,image/jpeg,image/jpg' %>
+  </div>
+
   <div class="actions">
     <%= form.submit :Guardar, class: "btn btn-success" %>
   </div>

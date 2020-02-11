@@ -139,7 +139,7 @@ class UsersController < ApplicationController
     if request.format.json?
       params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono)
     else # HTML
-      params.require(:user).permit(:nombre, :apellido, :email, :username, :rol, :telefono, :activo)
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :rol, :telefono, :activo, :avatar)
     end
   end
 
