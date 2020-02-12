@@ -16,8 +16,16 @@
           <td><%= categoria_poi.id %></td>
           <td><%= categoria_poi.nombre %></td>
           <!--<td><%= link_to 'Ver', categoria_poi %></td>-->
-          <td><%= link_to 'Editar', edit_categoria_poi_path(categoria_poi) %></td>
-          <td><%= link_to 'Eliminar', categoria_poi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+            <%= link_to edit_categoria_poi_url(categoria_poi), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= button_to categoria_poi, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta categoría de punto de interés?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

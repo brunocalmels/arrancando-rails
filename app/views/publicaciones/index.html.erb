@@ -55,9 +55,21 @@
           <td><%= link_to(publicacion.user.username, publicacion.user) %></td>
           <td><%= publicacion.puntajes %></td>
           <td><%= publicacion.ciudad.nombre %></td>
-          <td><%= link_to 'Ver', publicacion %></td>
-          <td><%= link_to 'Editar', edit_publicacion_path(publicacion) %></td>
-          <td><%= link_to 'Eliminar', publicacion, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+            <%= link_to publicacion_path(publicacion), class: "btn btn-xs btn-success" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_publicacion_url(publicacion), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+            </td>
+          <td>
+            <%= button_to publicacion, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta publicación?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

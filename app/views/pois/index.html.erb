@@ -60,9 +60,21 @@
           <td><%= poi.lat %></td>
           <td><%= poi.long %></td>
           <td><%= poi.puntajes %></td>
-          <td><%= link_to 'Ver', poi %></td>
-          <td><%= link_to 'Editar', edit_poi_path(poi) %></td>
-          <td><%= link_to 'Eliminar', poi, method: :delete, data: { confirm: 'Seguro?' } %></td>
+          <td>
+            <%= link_to poi_path(poi), class: "btn btn-xs btn-success" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_poi_url(poi), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+            </td>
+          <td>
+            <%= button_to poi, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este punto de interés?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>

@@ -55,9 +55,21 @@
           <td><%= link_to(receta.user.username, receta.user) %></td>
           <td><%= receta.puntajes %></td>
           <td><%= receta.categoria_receta.nombre %></td>
-          <td><%= link_to 'Ver', receta %></td>
-          <td><%= link_to 'Editar', edit_receta_path(receta) %></td>
-          <td><%= link_to 'Eliminar', receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td>
+            <%= link_to receta_path(receta), class: "btn btn-xs btn-success" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_receta_url(receta), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+            </td>
+          <td>
+            <%= button_to receta, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta receta?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
