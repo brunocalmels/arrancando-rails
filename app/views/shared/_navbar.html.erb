@@ -9,36 +9,27 @@
 
   <div class="navbar-collapse collapse" id='navbarSupportedContent'>
     <ul class="navbar-nav mr-auto">
-      <!--
       <% if @current_user&.admin? %>
-        <li class="navbar-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Usuarios<b class="caret"></b></a>
-          <div class="dropdown-menu">
-            <%= link_to("Comunes", '/users?rol=normal', class: 'dropdown-item' ) %>
-            <%= link_to("Admins", '/users?rol=admin', class: 'dropdown-item' ) %>
-          </div>
+        <li class="navbar-item">
+          <%= link_to("Usuarios", "/users", class: 'nav-link' ) %>
         </li>
-      -->
-      <li class="navbar-item">
-        <%= link_to("Usuarios", "/users", class: 'nav-link' ) %>
-      </li>
 
-      <li class="navbar-item">
-        <%= link_to("Publicaciones", publicaciones_path, class: 'nav-link' ) %>
-      </li>
-      <li class="navbar-item">
-        <%= link_to("Recetas", recetas_path, class: 'nav-link' ) %>
-      </li>
-      <li class="navbar-item">
-        <%= link_to("PoIs", pois_path, class: 'nav-link' ) %>
-      </li>
-      <li class="navbar-item">
-        <%= link_to("Cats. Recetas", categoria_recetas_path, class: 'nav-link' ) %>
-      </li>
-      <li class="navbar-item">
-        <%= link_to("Cats. PoIs", categoria_pois_path, class: 'nav-link' ) %>
-      </li>
-    <% end %>
+        <li class="navbar-item">
+          <%= link_to("Publicaciones", publicaciones_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("Recetas", recetas_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("PoIs", pois_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("Cats. Recetas", categoria_recetas_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("Cats. PoIs", categoria_pois_path, class: 'nav-link' ) %>
+        </li>
+      <% end %>
     </ul>
 
     <ul class="navbar-nav navbar-right">
