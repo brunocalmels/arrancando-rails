@@ -42,7 +42,9 @@ class ApplicationController < ActionController::Base
     @current_user = AuthorizeApiRequest.call(request.headers, session["auth_token"]).result
     respond_to do |format|
       format.html do
-        # redirect_to root_url, notice: "No estás logueado" unless current_user
+        unless @current_user&.admin?
+          redirect_to login_url, notice: "No estás logueado o no sos admin."
+        end
       end
       format.json do
         unless @current_user
