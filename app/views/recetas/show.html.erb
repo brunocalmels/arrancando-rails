@@ -28,11 +28,6 @@
   <%= @receta.puntajes %>
 </p>
 
-<p>
-  <strong>Categoria receta:</strong>
-  <%= @receta.categoria_receta.nombre %>
-</p>
-
 <div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @receta.imagenes.any? && @receta.imagenes.each_with_index do |img, i| %>
