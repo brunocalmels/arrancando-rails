@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "reportes/index"
+  get "reportes/show"
   resources :comentario_recetas
   resources :comentario_publicaciones
   get "google-login", to: "users#google_client"
@@ -23,5 +25,6 @@ Rails.application.routes.draw do
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
   post "contacto", to: "home#contacto"
+  resources :reportes, only: %i[index show]
   root to: "home#index"
 end

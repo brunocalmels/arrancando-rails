@@ -1,0 +1,20 @@
+<% provide(:title, "Reporte #{@reporte.id}") %>
+
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th class="row-sm-2">Usuario</th>
+        <td><%= link_to @reporte.user.username, user_path(@reporte.user) %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Contenido</th>
+        <td><%= @reporte.contenido %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Enviado</th>
+        <td><%= @reporte.created_at.strftime("%d-%m-%Y %H:%M hs") %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

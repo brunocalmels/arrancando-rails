@@ -1,0 +1,29 @@
+<% provide(:title, "Reportes") %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Usuario</th>
+        <th>Contenido</th>
+        <th>Enviado</th>
+        <th colspan="1"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @reportes.each do |reporte| %>
+        <tr>
+          <td><%= link_to reporte.user.username, user_path(reporte.user) %></td>
+          <td><%= reporte.contenido_short %></td>
+          <td><%= reporte.created_at.strftime("%d-%m-%Y %H:%M hs") %></td>
+          <td>
+            <%= link_to reporte_path(reporte), class: "btn btn-xs btn-success" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

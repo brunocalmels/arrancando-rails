@@ -14,6 +14,10 @@ class HomeController < ApplicationController
   def contacto
     respond_to do |format|
       format.json do
+        Reporte.create(
+          contenido: params.permit(:mensaje)["mensaje"],
+          user: current_user
+        )
         ContactoMailer.with(
           text: params["mensaje"],
           user: current_user
