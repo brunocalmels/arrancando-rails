@@ -52,7 +52,7 @@ class PoisController < ApplicationController
     respond_to do |format|
       format.html do
         if (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi)) && @poi.valid? && @poi.save
-          redirect_to @poi, notice: "PoI satisfactoriamente creado."
+          redirect_to new_poi_path, notice: "PoI satisfactoriamente creado."
         else
           render :new
         end

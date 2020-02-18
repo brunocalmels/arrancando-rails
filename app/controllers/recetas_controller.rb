@@ -51,7 +51,7 @@ class RecetasController < ApplicationController
     respond_to do |format|
       format.html do
         if (params[:receta][:imagenes].nil? || save_images_html(params, @receta, :receta)) && @receta.valid? && @receta.save
-          redirect_to @receta, notice: "Receta satisfactoriamente creada."
+          redirect_to new_receta_path, notice: "Receta satisfactoriamente creada."
         else
           render :new
         end

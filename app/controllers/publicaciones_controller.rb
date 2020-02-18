@@ -52,7 +52,7 @@ class PublicacionesController < ApplicationController
     respond_to do |format|
       format.html do
         if (params[:publicacion][:imagenes].nil? || save_images_html(params, @publicacion, :publicacion)) && @publicacion.valid? && @publicacion.save
-          redirect_to @publicacion, notice: "Publicación satisfactoriamente creada."
+          redirect_to new_publicacion_path, notice: "Publicación satisfactoriamente creada."
         else
           render :new
         end
