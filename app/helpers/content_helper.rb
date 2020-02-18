@@ -61,7 +61,8 @@ module ContentHelper
   def save_images_html(params, obj, tipo)
     imagenes = params[tipo][:imagenes]
     imagenes.each do |img|
-      if img.size > MIN_IMAGE_SIZE_TO_ENFORCE_COMPRESSION
+      if img.content_type.split("/")[0] == "image" &&
+         img.size > MIN_IMAGE_SIZE_TO_ENFORCE_COMPRESSION
         path = img.tempfile.path
         img_resized = MiniMagick::Image
                       .new(path)
