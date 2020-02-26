@@ -106,4 +106,5 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   config.hosts << "arrancando.herokuapp.com" # Para callbacks de OAuth
+  config.hosts << "arrancando-staging.herokuapp.com" # Para callbacks de OAuth
 end
