@@ -40,10 +40,10 @@ FactoryBot.create(
 )
 
 PROVINCIAS.each do |prov|
-  provincia = Provincia.create(nombre: prov[:nombre])
-  prov[:ciudades].each do |ciudad|
-    Ciudad.create(nombre: ciudad, provincia: provincia)
-  end
+  Provincia.create(id: prov.first, nombre: prov.second)
+end
+CIUDADES.each do |ciudad|
+  Ciudad.create(id: ciudad.first, provincia_id: ciudad.second, nombre: ciudad.third)
 end
 
 10.times { FactoryBot.create(:publicacion) }
@@ -59,8 +59,8 @@ end
 
 # 10.times { FactoryBot.create(:poi) }
 
-carnicerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/carnicerías.json")))
-verdulerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/verdulerías.json")))
+carnicerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/carnicerías.json"))).take(10)
+verdulerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/verdulerías.json"))).take(10)
 
 def get_maps_image(poi, item)
   unless item["photos"] && item["photos"][0] && item["photos"][0]["photo_reference"]
