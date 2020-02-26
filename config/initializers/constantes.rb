@@ -4,15 +4,15 @@
 #     ciudades: %w[
 #       Neuquén
 #       Plottier
-#     ]
+#     ],
 #   },
 #   {
 #     nombre: "Río Negro",
 #     ciudades: [
 #       "Cipolletti",
-#       "Fernández Oro"
-#     ]
-#   }
+#       "Fernández Oro",
+#     ],
+#   },
 # ].freeze
 
 CATEGORIAS_RECETAS = %w[

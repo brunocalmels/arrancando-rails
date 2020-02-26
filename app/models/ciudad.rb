@@ -11,4 +11,5 @@
 
 class Ciudad < ApplicationRecord
   belongs_to :provincia
+  has_many :publicaciones, dependent: :nullify
 end
