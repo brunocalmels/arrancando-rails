@@ -14,6 +14,7 @@
 #  updated_at        :datetime         not null
 #  activo            :boolean
 #  usernames_pasados :string           default("{}"), is an Array
+#  last_seen_at      :datetime
 #
 
 require "rails_helper"

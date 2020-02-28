@@ -14,9 +14,10 @@ class ContentController < ApplicationController
       when "pois"
         content = Poi.find(item['id'])
       end
-      unless content.nil?
-        out << content.as_json(except: %i[puntajes puntaje]).merge(type: item['type'])
-      end
+      next if content.nil?
+
+      imgs = content_images(content)
+      out << content.as_json(except: %i[puntajes puntaje]).merge(type: item['type'], imagenes: imgs)
     end
     render json: out, status: :ok
   end
@@ -64,5 +65,22 @@ class ContentController < ApplicationController
       build_objects("recetas"),
       build_objects("pois")
     ].flatten
+  end
+
+  def content_images(content)
+    if content.imagenes.attached?
+      content.imagenes.attachments.map do |img|
+        case img.blob.content_type
+        when "video/mp4", "video/mpg", "video/mpeg"
+          url_for(img)
+        when "image/jpg", "image/jpeg", "image/png"
+          url_for(img.variant(
+                    resize_to_limit: [MAX_IMAGE_WIDTH_APP, MAX_IMAGE_HEIGHT_APP]
+                  ))
+        end
+      end
+    else
+      []
+    end
   end
 end

@@ -8,8 +8,13 @@ class ApplicationController < ActionController::Base
                                          !current_user.nil? && (current_user.last_seen_at.nil? || current_user.last_seen_at < 15.minutes.ago)
                                        }
   skip_before_action :verify_authenticity_token, if: :json_request?
+  skip_before_action :authenticate_request, only: %i[app_version]
 
   attr_reader :current_user
+
+  def app_version
+    render json: { version: "1.1.1+17" }
+  end
 
   protected
 

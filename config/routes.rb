@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "app-version", to: "application#app_version"
   get "reportes/index"
   get "reportes/show"
   resources :comentario_recetas

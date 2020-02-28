@@ -10,6 +10,9 @@
 #  categoria_receta_id :integer          not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  introduccion        :text
+#  ingredientes        :text
+#  instrucciones       :text
 #
 
 class Receta < ApplicationRecord
@@ -24,7 +27,7 @@ class Receta < ApplicationRecord
            class_name: "ComentarioReceta"
 
   validates :titulo, presence: true
-  validates :cuerpo, presence: true
+  # validates :cuerpo, presence: true
   validate :attachments_max_length
 
   scope :search, lambda { |term|
