@@ -35,6 +35,26 @@
         <th class="row-sm-2">Avatar</th>
         <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB])) : nil %></td>
       </tr>
+      <tr>
+        <th class="row-sm-2">Puntaje</th>
+        <td><%= @user.puntaje %><i class="fa fa-star"></i></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Publicaciones creadas</th>
+        <td><%= @user.publicaciones.count %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Recetas creadas</th>
+        <td><%= @user.recetas.count %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">PoIs creados</th>
+        <td><%= @user.pois.count %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Comentarios hechos</th>
+        <td><%= @user.comentarios %></td>
+      </tr>
     </tbody>
   </table>
 </div>

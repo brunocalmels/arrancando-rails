@@ -37,6 +37,9 @@
 
     <ul class="navbar-nav navbar-right">
       <% if @current_user %>
+        <li class="navbar-item">
+          <%= link_to("Docs", docs_path, class: 'nav-link' ) %>
+        </li>
         <li class="navbar-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Mi perfil<b class="caret"></b></a>
           <div class="dropdown-menu">
