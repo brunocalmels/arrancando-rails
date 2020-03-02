@@ -9,4 +9,5 @@
 #
 
 class Provincia < ApplicationRecord
+  has_many :ciudades, dependent: :destroy
 end
