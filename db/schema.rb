@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_02_164725) do
+ActiveRecord::Schema.define(version: 2020_03_02_183531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_164725) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "direccion"
+    t.boolean "habilitado", default: true
     t.index ["categoria_poi_id"], name: "index_pois_on_categoria_poi_id"
     t.index ["titulo"], name: "index_pois_on_titulo"
     t.index ["user_id"], name: "index_pois_on_user_id"
@@ -117,6 +118,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_164725) do
     t.bigint "ciudad_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "habilitado", default: true
     t.index ["ciudad_id"], name: "index_publicaciones_on_ciudad_id"
     t.index ["titulo"], name: "index_publicaciones_on_titulo"
     t.index ["user_id"], name: "index_publicaciones_on_user_id"
@@ -133,6 +135,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_164725) do
     t.text "introduccion"
     t.text "ingredientes"
     t.text "instrucciones"
+    t.boolean "habilitado", default: true
     t.index ["categoria_receta_id"], name: "index_recetas_on_categoria_receta_id"
     t.index ["titulo"], name: "index_recetas_on_titulo"
     t.index ["user_id"], name: "index_recetas_on_user_id"

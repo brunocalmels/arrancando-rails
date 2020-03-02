@@ -38,6 +38,12 @@
   <%= @poi.puntajes %>
 </p>
 
+<p>
+  <strong>Habilitado:</strong>
+  <%= @poi.habilitado? ? "Sí" : "No" %>
+</p>
+
+
 <div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @poi.imagenes.any? && @poi.imagenes.each_with_index do |img, i| %>

@@ -36,6 +36,11 @@
     <%= form.select :categoria_poi_id, CategoriaPoi.all.collect { |c| [c.nombre, c.id] } %>
   </div>
 
+  <div class="field">
+    <%= form.label :habilitado %>
+    <%= form.check_box :habilitado %>
+  </div>
+
   <!--
   <div class="field">
     <%= form.label :puntaje %>

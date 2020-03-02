@@ -35,6 +35,11 @@
   <%= @publicacion.ciudad.nombre %>
 </p>
 
+<p>
+  <strong>Habilitada:</strong>
+  <%= @publicacion.habilitado? ? "Sí" : "No" %>
+</p>
+
 <div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>

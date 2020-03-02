@@ -11,6 +11,7 @@ class PublicacionesController < ApplicationController
     if request.format.json?
       filter_by_ciudad_id
       filter_by_term
+      filter_habilitados
     end
 
     fetch_items
@@ -124,6 +125,10 @@ class PublicacionesController < ApplicationController
                      .search(params[:term])
   end
 
+  def filter_habilitados
+    @recetas = @recetas.habilitados
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_publicacion
     @publicacion = Publicacion.find(params[:id])
@@ -140,6 +145,6 @@ class PublicacionesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def publicacion_params
-    params.require(:publicacion).permit(:titulo, :cuerpo, :puntajes, :ciudad_id)
+    params.require(:publicacion).permit(:titulo, :cuerpo, :puntajes, :ciudad_id, :habilitado)
   end
 end

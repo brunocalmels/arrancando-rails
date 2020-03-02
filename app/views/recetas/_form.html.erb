@@ -42,6 +42,11 @@
     <%= form.select :categoria_receta_id, CategoriaReceta.all.collect { |c| [c.nombre, c.id] } %>
   </div>
 
+  <div class="field">
+    <%= form.label :habilitado %>
+    <%= form.check_box :habilitado %>
+  </div>
+
   <div class="multimedia">
     <% receta.imagenes.any? && receta.imagenes.each_with_index do |img, i| %>
     <div class="item_multimedia">

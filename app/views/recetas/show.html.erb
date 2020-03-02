@@ -34,6 +34,11 @@
 </div>
 
 <p>
+  <strong>Habilitada:</strong>
+  <%= @receta.habilitado? ? "Sí" : "No" %>
+</p>
+
+<p>
   <strong>Categoría:</strong>
   <%= @receta.categoria_receta.nombre %>
 </p>
