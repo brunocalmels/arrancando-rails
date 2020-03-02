@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   attr_reader :current_user
 
   def app_version
-    render json: { version: "1.1.1+17" }
+    render json: { version: APP_VERSION }
   end
 
   protected

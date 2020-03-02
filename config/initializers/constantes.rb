@@ -1,19 +1,19 @@
-PROVINCIAS = [
-  {
-    nombre: "Neuquén",
-    ciudades: %w[
-      Neuquén
-      Plottier
-    ]
-  },
-  {
-    nombre: "Río Negro",
-    ciudades: [
-      "Cipolletti",
-      "Fernández Oro"
-    ]
-  }
-].freeze
+# PROVINCIAS = [
+#   {
+#     nombre: "Neuquén",
+#     ciudades: %w[
+#       Neuquén
+#       Plottier
+#     ],
+#   },
+#   {
+#     nombre: "Río Negro",
+#     ciudades: [
+#       "Cipolletti",
+#       "Fernández Oro",
+#     ],
+#   },
+# ].freeze
 
 CATEGORIAS_RECETAS = %w[
   Asador
@@ -37,3 +37,5 @@ MIN_IMAGE_SIZE_TO_ENFORCE_COMPRESSION = 300.kilobytes
 COMPRESSED_IMAGE_WIDTH = 1400
 COMPRESSED_IMAGE_HEIGHT = 1000
 MAX_REPORTE_SHORT_LENGTH = 60
+
+APP_VERSION = "1.1.5+20".freeze
