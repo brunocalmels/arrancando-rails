@@ -12,4 +12,8 @@
 class Ciudad < ApplicationRecord
   belongs_to :provincia
   has_many :publicaciones, dependent: :nullify
+
+  scope :search, lambda { |term|
+    where("nombre ILIKE :term", term: "%#{term}%")
+  }
 end

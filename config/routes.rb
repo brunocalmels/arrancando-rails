@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "ciudades/search", to: "ciudades#search"
   get "app-version", to: "application#app_version"
   get "reportes/index"
   get "reportes/show"
