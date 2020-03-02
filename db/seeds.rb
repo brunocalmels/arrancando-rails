@@ -45,6 +45,16 @@ PROVINCIAS.each do |prov|
     Ciudad.create(nombre: ciudad, provincia: provincia)
   end
 end
+# Si se usa esta creación de Provincias y Ciudades, correr el task luego
+# en caso de querer la lista extensiva de ciudades y provincias.
+
+# Sino, usar directamente ésta
+# PROVINCIAS.each do |prov|
+#   Provincia.create(id: prov.first, nombre: prov.second)
+# end
+# CIUDADES.each do |ciudad|
+#   Ciudad.create(id: ciudad.first, provincia_id: ciudad.second, nombre: ciudad.third)
+# end
 
 10.times { FactoryBot.create(:publicacion) }
 
@@ -58,9 +68,8 @@ CATEGORIAS_POIS.each do |cat|
 end
 
 # 10.times { FactoryBot.create(:poi) }
-
-carnicerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/carnicerías.json")))
-verdulerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/verdulerías.json")))
+carnicerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/carnicerías.json"))).take(10)
+verdulerias = JSON.parse(File.read(File.join(Rails.root, "app/assets/data/verdulerías.json"))).take(10)
 
 def get_maps_image(poi, item)
   unless item["photos"] && item["photos"][0] && item["photos"][0]["photo_reference"]
