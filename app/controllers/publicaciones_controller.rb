@@ -126,7 +126,7 @@ class PublicacionesController < ApplicationController
   end
 
   def filter_habilitados
-    @recetas = @recetas.habilitados
+    @publicaciones = @publicaciones.habilitados
   end
 
   # Use callbacks to share common setup or constraints between actions.
