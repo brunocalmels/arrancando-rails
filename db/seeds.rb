@@ -39,7 +39,7 @@ FactoryBot.create(
   activo: true
 )
 
-PROVINCIAS.each do |prov|
+PROVINCIAS_VIEJAS.each do |prov|
   provincia = Provincia.create(nombre: prov[:nombre])
   prov[:ciudades].each do |ciudad|
     Ciudad.create(nombre: ciudad, provincia: provincia)
