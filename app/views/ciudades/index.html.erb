@@ -1,25 +1,64 @@
 <% provide(:title, "Ciudades") %>
 
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<% if @ciudades.any? || @filterrific.present? %>
+  <%= form_for_filterrific @filterrific, url: "/ciudades" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Nombre'
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
+        Provincia
+      </p>
+      <%= f.select(
+        :provincia_id,
+        Provincia.all.collect { |c| [c.nombre, c.id] },
+        include_blank: true
+      ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Aplicar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/ciudades?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
 
-  <tbody>
-    <% @ciudades.each do |ciudad| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= link_to 'Ver', ciudad %></td>
-        <td><%=  link_to 'Editar', edit_ciudad_path(ciudad) %></td>
-        <td><%= link_to 'Eliminar', ciudad, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Nombre</th>
+        <th>Provincia</th>
+        <th>Usuarios activos</th>
+        <th>Publicaciones</th>
+        <th>Populada (PoIs agregados por un admin)</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-
-<div class="botonera">
-  <%= link_to 'Nueva Ciudad', new_ciudad_path, class: "btn btn-success" %>
+    <tbody>
+      <% @ciudades.each do |ciudad| %>
+        <tr>
+          <td><%= ciudad.nombre %></td>
+          <td><%= ciudad.provincia.nombre %></td>
+          <td style="font-style: italic;">TBI</td>
+          <td><%= ciudad.publicaciones.count %></td>
+          <td><%= ciudad.populada? ? "Sí" : "No" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
+
+<%= paginate @ciudades %>
+

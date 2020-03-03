@@ -5,7 +5,9 @@ class CiudadesController < ApplicationController
   # GET /ciudades
   # GET /ciudades.json
   def index
-    @ciudades = Ciudad.all
+    @filterrific = initialize_filterrific(Ciudad, params[:filterrific], select_options: {})
+    @ciudades = policy_scope(@filterrific.try(:find) || Ciudad)
+    @ciudades = @ciudades.page(params[:page])
   end
 
   def search
