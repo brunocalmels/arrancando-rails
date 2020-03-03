@@ -33,6 +33,7 @@ Metrics/BlockLength:
     - "lib/**/*"
 
 Metrics/ClassLength:
+  Max: 120
   Exclude:
     - "test/**/*"
 

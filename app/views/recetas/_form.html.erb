@@ -17,20 +17,34 @@
   </div>
 
   <div class="field">
+    <%= form.label "Introducción" %>
+    <%= form.text_area :introduccion %>
+  </div>
+
+  <div class="field">
+    <%= form.label :ingredientes %>
+    <%= form.text_area :ingredientes %>
+  </div>
+
+  <div class="field">
+    <%= form.label :instrucciones %>
+    <%= form.text_area :instrucciones %>
+  </div>
+
+  <div class="field">
     <%= form.label :cuerpo %>
     <%= form.text_area :cuerpo %>
   </div>
-
-<!--
-  <div class="field">
-    <%= form.label :puntaje %>
-    <%= form.text_field :puntaje %>
-  </div>
--->
+  <p style="font-style: italic;">(Sólo por retrocompatibilidad. Se prefiere el uso de Introducción, Ingredientes e Instrucciones.)</p>
 
   <div class="field">
     <%= form.label 'Categoría' %>
     <%= form.select :categoria_receta_id, CategoriaReceta.all.collect { |c| [c.nombre, c.id] } %>
+  </div>
+
+  <div class="field">
+    <%= form.label :habilitado %>
+    <%= form.check_box :habilitado %>
   </div>
 
   <div class="multimedia">

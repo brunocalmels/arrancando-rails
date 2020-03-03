@@ -27,6 +27,10 @@ class Publicacion < ApplicationRecord
   validates :cuerpo, presence: true
   validate :attachments_max_length
 
+  scope :habilitados, lambda {
+    where(habilitado: true)
+  }
+
   scope :search, lambda { |term|
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }

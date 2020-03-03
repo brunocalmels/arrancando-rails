@@ -10,6 +10,21 @@
   <%= @receta.cuerpo %>
 </p>
 
+<p>
+  <strong>Introducción:</strong>
+  <%= @receta.introduccion %>
+</p>
+
+<p>
+  <strong>Ingredientes:</strong>
+  <%= @receta.ingredientes %>
+</p>
+
+<p>
+  <strong>Instrucciones:</strong>
+  <%= @receta.instrucciones %>
+</p>
+
 <div class="user-info">
   <p>
     <strong>Autor:</strong>
@@ -17,6 +32,11 @@
   </p>
   <%= @receta.user.avatar.attached? ? image_tag(@receta.user.avatar.variant(resize_to_limit: [120, 120])) : nil %>
 </div>
+
+<p>
+  <strong>Habilitada:</strong>
+  <%= @receta.habilitado? ? "Sí" : "No" %>
+</p>
 
 <p>
   <strong>Categoría:</strong>

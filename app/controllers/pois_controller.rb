@@ -11,6 +11,7 @@ class PoisController < ApplicationController
     if request.format.json?
       filter_by_categria_poi_id
       filter_by_term
+      filter_habilitados
     end
 
     fetch_items
@@ -124,6 +125,10 @@ class PoisController < ApplicationController
             .search(params[:term])
   end
 
+  def filter_habilitados
+    @pois = @pois.habilitados
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_poi
     @poi = Poi.find(params[:id])
@@ -141,6 +146,6 @@ class PoisController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def poi_params
-    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id)
+    params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id, :habilitado)
   end
 end

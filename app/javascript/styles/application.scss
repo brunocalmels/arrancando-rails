@@ -7,6 +7,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "heights";
 @import "navbar";
 @import "pagination";
+@import "tablas";
 
 .alert {
   text-align: center;
@@ -125,12 +126,24 @@ video {
 #user_count {
   margin-top: 30px;
   text-align: center;
-  h1, h2, h3, h4, h5 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     color: $rojo;
     font-weight: bold;
   }
+
   p {
     font-style: italic;
     color: #333;
   }
+}
+
+.formula {
+  margin-left: 20px;
+  font-style: italic;
+  font-size: 130%;
 }

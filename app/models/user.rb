@@ -33,6 +33,8 @@ class User < ApplicationRecord
   has_many :publicaciones, dependent: :destroy
   has_many :recetas, dependent: :destroy
   has_many :pois, dependent: :destroy
+  has_many :comentario_publicaciones, dependent: :destroy
+  has_many :comentario_recetas, dependent: :destroy
 
   scope :admins, -> { where(rol: :admin) }
   scope :normales, -> { where(rol: :normal) }
@@ -84,9 +86,17 @@ class User < ApplicationRecord
   end
 
   # rubocop: enable Naming/AccessorMethodName
+  def puntaje
+    2 * publicaciones.count + 2 * recetas.count + 2 * pois.count + comentarios
+  end
+
+  def comentarios
+    comentario_publicaciones.count + comentario_recetas.count
+  end
 
   private
 
+  # Guarda el username para evitar que se repita en el futuro
   def store_username
     return unless username_changed?
 

@@ -11,6 +11,11 @@ class HomeController < ApplicationController
     end
   end
 
+  # GET /docs
+  def docs
+  end
+
+  # POST /contacto
   def contacto
     respond_to do |format|
       format.json do

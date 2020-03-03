@@ -11,6 +11,7 @@ class RecetasController < ApplicationController
     if request.format.json?
       filter_by_categoria_receta_id
       filter_by_term
+      filter_habilitados
     end
 
     fetch_items
@@ -123,6 +124,10 @@ class RecetasController < ApplicationController
                .search(params[:term])
   end
 
+  def filter_habilitados
+    @recetas = @recetas.habilitados
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_receta
     @receta = Receta.find(params[:id])
@@ -138,6 +143,6 @@ class RecetasController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
-    params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :ingredientes, :instrucciones, :categoria_receta_id)
+    params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :ingredientes, :instrucciones, :categoria_receta_id, :habilitado)
   end
 end
