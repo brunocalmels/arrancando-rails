@@ -2388,7 +2388,7 @@ CIUDADES_NUEVAS = [
   [2355, 25, "San Ignacio"],
   [2356, 25, "San Javier"],
   [2357, 25, "San José"],
-  [2358, 25, "San Miguel de 25"],
+  [2358, 25, "San Miguel de Tucumán"],
   [2359, 25, "San Pedro"],
   [2360, 25, "San Pedro de Colalao"],
   [2361, 25, "Santa Rosa de Leales"],
