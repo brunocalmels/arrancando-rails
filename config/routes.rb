@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   put "pois/:id/puntuar", to: "pois#puntuar"
   get "pois/search", to: "pois#search"
   resources :pois
-  resources :ciudades, only: %i[index]
+  resources :ciudades, only: %i[index show]
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
   post "contacto", to: "home#contacto"

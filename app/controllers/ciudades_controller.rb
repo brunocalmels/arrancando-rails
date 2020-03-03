@@ -1,5 +1,6 @@
 class CiudadesController < ApplicationController
-  # before_action :set_ciudad, only: [:show, :edit, :update, :destroy]
+  # before_action :set_ciudad, only: %i[show edit update destroy]
+  before_action :set_ciudad, only: %i[show]
 
   # GET /ciudades
   # GET /ciudades.json
@@ -16,8 +17,9 @@ class CiudadesController < ApplicationController
 
   # # GET /ciudades/1
   # # GET /ciudades/1.json
-  # def show
-  # end
+  def show
+    render json: @ciudad
+  end
 
   # # GET /ciudades/new
   # def new
@@ -68,11 +70,12 @@ class CiudadesController < ApplicationController
   #   end
   # end
 
-  # private
+  private
+
   #   # Use callbacks to share common setup or constraints between actions.
-  #   def set_ciudad
-  #     @ciudad = Ciudad.find(params[:id])
-  #   end
+  def set_ciudad
+    @ciudad = Ciudad.find(params[:id])
+  end
 
   #   # Never trust parameters from the scary internet, only allow the white list through.
   #   def ciudad_params
