@@ -10,7 +10,8 @@ class CiudadesController < ApplicationController
   def search
     return unless params.key?(:term) && params[:term].length >= 3
 
-    render json: Ciudad.search(params[:term])
+    @ciudades = Ciudad.search(params[:term])
+    render "ciudades/index_con_provincia.json"
   end
 
   # # GET /ciudades/1
