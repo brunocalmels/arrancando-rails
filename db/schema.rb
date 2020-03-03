@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_02_183531) do
+ActiveRecord::Schema.define(version: 2020_03_03_154956) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2020_03_02_183531) do
     t.bigint "provincia_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "populada", default: false
     t.index ["provincia_id"], name: "index_ciudades_on_provincia_id"
   end
 
