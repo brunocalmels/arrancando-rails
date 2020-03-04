@@ -50,8 +50,32 @@ class User < ApplicationRecord
     available_filters: %i[
       search_query
       rol
+      sorted_by
     ]
   )
+
+  scope :sorted_by, lambda { |sort_option|
+    direction = sort_option =~ /desc$/ ? "desc" : "asc"
+    users = User.arel_table
+    case sort_option.to_s
+    when /^act_/
+      order(users[:created_at].send(direction))
+    when /^ranking_/
+      order(users[:rank].send(direction))
+    else
+      raise(ArgumentError,
+            "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+  def self.options_for_sorted_by
+    [
+      ["Última act. (asc.)", "act_desc"],
+      ["Última act. (desc.)", "act_asc"],
+      ["Ranking (desc.)", "ranking_desc"],
+      ["Ranking (asc.)", "ranking_asc"]
+    ]
+  end
+
   scope :search_query, lambda { |query|
     where(
       "LOWER(apellido) LIKE ?

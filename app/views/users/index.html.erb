@@ -21,6 +21,17 @@
         placeholder: 'Username, nombre, apellido'
       ) %>
     </div>
+    <div>
+      <p class='etiqueta'>
+        Ordenar
+      </p>
+      <%= f.select(
+        :sorted_by,
+        @filterrific.select_options[:sorted_by],
+        {},
+        {}
+      ) %>
+    </div>
     <div id="aplicar_filtros">
       <%= f.submit 'Aplicar', class: 'btn btn-success' %>
     </div>
