@@ -40,6 +40,7 @@ class Poi < ApplicationRecord
     available_filters: %i[
       search_query
       categoria_poi_id
+      user_id
     ]
   )
   scope :search_query, lambda { |query|
@@ -49,6 +50,10 @@ class Poi < ApplicationRecord
       "%#{query.to_s.downcase}%",
       "%#{query.to_s.downcase}%"
     )
+  }
+
+  scope :user_id, lambda { |user_id|
+    where(user_id: user_id)
   }
 
   scope :categoria_poi_id, lambda { |categoria_poi_id|

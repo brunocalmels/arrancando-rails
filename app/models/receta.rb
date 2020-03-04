@@ -43,6 +43,7 @@ class Receta < ApplicationRecord
     available_filters: %i[
       search_query
       categoria_receta_id
+      user_id
     ]
   )
   scope :search_query, lambda { |query|
@@ -52,6 +53,10 @@ class Receta < ApplicationRecord
       "%#{query.to_s.downcase}%",
       "%#{query.to_s.downcase}%"
     )
+  }
+
+  scope :user_id, lambda { |user_id|
+    where(user_id: user_id)
   }
 
   scope :categoria_receta_id, lambda { |categoria_receta_id|

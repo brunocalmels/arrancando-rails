@@ -40,6 +40,7 @@ class Publicacion < ApplicationRecord
     available_filters: %i[
       search_query
       ciudad_id
+      user_id
     ]
   )
   scope :search_query, lambda { |query|
@@ -49,6 +50,10 @@ class Publicacion < ApplicationRecord
       "%#{query.to_s.downcase}%",
       "%#{query.to_s.downcase}%"
     )
+  }
+
+  scope :user_id, lambda { |user_id|
+    where(user_id: user_id)
   }
 
   scope :ciudad_id, lambda { |ciudad_id|
