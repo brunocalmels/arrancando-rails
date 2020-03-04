@@ -28,7 +28,7 @@
       <%= f.select(
         :sorted_by,
         @filterrific.select_options[:sorted_by],
-        {},
+        { include_blank: true },
         {}
       ) %>
     </div>

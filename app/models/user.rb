@@ -58,6 +58,10 @@ class User < ApplicationRecord
     direction = sort_option =~ /desc$/ ? "desc" : "asc"
     users = User.arel_table
     case sort_option.to_s
+    when /^username_/
+      order(users[:username].send(direction))
+    when /^apellido_/
+      order(users[:apellido].send(direction))
     when /^act_/
       order(users[:created_at].send(direction))
     when /^ranking_/
@@ -69,8 +73,12 @@ class User < ApplicationRecord
   }
   def self.options_for_sorted_by
     [
-      ["Última act. (asc.)", "act_desc"],
-      ["Última act. (desc.)", "act_asc"],
+      ["Username (asc.)", "username_asc"],
+      ["Username (desc.)", "username_desc"],
+      ["Apellido (asc.)", "apellido_asc"],
+      ["Apellido (desc.)", "apellido_desc"],
+      ["Última act. (asc.)", "act_asc"],
+      ["Última act. (desc.)", "act_desc"],
       ["Ranking (desc.)", "ranking_desc"],
       ["Ranking (asc.)", "ranking_asc"]
     ]
