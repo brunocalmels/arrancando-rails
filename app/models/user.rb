@@ -38,6 +38,8 @@ class User < ApplicationRecord
   has_many :comentario_publicaciones, dependent: :destroy
   has_many :comentario_recetas, dependent: :destroy
 
+  paginates_per 20
+
   scope :admins, -> { where(rol: :admin) }
   scope :normales, -> { where(rol: :normal) }
   scope :rol, lambda { |rol|

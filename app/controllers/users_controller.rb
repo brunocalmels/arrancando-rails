@@ -20,6 +20,7 @@ class UsersController < ApplicationController
     @users = policy_scope(UserPolicy::Scope
       .new(current_user, @filterrific.try(:find) || User)
       .send("rol_#{@rol}"))
+             .page(params[:page])
   end
 
   # GET /users/1
