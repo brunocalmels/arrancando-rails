@@ -49,6 +49,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Creado</th>
         <th>Título</th>
         <th>Cuerpo</th>
         <th>Usuario</th>
@@ -63,8 +64,9 @@
     <tbody>
       <% @pois.each do |poi| %>
         <tr>
+          <td><%= poi.created_at.strftime("%d-%m-%Y") %></td>
           <td><%= poi.titulo %></td>
-          <td><%= poi.cuerpo %></td>
+          <td><%= poi.cuerpo.truncate(100, separator: ' ') %></td>
           <td><%= link_to(poi.user.username, poi.user) %></td>
           <td><%= poi.categoria_poi.nombre %></td>
           <td><%= poi.lat %></td>

@@ -48,6 +48,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Creada</th>
         <th>Título</th>
         <th>Cuerpo</th>
         <th>Usuario</th>
@@ -60,8 +61,9 @@
     <tbody>
       <% @recetas.each do |receta| %>
         <tr>
+          <td><%= receta.created_at.strftime("%d-%m-%Y") %></td>
           <td><%= receta.titulo %></td>
-          <td><%= receta.cuerpo %></td>
+          <td><%= receta.cuerpo.truncate(100, separator: ' ') %></td>
           <td><%= link_to(receta.user.username, receta.user) %></td>
           <td><%= receta.puntajes %></td>
           <td><%= receta.categoria_receta.nombre %></td>

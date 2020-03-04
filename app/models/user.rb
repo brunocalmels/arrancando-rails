@@ -65,7 +65,7 @@ class User < ApplicationRecord
     when /^apellido_/
       order(users[:apellido].send(direction))
     when /^act_/
-      order(users[:created_at].send(direction))
+      order(users[:last_seen_at].send(direction))
     when /^ranking_/
       order(users[:rank].send(direction))
     else
