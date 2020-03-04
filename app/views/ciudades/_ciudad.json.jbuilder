@@ -3,5 +3,4 @@ json.extract! ciudad, :id,
               :populada,
               :created_at,
               :updated_at,
-              :populada
 # json.url ciudad_url(ciudad, format: :json)
