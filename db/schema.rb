@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_03_154956) do
+ActiveRecord::Schema.define(version: 2020_03_04_152627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,9 @@ ActiveRecord::Schema.define(version: 2020_03_03_154956) do
     t.string "usernames_pasados", default: [], array: true
     t.datetime "last_seen_at"
     t.integer "rank"
+    t.bigint "ciudad_id", default: 1, null: false
+    t.string "app_version"
+    t.index ["ciudad_id"], name: "index_users_on_ciudad_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["username"], name: "index_users_on_username"
   end
@@ -181,4 +184,5 @@ ActiveRecord::Schema.define(version: 2020_03_03_154956) do
   add_foreign_key "recetas", "categoria_recetas"
   add_foreign_key "recetas", "users"
   add_foreign_key "reportes", "users"
+  add_foreign_key "users", "ciudades"
 end

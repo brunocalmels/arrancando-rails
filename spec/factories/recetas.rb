@@ -13,6 +13,7 @@
 #  introduccion        :text
 #  ingredientes        :text
 #  instrucciones       :text
+#  habilitado          :boolean          default("true")
 #
 
 FactoryBot.define do

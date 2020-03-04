@@ -8,7 +8,11 @@ class CiudadesController < ApplicationController
     @filterrific = initialize_filterrific(Ciudad, params[:filterrific], select_options: {})
     @ciudades = policy_scope(@filterrific.try(:find) || Ciudad)
 
-    @ciudades = @ciudades.page(params[:page]) unless request.format.json?
+    if request.format.json?
+      render json: @ciudades
+    else
+      @ciudades = @ciudades.page(params[:page])
+    end
   end
 
   def search
