@@ -125,7 +125,7 @@ class User < ApplicationRecord
 
   # rubocop: enable Naming/AccessorMethodName
   def puntaje
-    2 * publicaciones.count + 2 * recetas.count + 2 * pois.count + comentarios
+    2 * publicaciones.count + 3 * recetas.count + 2 * pois.count + comentarios
   end
 
   def comentarios
