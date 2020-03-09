@@ -1,5 +1,19 @@
 <% provide(:title, "Ciudades") %>
 
+<% unless @ciudades_alert.empty? %>
+  <div class='ciudades_alert'>
+    <h3>Ciudades con usuarios activos y sin popular:</h3>
+    <ul>
+    <% @ciudades_alert.each do |ciudad| %>
+      <li>
+        <%= ciudad[0] %>
+        (id: <%= ciudad[1] %>)
+      </li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
 <% if @ciudades.any? || @filterrific.present? %>
   <%= form_for_filterrific @filterrific, url: "/ciudades" do |f| %>
     <div>
@@ -17,7 +31,7 @@
       </p>
       <%= f.select(
         :provincia_id,
-        Provincia.all.collect { |c| [c.nombre, c.id] },
+        Provincia.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
         include_blank: true
       ) %>
     </div>
@@ -38,6 +52,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Nombre</th>
         <th>Provincia</th>
         <th>Usuarios activos</th>
@@ -49,9 +64,10 @@
     <tbody>
       <% @ciudades.each do |ciudad| %>
         <tr>
+          <td style="font-style: italic; font-size: 90%;"><%= ciudad.id %></td>
           <td><%= ciudad.nombre %></td>
           <td><%= ciudad.provincia.nombre %></td>
-          <td style="font-style: italic;">TBI</td>
+          <td><%= ciudad.users.count %></td>
           <td><%= ciudad.publicaciones.count %></td>
           <td><%= ciudad.populada? ? "Sí" : "No" %></td>
         </tr>

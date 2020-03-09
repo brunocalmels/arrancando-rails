@@ -33,8 +33,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   # validates :avatar, content_type: ["image/png", "image/jpeg"]
 
-  # belongs_to :ciudad
-
+  belongs_to :ciudad
   has_many :publicaciones, dependent: :destroy
   has_many :recetas, dependent: :destroy
   has_many :pois, dependent: :destroy

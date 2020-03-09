@@ -56,6 +56,10 @@ end
 #   Ciudad.create(id: ciudad.first, provincia_id: ciudad.second, nombre: ciudad.third)
 # end
 
+User.each do |user|
+  user.update ciudad: Ciudad.sample
+end
+
 10.times { FactoryBot.create(:publicacion) }
 
 CATEGORIAS_RECETAS.each do |cat|

@@ -5,13 +5,14 @@ class CiudadesController < ApplicationController
   # GET /ciudades
   # GET /ciudades.json
   def index
-    @filterrific = initialize_filterrific(Ciudad, params[:filterrific], select_options: {})
-    @ciudades = policy_scope(@filterrific.try(:find) || Ciudad)
+    @filterrific = initialize_filterrific(Ciudad.order(id: :asc), params[:filterrific], select_options: {})
+    @ciudades = policy_scope(@filterrific.try(:find) || Ciudad.order(id: :asc))
 
     if request.format.json?
       render json: @ciudades
     else
       @ciudades = @ciudades.page(params[:page])
+      alert_new_ciudades
     end
   end
 
@@ -78,6 +79,14 @@ class CiudadesController < ApplicationController
   # end
 
   private
+
+  # Busca ciudades con usuarios activos y sin popular
+  def alert_new_ciudades
+    @ciudades_alert = Ciudad.joins(:users)
+                            .distinct
+                            .where(populada: false)
+                            .pluck(:nombre, :id)
+  end
 
   #   # Use callbacks to share common setup or constraints between actions.
   def set_ciudad
