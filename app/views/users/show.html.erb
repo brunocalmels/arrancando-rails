@@ -36,6 +36,10 @@
         <td><%= !@user.last_seen_at.nil? ? @user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : ''  %></td>
       </tr>
       <tr>
+        <th class="row-sm-2">Versión app</th>
+        <td><%= @user.app_version %></td>
+      </tr>
+      <tr>
         <th class="row-sm-2">Avatar</th>
         <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB])) : nil %></td>
       </tr>
