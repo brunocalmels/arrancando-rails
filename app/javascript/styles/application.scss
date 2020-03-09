@@ -3,6 +3,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "bootstrap_custom";
 @import "custom";
 @import "colors";
+@import "fonts";
 @import "forms";
 @import "heights";
 @import "navbar";
@@ -41,7 +42,7 @@ table {
 }
 
 * {
-  font-family: "Raleway", sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 h1,
@@ -51,7 +52,7 @@ h4,
 h5,
 h6,
 nav * {
-  font-family: "Montserrat Alternates", sans-serif;
+  font-family: "SeaWeed Fire", "Montserrat Alternates", sans-serif;
 }
 
 h1,
