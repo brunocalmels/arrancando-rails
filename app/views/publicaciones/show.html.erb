@@ -40,6 +40,11 @@
   <%= @publicacion.habilitado? ? "Sí" : "No" %>
 </p>
 
+<p>
+  <strong>Categoría:</strong>
+  <%= @publicacion.categoria_publicacion.nombre %>
+</p>
+
 <div class='multimedia'>
   <strong>Multimedia:</strong>
   <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>

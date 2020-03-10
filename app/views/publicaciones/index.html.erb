@@ -31,6 +31,16 @@
         include_blank: true
       ) %>
     </div>
+    <div>
+      <p class='etiqueta'>
+        Categoría
+      </p>
+      <%= f.select(
+        :categoria_publicacion_id,
+        CategoriaPublicacion.all.collect { |c| [c.nombre, c.id] },
+        include_blank: true
+      ) %>
+    </div>
     <div id="aplicar_filtros">
       <%= f.submit 'Aplicar', class: 'btn btn-success' %>
     </div>
@@ -52,8 +62,10 @@
         <th>Título</th>
         <th>Cuerpo</th>
         <th>Usuario</th>
-        <th>Puntajes</th>
+        <th>Calificaciones</th>
         <th>Ciudad</th>
+        <th>Categoría</th>
+
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -67,6 +79,7 @@
           <td><%= link_to(publicacion.user.username, publicacion.user) %></td>
           <td><%= publicacion.puntajes %></td>
           <td><%= publicacion.ciudad.nombre %></td>
+          <td><%= publicacion.categoria_publicacion.nombre %></td>
           <td>
             <%= link_to publicacion_path(publicacion), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>

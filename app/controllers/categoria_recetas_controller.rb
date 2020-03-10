@@ -8,11 +8,6 @@ class CategoriaRecetasController < ApplicationController
     @categoria_recetas = CategoriaReceta.all
   end
 
-  # # GET /categoria_recetas/1
-  # # GET /categoria_recetas/1.json
-  # def show
-  # end
-
   # GET /categoria_recetas/new
   def new
     @categoria_receta = CategoriaReceta.new

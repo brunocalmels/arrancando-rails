@@ -15,10 +15,11 @@
 
 FactoryBot.define do
   factory :publicacion do
-    titulo { Faker::Hipster.sentence(word_count: 1)  }
+    titulo { Faker::Hipster.sentence(word_count: 1) }
     cuerpo { Faker::Hipster.sentence(word_count: 40) }
     puntajes { {} }
     user { User.all.sample }
     ciudad { Ciudad.all.sample }
+    categoria_publicacion { CategoriaPublicacion.all.sample }
   end
 end

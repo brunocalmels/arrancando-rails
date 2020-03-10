@@ -9,6 +9,7 @@ class PublicacionesController < ApplicationController
     @publicaciones = policy_scope(@filterrific.try(:find) || Publicacion)
 
     if request.format.json?
+      filter_by_categoria_publicacion_id
       filter_by_ciudad_id
       filter_by_term
       filter_habilitados
@@ -48,10 +49,12 @@ class PublicacionesController < ApplicationController
   # POST /publicaciones.json
   def create
     @publicacion = Publicacion.new(publicacion_params)
+    @publicacion.categoria_publicacion = CategoriaPublicacion.comunidad
     @publicacion.user = current_user
 
     respond_to do |format|
       format.html do
+        @publicacion.categoria_publicacion_id = params[:publicacion][:categoria_publicacion_id]
         if (params[:publicacion][:imagenes].nil? || save_images_html(params, @publicacion, :publicacion)) && @publicacion.valid? && @publicacion.save
           redirect_to new_publicacion_path, notice: "Publicación satisfactoriamente creada."
         else
@@ -74,6 +77,7 @@ class PublicacionesController < ApplicationController
     authorize @publicacion
     respond_to do |format|
       format.html do
+        @publicacion.categoria_publicacion_id = params[:publicacion][:categoria_publicacion_id]
         if @publicacion.update(publicacion_params) && (params[:publicacion][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @publicacion, :publicacion))
           redirect_to @publicacion, notice: "Publicación satisfactoriamente actualizada."
         else
@@ -110,6 +114,13 @@ class PublicacionesController < ApplicationController
   end
 
   private
+
+  def filter_by_categoria_publicacion_id
+    return unless params.key? :categoria_publicacion_id
+
+    @publicaciones = @publicaciones
+                     .where(categoria_publicacion_id: params[:categoria_publicacion_id].to_i)
+  end
 
   def filter_by_ciudad_id
     return unless params.key? :ciudad_id

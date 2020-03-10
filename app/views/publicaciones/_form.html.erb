@@ -22,6 +22,11 @@
   </div>
 
   <div class="field">
+    <%= form.label 'Categoría' %>
+    <%= form.select :categoria_publicacion_id, CategoriaPublicacion.all.collect { |c| [c.nombre, c.id] } %>
+  </div>
+
+  <div class="field">
     <%= form.label :habilitado %>
     <%= form.check_box :habilitado %>
   </div>

@@ -60,6 +60,9 @@ User.each do |user|
   user.update ciudad: Ciudad.sample
 end
 
+# CATEGORIAS_PUBLICACIONES.each do |cat|
+#   CategoriaPublicacion.create(nombre: cat)
+# end
 10.times { FactoryBot.create(:publicacion) }
 
 CATEGORIAS_RECETAS.each do |cat|

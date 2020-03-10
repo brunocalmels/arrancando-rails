@@ -15,6 +15,14 @@ PROVINCIAS_VIEJAS = [
   }
 ].freeze
 
+CATEGORIAS_PUBLICACIONES = %w[
+  Comunidad
+  Sponsors
+  Publicidad
+  Promos
+  Ranking
+].freeze
+
 CATEGORIAS_RECETAS = %w[
   Asador
   Marinados

@@ -16,6 +16,7 @@
 class Publicacion < ApplicationRecord
   belongs_to :ciudad
   belongs_to :user
+  belongs_to :categoria_publicacion
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
   paginates_per 10
@@ -40,6 +41,7 @@ class Publicacion < ApplicationRecord
     persistance_id: false,
     available_filters: %i[
       search_query
+      categoria_publicacion_id
       ciudad_id
       user_id
     ]
@@ -51,6 +53,10 @@ class Publicacion < ApplicationRecord
       "%#{query.to_s.downcase}%",
       "%#{query.to_s.downcase}%"
     )
+  }
+
+  scope :categoria_publicacion_id, lambda { |categoria_publicacion_id|
+    where(categoria_publicacion_id: categoria_publicacion_id)
   }
 
   scope :user_id, lambda { |user_id|

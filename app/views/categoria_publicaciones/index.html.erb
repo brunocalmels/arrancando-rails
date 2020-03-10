@@ -1,0 +1,38 @@
+<% provide(:title, "Categorías Publicaciones") %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @categoria_publicaciones.each do |categoria_publicacion| %>
+          <tr>
+            <td><%= categoria_publicacion.id %></td>
+            <td><%= categoria_publicacion.nombre %></td>
+            <td>
+              <%= link_to edit_categoria_publicacion_url(categoria_publicacion), class: "btn btn-xs btn-info" do %>
+                <i class="fa fa-pencil-alt"></i>
+              <% end %>
+            </td>
+            <td>
+              <%= button_to categoria_publicacion, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta categoría de publicaciones?" } do %>
+                <i class="fa fa-trash"></i>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<br>
+
+<div class="botonera">
+  <%= link_to 'Nueva Categoría Publicación', new_categoria_publicacion_path, class: "btn btn-success" %>
+</div>
