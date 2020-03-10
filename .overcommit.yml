@@ -18,9 +18,6 @@
 gemfile: Gemfile
 
 PreCommit:
-  CaseConflicts:
-    enabled: false
-
   BundleCheck:
     enabled: true
 
