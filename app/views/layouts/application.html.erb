@@ -8,19 +8,12 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag asset_pack_path("media/images/favicon.ico") %>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 
   </head>
 
   <body>
     <%= render 'shared/navbar' %>
-
-     <!-- <div class="title">
-      <% if content_for?(:title) %>
-        <%= yield(:title) + " | Arrancando Admin" %>
-      <% else %>
-        Arrancando Admin
-      <% end %>
-    </div> -->
 
     <h1 class="title">
       <%= content_for?(:title) ? yield(:title) : '' %>
