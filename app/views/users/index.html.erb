@@ -81,9 +81,9 @@
           <td><%= user.ciudad.nombre_con_provincia %></td>
           <td><%= user.activo? ? "Sí" : "No" %></td>
           <td><%= user.admin? ? "Sí" : "No" %></td>
-          <td><%= !user.last_seen_at.nil? ? user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : '' %></td>
           <td><%= user.rank %>°</td>
           <td><%= user.puntaje %><i class="fa fa-star"></i></td>
+          <td style="font-style: italic;"><%= !user.last_seen_at.nil? ? user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : '' %></td>
           <td style="font-style: italic;"><%= user.app_version %></td>
           <td>
             <%= link_to user_path(user), class: "btn btn-xs btn-success" do %>
