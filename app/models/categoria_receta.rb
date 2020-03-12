@@ -9,5 +9,6 @@
 #
 
 class CategoriaReceta < ApplicationRecord
+  has_many :recetas
   validates :nombre, presence: true, uniqueness: true
 end

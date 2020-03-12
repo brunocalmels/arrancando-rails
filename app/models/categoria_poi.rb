@@ -9,5 +9,6 @@
 #
 
 class CategoriaPoi < ApplicationRecord
+  has_many :pois
   validates :nombre, presence: true, uniqueness: true
 end
