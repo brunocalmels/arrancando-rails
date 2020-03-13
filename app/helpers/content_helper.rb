@@ -14,13 +14,17 @@ module ContentHelper
   def purge_images_json(params, img)
     (!params["remove_imagenes"].nil? &&
      params["remove_imagenes"].class == Array &&
-     params["remove_imagenes"].include?(rails_blob_path(img)))
+     params["remove_imagenes"].values.include?(
+       "/rails" + asset_url_for(img).split("rails")[1]
+     ))
   end
 
   def purge_images_html(params, img)
     (!params["remove_imagenes"].nil? &&
      params["remove_imagenes"].class == ActionController::Parameters &&
-     params["remove_imagenes"].values.include?(rails_blob_path(img)))
+     params["remove_imagenes"].values.include?(
+       "/rails" + asset_url_for(img).split("rails")[1]
+     ))
   end
 
   def remove_imagenes(obj)
@@ -88,5 +92,18 @@ module ContentHelper
     remove_imagenes(obj) if params["remove_imagenes"]
     save_images_html(params, obj, tipo) unless params[tipo][:imagenes].nil?
     true
+  end
+
+  def asset_url_for(asset, device: "web")
+    max_width = device == "app" ? MAX_IMAGE_WIDTH_APP : MAX_IMAGE_WIDTH_WEB
+    max_height = device == "app" ? MAX_IMAGE_HEIGHT_APP : MAX_IMAGE_HEIGHT_WEB
+    case asset.blob.content_type
+    when "video/mp4", "video/mpg", "video/mpeg"
+      url_for(asset)
+    when "image/jpg", "image/jpeg", "image/png", "image/gif"
+      url_for(asset.variant(
+                resize_to_limit: [max_width, max_height]
+              ))
+    end
   end
 end

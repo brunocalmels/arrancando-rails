@@ -6,18 +6,18 @@ class ContentController < ApplicationController
     out = []
     items = JSON[params[:data]]
     items.each do |item|
-      case item['type']
+      case item["type"]
       when "publicaciones"
-        content = Publicacion.find(item['id'])
+        content = Publicacion.find(item["id"])
       when "recetas"
-        content = Receta.find(item['id'])
+        content = Receta.find(item["id"])
       when "pois"
-        content = Poi.find(item['id'])
+        content = Poi.find(item["id"])
       end
       next if content.nil?
 
       imgs = content_images(content)
-      out << content.as_json(except: %i[puntajes puntaje]).merge(type: item['type'], imagenes: imgs)
+      out << content.as_json(except: %i[puntajes puntaje]).merge(type: item["type"], imagenes: imgs)
     end
     render json: out, status: :ok
   end
@@ -34,7 +34,7 @@ class ContentController < ApplicationController
     o["imagenes"] = item.imagenes.attached? ? [rails_blob_path(item.imagenes.attachments.first)] : []
     o["puntaje"] = nil
     o["puntajes"] = puntajes
-    o["comentarios"] = item.comentarios unless type == 'pois'
+    o["comentarios"] = item.comentarios unless type == "pois"
     o
   end
 
@@ -51,12 +51,12 @@ class ContentController < ApplicationController
     # .where(user: current_user)
     ac_record
       .order(created_at: :desc).first(5 + params[:offset].to_i).map do |p|
-        get_object(
-          p,
-          type,
-          p.my_puntajes
-        )
-      end
+      get_object(
+        p,
+        type,
+        p.my_puntajes
+      )
+    end
   end
 
   def build_feed(_params)
@@ -70,14 +70,7 @@ class ContentController < ApplicationController
   def content_images(content)
     if content.imagenes.attached?
       content.imagenes.attachments.map do |img|
-        case img.blob.content_type
-        when "video/mp4", "video/mpg", "video/mpeg"
-          url_for(img)
-        when "image/jpg", "image/jpeg", "image/png"
-          url_for(img.variant(
-                    resize_to_limit: [MAX_IMAGE_WIDTH_APP, MAX_IMAGE_HEIGHT_APP]
-                  ))
-        end
+        asset_url_for(img, device: "web")
       end
     else
       []
