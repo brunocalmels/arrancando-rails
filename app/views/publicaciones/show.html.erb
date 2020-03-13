@@ -10,6 +10,11 @@
   <%= @publicacion.cuerpo %>
 </p>
 
+<p>
+  <strong>Link para compartir:</strong>
+  <%= link_to(ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s, ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s)%>
+</p>
+
 <div class="user-info">
   <p>
     <strong>Autor:</strong>
