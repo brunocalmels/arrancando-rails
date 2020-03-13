@@ -23,6 +23,16 @@
     </div>
     <div>
       <p class='etiqueta'>
+        Ciudad
+      </p>
+      <%= f.select(
+        :ciudad_id,
+        Ciudad.joins(:users).distinct.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
+        include_blank: true
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
         Ordenar
       </p>
       <%= f.select(

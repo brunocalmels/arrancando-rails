@@ -27,7 +27,7 @@
       </p>
       <%= f.select(
         :ciudad_id,
-        Ciudad.all.collect { |c| [c.nombre, c.id] },
+        Ciudad.joins(:publicaciones).distinct.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
         include_blank: true
       ) %>
     </div>

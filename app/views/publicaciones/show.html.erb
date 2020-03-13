@@ -10,10 +10,28 @@
   <%= @publicacion.cuerpo %>
 </p>
 
-<p>
-  <strong>Link para compartir:</strong>
-  <%= link_to(ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s, ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s)%>
-</p>
+<div>
+  <strong>Texto para compartir:</strong>
+  <p>
+  Mirá esta publicación: <%= link_to(ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s, ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s)%>
+  </p>
+
+  <h3><%= @publicacion.titulo %></h3>
+  <p><%= @publicacion.cuerpo %></p>
+  <p>
+  Si todavía no te descargaste Arrancando podés hacerlo:
+  <ul>
+    <li>
+      Para Android desde
+      <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
+    </li>
+    <li>
+      Para iOS desde
+      <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
+    </li>
+  </ul>
+  </p>
+</div>
 
 <div class="user-info">
   <p>

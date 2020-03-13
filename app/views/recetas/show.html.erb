@@ -25,6 +25,43 @@
   <%= @receta.instrucciones %>
 </p>
 
+<div>
+  <strong>Texto para compartir:</strong>
+  <p>
+  Mirá esta receta: <%= link_to(ARRANCANDO_URL+'/recetas/'+@receta.id.to_s, ARRANCANDO_URL+'/recetas/'+@receta.id.to_s)%>
+  </p>
+  <h3><%= @receta.titulo %></h3>
+  <% unless @receta.cuerpo.blank? %>
+    <p><%= @receta.cuerpo %></p>
+  <% end %>
+  <% unless @receta.introduccion.blank? %>
+    <h4>Introdución</h4>
+    <p><%= @receta.introduccion %></p>
+  <% end %>
+  <% unless @receta.ingredientes.blank? %>
+    <h4>Ingredientes</h4>
+    <p><%= @receta.ingredientes %></p>
+  <% end %>
+  <% unless @receta.instrucciones.blank? %>
+    <h4>Instrucciones</h4>
+    <p><%= @receta.instrucciones %></p>
+  <% end %>
+  <p>
+  Si todavía no te descargaste Arrancando podés hacerlo:
+  <ul>
+    <li>
+      Para Android desde
+      <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
+    </li>
+    <li>
+      Para iOS desde
+      <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
+    </li>
+  </ul>
+  </p>
+</div>
+
+
 <div class="user-info">
   <p>
     <strong>Autor:</strong>

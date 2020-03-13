@@ -32,6 +32,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :ciudad %>
+    <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre, c.id] } %>
+  </div>
+
+  <div class="field">
     <%= form.label "Teléfono" %>
     <%= form.text_field :telefono %>
   </div>
@@ -40,7 +45,6 @@
     <%= form.label "Activo" %>
     <%= form.check_box :activo %>
   </div>
-
 
   <div class="multimedia">
     <% if user.avatar.attached?  %>

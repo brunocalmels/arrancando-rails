@@ -45,7 +45,7 @@
 
   <div class="field">
     <%= form.label :ciudad %>
-    <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre, c.id] } %>
+    <%= form.select :ciudad_id, Ciudad.order(nombre: :asc).collect { |c| [c.nombre, c.id] } %>
   </div>
 
   <div class="multimedia">

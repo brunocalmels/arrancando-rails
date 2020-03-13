@@ -50,10 +50,15 @@ class User < ApplicationRecord
     # default_filter_params: { order(apellido: :asc).order(nombres: :asc) },
     available_filters: %i[
       search_query
+      ciudad_id
       rol
       sorted_by
     ]
   )
+
+  scope :ciudad_id, lambda { |ciudad_id|
+    where(ciudad_id: ciudad_id)
+  }
 
   scope :sorted_by, lambda { |sort_option|
     direction = sort_option =~ /desc$/ ? "desc" : "asc"
@@ -122,7 +127,7 @@ class User < ApplicationRecord
 
   # rubocop: enable Naming/AccessorMethodName
   def puntaje
-    2 * publicaciones.count + 3 * recetas.count + 2 * pois.count + comentarios
+    2 * publicaciones.count + 4 * recetas.count + 3 * pois.count + comentarios
   end
 
   def comentarios
