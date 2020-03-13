@@ -26,11 +26,6 @@
 -->
 
 <p>
-  <strong>Puntajes:</strong>
-  <%= @publicacion.puntajes %>
-</p>
-
-<p>
   <strong>Ciudad:</strong>
   <%= @publicacion.ciudad.nombre %>
 </p>
@@ -43,6 +38,17 @@
 <p>
   <strong>Categoría:</strong>
   <%= @publicacion.categoria_publicacion.nombre %>
+</p>
+
+<p>
+  <strong>Puntajes:</strong>
+  <ul>
+    <% @publicacion.puntajes.each do |punt| %>
+      <li>
+        @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+      </li>
+    <% end %>
+  </ul>
 </p>
 
 <div class='multimedia'>

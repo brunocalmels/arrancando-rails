@@ -34,8 +34,14 @@
 </p>
 
 <p>
-  <strong>Puntaje:</strong>
-  <%= @poi.puntajes %>
+  <strong>Puntajes:</strong>
+  <ul>
+    <% @poi.puntajes.each do |punt| %>
+      <li>
+        @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+      </li>
+    <% end %>
+  </ul>
 </p>
 
 <p>

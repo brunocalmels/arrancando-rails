@@ -44,8 +44,14 @@
 </p>
 
 <p>
-  <strong>Puntaje:</strong>
-  <%= @receta.puntajes %>
+  <strong>Puntajes:</strong>
+  <ul>
+    <% @receta.puntajes.each do |punt| %>
+      <li>
+        @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+      </li>
+    <% end %>
+  </ul>
 </p>
 
 <div class='multimedia'>
