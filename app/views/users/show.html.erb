@@ -53,15 +53,30 @@
       </tr>
       <tr>
         <th class="row-sm-2">Publicaciones creadas</th>
-        <td><%= @user.publicaciones.count %></td>
+        <td>
+          <%= @user.publicaciones.count %>
+            <%= link_to publicaciones_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+        </td>
       </tr>
       <tr>
         <th class="row-sm-2">Recetas creadas</th>
-        <td><%= @user.recetas.count %></td>
+        <td>
+          <%= @user.recetas.count %>
+            <%= link_to recetas_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+        </td>
       </tr>
       <tr>
         <th class="row-sm-2">PoIs creados</th>
-        <td><%= @user.pois.count %></td>
+        <td>
+          <%= @user.pois.count %>
+            <%= link_to pois_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+        </td>
       </tr>
       <tr>
         <th class="row-sm-2">Comentarios hechos</th>
