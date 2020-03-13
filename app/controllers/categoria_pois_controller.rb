@@ -5,7 +5,7 @@ class CategoriaPoisController < ApplicationController
   # GET /categoria_pois
   # GET /categoria_pois.json
   def index
-    @categoria_pois = CategoriaPoi.all
+    @categoria_pois = CategoriaPoi.order(nombre: :asc).all
   end
 
   # # GET /categoria_pois/1

@@ -5,7 +5,7 @@ class CategoriaRecetasController < ApplicationController
   # GET /categoria_recetas
   # GET /categoria_recetas.json
   def index
-    @categoria_recetas = CategoriaReceta.all
+    @categoria_recetas = CategoriaReceta.order(nombre: :asc).all
   end
 
   # GET /categoria_recetas/new

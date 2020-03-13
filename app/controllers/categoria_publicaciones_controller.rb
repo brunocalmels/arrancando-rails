@@ -5,7 +5,7 @@ class CategoriaPublicacionesController < ApplicationController
   # GET /categoria_publicaciones
   # GET /categoria_publicaciones.json
   def index
-    @categoria_publicaciones = CategoriaPublicacion.all
+    @categoria_publicaciones = CategoriaPublicacion.order(nombre: :asc).all
   end
 
   # GET /categoria_publicaciones/new
