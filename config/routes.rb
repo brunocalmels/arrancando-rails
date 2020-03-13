@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "ciudades/search", to: "ciudades#search"
   get "app-version", to: "application#app_version"
   resources :comentario_recetas
   resources :comentario_publicaciones
@@ -21,7 +20,8 @@ Rails.application.routes.draw do
   put "pois/:id/puntuar", to: "pois#puntuar"
   get "pois/search", to: "pois#search"
   resources :pois
-  resources :ciudades, only: %i[index show]
+  get "ciudades/search", to: "ciudades#search"
+  resources :ciudades, except: %i[show destroy]
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
   resources :categoria_publicaciones, except: [:show]

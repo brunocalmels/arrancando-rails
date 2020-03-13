@@ -1,6 +1,5 @@
 class CiudadesController < ApplicationController
-  # before_action :set_ciudad, only: %i[show edit update destroy]
-  before_action :set_ciudad, only: %i[show]
+  before_action :set_ciudad, only: %i[show edit update]
 
   # GET /ciudades
   # GET /ciudades.json
@@ -29,51 +28,51 @@ class CiudadesController < ApplicationController
     render json: @ciudad
   end
 
-  # # GET /ciudades/new
-  # def new
-  #   @ciudad = Ciudad.new
-  # end
+  # GET /ciudades/new
+  def new
+    @ciudad = Ciudad.new
+  end
 
-  # # GET /ciudades/1/edit
-  # def edit
-  # end
+  # GET /ciudades/1/edit
+  def edit
+  end
 
-  # # POST /ciudades
-  # # POST /ciudades.json
-  # def create
-  #   @ciudad = Ciudad.new(ciudad_params)
+  # POST /ciudades
+  # POST /ciudades.json
+  def create
+    @ciudad = Ciudad.new(ciudad_params)
 
-  #   respond_to do |format|
-  #     if @ciudad.save
-  #       format.html { redirect_to @ciudad, notice: 'Ciudad was successfully created.' }
-  #       format.json { render :show, status: :created, location: @ciudad }
-  #     else
-  #       format.html { render :new }
-  #       format.json { render json: @ciudad.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+    respond_to do |format|
+      if @ciudad.save
+        format.html { redirect_to @ciudad, notice: "Ciudad satisfactoriamente creada." }
+        format.json { render :show, status: :created, location: @ciudad }
+      else
+        format.html { render :new }
+        format.json { render json: @ciudad.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
-  # # PATCH/PUT /ciudades/1
-  # # PATCH/PUT /ciudades/1.json
-  # def update
-  #   respond_to do |format|
-  #     if @ciudad.update(ciudad_params)
-  #       format.html { redirect_to @ciudad, notice: 'Ciudad was successfully updated.' }
-  #       format.json { render :show, status: :ok, location: @ciudad }
-  #     else
-  #       format.html { render :edit }
-  #       format.json { render json: @ciudad.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+  # PATCH/PUT /ciudades/1
+  # PATCH/PUT /ciudades/1.json
+  def update
+    respond_to do |format|
+      if @ciudad.update(ciudad_params)
+        format.html { redirect_to ciudades_path, notice: "Ciudad satisfactoriamente actualizada." }
+        format.json { render :show, status: :ok, location: @ciudad }
+      else
+        format.html { render :edit }
+        format.json { render json: @ciudad.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # # DELETE /ciudades/1
   # # DELETE /ciudades/1.json
   # def destroy
   #   @ciudad.destroy
   #   respond_to do |format|
-  #     format.html { redirect_to ciudades_url, notice: 'Ciudad was successfully destroyed.' }
+  #     format.html { redirect_to ciudades_url, notice: 'Ciudad satisfactoriamente eliminada.' }
   #     format.json { head :no_content }
   #   end
   # end
@@ -94,7 +93,7 @@ class CiudadesController < ApplicationController
   end
 
   #   # Never trust parameters from the scary internet, only allow the white list through.
-  #   def ciudad_params
-  #     params.fetch(:ciudad, {})
-  #   end
+  def ciudad_params
+    params.require(:ciudad).permit(:nombre, :provincia_id)
+  end
 end

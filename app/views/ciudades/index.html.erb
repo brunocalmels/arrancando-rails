@@ -58,6 +58,7 @@
         <th>Usuarios activos</th>
         <th>Publicaciones</th>
         <th>Populada (PoIs agregados por un admin)</th>
+        <th colspan="1"></th>
       </tr>
     </thead>
 
@@ -70,6 +71,11 @@
           <td><%= ciudad.users.count %></td>
           <td><%= ciudad.publicaciones.count %></td>
           <td><%= ciudad.populada? ? "Sí" : "No" %></td>
+          <td>
+            <%= link_to edit_ciudad_url(ciudad), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -77,4 +83,10 @@
 </div>
 
 <%= paginate @ciudades %>
+
+<br>
+
+<div class="botonera">
+  <%= link_to 'Nueva Ciudad', new_ciudad_path, class: 'btn btn-success' %>
+</div>
 

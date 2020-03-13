@@ -11,7 +11,18 @@
     </div>
   <% end %>
 
+  <div class="field">
+    <%= form.label :nombre %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="field">
+    <%= form.label :provincia %>
+    <%= form.select :provincia_id, Provincia.order(:nombre :asc).collect { |c| [c.nombre, c.id] } %>
+  </div>
+
+
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Guardar", class: 'btn btn-success' %>
   </div>
 <% end %>

@@ -1,8 +1,7 @@
-<h1>Editing Ciudad</h1>
+<% provide(:title, "Editar Ciudad") %>
 
 <%= render 'form', ciudad: @ciudad %>
 
 <div class="botonera">
-  <%= link_to 'Ver', @ciudad, class: 'btn btn-info'  %>
   <%= link_to 'Volver', ciudades_path, class: 'btn btn-default'  %>
 </div>
