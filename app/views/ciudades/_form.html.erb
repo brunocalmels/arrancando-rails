@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :provincia %>
-    <%= form.select :provincia_id, Provincia.order(:nombre :asc).collect { |c| [c.nombre, c.id] } %>
+    <%= form.select :provincia_id, Provincia.order(nombre: :asc).collect { |c| [c.nombre, c.id] } %>
   </div>
 
 
