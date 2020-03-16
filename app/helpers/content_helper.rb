@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/ModuleLength
+
 module ContentHelper
   def puntuar_obj(obj)
     unless params["puntaje"]
@@ -14,8 +16,8 @@ module ContentHelper
   def purge_images_json(params, img)
     (!params["remove_imagenes"].nil? &&
      params["remove_imagenes"].class == Array &&
-     params["remove_imagenes"].values.include?(
-       "/rails" + asset_url_for(img).split("rails")[1]
+     params["remove_imagenes"].include?(
+       "/rails" + asset_url_for(img, device: "app").split("rails")[1]
      ))
   end
 
@@ -106,4 +108,16 @@ module ContentHelper
               ))
     end
   end
+
+  def generate_thumb(obj)
+    return nil if obj.imagenes.empty?
+
+    if obj.imagenes.first.previewable?
+      url_for(obj.imagenes.first.preview(resize_to_limit: [350, 350]))
+    else
+      url_for(obj.imagenes.first.variant(resize_to_limit: [350, 350]))
+    end
+  end
 end
+
+# rubocop:enable Metrics/ModuleLength

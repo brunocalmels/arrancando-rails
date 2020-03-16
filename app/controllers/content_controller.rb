@@ -31,7 +31,8 @@ class ContentController < ApplicationController
   def get_object(item, type, puntajes)
     o = item.attributes
     o["type"] = type
-    o["imagenes"] = item.imagenes.attached? ? [rails_blob_path(item.imagenes.attachments.first)] : []
+    o["imagenes"] = []
+    o["thumbnail"] = generate_thumb(item)
     o["puntaje"] = nil
     o["puntajes"] = puntajes
     o["comentarios"] = item.comentarios unless type == "pois"

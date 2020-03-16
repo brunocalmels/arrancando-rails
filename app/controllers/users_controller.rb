@@ -142,7 +142,7 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     if request.format.json?
-      params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono, :app_version, :ciudad_id)
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono, :app_version, :platform, :ciudad_id)
     else # HTML
       params.require(:user).permit(:nombre, :apellido, :email, :username, :rol, :telefono, :activo, :avatar, :ciudad_id)
     end

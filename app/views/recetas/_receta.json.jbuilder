@@ -35,6 +35,8 @@ else
   json.imagenes []
 end
 
+json.thumbnail generate_thumb(receta)
+
 has_avatar = receta.user.avatar.attached?
 
 json.user receta.user.as_json.merge(
