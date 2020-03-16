@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_03_16_143135) do
+=======
+ActiveRecord::Schema.define(version: 2020_03_16_141227) do
+>>>>>>> 2a6731ecb11a2f409fabb246dbc8cacde830dd19
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +179,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_143135) do
     t.string "app_version"
     t.integer "rank_mensual"
     t.boolean "rankeable", default: true
+    t.string "platform"
     t.index ["ciudad_id"], name: "index_users_on_ciudad_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["username"], name: "index_users_on_username"

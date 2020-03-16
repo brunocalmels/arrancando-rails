@@ -31,6 +31,8 @@ else
   json.imagenes []
 end
 
+json.thumbnail generate_thumb(publicacion)
+
 has_avatar = publicacion.user.avatar.attached?
 
 json.user publicacion.user.as_json.merge(

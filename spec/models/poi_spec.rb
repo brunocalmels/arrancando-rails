@@ -13,6 +13,7 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  direccion        :string
+#  habilitado       :boolean          default("true")
 #
 
 require "rails_helper"
