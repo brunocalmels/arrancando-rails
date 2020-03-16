@@ -17,7 +17,7 @@ class ContentController < ApplicationController
       next if content.nil?
 
       imgs = content_images(content)
-      out << content.as_json(except: %i[puntajes puntaje]).merge(type: item["type"], imagenes: imgs)
+      out << content.as_json(except: %i[puntajes puntaje]).merge(type: item["type"], imagenes: imgs, thumbnail: generate_thumb(content))
     end
     render json: out, status: :ok
   end
