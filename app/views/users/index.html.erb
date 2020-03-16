@@ -68,8 +68,10 @@
         <th>Ciudad</th>
         <th>Activo</th>
         <th>Admin</th>
-        <th>Ranking</th>
-        <th>Puntaje</th>
+        <th>Rank mensual</th>
+        <th>Rank histórico</th>
+        <th>Punt mensual</th>
+        <th>Punt histórico</th>
         <th>Última act.</th>
         <th>Versión app</th>
         <th colspan="3"></th>
@@ -91,7 +93,9 @@
           <td><%= user.ciudad.nombre_con_provincia %></td>
           <td><%= user.activo? ? "Sí" : "No" %></td>
           <td><%= user.admin? ? "Sí" : "No" %></td>
+          <td><%= user.rank_mensual %>°</td>
           <td><%= user.rank %>°</td>
+          <td><%= user.puntaje_mensual %><i class="fa fa-star"></i></td>
           <td><%= user.puntaje %><i class="fa fa-star"></i></td>
           <td style="font-style: italic;"><%= !user.last_seen_at.nil? ? user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : '' %></td>
           <td style="font-style: italic;"><%= user.app_version %></td>

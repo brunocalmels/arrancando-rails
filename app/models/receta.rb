@@ -31,6 +31,10 @@ class Receta < ApplicationRecord
     where(habilitado: true)
   }
 
+  scope :last_month, lambda {
+    where("recetas.created_at > ? ", Time.zone.now - 1.month)
+  }
+
   scope :search, lambda { |term|
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }

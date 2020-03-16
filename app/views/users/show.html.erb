@@ -28,6 +28,10 @@
         <td><%= @user.activo? ? "Sí" : "No" %></td>
       </tr>
       <tr>
+        <th class="row-sm-2">Rankeable</th>
+        <td><%= @user.rankeable? ? "Sí" : "No" %></td>
+      </tr>
+      <tr>
         <th class="row-sm-2">Admin</th>
         <td><%= @user.admin? ? "Sí" : "No" %></td>
       </tr>
@@ -44,11 +48,19 @@
         <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB])) : nil %></td>
       </tr>
       <tr>
-        <th class="row-sm-2">Ranking</th>
+        <th class="row-sm-2">Ranking mensual</th>
+        <td><%= @user.rank_mensual %>°</td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Ranking histórico</th>
         <td><%= @user.rank %>°</td>
       </tr>
       <tr>
-        <th class="row-sm-2">Puntaje</th>
+        <th class="row-sm-2">Puntaje mensual</th>
+        <td><%= @user.puntaje_mensual %><i class="fa fa-star"></i></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Puntaje histórico</th>
         <td><%= @user.puntaje %><i class="fa fa-star"></i></td>
       </tr>
       <tr>

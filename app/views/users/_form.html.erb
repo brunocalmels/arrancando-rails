@@ -17,6 +17,16 @@
   </div>
 
   <div class="field">
+    <%= form.label "Activo" %>
+    <%= form.check_box :activo %>
+  </div>
+
+  <div class="field">
+    <%= form.label "Rankeable" %>
+    <%= form.check_box :rankeable %>
+  </div>
+
+  <div class="field">
     <%= form.label "Username" %>
     <%= form.text_field :username %>
   </div>
@@ -39,11 +49,6 @@
   <div class="field">
     <%= form.label "Teléfono" %>
     <%= form.text_field :telefono %>
-  </div>
-
-  <div class="field">
-    <%= form.label "Activo" %>
-    <%= form.check_box :activo %>
   </div>
 
   <div class="multimedia">

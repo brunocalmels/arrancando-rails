@@ -15,4 +15,8 @@ class ComentarioReceta < ApplicationRecord
   belongs_to :user
 
   validates :mensaje, presence: true
+
+  scope :last_month, lambda {
+    where("comentario_recetas.created_at > ? ", Time.zone.now - 1.month)
+  }
 end
