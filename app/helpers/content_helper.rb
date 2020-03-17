@@ -118,6 +118,10 @@ module ContentHelper
       url_for(obj.imagenes.first.variant(resize_to_limit: [350, 350]))
     end
   end
+
+  def generate_video_thumb(video)
+    url_for(video.preview(resize_to_limit: [350, 350])) if video.previewable?
+  end
 end
 
 # rubocop:enable Metrics/ModuleLength
