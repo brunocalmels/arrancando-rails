@@ -3,9 +3,11 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create update login set_avatar google_client facebook_client]
-  skip_before_action :authenticate_request, only: %i[create login google_client facebook_client]
+  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client]
+  skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client]
   before_action :user_by_email, only: %i[google_client]
+  before_action :user_by_email_new_google, only: %i[new_google_client]
+  before_action :user_by_email_apple, only: %i[apple_client]
   before_action :user_by_email_fb, only: %i[facebook_client]
 
   # GET /users
@@ -116,6 +118,44 @@ class UsersController < ApplicationController
                       "/images/missing.jpg"
                     end
     redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
+  end
+
+  def apple_client
+    data = {
+      auth_token: JsonWebToken.encode(user_id: @user.id),
+      id: @user.id,
+      nombre: @user.nombre,
+      apellido: @user.apellido,
+      email: @user.email,
+      username: @user.username
+    }
+
+    data[:avatar] = if @user.avatar.attached?
+                      rails_blob_path(@user.avatar)
+                    else
+                      "/images/missing.jpg"
+                    end
+
+    render json: data
+  end
+
+  def new_google_client
+    data = {
+      auth_token: JsonWebToken.encode(user_id: @user.id),
+      id: @user.id,
+      nombre: @user.nombre,
+      apellido: @user.apellido,
+      email: @user.email,
+      username: @user.username
+    }
+
+    data[:avatar] = if @user.avatar.attached?
+                      rails_blob_path(@user.avatar)
+                    else
+                      "/images/missing.jpg"
+                    end
+
+    render json: data
   end
 
   # POST /users/avatar
@@ -237,16 +277,46 @@ class UsersController < ApplicationController
               else
                 @metadata["id"]
               end
+    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @password = "#{encode64(@nombre)}-#{random_string}"
+  end
+
+  def fix_user_metadata_apple
+    @metadata = params['credentials']
+    @email = @metadata["email"] || "#{@metadata['user']}@not-apple.com"
+    @nombre = if !@metadata["name"].nil?
+                @metadata["name"]
+              elsif !@metadata["email"].nil?
+                @metadata["email"].split("@")[0].gsub(".", "_")
+              else
+                "usuario-#{@metadata['user'].split('.').first}"
+              end
+    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @password = "#{encode64(@nombre)}-#{random_string}"
+  end
+
+  def fix_user_metadata_new_google
+    @metadata = params['credentials']
+    @email = @metadata["email"] || "#{@metadata['id']}@not-gmail.com"
+    @nombre = if !@metadata["name"].nil?
+                @metadata["name"]
+              elsif !@metadata["email"].nil?
+                @metadata["email"].split("@")[0].gsub(".", "_")
+              else
+                "usuario-#{@metadata['id'].split('.').first}"
+              end
+    @username = @nombre.gsub('.', '_').gsub(' ', '')
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
   def fix_user_metadata_fb
     @email = @metadata["email"] || "#{@metadata['id']}@not-facebook.com"
-    @nombre = if @metadata["email"]
+    @nombre = if !@metadata["email"].nil?
                 @metadata["email"].split("@")[0].gsub(".", "_")
               else
                 @metadata["id"]
               end
+    @username = @nombre.gsub('.', '_').gsub(' ', '')
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
@@ -261,6 +331,24 @@ class UsersController < ApplicationController
   rescue StandardError => e
     puts e
     redirect_to "https://arrancando.com.ar"
+  end
+
+  def user_by_email_apple
+    fix_user_metadata_apple
+
+    build_user
+  rescue StandardError => e
+    puts e
+    render json: nil, status: :unprocessable_entity
+  end
+
+  def user_by_email_new_google
+    fix_user_metadata_new_google
+
+    build_user
+  rescue StandardError => e
+    puts e
+    render json: nil, status: :unprocessable_entity
   end
 
   def user_by_email_fb
@@ -279,7 +367,7 @@ class UsersController < ApplicationController
   def build_user
     @user = User.find_by_email(@email) || User.create!(
       nombre: @nombre,
-      username: @nombre,
+      username: @username,
       email: @email,
       password: @password
     )

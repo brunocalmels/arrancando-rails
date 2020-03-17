@@ -19,6 +19,8 @@
 #  ciudad_id         :integer          default("1"), not null
 #  app_version       :string
 #  platform          :string
+#  rank_mensual      :integer
+#  rankeable         :boolean          default("true")
 #
 
 require "rails_helper"

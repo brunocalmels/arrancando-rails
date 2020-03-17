@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   get "app-version", to: "application#app_version"
   resources :comentario_recetas
   resources :comentario_publicaciones
+  post "apple-login", to: "users#apple_client"
+  post "new-google-login", to: "users#new_google_client"
   get "google-login", to: "users#google_client"
   get "facebook-login", to: "users#facebook_client"
   get "content", to: "content#index"

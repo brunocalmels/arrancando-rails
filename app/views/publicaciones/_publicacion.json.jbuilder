@@ -27,7 +27,7 @@ json.thumbnail generate_thumb(publicacion)
 has_avatar = publicacion.user.avatar.attached?
 
 json.user publicacion.user.as_json.merge(
-  "avatar" => has_avatar ? rails_blob_path(publicacion.user.avatar) : nil,
+  "avatar" => has_avatar ? rails_blob_path(publicacion.user.avatar) : nil
 )
 
 json.comentarios do
