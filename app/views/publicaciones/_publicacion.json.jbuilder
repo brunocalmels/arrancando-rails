@@ -30,7 +30,7 @@ end
 
 json.thumbnail generate_thumb(publicacion)
 
-json.video_thumbs = video_thumbs
+json.video_thumbs video_thumbs
 
 has_avatar = publicacion.user.avatar.attached?
 
