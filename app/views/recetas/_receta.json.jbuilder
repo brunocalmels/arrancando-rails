@@ -14,9 +14,16 @@ json.puntajes do
   json.array! receta.my_puntajes
 end
 
+video_thumbs = {}
+
 if receta.imagenes.attached?
   @imgs = receta.imagenes.attachments.map do |img|
-    asset_url_for(img, device: "app")
+    url = asset_url_for(img, device: "app")
+    case img.blob.content_type
+    when "video/mp4", "video/mpg", "video/mpeg"
+      video_thumbs[url] = generate_video_thumb(img)
+    end
+    url
   end
   json.imagenes do
     json.array! @imgs
@@ -27,6 +34,8 @@ else
 end
 
 json.thumbnail generate_thumb(receta)
+
+json.video_thumbs video_thumbs
 
 has_avatar = receta.user.avatar.attached?
 
