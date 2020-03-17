@@ -2,7 +2,6 @@ json.extract! publicacion,
               :id,
               :titulo,
               :cuerpo,
-              # :puntajes,
               :ciudad_id,
               :created_at,
               :updated_at
