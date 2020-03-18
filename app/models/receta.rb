@@ -49,8 +49,28 @@ class Receta < ApplicationRecord
       search_query
       categoria_receta_id
       user_id
+      sorted_by
     ]
   )
+
+  scope :sorted_by, lambda { |sort_option|
+    direction = "desc"
+    recetas = Receta.arel_table
+    case sort_option.to_s
+    when "fecha"
+      order(recetas[:created_at].send(direction))
+    when "puntuacion"
+      # rubocop:disable Metrics/LineLength
+      q = 'SELECT recetas.id from recetas left join (SELECT id, avg(value::FLOAT) FROM "recetas" JOIN jsonb_each(puntajes) d on true GROUP BY "recetas"."id") complex on recetas.id = complex.id order by avg desc nulls last'
+      ids = ActiveRecord::Base.connection.execute(q).pluck "id"
+      Receta.where(id: ids).order_by_ids(ids)
+      # rubocop:enable Metrics/LineLength
+    else
+      raise(ArgumentError,
+            "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+
   scope :search_query, lambda { |query|
     where(
       "LOWER(titulo) LIKE ?

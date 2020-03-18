@@ -46,8 +46,30 @@ class Poi < ApplicationRecord
       search_query
       categoria_poi_id
       user_id
+      sorted_by
     ]
   )
+
+  scope :sorted_by, lambda { |sort_option|
+    direction = "desc"
+    pois = Poi.arel_table
+    case sort_option.to_s
+    when "fecha"
+      order(pois[:created_at].send(direction))
+    when "proximidad"
+      # # rubocop:disable Metrics/LineLength
+      # q = 'SELECT pois.id from pois left join (SELECT id, avg(value::FLOAT) FROM "pois" JOIN jsonb_each(puntajes) d on true GROUP BY "pois"."id") complex on pois.id = complex.id order by avg desc nulls last'
+      # ids = ActiveRecord::Base.connection.execute(q).pluck "id"
+      # Poi.where(id: ids).order_by_ids(ids)
+      # # rubocop:enable Metrics/LineLength
+      # TODO: Filtrar por proximidad
+      order(pois[:created_at].send(direction))
+    else
+      raise(ArgumentError,
+            "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+
   scope :search_query, lambda { |query|
     where(
       "LOWER(titulo) LIKE ?

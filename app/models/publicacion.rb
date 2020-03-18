@@ -63,8 +63,6 @@ class Publicacion < ApplicationRecord
       # rubocop:disable Metrics/LineLength
       q = 'SELECT publicaciones.id from publicaciones left join (SELECT id, avg(value::FLOAT) FROM "publicaciones" JOIN jsonb_each(puntajes) d on true GROUP BY "publicaciones"."id") complex on publicaciones.id = complex.id order by avg desc nulls last'
       ids = ActiveRecord::Base.connection.execute(q).pluck "id"
-      # where(id: ids).order(Arel.sql("position(id::text in '#{ids.join(',')}')"))
-      # Publicacion.find_by_sql(Arel.sql(q))
       Publicacion.where(id: ids).order_by_ids(ids)
       # rubocop:enable Metrics/LineLength
     else
