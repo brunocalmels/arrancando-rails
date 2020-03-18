@@ -8,11 +8,11 @@ class RecetasController < ApplicationController
     @filterrific = initialize_filterrific(Receta, params[:filterrific], select_options: {})
     @recetas = policy_scope(@filterrific.try(:find) || Receta)
 
-    # if request.format.json?
-    #   filter_by_categoria_receta_id
-    #   filter_by_term
-    #   filter_habilitados
-    # end
+    if request.format.json? && !params.include?("filterrific")
+      filter_by_categoria_receta_id
+      filter_by_term
+      filter_habilitados
+    end
 
     fetch_items
 
