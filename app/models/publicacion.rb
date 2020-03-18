@@ -49,8 +49,30 @@ class Publicacion < ApplicationRecord
       categoria_publicacion_id
       ciudad_id
       user_id
+      sorted_by
     ]
   )
+
+  scope :sorted_by, lambda { |sort_option|
+    direction = "desc"
+    publicaciones = Publicacion.arel_table
+    case sort_option.to_s
+    when "fecha"
+      order(publicaciones[:created_at].send(direction))
+    when "puntuacion"
+      # rubocop:disable Metrics/LineLength
+      q = 'SELECT publicaciones.id from publicaciones left join (SELECT id, avg(value::FLOAT) FROM "publicaciones" JOIN jsonb_each(puntajes) d on true GROUP BY "publicaciones"."id") complex on publicaciones.id = complex.id order by avg desc nulls last'
+      ids = ActiveRecord::Base.connection.execute(q).pluck "id"
+      # where(id: ids).order(Arel.sql("position(id::text in '#{ids.join(',')}')"))
+      # Publicacion.find_by_sql(Arel.sql(q))
+      Publicacion.where(id: ids).order_by_ids(ids)
+      # rubocop:enable Metrics/LineLength
+    else
+      raise(ArgumentError,
+            "Invalid sort option: #{sort_option.inspect}")
+    end
+  }
+
   scope :search_query, lambda { |query|
     where(
       "LOWER(titulo) LIKE ?
@@ -77,6 +99,15 @@ class Publicacion < ApplicationRecord
       { usuario: { id: k.to_i }, puntaje: v }
     end
   end
+
+  # def self.order_by_ids(ids)
+  #   order_by = ["CASE"]
+  #   ids.each_with_index do |id, index|
+  #     order_by << "WHEN id='#{id}' THEN #{index}"
+  #   end
+  #   order_by << "END"
+  #   order(order_by.join(" "))
+  # end
 
   private
 
