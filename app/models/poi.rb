@@ -54,16 +54,15 @@ class Poi < ApplicationRecord
     direction = "desc"
     pois = Poi.arel_table
     case sort_option.to_s
-    when "fecha"
-      order(pois[:created_at].send(direction))
     when "proximidad"
-      # # rubocop:disable Metrics/LineLength
-      # q = 'SELECT pois.id from pois left join (SELECT id, avg(value::FLOAT) FROM "pois" JOIN jsonb_each(puntajes) d on true GROUP BY "pois"."id") complex on pois.id = complex.id order by avg desc nulls last'
-      # ids = ActiveRecord::Base.connection.execute(q).pluck "id"
-      # Poi.where(id: ids).order_by_ids(ids)
-      # # rubocop:enable Metrics/LineLength
-      # TODO: Filtrar por proximidad
       order(pois[:created_at].send(direction))
+      # TODO: Filtrar por proximidad
+    when "puntuacion"
+      # rubocop:disable Metrics/LineLength
+      q = 'SELECT pois.id from pois left join (SELECT id, avg(value::FLOAT) FROM "pois" JOIN jsonb_each(puntajes) d on true GROUP BY "pois"."id") complex on pois.id = complex.id order by avg desc nulls last'
+      ids = ActiveRecord::Base.connection.execute(q).pluck "id"
+      Poi.where(id: ids).order_by_ids(ids)
+      # rubocop:enable Metrics/LineLength
     else
       raise(ArgumentError,
             "Invalid sort option: #{sort_option.inspect}")
@@ -91,6 +90,15 @@ class Poi < ApplicationRecord
     puntajes.map do |k, v|
       { usuario: { id: k.to_i }, puntaje: v }
     end
+  end
+
+  def self.order_by_ids(ids)
+    order_by = ["CASE"]
+    ids.each_with_index do |id, index|
+      order_by << "WHEN id='#{id}' THEN #{index}"
+    end
+    order_by << "END"
+    order(order_by.join(" "))
   end
 
   private
