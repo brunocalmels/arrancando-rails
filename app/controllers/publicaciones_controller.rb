@@ -8,7 +8,7 @@ class PublicacionesController < ApplicationController
     @filterrific = initialize_filterrific(Publicacion, params[:filterrific], select_options: {})
     @publicaciones = policy_scope(@filterrific.try(:find) || Publicacion)
 
-    if request.format.json?
+    if request.format.json? && !params.include?("filterrific")
       filter_by_categoria_publicacion_id
       filter_by_ciudad_id
       filter_by_term

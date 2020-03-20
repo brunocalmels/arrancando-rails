@@ -8,7 +8,7 @@ class PoisController < ApplicationController
     @filterrific = initialize_filterrific(Poi, params[:filterrific], select_options: {})
     @pois = policy_scope(@filterrific.try(:find) || Poi)
 
-    if request.format.json?
+    if request.format.json? && !params.include?("filterrific")
       filter_by_categria_poi_id
       filter_by_term
       filter_habilitados
