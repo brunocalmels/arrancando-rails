@@ -29,7 +29,7 @@ class ComentarioPublicacionesController < ApplicationController
 
     respond_to do |format|
       if @comentario_publicacion.save
-        format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion was successfully created.' }
+        format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion fue satisfactoriamente creada.' }
         format.json { render :show, status: :created, location: @comentario_publicacion }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class ComentarioPublicacionesController < ApplicationController
   def update
     respond_to do |format|
       if @comentario_publicacion.update(comentario_publicacion_params)
-        format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion was successfully updated.' }
+        format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion fue satisfactoriamente actualizada.' }
         format.json { render :show, status: :ok, location: @comentario_publicacion }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class ComentarioPublicacionesController < ApplicationController
   def destroy
     @comentario_publicacion.destroy
     respond_to do |format|
-      format.html { redirect_to comentario_publicaciones_url, notice: 'Comentario publicacion was successfully destroyed.' }
+      format.html { redirect_to comentario_publicaciones_url, notice: 'Comentario publicacion fue satisfactoriamente eliminada.' }
       format.json { head :no_content }
     end
   end

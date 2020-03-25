@@ -29,7 +29,7 @@ class ComentarioRecetasController < ApplicationController
 
     respond_to do |format|
       if @comentario_receta.save
-        format.html { redirect_to @comentario_receta, notice: 'Comentario receta was successfully created.' }
+        format.html { redirect_to @comentario_receta, notice: 'Comentario receta fue satisfactoriamente creada.' }
         format.json { render :show, status: :created, location: @comentario_receta }
       else
         format.html { render :new }
@@ -43,7 +43,7 @@ class ComentarioRecetasController < ApplicationController
   def update
     respond_to do |format|
       if @comentario_receta.update(comentario_receta_params)
-        format.html { redirect_to @comentario_receta, notice: 'Comentario receta was successfully updated.' }
+        format.html { redirect_to @comentario_receta, notice: 'Comentario receta fue satisfactoriamente actualizada.' }
         format.json { render :show, status: :ok, location: @comentario_receta }
       else
         format.html { render :edit }
@@ -57,7 +57,7 @@ class ComentarioRecetasController < ApplicationController
   def destroy
     @comentario_receta.destroy
     respond_to do |format|
-      format.html { redirect_to comentario_recetas_url, notice: 'Comentario receta was successfully destroyed.' }
+      format.html { redirect_to comentario_recetas_url, notice: 'Comentario receta fue satisfactoriamente eliminada.' }
       format.json { head :no_content }
     end
   end

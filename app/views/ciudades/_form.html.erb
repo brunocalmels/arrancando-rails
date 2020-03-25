@@ -1,7 +1,7 @@
 <%= form_with(model: ciudad, local: true) do |form| %>
   <% if ciudad.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(ciudad.errors.count, "error") %> impidió que este ciudad se guardara:</h2>
+      <h2><%= pluralize(ciudad.errors.count, "error") %> impidió que esta ciudad se guardara:</h2>
 
       <ul>
         <% ciudad.errors.full_messages.each do |message| %>
@@ -18,9 +18,8 @@
 
   <div class="field">
     <%= form.label :provincia %>
-    <%= form.select :provincia_id, Provincia.order(nombre: :asc).collect { |c| [c.nombre, c.id] } %>
+    <%= form.select :provincia_id, Provincia.order(nombre: :asc).collect { |c| [c.nombre_con_pais, c.id] } %>
   </div>
-
 
   <div class="actions">
     <%= form.submit "Guardar", class: 'btn btn-success' %>
