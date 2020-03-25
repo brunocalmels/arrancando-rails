@@ -44,6 +44,11 @@ table {
 * {
   font-family: 'Noto Sans TC',
     sans-serif;
+  font-size: 14pt;
+
+  @media screen and (max-width: $bpMaxSmall) {
+    font-size: 16pt;
+  }
 }
 
 h1,
@@ -56,6 +61,14 @@ nav * {
   font-family: "SeaWeed Fire",
     "Noto Sans TC",
     sans-serif;
+}
+
+nav div.navbar-collapse ul li a.nav-link {
+  font-size: 20pt;
+
+  @media all and (max-width: $bpMaxSmall) {
+    font-size: 24pt;
+  }
 }
 
 h1 {
