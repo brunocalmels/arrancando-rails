@@ -9,6 +9,10 @@ form {
 
   div {
     margin-right: 10px;
+
+    @media (max-width: $bpMaxSmall) {
+      margin-top: 10px;
+    }
   }
 }
 
@@ -233,8 +237,11 @@ form.new_filterrific {
 div.field {
   display: flex;
   align-items: center;
-
   margin: 10px 20px;
+
+  @media (max-width: $bpMaxSmall) {
+    flex-direction: column;
+  }
 
   input[type=text],
   textarea {
