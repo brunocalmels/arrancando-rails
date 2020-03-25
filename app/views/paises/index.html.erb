@@ -1,0 +1,56 @@
+<% provide(:title, "Países") %>
+
+<% if @paises.any? || @filterrific.present? %>
+  <%= form_for_filterrific @filterrific, url: "/paises" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Nombre'
+      ) %>
+    </div>
+   <div id="aplicar_filtros">
+      <%= f.submit 'Aplicar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/paises?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @paises.each do |pais| %>
+      <tr>
+        <td style="font-style: italic; font-size: 90%;"><%= pais.id %></td>
+        <td><%= pais.nombre %></td>
+        <td>
+          <%= link_to edit_pais_url(pais), class: "btn btn-xs btn-info" do %>
+            <i class="fa fa-pencil-alt"></i>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<div class="botonera">
+  <%= link_to 'Nuevo País', new_pais_path, class: "btn btn-success" %>
+</div>

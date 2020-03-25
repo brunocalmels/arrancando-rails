@@ -182,9 +182,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_153754) do
     t.integer "rank"
     t.bigint "ciudad_id", default: 1, null: false
     t.string "app_version"
+    t.string "platform"
     t.integer "rank_mensual"
     t.boolean "rankeable", default: true
-    t.string "platform"
     t.index ["ciudad_id"], name: "index_users_on_ciudad_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["username"], name: "index_users_on_username"
