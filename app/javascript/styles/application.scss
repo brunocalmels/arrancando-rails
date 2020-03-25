@@ -44,7 +44,7 @@ table {
 * {
   font-family: 'Noto Sans TC',
     sans-serif;
-  font-size: 14pt;
+  font-size: 12pt;
 
   @media (max-width: $bpMaxSmall) {
     font-size: 11pt;
@@ -64,7 +64,7 @@ nav * {
 }
 
 nav div.navbar-collapse ul li a.nav-link {
-  font-size: 20pt;
+  font-size: 18pt;
 
   @media (max-width: $bpMaxSmall) {
     font-size: 14pt;
