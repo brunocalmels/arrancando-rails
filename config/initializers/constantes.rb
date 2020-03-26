@@ -46,6 +46,9 @@ COMPRESSED_IMAGE_WIDTH = 1400
 COMPRESSED_IMAGE_HEIGHT = 1000
 MAX_REPORTE_SHORT_LENGTH = 60
 
+THUMB_SIZE = 350
+MAX_SIZE_POI_IMAGE = 400
+
 ARRANCANDO_URL = "https://arrancando.com.ar".freeze
 ANDROID_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.macherit.arrancando".freeze
 IOS_DOWNLOAD_URL = "https://apps.apple.com/us/app/arrancando/id1490590335?l=es".freeze

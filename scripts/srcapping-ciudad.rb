@@ -1,91 +1,94 @@
-# rubocop:disable
+#!/bin/ruby
+# frozen_string_literal: true
 
-# # https://maps.googleapis.com/maps/api/place/textsearch/json?query=carnicer%C3%ADa&location=-38.9356355,-67.9937539&key=AIzaSyBkCPG-1sCRn-vu-TJDc71xY-Ueprv1ZwM
+require "optparse"
 
-# #!/bin/ruby
-# # frozen_string_literal: true
+options = {}
 
-# require 'optparse'
+banner = "Uso: ./scrapping-ciudad.rb -c=<CIUDAD> -p=<PROVINCIA> -k=<API_KEY> [-pa=<PAIS>]"
+# banner = 'Uso: ./scrapping-ciudad.rb -c=<CIUDAD> -p=<PROVINCIA> [-pa=<PAIS> -la=<LATITUD> -lo=<LONGITUD>]'
 
-# options = {}
+OptionParser.new do |opts|
+  opts.banner = banner
 
-# banner = 'Uso: ./scrapping-ciudad.rb -c=<CIUDAD> [-la=<LATITUD> -lo=<LONGITUD>]'
+  opts.on("-c", "--ciudad CIUDAD", "Ciudad") { |v| options[:ciudad] = v }
+  opts.on("-p", "--provincia PROVINCIA", "Provincia") { |v| options[:provincia] = v }
+  opts.on("-k", "--apikey API_KEY", "API Key") { |v| options[:apikey] = v }
+  opts.on("-pa", "--pais PAIS", "País") { |v| options[:pais] = v }
+  # opts.on('-la', '--latitud LATITUD', 'latitud') { |v| options[:latitud] = v }
+  # opts.on('-lo', '--longitud LONGITUD', 'longitud') { |v| options[:longitud] = v }
+end.parse!
 
-# OptionParser.new do |opts|
-#   opts.banner = banner
+if !options.empty? && !options[:ciudad].nil? && !options[:provincia].nil? && !options[:apikey].nil?
+  # if !options.empty? && ((!options[:ciudad].nil? && !options[:provincia].nil?) || (!options[:latitud].nil? && !options[:longitud].nil?))
 
-#   opts.on('-c', '--ciudad CIUDAD', 'Ciudad') { |v| options[:ciudad] = v }
-#   opts.on('-la', '--latitud LATITUD', 'latitud') { |v| options[:latitud] = v }
-#   opts.on('-lo', '--longitud LONGITUD', 'longitud') { |v| options[:longitud] = v }
-# end.parse!
+  require "json"
+  require "net/http"
+  require "fileutils"
 
-# if !options.empty? && !options[:ciudad].nil?
+  ciudad = options[:ciudad]
+  provincia = options[:provincia]
+  API_KEY = options[:apikey]
+  pais = options[:pais] || "Argentina"
 
-#   require 'nokogiri'
-#   require 'open-uri'
-#   require 'json'
-#   require 'byebug'
-#   require 'watir'
+  puts "Obteniendo latitud y longitud de la ciudad"
 
-#   links = []
+  uri = URI(URI.escape("https://maps.googleapis.com/maps/api/geocode/json?address=#{ciudad.gsub(" ", "+")},+#{provincia.gsub(" ", "+")},+#{pais.gsub(" ", "+")}&key=#{API_KEY}"))
+  res = Net::HTTP.get(uri)
 
-#   ciudad = options[:ciudad]
+  geocode_ciudad = JSON[res]
 
-#   (caps - skip).times do |i|
-#     links << "https://www.dilo.nu/#{serie}-#{season}x#{(i + skip + 1).to_s.rjust(2, '0')}/"
-#   end
+  latitud = geocode_ciudad["results"][0]["geometry"]["location"]["lat"]
+  longitud = geocode_ciudad["results"][0]["geometry"]["location"]["lng"]
 
-#   browser = Watir::Browser.new :firefox, headless: true
+  puts "Obteniendo listado de comercios"
 
-#   links.each_with_index do |link, index|
-#     puts "Accediendo a #{link}"
+  rubros = [
+    "carnicería",
+    "verdulería",
+  ]
 
-#     begin
-#       pagina = Nokogiri::HTML(open(link))
+  output = {}
 
-#       a = pagina.css('a').find { |a| a.text.index('clipwatching') && a.text.index('Reproducir en Subtitulado') }
+  rubros.each do |rubro|
+    puts "Obteniendo #{rubro}s"
 
-#       if a && a['data-link']
+    output[rubro] = []
 
-#         pagina = Nokogiri::HTML(open(a['data-link']))
+    i = 1
 
-#         iframe = pagina.css('iframe')
+    puts "Página #{i}"
 
-#         # byebug
+    uri = URI(URI.escape("https://maps.googleapis.com/maps/api/place/textsearch/json?query=#{rubro}&location=#{latitud},#{longitud}&key=#{API_KEY}"))
+    res = Net::HTTP.get(uri)
+    data = JSON[res]
 
-#         # puts iframe
+    output[rubro] = output[rubro] + data["results"]
 
-#         if iframe && iframe[0] && iframe[0]['src']
+    i += 1
 
-#           browser.goto iframe[0]['src']
+    while data["next_page_token"]
+      puts "Página #{i}"
+      sleep 2
+      uri = URI(URI.escape("https://maps.googleapis.com/maps/api/place/textsearch/json?pagetoken=#{data["next_page_token"]}&key=#{API_KEY}"))
+      res = Net::HTTP.get(uri)
+      data = JSON[res]
+      output[rubro] = output[rubro] + data["results"]
+      i += 1
+    end
+  end
 
-#           pagina = Nokogiri::HTML.parse(browser.html)
+  path = "Resultados/#{pais.gsub(" ", "_")}/#{provincia.gsub(" ", "_")}/#{ciudad.gsub(" ", "_")}.json"
+  dirname = File.dirname(path)
+  unless File.directory?(dirname)
+    FileUtils.mkdir_p(dirname)
+  end
 
-#           video = pagina.css('video')
+  puts "Guardando en #{path}"
 
-#           if video && video[0] && video[0]['src']
-
-#             puts "Escribiendo episodio #{(index + 1 + skip).to_s.rjust(2, '0')}"
-
-#             f = File.open('dleps.sh', 'a')
-#             f.write("axel -an 30 #{video[0]['src']} -o e#{(index + 1 + skip).to_s.rjust(2, '0')}.mp4\n")
-#             f.close
-
-#           end
-
-#         end
-
-#       end
-#     rescue OpenURI::HTTPError => e
-#       puts 'Error 404'
-#       puts link
-#     end
-#   end
-
-#   browser.close
-
-# else
-#   puts banner
-# end
-
-# rubocop:disable
+  f = File.open("#{path}", "w")
+  f.write(output.to_json)
+  f.close
+else
+  puts banner
+end

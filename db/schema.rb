@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_25_153754) do
+ActiveRecord::Schema.define(version: 2020_03_26_153448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,9 @@ ActiveRecord::Schema.define(version: 2020_03_25_153754) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "populada", default: false
+    t.datetime "fecha_populacion"
+    t.string "version_script_populacion"
+    t.string "rubros", default: [], array: true
     t.index ["provincia_id"], name: "index_ciudades_on_provincia_id"
   end
 
