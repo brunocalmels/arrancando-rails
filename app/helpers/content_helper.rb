@@ -113,14 +113,46 @@ module ContentHelper
     return nil if obj.imagenes.empty?
 
     if obj.imagenes.first.previewable?
-      url_for(obj.imagenes.first.preview(resize_to_limit: [350, 350]))
+      url_for(obj.imagenes.first.preview(
+                resize_to_limit: [THUMB_SIZE, THUMB_SIZE]
+              ))
     else
-      url_for(obj.imagenes.first.variant(resize_to_limit: [350, 350]))
+      url_for(obj.imagenes.first.variant(
+                resize_to_limit: [THUMB_SIZE, THUMB_SIZE]
+              ))
     end
   end
 
   def generate_video_thumb(video)
-    url_for(video.preview(resize_to_limit: [350, 350])) if video.previewable?
+    return unless video.previewable?
+
+    url_for(video.preview(
+              resize_to_limit: [THUMB_SIZE, THUMB_SIZE]
+            ))
+  end
+
+  def get_maps_image(poi, item)
+    unless item["photos"] &&
+           item["photos"][0] &&
+           item["photos"][0]["photo_reference"]
+
+      return
+    end
+
+    puts "Obteniendo thumbnail"
+
+    # rubocop:disable Metrics/LineLength
+
+    downloaded_image = URI.parse(
+      "https://maps.googleapis.com/maps/api/place/photo?photoreference=#{item['photos'][0]['photo_reference']}&sensor=false&maxheight=#{MAX_SIZE_POI_IMAGE}&maxwidth=#{MAX_SIZE_POI_IMAGE}&key=#{ENV['MAPS_API_KEY']}"
+    ).open
+
+    # rubocop:enable Metrics/LineLength
+
+    poi.imagenes.attach(
+      io: downloaded_image,
+      filename: "#{poi.id}-maps-image.jpg"
+    )
   end
 end
 
