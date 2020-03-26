@@ -1,9 +1,22 @@
 require "#{Rails.root}/app/helpers/content_helper"
 
 namespace :popular_ciudad do
+  desc "Busca las ciudades sin popular y las popula"
+  task pendientes: :environment do
+    ciudades = Ciudad.joins(:users)
+                     .distinct
+                     .where(populada: false)
+    ciudades.each do |ciudad|
+      Rake::Task["popular_ciudad:run"].invoke(ciudad.nombre)
+      Rake::Task["popular_ciudad:run"].reenable
+    end
+  end
+
   desc "Popula ciudades obtenidas a partir de scripts/scrapping-ciudad.rb"
   task :run, [:nombre_ciudad] => [:environment] do |_task, args|
     include ContentHelper
+
+    puts "Corriendo popular_ciudad:run para #{args[:nombre_ciudad]}"
 
     ciudads = Ciudad.where(nombre: args[:nombre_ciudad])
     if ciudads.count > 0
@@ -35,7 +48,8 @@ namespace :popular_ciudad do
           )
         )
 
-        mail_text = ""
+        mail_text = "Se agregaron de Google Maps los siguientes \
+                    comercios para la ciudad de #{ciudad.nombre_con_provincia}."
         ciudad_json.keys.each do |rubro|
           cant = 0
           ciudad_json[rubro].each do |item|
