@@ -31,12 +31,15 @@
             <%= link_to("PoIs", categoria_pois_path, class: 'nav-link' ) %>
           </div>
         </li>
+        <li class="navbar-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Geográfico<b class="caret"></b></a>
+          <div class="dropdown-menu">
+            <%= link_to("Ciudades", ciudades_path, class: 'nav-link' ) %>
+            <%= link_to("Provincias", provincias_path, class: 'nav-link' ) %>
+            <%= link_to("Países", paises_path, class: 'nav-link' ) %>
+        </li>
         <li class="navbar-item">
           <%= link_to("Reportes", reportes_path, class: 'nav-link' ) %>
-        </li>
-        </li>
-        <li class="navbar-item">
-          <%= link_to("Ciudades", ciudades_path, class: 'nav-link' ) %>
         </li>
       <% end %>
     </ul>

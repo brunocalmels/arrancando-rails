@@ -31,7 +31,7 @@
       </p>
       <%= f.select(
         :provincia_id,
-        Provincia.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
+        Provincia.order(nombre: :asc).collect { |c| [c.nombre_con_pais, c.id] },
         include_blank: true
       ) %>
     </div>

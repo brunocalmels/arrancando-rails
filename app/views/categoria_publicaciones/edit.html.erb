@@ -1,6 +1,7 @@
-<h1>Editing Categoria Publicacion</h1>
+<% provide(:title, "Editar Categoría Publicación") %>
 
 <%= render 'form', categoria_publicacion: @categoria_publicacion %>
 
-<%= link_to 'Show', @categoria_publicacion %> |
-<%= link_to 'Back', categoria_publicaciones_path %>
+<div class="botonera">
+  <%= link_to 'Volver', categoria_publicaciones_path, class: "btn btn-default"%>
+</div>

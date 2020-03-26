@@ -11,14 +11,18 @@ nav.navbar {
   }
 }
 
+.navbar-light .navbar-nav {
+  align-items: center;
+}
+
 .navbar-light .navbar-nav li a,
 .navbar-right input {
   font-weight: lighter;
   color: $negro !important;
-  font-size: 14pt;
+  // font-size: 14pt;
 
   @media screen and (max-width: $bpMaxSmall) {
-    font-size: 12pt;
+    font-size: 18pt;
   }
 
   &.active {
@@ -64,3 +68,8 @@ nav.navbar {
   background-color: $gris;
   font-weight: bold;
 }
+
+// .navbar-toggler {
+//   padding: 0.5rem 1rem;
+//   font-size: 250%;
+// }

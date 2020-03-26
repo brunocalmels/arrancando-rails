@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_16_143135) do
+ActiveRecord::Schema.define(version: 2020_03_25_153754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,12 @@ ActiveRecord::Schema.define(version: 2020_03_16_143135) do
     t.index ["user_id"], name: "index_comentario_recetas_on_user_id"
   end
 
+  create_table "paises", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "pois", force: :cascade do |t|
     t.string "titulo", null: false
     t.text "cuerpo"
@@ -115,6 +121,8 @@ ActiveRecord::Schema.define(version: 2020_03_16_143135) do
     t.string "nombre", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "pais_id", default: 1, null: false
+    t.index ["pais_id"], name: "index_provincias_on_pais_id"
   end
 
   create_table "publicaciones", force: :cascade do |t|
@@ -190,6 +198,7 @@ ActiveRecord::Schema.define(version: 2020_03_16_143135) do
   add_foreign_key "comentario_recetas", "users"
   add_foreign_key "pois", "categoria_pois"
   add_foreign_key "pois", "users"
+  add_foreign_key "provincias", "paises"
   add_foreign_key "publicaciones", "categoria_publicaciones"
   add_foreign_key "publicaciones", "ciudades"
   add_foreign_key "publicaciones", "users"

@@ -1,5 +1,5 @@
 class CreateCategoriaPublicaciones < ActiveRecord::Migration[6.0]
-  def change
+  def up
     create_table :categoria_publicaciones do |t|
       t.string :nombre, null: false
 
@@ -9,5 +9,9 @@ class CreateCategoriaPublicaciones < ActiveRecord::Migration[6.0]
     CATEGORIAS_PUBLICACIONES.each do |cat|
       CategoriaPublicacion.create(nombre: cat)
     end
+  end
+
+  def down
+    drop_table :categoria_publicaciones
   end
 end
