@@ -19,11 +19,8 @@ namespace :popular_ciudad do
       end
 
       if ciudad && !ciudad.populada
-
         # rubocop:disable Metrics/LineLength
-
         puts `cd #{Rails.root.join("scripts")}; ruby #{Rails.root.join("scripts", "srcapping-ciudad.rb")} --ciudad='#{ciudad.nombre}' --provincia='#{ciudad.provincia.nombre}' --apikey='#{ENV["MAPS_API_KEY"]}' --pais='#{ciudad.provincia.pais.nombre}'`
-
         # rubocop:enable Metrics/LineLength
 
         ciudad_json = JSON.parse(
@@ -38,7 +35,9 @@ namespace :popular_ciudad do
           )
         )
 
+        mail_text = ""
         ciudad_json.keys.each do |rubro|
+          cant = 0
           ciudad_json[rubro].each do |item|
             unless Poi.where(
               titulo: item["name"],
@@ -47,6 +46,8 @@ namespace :popular_ciudad do
             ).count == 0
               next
             end
+
+            cant += 1
 
             puts "Creando POI #{item['name']}"
             poi = Poi.create!(
@@ -65,10 +66,10 @@ namespace :popular_ciudad do
               puts e
             end
           end
+          mail_text += "Se crearon #{cant} PoIs del rubro '#{rubro}'. "
         end
 
         git_version = `git rev-parse HEAD`
-
         ciudad.update(
           populada: true,
           fecha_populacion: Time.zone.now,
@@ -76,6 +77,10 @@ namespace :popular_ciudad do
           rubros: ciudad_json.keys
         )
 
+        AutomatedTasksMailer.with(
+          text: mail_text,
+          ciudad: ciudad.nombre_con_provincia
+        ).email_ciudad_populada.deliver_now
       end
     end
   end
