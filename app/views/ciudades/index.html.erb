@@ -57,7 +57,8 @@
         <th>Provincia</th>
         <th>Usuarios activos</th>
         <th>Publicaciones</th>
-        <th>Populada (PoIs agregados por un admin)</th>
+        <th>Populada</th>
+        <th>PoIs</th>
         <th colspan="1"></th>
       </tr>
     </thead>
@@ -71,6 +72,7 @@
           <td><%= ciudad.users.count %></td>
           <td><%= ciudad.publicaciones.count %></td>
           <td><%= ciudad.populada? ? "Sí" : "No" %></td>
+          <td><%= ciudad.pois.count %></td>
           <td>
             <%= link_to ciudad_path(ciudad), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>

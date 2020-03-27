@@ -14,6 +14,7 @@ class Ciudad < ApplicationRecord
   belongs_to :provincia
   has_many :publicaciones, dependent: :nullify
   has_many :users, dependent: :nullify
+  has_many :pois, dependent: :nullify
   paginates_per 20
 
   scope :search, lambda { |term|
