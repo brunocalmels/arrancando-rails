@@ -18,6 +18,14 @@ namespace :popular_ciudad do
 
     puts "Corriendo popular_ciudad:run para #{args[:nombre_ciudad]}"
 
+    rubros = %w[
+      carnicería
+      verdulería
+      almacén
+      panadería
+      leñera
+    ]
+
     ciudads = Ciudad.where(nombre: args[:nombre_ciudad])
     if ciudads.count > 0
       ciudad = ciudads.first
@@ -33,7 +41,7 @@ namespace :popular_ciudad do
 
       if ciudad && !ciudad.populada
         # rubocop:disable Metrics/LineLength
-        puts `cd #{Rails.root.join("scripts")}; ruby #{Rails.root.join("scripts", "srcapping-ciudad.rb")} --ciudad='#{ciudad.nombre}' --provincia='#{ciudad.provincia.nombre}' --apikey='#{ENV["MAPS_API_KEY"]}' --pais='#{ciudad.provincia.pais.nombre}'`
+        puts `cd #{Rails.root.join("scripts")}; ruby #{Rails.root.join("scripts", "srcapping-ciudad.rb")} --ciudad='#{ciudad.nombre}' --provincia='#{ciudad.provincia.nombre}' --apikey='#{ENV["MAPS_API_KEY"]}' --pais='#{ciudad.provincia.pais.nombre}' --r=#{rubros.join(",")}`
         # rubocop:enable Metrics/LineLength
 
         ciudad_json = JSON.parse(
@@ -65,6 +73,7 @@ namespace :popular_ciudad do
 
             puts "Creando POI #{item['name']}"
             poi = Poi.create!(
+              ciudad: ciudad,
               titulo: item["name"],
               cuerpo: item["name"],
               lat: item["geometry"]["location"]["lat"],
@@ -72,7 +81,9 @@ namespace :popular_ciudad do
               direccion: item["formatted_address"],
               puntajes: {},
               user: User.first,
-              categoria_poi: CategoriaPoi.first
+              categoria_poi: CategoriaPoi.where(
+                nombre: ActiveSupport::Inflector.pluralize(rubro).capitalize
+              ).first
             )
             begin
               get_maps_image(poi, item)

@@ -129,6 +129,8 @@ ActiveSupport::Inflector.inflections do |inflect|
   ActiveSupport::Inflector.inflections do |infl|
     infl.irregular "permitió", "permitieron"
     infl.irregular "user", "users"
+    infl.irregular "almacén", "almacenes"
+    infl.irregular "delivery", "deliveries"
   end
 end
 

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "optparse"
+require "byebug"
 
 options = {}
 
@@ -17,6 +18,9 @@ OptionParser.new do |opts|
   opts.on("-pa", "--pais PAIS", "País") { |v| options[:pais] = v }
   # opts.on('-la', '--latitud LATITUD', 'latitud') { |v| options[:latitud] = v }
   # opts.on('-lo', '--longitud LONGITUD', 'longitud') { |v| options[:longitud] = v }
+  opts.on("-r", "--rubros cat1,cat2,cat3", "Rubros") do |v|
+    options[:rubros] = Array.new(v.split(","))
+  end
 end.parse!
 
 if !options.empty? && !options[:ciudad].nil? && !options[:provincia].nil? && !options[:apikey].nil?
@@ -43,20 +47,14 @@ if !options.empty? && !options[:ciudad].nil? && !options[:provincia].nil? && !op
 
   puts "Obteniendo listado de comercios"
 
-  rubros = [
-    "carnicería",
-    "verdulería",
-  ]
-
   output = {}
 
+  rubros = options[:rubros]
   rubros.each do |rubro|
-    puts "Obteniendo #{rubro}s"
+    puts "Obteniendo rubro #{rubro}"
 
     output[rubro] = []
-
     i = 1
-
     puts "Página #{i}"
 
     uri = URI(URI.escape("https://maps.googleapis.com/maps/api/place/textsearch/json?query=#{rubro}&location=#{latitud},#{longitud}&key=#{API_KEY}"))

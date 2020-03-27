@@ -72,6 +72,11 @@
           <td><%= ciudad.publicaciones.count %></td>
           <td><%= ciudad.populada? ? "Sí" : "No" %></td>
           <td>
+            <%= link_to ciudad_path(ciudad), class: "btn btn-xs btn-success" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+          </td>
+          <td>
             <%= link_to edit_ciudad_url(ciudad), class: "btn btn-xs btn-info" do %>
               <i class="fa fa-pencil-alt"></i>
             <% end %>

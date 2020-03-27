@@ -16,10 +16,6 @@
     <%= form.text_field :nombre %>
   </div>
 
-  <div class="field">
-    <%= form.label 'Usuario' %>
-    <%= form.select :user_id, User.all.collect { |c| [c.username, c.id] } %>
-  </div>
 
   <div class="actions">
     <%= form.submit :Guardar, class: "btn btn-success" %>

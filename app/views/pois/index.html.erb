@@ -27,7 +27,7 @@
       </p>
       <%= f.select(
         :categoria_poi_id,
-        CategoriaPoi.all.collect { |c| [c.nombre, c.id] },
+        CategoriaPoi.all.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
         include_blank: true
       ) %>
     </div>

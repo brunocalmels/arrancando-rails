@@ -1,5 +1,46 @@
 <% provide(:title, "Ciudad") %>
 
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <th class="row-sm-2">Nombre</th>
+        <td><%= @ciudad.nombre %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Provincia</th>
+        <td><%= @ciudad.provincia.nombre %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">País</th>
+        <td><%= @ciudad.provincia.pais.nombre %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Populada</th>
+        <td><%= @ciudad.populada? ? "Sí" : "No"%></td>
+      </tr>
+      <% unless @ciudad.fecha_populacion.nil? %>
+        <tr style="font-weight: bold;">
+          <th><h5>Populación:</h5></th>
+          <td></td>
+        </tr>
+        <tr>
+          <th class="row-sm-2">Fecha</th>
+          <td><%= @ciudad.fecha_populacion.strftime("%d-%m-%Y %H:%M hs")%></td>
+        </tr>
+        <tr>
+          <th class="row-sm-2">Rubros</th>
+          <td><%= @ciudad.rubros.join(', ') %></td>
+        </tr>
+        <tr>
+          <th class="row-sm-2">Versión script</th>
+          <td><%= @ciudad.version_script_populacion%></td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
 <div class="botonera">
   <%= link_to 'Editar', edit_ciudad_path(@ciudad), class: "btn btn-info" %>
   <%= link_to 'Volver', ciudades_path, class: "btn btn-default" %>

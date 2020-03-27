@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   resources :reportes, only: %i[index show]
 
   get "ciudades/search", to: "ciudades#search"
-  resources :ciudades, except: %i[show destroy]
+  resources :ciudades, except: %i[destroy]
 
   resources :provincias, except: %i[show destroy]
   resources :paises, except: %i[show destroy]
