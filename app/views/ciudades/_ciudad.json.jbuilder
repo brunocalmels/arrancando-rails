@@ -1,4 +1,5 @@
-json.extract! ciudad, :id,
+json.extract! ciudad,
+              :id,
               :nombre,
               :populada,
               :created_at,

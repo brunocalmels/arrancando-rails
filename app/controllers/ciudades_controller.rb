@@ -25,7 +25,6 @@ class CiudadesController < ApplicationController
   # # GET /ciudades/1
   # # GET /ciudades/1.json
   def show
-    # render json: @ciudad
   end
 
   # GET /ciudades/new
