@@ -22,7 +22,7 @@ class Poi < ApplicationRecord
   belongs_to :ciudad, optional: true
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
-  paginates_per 10
+  paginates_per 30
 
   validates :titulo, presence: true
   validates :lat, presence: true
@@ -41,11 +41,16 @@ class Poi < ApplicationRecord
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }
 
+  scope :ciudad_id, lambda { |ciudad_id|
+    where(ciudad_id: ciudad_id)
+  }
+
   filterrific(
     persistance_id: false,
     available_filters: %i[
       search_query
       categoria_poi_id
+      ciudad_id
       user_id
       sorted_by
     ]
