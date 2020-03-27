@@ -98,7 +98,8 @@ namespace :popular_ciudad do
         mail_text += "Se crearon #{cant} PoIs del rubro '#{rubro}'. "
       end
 
-      git_version = `git rev-parse HEAD`
+      # git_version = `git rev-parse HEAD`
+      git_version = ENV["SOURCE_VERSION"]
       ciudad.update(
         populada: true,
         fecha_populacion: Time.zone.now,
