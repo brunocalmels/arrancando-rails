@@ -50,6 +50,8 @@ class PoisController < ApplicationController
     # @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
     @poi.user = current_user
 
+    inferir_ciudad
+
     respond_to do |format|
       format.html do
         if (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi)) && @poi.valid? && @poi.save
@@ -151,5 +153,25 @@ class PoisController < ApplicationController
     else
       params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id, :habilitado, :user_id)
     end
+  end
+
+  def inferir_provincia
+    @provincia = Provincia.find_by_nombre(params[:nombre_provincia])
+    return unless @provincia.nombre == "Buenos Aires"
+
+    @provincia2 = Provincia.find_by_nombre("Capital Federal")
+  end
+
+  def inferir_ciudad
+    return unless params.key?(:nombre_ciudad) && params.key?(:nombre_provincia)
+
+    inferir_provincia
+
+    ciudad = Ciudad.find_by_nombre(params[:nombre_ciudad])
+    unless ciudad.provincia_id == @provincia.id || (@provincia2 && ciudad.provincia_id == @provincia2.id)
+      return
+    end
+
+    @poi.ciudad = ciudad
   end
 end
