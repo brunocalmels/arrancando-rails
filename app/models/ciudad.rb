@@ -15,10 +15,13 @@
 
 class Ciudad < ApplicationRecord
   belongs_to :provincia
+  delegate :pais, to: :provincia
   has_many :publicaciones, dependent: :nullify
   has_many :users, dependent: :nullify
   has_many :pois, dependent: :nullify
   paginates_per 20
+
+  validate :unica
 
   scope :search, lambda { |term|
     where("nombre ILIKE :term", term: "%#{term}%")
@@ -45,5 +48,16 @@ class Ciudad < ApplicationRecord
 
   def nombre_con_provincia
     nombre + " (" + provincia.nombre + ")"
+  end
+
+  private
+
+  def unica
+    return if Ciudad.joins(provincia: :pais)
+                    .where("ciudades.nombre = ?", nombre)
+                    .where("provincias.nombre = ?", provincia.nombre)
+                    .where("paises.nombre = ?", pais.nombre).empty?
+
+    errors.add(:ciudad, "ya existe")
   end
 end

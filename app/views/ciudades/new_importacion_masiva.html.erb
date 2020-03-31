@@ -1,0 +1,21 @@
+<% provide(:title, "Nueva ciudad") %>
+
+<%= form_tag 'importacion_masiva', multipart: true do |f| %>
+
+  <div class="field">
+    <%= label :archivo, "Archivo" %>
+    <%= file_field_tag :archivo, accept: "text/csv" %>
+  </div>
+
+  <%= submit_tag "Importar" %>
+<% end %>
+
+<h3>Instrucciones</h3>
+<p>El proceso sólo crea las ciudades. País y provincia ya deben existir.</p>
+<p>Formato de cada fila: Ciudad, Provincia, País</p>
+<h4>Archivo de muestra</h4>
+<%= link_to 'test_import.csv', '/test_import.csv' %>
+
+<div class="botonera">
+<%= link_to 'Volver', ciudades_path %>
+</div>

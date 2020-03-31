@@ -8,4 +8,8 @@ class CiudadPolicy < ApplicationPolicy
   def index?
     user&.admin?
   end
+
+  def importacion_masiva?
+    index?
+  end
 end

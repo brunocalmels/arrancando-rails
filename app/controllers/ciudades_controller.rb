@@ -1,5 +1,6 @@
 class CiudadesController < ApplicationController
   before_action :set_ciudad, only: %i[show edit update]
+  skip_before_action :verify_authenticity_token, only: %i[importacion_masiva]
 
   # GET /ciudades
   # GET /ciudades.json
@@ -75,6 +76,25 @@ class CiudadesController < ApplicationController
   #     format.json { head :no_content }
   #   end
   # end
+
+  # GET ciudades/importacion_masiva
+  def new_importacion_masiva
+  end
+
+  # POST ciudades/importacion_masiva
+  def importacion_masiva
+    if params[:archivo].nil?
+      redirect_to(ciudades_importacion_masiva_path) && return
+    end
+    @ciudades_import = CiudadesImport.new(file: params[:archivo])
+    @msje = ""
+    authorize @ciudades_import, policy_class: CiudadPolicy
+    if (res = @ciudades_import.save)[:cant].to_i > 0
+      redirect_to ciudades_path, notice: "#{res[:cant]} ciudades importadas satisfactoriamente: \n#{res[:msje_success]}", alert: res[:msje_error]
+    else
+      redirect_to ciudades_importacion_masiva_path, alert: "Ninguna ciudad importada. #{res[:msje_error]}"
+    end
+  end
 
   private
 
