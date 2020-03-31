@@ -33,7 +33,7 @@ class PublicacionesController < ApplicationController
 
   # GET /publicaciones/new
   def new
-    @publicacion = Publicacion.new
+    @publicacion = Publicacion.new(user: current_user)
   end
 
   # GET /publicaciones/1/edit

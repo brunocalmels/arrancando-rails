@@ -17,20 +17,23 @@ class ProvinciasController < ApplicationController
   # GET /provincias/new
   def new
     @provincia = Provincia.new
+    authorize @provincia, policy_class: GeoPolicy
   end
 
   # GET /provincias/1/edit
   def edit
+    authorize @provincia, policy_class: GeoPolicy
   end
 
   # POST /provincias
   # POST /provincias.json
   def create
     @provincia = Provincia.new(provincia_params)
+    authorize @provincia, policy_class: GeoPolicy
 
     respond_to do |format|
       if @provincia.save
-        format.html { redirect_to provincias_path, notice: "Provincia satisfactoriamente creada." }
+        format.html { redirect_to new_provincia_path, notice: "Provincia satisfactoriamente creada." }
         format.json { render :show, status: :created, location: @provincia }
       else
         format.html { render :new }
@@ -42,6 +45,7 @@ class ProvinciasController < ApplicationController
   # PATCH/PUT /provincias/1
   # PATCH/PUT /provincias/1.json
   def update
+    authorize @provincia, policy_class: GeoPolicy
     respond_to do |format|
       if @provincia.update(provincia_params)
         format.html { redirect_to provincias_path, notice: "Provincia satisfactoriamente actualizada." }
@@ -56,6 +60,7 @@ class ProvinciasController < ApplicationController
   # DELETE /provincias/1
   # DELETE /provincias/1.json
   def destroy
+    authorize @provincia, policy_class: GeoPolicy
     @provincia.destroy
     respond_to do |format|
       format.html { redirect_to provincias_url, notice: "Provincia satisfactoriamente eliminada." }

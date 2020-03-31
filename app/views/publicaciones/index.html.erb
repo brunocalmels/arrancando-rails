@@ -37,7 +37,7 @@
       </p>
       <%= f.select(
         :categoria_publicacion_id,
-        CategoriaPublicacion.all.collect { |c| [c.nombre, c.id] },
+        CategoriaPublicacion.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
         include_blank: true
       ) %>
     </div>

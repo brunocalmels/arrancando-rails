@@ -1,12 +1,12 @@
 class CiudadesController < ApplicationController
-  before_action :set_ciudad, only: %i[show edit update]
+  before_action :set_ciudad, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: %i[importacion_masiva]
 
   # GET /ciudades
   # GET /ciudades.json
   def index
     @filterrific = initialize_filterrific(Ciudad.order(id: :asc), params[:filterrific], select_options: {})
-    @ciudades = policy_scope(@filterrific.try(:find) || Ciudad.order(id: :asc))
+    @ciudades = policy_scope(@filterrific.try(:find) || Ciudad.order(id: :asc), policy_scope_class: GeoPolicy::Scope)
 
     if request.format.json?
       render json: @ciudades
@@ -31,20 +31,23 @@ class CiudadesController < ApplicationController
   # GET /ciudades/new
   def new
     @ciudad = Ciudad.new
+    authorize @ciudad, policy_class: GeoPolicy
   end
 
   # GET /ciudades/1/edit
   def edit
+    authorize @ciudad, policy_class: GeoPolicy
   end
 
   # POST /ciudades
   # POST /ciudades.json
   def create
     @ciudad = Ciudad.new(ciudad_params)
+    authorize @ciudad, policy_class: GeoPolicy
 
     respond_to do |format|
       if @ciudad.save
-        format.html { redirect_to ciudades_path, notice: "Ciudad satisfactoriamente creada." }
+        format.html { redirect_to new_ciudad_path, notice: "Ciudad satisfactoriamente creada." }
         format.json { render :show, status: :created, location: @ciudad }
       else
         format.html { render :new }
@@ -56,6 +59,7 @@ class CiudadesController < ApplicationController
   # PATCH/PUT /ciudades/1
   # PATCH/PUT /ciudades/1.json
   def update
+    authorize @ciudad, policy_class: GeoPolicy
     respond_to do |format|
       if @ciudad.update(ciudad_params)
         format.html { redirect_to ciudades_path, notice: "Ciudad satisfactoriamente actualizada." }
@@ -67,15 +71,16 @@ class CiudadesController < ApplicationController
     end
   end
 
-  # # DELETE /ciudades/1
-  # # DELETE /ciudades/1.json
-  # def destroy
-  #   @ciudad.destroy
-  #   respond_to do |format|
-  #     format.html { redirect_to ciudades_url, notice: 'Ciudad satisfactoriamente eliminada.' }
-  #     format.json { head :no_content }
-  #   end
-  # end
+  # DELETE /ciudades/1
+  # DELETE /ciudades/1.json
+  def destroy
+    authorize @ciudad, policy_class: GeoPolicy
+    @ciudad.destroy
+    respond_to do |format|
+      format.html { redirect_to ciudades_url, notice: "Ciudad satisfactoriamente eliminada." }
+      format.json { head :no_content }
+    end
+  end
 
   # GET ciudades/importacion_masiva
   def new_importacion_masiva
@@ -88,7 +93,7 @@ class CiudadesController < ApplicationController
     end
     @ciudades_import = CiudadesImport.new(file: params[:archivo])
     @msje = ""
-    authorize @ciudades_import, policy_class: CiudadPolicy
+    authorize @ciudades_import, policy_class: GeoPolicy
     if (res = @ciudades_import.save)[:cant].to_i > 0
       redirect_to ciudades_path, notice: "#{res[:cant]} ciudades importadas satisfactoriamente: \n#{res[:msje_success]}", alert: res[:msje_error]
     else

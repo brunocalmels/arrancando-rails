@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe CiudadPolicy, type: :policy do
+RSpec.describe GeoPolicy, type: :policy do
   let(:user) { User.new }
 
   subject { described_class }

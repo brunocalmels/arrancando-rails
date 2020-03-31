@@ -27,7 +27,7 @@
       </p>
       <%= f.select(
         :categoria_receta_id,
-        CategoriaReceta.all.collect { |c| [c.nombre, c.id] },
+        CategoriaReceta.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
         include_blank: true
       ) %>
     </div>

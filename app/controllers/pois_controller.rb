@@ -32,7 +32,7 @@ class PoisController < ApplicationController
 
   # GET /pois/new
   def new
-    @poi = Poi.new
+    @poi = Poi.new(user: current_user)
   end
 
   # GET /pois/1/edit

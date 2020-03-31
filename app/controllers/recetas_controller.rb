@@ -32,7 +32,7 @@ class RecetasController < ApplicationController
 
   # GET /recetas/new
   def new
-    @receta = Receta.new
+    @receta = Receta.new(user: current_user)
   end
 
   # GET /recetas/1/edit
