@@ -97,7 +97,7 @@ class UsersController < ApplicationController
     data[:avatar] = if @user.avatar.attached?
                       rails_blob_path(@user.avatar)
                     else
-                      "/images/missing.jpg"
+                      "/images/unknown.png"
                     end
     redirect_to "https://arrancando.com.ar/google-signin/" + encode64(data.to_json) + "/"
   end
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
     data[:avatar] = if @user.avatar.attached?
                       rails_blob_path(@user.avatar)
                     else
-                      "/images/missing.jpg"
+                      "/images/unknown.png"
                     end
     redirect_to "https://arrancando.com.ar/facebook-signin/" + encode64(data.to_json) + "/"
   end
@@ -133,7 +133,7 @@ class UsersController < ApplicationController
     data[:avatar] = if @user.avatar.attached?
                       rails_blob_path(@user.avatar)
                     else
-                      "/images/missing.jpg"
+                      "/images/unknown.png"
                     end
 
     render json: data
@@ -152,7 +152,7 @@ class UsersController < ApplicationController
     data[:avatar] = if @user.avatar.attached?
                       rails_blob_path(@user.avatar)
                     else
-                      "/images/missing.jpg"
+                      "/images/unknown.png"
                     end
 
     render json: data
