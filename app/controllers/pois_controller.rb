@@ -50,7 +50,7 @@ class PoisController < ApplicationController
     # @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
     @poi.user = current_user
 
-    inferir_ciudad
+    inferir_ciudad if request.format.json?
 
     respond_to do |format|
       format.html do
@@ -151,7 +151,7 @@ class PoisController < ApplicationController
     if request.format.json?
       params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id)
     else
-      params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id, :habilitado, :user_id)
+      params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id, :habilitado, :user_id, :ciudad_id)
     end
   end
 

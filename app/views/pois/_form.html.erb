@@ -37,6 +37,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :ciudad %>
+    <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre_con_provincia, c.id] } %>
+  </div>
+
+  <div class="field">
     <%= form.label 'Categoría' %>
     <%= form.select :categoria_poi_id, CategoriaPoi.all.collect { |c| [c.nombre, c.id] } %>
   </div>

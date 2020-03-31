@@ -13,6 +13,16 @@
     </div>
     <div>
       <p class='etiqueta'>
+        Ciudad
+      </p>
+      <%= f.select(
+        :ciudad_id,
+        Ciudad.joins(:pois).distinct.order(nombre: :asc).collect { |c| [c.nombre_con_provincia, c.id] },
+        include_blank: true
+      ) %>
+    </div>
+    <div>
+      <p class='etiqueta'>
         Usuario
       </p>
       <%= f.select(
@@ -56,6 +66,7 @@
         <th>Categoría</th>
         <th>Lat</th>
         <th>Long</th>
+        <th>Ciudad</th>
         <th>Calificaciones</th>
         <th colspan="3"></th>
       </tr>
@@ -71,6 +82,7 @@
           <td><%= poi.categoria_poi.nombre %></td>
           <td><%= poi.lat %></td>
           <td><%= poi.long %></td>
+          <td><%= poi.ciudad.nombre %></td>
           <td><%= poi.puntajes %></td>
           <td>
             <%= link_to poi_path(poi), class: "btn btn-xs btn-success" do %>
