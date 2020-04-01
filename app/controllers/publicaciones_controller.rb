@@ -23,6 +23,9 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
+    return unless @publicacion.puntajes.any?
+
+    @puntaje_prom = @publicacion.puntajes.map { |pu| pu[1] }.sum.to_f / @publicacion.puntajes.count
   end
 
   # GET /publicaciones/search

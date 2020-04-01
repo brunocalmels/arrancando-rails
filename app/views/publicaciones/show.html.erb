@@ -1,94 +1,156 @@
 <% provide(:title, "Publicación") %>
 
-<p>
-  <strong>Título:</strong>
-  <%= @publicacion.titulo %>
-</p>
+<div class="content-show">
 
-<p>
-  <strong>Cuerpo:</strong>
-  <%= @publicacion.cuerpo %>
-</p>
-
-<div>
-  <strong>Texto para compartir:</strong>
-  <p>
-  Mirá esta publicación: <%= link_to(ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s, ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s)%>
-  </p>
-
-  <h3><%= @publicacion.titulo %></h3>
-  <p><%= @publicacion.cuerpo %></p>
-  <p>
-  Si todavía no te descargaste Arrancando podés hacerlo:
-  <ul>
-    <li>
-      Para Android desde
-      <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
-    </li>
-    <li>
-      Para iOS desde
-      <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
-    </li>
-  </ul>
-  </p>
-</div>
-
-<div class="user-info">
-  <p>
-    <strong>Autor:</strong>
-    <%= link_to @publicacion.user.username, @publicacion.user %>
-  </p>
-  <%= @publicacion.user.avatar.attached? ? image_tag(@publicacion.user.avatar.variant(resize_to_limit: [120, 120])) : nil %>
-</div>
-
-<!--
-<p>
-  <strong>Cuerpo Rich:</strong>
-  <%= @publicacion.cuerpo_rich %>
-</p>
--->
-
-<p>
-  <strong>Ciudad:</strong>
-  <%= @publicacion.ciudad.nombre %>
-</p>
-
-<p>
-  <strong>Habilitada:</strong>
-  <%= @publicacion.habilitado? ? "Sí" : "No" %>
-</p>
-
-<p>
-  <strong>Categoría:</strong>
-  <%= @publicacion.categoria_publicacion.nombre %>
-</p>
-
-<p>
-  <strong>Puntajes:</strong>
-  <ul>
-    <% @publicacion.puntajes.each do |punt| %>
-      <li>
-        @<%= User.find(punt[0]).username %>: <%= punt[1]%>
-      </li>
+  <div class="cabecera">
+    <div class="imagen-fondo"></div>
+    <div class="creador">
+      <p>
+        <% if @current_user.admin? %>
+          <%= link_to "@#{@publicacion.user.username}", @publicacion.user %>
+        <% else %>
+          <%= "@#{@publicacion.user.username}" %>
+        <% end %>
+      </p>
+      <div class="image-container">
+        <% if @publicacion.user.avatar.attached? %>
+          <%= image_tag(@publicacion.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]), class: "avatar") %>
+        <% else %>
+          <%= image_tag("/images/unknown.png", class: "avatar") %>
+        <% end %>
+      </div>
+    </div>
+    <div class="titulo">
+      <p>
+        <%= @publicacion.titulo %>
+      </p>
+    </div>
+    <% unless @puntaje_prom.nil? %>
+      <div class="puntaje">
+        <div class="estrellas">
+          <% @puntaje_prom.ceil.times do %>
+            <i class="fas fa-star"></i>
+          <% end %>
+          <% (5 - @puntaje_prom.ceil).times do %>
+            <i class="far fa-star"></i>
+          <% end %>
+        </div>
+        <div class="votos">
+          <span class="promedio">
+            <%= @puntaje_prom %>
+          </span>
+          <span class="cant_votos">
+            (<%= @publicacion.puntajes.count %>
+            <i class="fas fa-user"></i>)
+          </span>
+        </div>
+        </div>
     <% end %>
-  </ul>
-</p>
+  </div>
 
-<div class='multimedia'>
-  <strong>Multimedia:</strong>
-  <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>
-    <% case img.blob.content_type %>
-    <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
-      <video controls>
-        <source src=<%= asset_url_for(img, device: 'web') %> />
-      </video>
-    <% when 'image/jpg', 'image/jpeg', 'image/png', "image/gif" %>
-      <%= image_tag(asset_url_for(img, device: 'web')) %>
-    <% end %>
+  <% unless @publicacion.cuerpo.blank? %>
+    <p>
+      <p class='strong'>Cuerpo</p>
+      <%= @publicacion.cuerpo %>
+    </p>
   <% end %>
+
+  <% if @current_user.admin? %>
+    <div class="texto-compartir">
+      <%= render 'shared/nota_admin' %>
+      <p class='strong'>Texto para compartir:</p>
+      <h3><%= @publicacion.titulo %></h3>
+      <p><%= @publicacion.cuerpo %></p>
+      <p>
+      Mirá esta publicación: <%= link_to(ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s, ARRANCANDO_URL+'/publicaciones/'+@publicacion.id.to_s)%>
+      </p>
+      <p>
+      Si todavía no te descargaste Arrancando podés hacerlo:
+      <ul>
+        <li>
+          Para Android desde
+          <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
+        </li>
+        <li>
+          Para iOS desde
+          <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
+        </li>
+      </ul>
+      </p>
+    </div>
+
+    <p>
+      <%= render 'shared/nota_admin' %>
+      <strong>Habilitada:</strong>
+      <%= @publicacion.habilitado? ? "Sí" : "No" %>
+    </p>
+
+    <p>
+      <%= render 'shared/nota_admin' %>
+      <strong>Puntajes:</strong>
+      <ul>
+        <% @publicacion.puntajes.each do |punt| %>
+          <li>
+            @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+          </li>
+        <% end %>
+      </ul>
+    </p>
+  <% end %>
+
+  <p>
+    <strong>Ciudad:</strong>
+    <%= @publicacion.ciudad.nombre %>
+  </p>
+
+
+  <p>
+    <strong>Categoría:</strong>
+    <%= @publicacion.categoria_publicacion.nombre %>
+  </p>
+
+  <div class='multimedia'>
+    <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>
+      <% case img.blob.content_type %>
+      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+        <video controls>
+          <source src=<%= asset_url_for(img, device: 'web') %> />
+        </video>
+      <% when 'image/jpg', 'image/jpeg', 'image/png', "image/gif" %>
+        <%= image_tag(asset_url_for(img, device: 'web')) %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="comentarios">
+    <ul>
+      <% @publicacion.comentarios.each do |comment| %>
+        <li>
+          <div class="image-container">
+            <% if comment.user.avatar.attached? %>
+              <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
+            <% else %>
+              <%= image_tag("/images/unknown.png", class: "avatar") %>
+            <% end %>
+          </div>
+          <div class="cuerpo_comment">
+            <p class="user">
+              @<%= comment.user.username %>
+            </p>
+            <p class="mensaje">
+              <%= comment.mensaje %>
+            </p>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
 </div>
 
 <div class="botonera">
   <%= link_to 'Editar', edit_publicacion_path(@publicacion), class: "btn btn-info" %>
   <%= link_to 'Volver', publicaciones_path, class: "btn btn-default" %>
 </div>
+
+<%= render 'shared/descarga_app' %>
