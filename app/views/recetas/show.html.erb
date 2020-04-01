@@ -1,108 +1,149 @@
 <% provide(:title, "Receta") %>
 
-<p>
-  <strong>Título:</strong>
-  <%= @receta.titulo %>
-</p>
+<div class="content-show">
 
-<p>
-  <strong>Cuerpo:</strong>
-  <%= @receta.cuerpo %>
-</p>
-
-<p>
-  <strong>Introducción:</strong>
-  <%= @receta.introduccion %>
-</p>
-
-<p>
-  <strong>Ingredientes:</strong>
-  <%= @receta.ingredientes %>
-</p>
-
-<p>
-  <strong>Instrucciones:</strong>
-  <%= @receta.instrucciones %>
-</p>
-
-<div>
-  <strong>Texto para compartir:</strong>
-  <p>
-  Mirá esta receta: <%= link_to(ARRANCANDO_URL+'/recetas/'+@receta.id.to_s, ARRANCANDO_URL+'/recetas/'+@receta.id.to_s)%>
-  </p>
-  <h3><%= @receta.titulo %></h3>
-  <% unless @receta.cuerpo.blank? %>
-    <p><%= @receta.cuerpo %></p>
-  <% end %>
-  <% unless @receta.introduccion.blank? %>
-    <h4>Introdución</h4>
-    <p><%= @receta.introduccion %></p>
-  <% end %>
-  <% unless @receta.ingredientes.blank? %>
-    <h4>Ingredientes</h4>
-    <p><%= @receta.ingredientes %></p>
-  <% end %>
-  <% unless @receta.instrucciones.blank? %>
-    <h4>Instrucciones</h4>
-    <p><%= @receta.instrucciones %></p>
-  <% end %>
-  <p>
-  Si todavía no te descargaste Arrancando podés hacerlo:
-  <ul>
-    <li>
-      Para Android desde
-      <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
-    </li>
-    <li>
-      Para iOS desde
-      <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
-    </li>
-  </ul>
-  </p>
-</div>
-
-
-<div class="user-info">
-  <p>
-    <strong>Autor:</strong>
-    <%= link_to @receta.user.username, @receta.user %>
-  </p>
-  <%= @receta.user.avatar.attached? ? image_tag(@receta.user.avatar.variant(resize_to_limit: [120, 120])) : nil %>
-</div>
-
-<p>
-  <strong>Habilitada:</strong>
-  <%= @receta.habilitado? ? "Sí" : "No" %>
-</p>
-
-<p>
-  <strong>Categoría:</strong>
-  <%= @receta.categoria_receta.nombre %>
-</p>
-
-<p>
-  <strong>Puntajes:</strong>
-  <ul>
-    <% @receta.puntajes.each do |punt| %>
-      <li>
-        @<%= User.find(punt[0]).username %>: <%= punt[1]%>
-      </li>
+  <div class="cabecera">
+    <div class="imagen-fondo"></div>
+    <div class="creador">
+      <p>
+        <% if @current_user.admin? %>
+          <%= link_to @receta.user.username, @receta.user %>
+        <% else %>
+          <%= @receta.user.username %>
+        <% end %>
+      </p>
+      <div class="image-container">
+        <% if @receta.user.avatar.attached? %>
+          <%= image_tag(@receta.user.avatar.variant(resize_to_limit: [250, 250]), class: "avatar") %>
+        <% else %>
+          <%= image_tag("/images/unknown.png", width: 250, height: 250, class: "avatar") %>
+        <% end %>
+      </div>
+    </div>
+    <div class="titulo">
+      <p>
+        <%= @receta.titulo %>
+      </p>
+    </div>
+    <% unless @puntaje_prom.nil? %>
+      <div class="puntaje">
+        <div class="estrellas">
+          <% @puntaje_prom.ceil.times do %>
+            <i class="fas fa-star"></i>
+          <% end %>
+          <% (5 - @puntaje_prom.ceil).times do %>
+            <i class="far fa-star"></i>
+          <% end %>
+        </div>
+        <div class="votos">
+          <span class="promedio">
+            <%= @puntaje_prom %>
+          </span>
+          <span class="cant_votos">
+            (<%= @receta.puntajes.count %>
+            <i class="fas fa-user"></i>)
+          </span>
+        </div>
+        </div>
     <% end %>
-  </ul>
-</p>
+  </div>
 
-<div class='multimedia'>
-  <strong>Multimedia:</strong>
-  <% @receta.imagenes.any? && @receta.imagenes.each_with_index do |img, i| %>
-    <% case img.blob.content_type %>
-    <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
-      <video controls>
-        <source src=<%= asset_url_for(img, device: 'web') %> />
-      </video>
-    <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
-      <%= image_tag(asset_url_for(img, device: 'web')) %>
-    <% end %>
+  <p>
+    <p class='strong'>Cuerpo</p>
+    <%= @receta.cuerpo %>
+  </p>
+
+  <p>
+    <p class='strong'>Introducción</p>
+    <%= @receta.introduccion %>
+  </p>
+
+  <p>
+    <p class='strong'>Ingredientes</p>
+    <%= @receta.ingredientes %>
+  </p>
+
+  <p>
+    <p class='strong'>Instrucciones</p>
+    <%= @receta.instrucciones %>
+  </p>
+
+  <% if @current_user.admin? %>
+    <div class="texto-compartir">
+      <%= render 'shared/nota_admin' %>
+      <p class='strong'>Texto para compartir:</p>
+      <p>
+      Mirá esta receta: <%= link_to(ARRANCANDO_URL+'/recetas/'+@receta.id.to_s, ARRANCANDO_URL+'/recetas/'+@receta.id.to_s)%>
+      </p>
+      <h4><%= @receta.titulo %></h4>
+      <% unless @receta.cuerpo.blank? %>
+        <p><%= @receta.cuerpo %></p>
+      <% end %>
+      <% unless @receta.introduccion.blank? %>
+        <h5>Introdución</h5>
+        <p><%= @receta.introduccion %></p>
+      <% end %>
+      <% unless @receta.ingredientes.blank? %>
+        <h5>Ingredientes</h5>
+        <p><%= @receta.ingredientes %></p>
+      <% end %>
+      <% unless @receta.instrucciones.blank? %>
+        <h5>Instrucciones</h5>
+        <p><%= @receta.instrucciones %></p>
+      <% end %>
+      <p>
+      Si todavía no te descargaste Arrancando podés hacerlo:
+      <ul>
+        <li>
+          Para Android desde
+          <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
+        </li>
+        <li>
+          Para iOS desde
+          <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
+        </li>
+      </ul>
+      </p>
+    </div>
+
+    <p>
+      <%= render 'shared/nota_admin' %>
+      <strong>Habilitada:</strong>
+      <%= @receta.habilitado? ? "Sí" : "No" %>
+    </p>
+
+    <p>
+      <strong>Puntajes:</strong>
+      <ul>
+        <% @receta.puntajes.each do |punt| %>
+          <li>
+            @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+          </li>
+        <% end %>
+      </ul>
+    </p>
   <% end %>
+
+  <p>
+    <strong>Categoría:</strong>
+    <%= @receta.categoria_receta.nombre %>
+  </p>
+
+
+  <div class='multimedia'>
+    <!-- <strong>Multimedia:</strong> -->
+    <% @receta.imagenes.any? && @receta.imagenes.each_with_index do |img, i| %>
+      <% case img.blob.content_type %>
+      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+        <video controls>
+          <source src=<%= asset_url_for(img, device: 'web') %> />
+        </video>
+      <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
+        <%= image_tag(asset_url_for(img, device: 'web')) %>
+      <% end %>
+    <% end %>
+  </div>
+
 </div>
 
 <div class="botonera">

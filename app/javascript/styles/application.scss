@@ -3,6 +3,7 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "bootstrap_custom";
 @import "custom";
 @import "colors";
+@import "content-show";
 @import "fonts";
 @import "forms";
 @import "heights";
@@ -51,8 +52,9 @@ table {
   }
 }
 
+p.strong,
 strong {
-  font-size: 14pt;
+  font-size: 16pt;
   font-family: 'Sofia';
   font-weight: 600;
 }
@@ -70,6 +72,15 @@ nav * {
   font-weight: 800;
   text-transform: uppercase;
 
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Sofia';
 }
 
 h1 {
@@ -119,33 +130,6 @@ video {
   max-height: 250px;
 }
 
-.multimedia {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-
-  // justify-content: center;
-  * {
-    margin: 10px 15px;
-  }
-
-  .item_multimedia {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid $gris_bordes;
-    padding: 10px;
-    margin: 10px 15px;
-    border-radius: 5px;
-
-    label.alert {
-      color: $rojo;
-    }
-  }
-}
-
 .user-info {
   display: flex;
   align-items: center;
@@ -170,4 +154,11 @@ video {
   margin-left: 20px;
   font-style: italic;
   font-size: 130%;
+}
+
+.nota-admin {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 11pt;
+  text-align: right;
 }
