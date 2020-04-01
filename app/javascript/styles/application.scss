@@ -11,6 +11,11 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "tablas";
 @import "users";
 
+body {
+  background-color: $negro_fondo;
+  color: $blanco;
+}
+
 .alert {
   text-align: center;
 }
@@ -22,12 +27,6 @@ h1.title {
 
 .main_container {
   margin: 20px;
-}
-
-.botonera {
-  margin-bottom: 20px;
-  text-align: center;
-  margin-top: 30px;
 }
 
 table {
@@ -42,13 +41,20 @@ table {
 }
 
 * {
-  font-family: 'Noto Sans TC',
+  font-family: 'Montserrat',
     sans-serif;
   font-size: 12pt;
+  font-weight: 300;
 
   @media (max-width: $bpMaxSmall) {
     font-size: 11pt;
   }
+}
+
+strong {
+  font-size: 14pt;
+  font-family: 'Sofia';
+  font-weight: 600;
 }
 
 h1,
@@ -58,21 +64,15 @@ h4,
 h5,
 h6,
 nav * {
-  font-family: "SeaWeed Fire",
-    "Noto Sans TC",
-    sans-serif;
-}
+  // font-family: "SeaWeed Fire",
+  // "Noto Sans TC",
+  // sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
 
-nav div.navbar-collapse ul li a.nav-link {
-  font-size: 18pt;
-
-  @media (max-width: $bpMaxSmall) {
-    font-size: 14pt;
-  }
 }
 
 h1 {
-  color: $rojo;
   text-shadow: #888 1px 1px 2px;
 }
 
@@ -80,12 +80,13 @@ h2,
 h3,
 h4,
 h5 {
-  color: $naranja;
+  color: $blanco;
   // text-shadow: #888 1px 1px 2px;
 }
 
-td .btn {
-  border-radius: 5px;
+a {
+  color: $verde;
+  font-weight: 600;
 }
 
 .show_outer_cont {
@@ -101,6 +102,12 @@ td .btn {
     padding: 20px 25px 5px;
     margin-bottom: 20px;
   }
+}
+
+.botonera {
+  margin-bottom: 20px;
+  text-align: center;
+  margin-top: 30px;
 }
 
 .main {
@@ -155,7 +162,7 @@ video {
 
   p {
     font-style: italic;
-    color: #333;
+    color: $gris_bordes;
   }
 }
 
