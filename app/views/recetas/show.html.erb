@@ -7,16 +7,16 @@
     <div class="creador">
       <p>
         <% if @current_user.admin? %>
-          <%= link_to @receta.user.username, @receta.user %>
+          <%= link_to "@#{@receta.user.username}", @receta.user %>
         <% else %>
-          <%= @receta.user.username %>
+          <%= "@#{@receta.user.username}" %>
         <% end %>
       </p>
       <div class="image-container">
         <% if @receta.user.avatar.attached? %>
-          <%= image_tag(@receta.user.avatar.variant(resize_to_limit: [250, 250]), class: "avatar") %>
+          <%= image_tag(@receta.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]), class: "avatar") %>
         <% else %>
-          <%= image_tag("/images/unknown.png", width: 250, height: 250, class: "avatar") %>
+          <%= image_tag("/images/unknown.png", class: "avatar") %>
         <% end %>
       </div>
     </div>
@@ -72,9 +72,6 @@
     <div class="texto-compartir">
       <%= render 'shared/nota_admin' %>
       <p class='strong'>Texto para compartir:</p>
-      <p>
-      Mirá esta receta: <%= link_to(ARRANCANDO_URL+'/recetas/'+@receta.id.to_s, ARRANCANDO_URL+'/recetas/'+@receta.id.to_s)%>
-      </p>
       <h4><%= @receta.titulo %></h4>
       <% unless @receta.cuerpo.blank? %>
         <p><%= @receta.cuerpo %></p>
@@ -91,6 +88,9 @@
         <h5>Instrucciones</h5>
         <p><%= @receta.instrucciones %></p>
       <% end %>
+      <p>
+        Mirá esta receta: <%= link_to(ARRANCANDO_URL+'/recetas/'+@receta.id.to_s, ARRANCANDO_URL+'/recetas/'+@receta.id.to_s)%>
+      </p>
       <p>
       Si todavía no te descargaste Arrancando podés hacerlo:
       <ul>
@@ -113,6 +113,7 @@
     </p>
 
     <p>
+      <%= render 'shared/nota_admin' %>
       <strong>Puntajes:</strong>
       <ul>
         <% @receta.puntajes.each do |punt| %>
@@ -142,6 +143,30 @@
         <%= image_tag(asset_url_for(img, device: 'web')) %>
       <% end %>
     <% end %>
+  </div>
+
+  <div class="comentarios">
+    <ul>
+      <% @receta.comentarios.each do |comment| %>
+        <li>
+          <div class="image-container">
+            <% if comment.user.avatar.attached? %>
+              <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
+            <% else %>
+              <%= image_tag("/images/unknown.png", class: "avatar") %>
+            <% end %>
+          </div>
+          <div class="cuerpo_comment">
+            <p class="user">
+              @<%= comment.user.username %>
+            </p>
+            <p class="mensaje">
+              <%= comment.mensaje %>
+            </p>
+          </div>
+        </li>
+      <% end %>
+    </ul>
   </div>
 
 </div>
