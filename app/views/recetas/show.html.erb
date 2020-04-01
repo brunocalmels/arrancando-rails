@@ -48,32 +48,40 @@
     <% end %>
   </div>
 
-  <p>
-    <p class='strong'>Cuerpo</p>
-    <%= @receta.cuerpo %>
-  </p>
+  <% unless @receta.cuerpo.blank? %>
+    <p>
+      <p class='strong'>Cuerpo</p>
+      <%= @receta.cuerpo %>
+    </p>
+  <% end %>
 
-  <p>
-    <p class='strong'>Introducción</p>
-    <%= @receta.introduccion %>
-  </p>
+  <% unless @receta.introduccion.blank? %>
+    <p>
+      <p class='strong'>Introducción</p>
+      <%= @receta.introduccion %>
+    </p>
+  <% end %>
 
-  <p>
-    <p class='strong'>Ingredientes</p>
-    <%= @receta.ingredientes %>
-  </p>
+  <% unless @receta.ingredientes.blank? %>
+    <p>
+      <p class='strong'>Ingredientes</p>
+      <%= @receta.ingredientes %>
+    </p>
+  <% end %>
 
-  <p>
-    <p class='strong'>Instrucciones</p>
-    <%= @receta.instrucciones %>
-  </p>
+  <% unless @receta.instrucciones.blank? %>
+    <p>
+      <p class='strong'>Instrucciones</p>
+      <%= @receta.instrucciones %>
+    </p>
+  <% end %>
 
   <% if @current_user.admin? %>
     <div class="texto-compartir">
       <%= render 'shared/nota_admin' %>
       <p class='strong'>Texto para compartir:</p>
       <h4><%= @receta.titulo %></h4>
-      <% unless @receta.cuerpo.blank? %>
+        <% unless @receta.cuerpo.blank? %>
         <p><%= @receta.cuerpo %></p>
       <% end %>
       <% unless @receta.introduccion.blank? %>

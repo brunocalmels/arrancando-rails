@@ -53,6 +53,11 @@
     .imagen-fondo {}
 
     .creador {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
       path {
         fill: transparent;
       }
