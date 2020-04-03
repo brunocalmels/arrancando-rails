@@ -49,7 +49,7 @@ form.new_filterrific label {
 
 .caja {
   border: none;
-  background-color: $gris_claro;
+  background-color: $gris_bordes;
   padding: 0.5em 1em;
   border-radius: 5px;
   margin-top: 10px;
@@ -64,67 +64,6 @@ form.edit_inscripcion {
 
   margin-top: 20px;
   margin-bottom: 0px;
-}
-
-label[for="cuit"] {
-  width: 100%;
-  margin-top: 20px;
-}
-
-label[for="user_aprobado"] {
-  font-weight: bold;
-}
-
-
-.form_cuit {
-  display: inline-flex;
-
-  .form-group {
-
-    margin-top: 0px;
-    margin-bottom: 0px;
-    margin-right: 10px;
-
-    input#user_cuit_0,
-    input#user_cuit_2 {
-      max-width: 30%;
-      min-width: 5em;
-    }
-
-    input#user_cuit_1 {
-      min-width: 10em;
-      max-width: 50%;
-    }
-  }
-}
-
-div.field#cert_discapacidad {
-  margin-top: 30px;
-  margin-bottom: 30px;
-
-  label {
-    font-weight: bold;
-  }
-}
-
-label[for="perfiles"],
-label[for="tematica"] {
-  margin-top: 20px;
-}
-
-div.field#perfiles label {
-  margin-top: 0px;
-  font-weight: normal;
-}
-
-input[type="submit"] {
-  margin-top: 30px;
-}
-
-.form_comment {
-  font-style: italic;
-  margin-top: 8px;
-  margin-bottom: 20px;
 }
 
 form#filterrific_filter {
@@ -161,9 +100,14 @@ form#filterrific_filter {
   }
 
   div#borrar_filtros {
-    margin-top: 5px;
+    // margin-top: 5px;
     margin-left: 10px;
   }
+}
+
+div#aplicar_filtros {
+  // margin-top: 5px;
+  margin-left: 10px;
 }
 
 .solo_juridicas {

@@ -22,6 +22,11 @@ class RecetasController < ApplicationController
   # GET /recetas/1
   # GET /recetas/1.json
   def show
+    @og_image_url = first_image_to_share(@receta)
+
+    return unless @receta.puntajes.any?
+
+    @puntaje_prom = @receta.puntajes.map { |pu| pu[1] }.sum.to_f / @receta.puntajes.count
   end
 
   # GET /recetas/search

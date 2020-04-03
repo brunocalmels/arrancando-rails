@@ -1,5 +1,6 @@
 class PoisController < ApplicationController
   include ContentHelper
+  include PoisHelper
   before_action :set_poi, only: %i[show edit update destroy puntuar]
 
   # GET /pois
@@ -22,6 +23,11 @@ class PoisController < ApplicationController
   # GET /pois/1
   # GET /pois/1.json
   def show
+    @og_image_url = first_image_to_share(@poi)
+
+    return unless @poi.puntajes.any?
+
+    @puntaje_prom = @poi.puntajes.map { |pu| pu[1] }.sum.to_f / @poi.puntajes.count
   end
 
   # GET /pois/search
@@ -113,24 +119,6 @@ class PoisController < ApplicationController
 
   private
 
-  def filter_by_categria_poi_id
-    return unless params.key? :categoria_poi_id
-
-    @pois = @pois
-            .where(categoria_poi_id: params[:categoria_poi_id].to_i)
-  end
-
-  def filter_by_term
-    return unless params.key? :term
-
-    @pois = @pois
-            .search(params[:term])
-  end
-
-  def filter_habilitados
-    @pois = @pois.habilitados
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_poi
     @poi = Poi.find(params[:id])
@@ -153,25 +141,5 @@ class PoisController < ApplicationController
     else
       params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id, :habilitado, :user_id, :ciudad_id)
     end
-  end
-
-  def inferir_provincia
-    @provincia = Provincia.find_by_nombre(params[:nombre_provincia])
-    return unless @provincia.nombre == "Buenos Aires"
-
-    @provincia2 = Provincia.find_by_nombre("Capital Federal")
-  end
-
-  def inferir_ciudad
-    return unless params.key?(:nombre_ciudad) && params.key?(:nombre_provincia)
-
-    inferir_provincia
-
-    ciudad = Ciudad.find_by_nombre(params[:nombre_ciudad])
-    unless ciudad.provincia_id == @provincia.id || (@provincia2 && ciudad.provincia_id == @provincia2.id)
-      return
-    end
-
-    @poi.ciudad = ciudad
   end
 end

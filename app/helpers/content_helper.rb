@@ -135,7 +135,6 @@ module ContentHelper
     unless item["photos"] &&
            item["photos"][0] &&
            item["photos"][0]["photo_reference"]
-
       return
     end
 
@@ -153,6 +152,17 @@ module ContentHelper
       io: downloaded_image,
       filename: "#{poi.id}-maps-image.jpg"
     )
+  end
+
+  def first_image_to_share(item)
+    item.imagenes.any? && item.imagenes.each_with_index do |img, _i|
+      case img.blob.content_type
+      when "video/mp4", "video/mpg", "video/mpeg"
+        next
+      when "image/jpg", "image/jpeg", "image/png", "image/gif"
+        return asset_url_for(img, device: "web")
+      end
+    end
   end
 end
 

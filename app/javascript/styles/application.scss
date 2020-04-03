@@ -3,6 +3,8 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "bootstrap_custom";
 @import "custom";
 @import "colors";
+@import "content-show";
+@import "descarga_app";
 @import "fonts";
 @import "forms";
 @import "heights";
@@ -10,6 +12,11 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "pagination";
 @import "tablas";
 @import "users";
+
+body {
+  background-color: $negro_fondo;
+  color: $blanco;
+}
 
 .alert {
   text-align: center;
@@ -24,15 +31,18 @@ h1.title {
   margin: 20px;
 }
 
-.botonera {
-  margin-bottom: 20px;
+.home {
   text-align: center;
-  margin-top: 30px;
-}
 
-table {
-  th {
-    // border-top: 0 !important;
+  img {
+    margin-bottom: 30px;
+  }
+
+  h3 {
+    font-family: 'Montserrat',
+      sans-serif;
+    margin-top: 20px;
+    color: $gris_bordes;
   }
 }
 
@@ -41,14 +51,26 @@ table {
   padding: 3px 5px;
 }
 
+.btn-default {
+  background-color: $blanco;
+}
+
 * {
-  font-family: 'Noto Sans TC',
+  font-family: 'Montserrat',
     sans-serif;
   font-size: 12pt;
+  font-weight: 300;
 
   @media (max-width: $bpMaxSmall) {
     font-size: 11pt;
   }
+}
+
+p.strong,
+strong {
+  font-size: 16pt;
+  font-family: 'Sofia';
+  font-weight: 600;
 }
 
 h1,
@@ -58,21 +80,24 @@ h4,
 h5,
 h6,
 nav * {
-  font-family: "SeaWeed Fire",
-    "Noto Sans TC",
-    sans-serif;
+  // font-family: "SeaWeed Fire",
+  // "Noto Sans TC",
+  // sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+
 }
 
-nav div.navbar-collapse ul li a.nav-link {
-  font-size: 18pt;
-
-  @media (max-width: $bpMaxSmall) {
-    font-size: 14pt;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Sofia';
 }
 
 h1 {
-  color: $rojo;
   text-shadow: #888 1px 1px 2px;
 }
 
@@ -80,12 +105,22 @@ h2,
 h3,
 h4,
 h5 {
-  color: $naranja;
+  color: $blanco;
   // text-shadow: #888 1px 1px 2px;
 }
 
-td .btn {
-  border-radius: 5px;
+a {
+  color: $verde;
+  font-weight: 600;
+}
+
+ul {
+  list-style: none;
+}
+
+li,
+a {
+  overflow-wrap: break-word;
 }
 
 .show_outer_cont {
@@ -103,6 +138,12 @@ td .btn {
   }
 }
 
+.botonera {
+  margin-bottom: 20px;
+  text-align: center;
+  margin-top: 30px;
+}
+
 .main {
   margin: 15px 8vw;
 }
@@ -110,33 +151,6 @@ td .btn {
 video {
   max-width: 250px;
   max-height: 250px;
-}
-
-.multimedia {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
-
-  // justify-content: center;
-  * {
-    margin: 10px 15px;
-  }
-
-  .item_multimedia {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid $gris_bordes;
-    padding: 10px;
-    margin: 10px 15px;
-    border-radius: 5px;
-
-    label.alert {
-      color: $rojo;
-    }
-  }
 }
 
 .user-info {
@@ -155,7 +169,7 @@ video {
 
   p {
     font-style: italic;
-    color: #333;
+    color: $gris_bordes;
   }
 }
 
@@ -163,4 +177,17 @@ video {
   margin-left: 20px;
   font-style: italic;
   font-size: 130%;
+}
+
+.nota-admin {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 11pt;
+  text-align: right;
+  margin-top: 10px;
+
+  @media screen and (min-width: $bpMaxSmall) {
+    position: relative;
+    bottom: -3em;
+  }
 }

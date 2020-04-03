@@ -1,56 +1,118 @@
-<% provide(:title, "Poi") %>
+<% provide(:title, "Punto de interés") %>
+<% provide(:og_title, "Punto de interés: #{@poi.titulo}") %>
+<% provide(:og_description,
+            @poi.
+              cuerpo.
+              truncate(100, separator: ' ')
+          ) %>
+<% provide(:og_image, @og_image_url) %>
 
-<p>
-  <strong>Título:</strong>
-  <%= @poi.titulo %>
-</p>
+<div class="content-show">
 
-<p>
-  <strong>Cuerpo:</strong>
-  <%= @poi.cuerpo %>
-</p>
+  <%= render 'shared/share_buttons' %>
 
-<div>
-  <strong>Texto para compartir:</strong>
-  <p>
-  Mirá esta punto de interés: <%= link_to(ARRANCANDO_URL+'/pois/'+@poi.id.to_s, ARRANCANDO_URL+'/pois/'+@poi.id.to_s)%>
-  </p>
-  <p><%= @poi.titulo %></p>
+  <div class="cabecera">
+    <div class="imagen-fondo"></div>
+    <div class="creador">
+      <p>
+        <% if @current_user&.admin? %>
+          <%= link_to "@#{@poi.user.username}", @poi.user %>
+        <% else %>
+          <%= "@#{@poi.user.username}" %>
+        <% end %>
+      </p>
+      <div class="image-container">
+        <% if @poi.user.avatar.attached? %>
+          <%= image_tag(@poi.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]), class: "avatar") %>
+        <% else %>
+          <%= image_tag("/images/unknown.png", class: "avatar") %>
+        <% end %>
+      </div>
+    </div>
+    <div class="titulo">
+      <p>
+        <%= @poi.titulo %>
+      </p>
+    </div>
+    <% unless @puntaje_prom.nil? %>
+      <div class="puntaje">
+        <div class="estrellas">
+          <% @puntaje_prom.ceil.times do %>
+            <i class="fas fa-star"></i>
+          <% end %>
+          <% (5 - @puntaje_prom.ceil).times do %>
+            <i class="far fa-star"></i>
+          <% end %>
+        </div>
+        <div class="votos">
+          <span class="promedio">
+            <%= @puntaje_prom %>
+          </span>
+          <span class="cant_votos">
+            (<%= @poi.puntajes.count %>
+            <i class="fas fa-user"></i>)
+          </span>
+        </div>
+        </div>
+    <% end %>
+  </div>
+
   <% unless @poi.cuerpo.blank? %>
-    <p><%= @poi.cuerpo %></p>
+    <p>
+      <p class='strong'>Cuerpo</p>
+      <%= @poi.cuerpo %>
+    </p>
   <% end %>
-  <% unless @poi.direccion.blank? %>
-    <h4>Dirección</h4>
-    <p><%= @poi.direccion %></p>
+
+
+  <% if @current_user&.admin? %>
+    <div class="texto-compartir">
+      <%= render 'shared/nota_admin' %>
+      <p class='strong'>Texto para compartir:</p>
+      <p><%= @poi.titulo %></p>
+      <% unless @poi.cuerpo.blank? %>
+        <p><%= @poi.cuerpo %></p>
+      <% end %>
+      <% unless @poi.direccion.blank? %>
+        <h4>Dirección</h4>
+        <p><%= @poi.direccion %></p>
+      <% end %>
+      <p>
+      Mirá esta punto de interés: <%= link_to(ARRANCANDO_URL+'/pois/'+@poi.id.to_s, ARRANCANDO_URL+'/pois/'+@poi.id.to_s)%>
+      </p>
+      <p>
+      Si todavía no te descargaste Arrancando podés hacerlo:
+      <ul>
+        <li>
+          Para Android desde
+          <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
+        </li>
+        <li>
+          Para iOS desde
+          <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
+        </li>
+      </ul>
+      </p>
+    </div>
+
+    <p>
+      <%= render 'shared/nota_admin' %>
+      <strong>Habilitada:</strong>
+      <%= @poi.habilitado? ? "Sí" : "No" %>
+    </p>
+
+    <p>
+      <%= render 'shared/nota_admin' %>
+      <strong>Puntajes:</strong>
+      <ul>
+        <% @poi.puntajes.each do |punt| %>
+          <li>
+            @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+          </li>
+        <% end %>
+      </ul>
+    </p>
   <% end %>
-  <p>
-  Si todavía no te descargaste Arrancando podés hacerlo:
-  <ul>
-    <li>
-      Para Android desde
-      <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
-    </li>
-    <li>
-      Para iOS desde
-      <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
-    </li>
-  </ul>
-  </p>
-</div>
-
-
-<div class="user-info">
-  <p>
-    <strong>Autor:</strong>
-    <%= link_to @poi.user.username, @poi.user %>
-  </p>
-  <%= @poi.user.avatar.attached? ? image_tag(@poi.user.avatar.variant(resize_to_limit: [120, 120])) : nil %>
-</div>
-
-<p>
-  <strong>Categoría:</strong>
-  <%= @poi.categoria_poi.nombre %>
-</p>
 
 <p>
   <strong>Latitud:</strong>
@@ -68,24 +130,11 @@
 </p>
 
 <p>
-  <strong>Puntajes:</strong>
-  <ul>
-    <% @poi.puntajes.each do |punt| %>
-      <li>
-        @<%= User.find(punt[0]).username %>: <%= punt[1]%>
-      </li>
-    <% end %>
-  </ul>
+  <strong>Categoría:</strong>
+  <%= @poi.categoria_poi.nombre %>
 </p>
-
-<p>
-  <strong>Habilitado:</strong>
-  <%= @poi.habilitado? ? "Sí" : "No" %>
-</p>
-
 
 <div class='multimedia'>
-  <strong>Multimedia:</strong>
   <% @poi.imagenes.any? && @poi.imagenes.each_with_index do |img, i| %>
     <% case img.blob.content_type %>
     <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
@@ -98,7 +147,9 @@
   <% end %>
 </div>
 
-<div class="botonera">
-  <%= link_to 'Editar', edit_poi_path(@poi), class: "btn btn-info" %>
-  <%= link_to 'Volver', pois_path, class: "btn btn-default" %>
-</div>
+<% if @current_user&.admin? %>
+  <div class="botonera">
+    <%= link_to 'Editar', edit_poi_path(@poi), class: "btn btn-info" %>
+    <%= link_to 'Volver', pois_path, class: "btn btn-default" %>
+  </div>
+<% end %>

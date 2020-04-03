@@ -43,12 +43,22 @@ class ApplicationController < ActionController::Base
     request.format.json?
   end
 
+  def public_page?
+    params[:controller].in?(CONTROLADORES_PUBLICOS) &&
+      params[:action].in?(ACCIONES_PUBLICAS)
+  end
+
+  def home_page?
+    params[:controller] == "home" &&
+      params[:action] == "index"
+  end
+
   def authenticate_request
     @current_user = AuthorizeApiRequest.call(request.headers, session["auth_token"]).result
     respond_to do |format|
       format.html do
-        unless @current_user&.admin?
-          redirect_to login_url, notice: "No estás logueado o no sos admin."
+        unless @current_user&.admin? || public_page? || home_page?
+          redirect_to root_url, notice: "No estás logueado o no sos admin."
         end
       end
       format.json do
