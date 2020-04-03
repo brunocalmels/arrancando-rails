@@ -39,6 +39,10 @@ class Receta < ApplicationRecord
     where("recetas.created_at > ? ", Time.zone.now - 1.month)
   }
 
+  scope :current_month, lambda {
+    where("recetas.created_at > ? ", Time.zone.now.at_beginning_of_month)
+  }
+
   scope :search, lambda { |term|
     where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
   }

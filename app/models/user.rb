@@ -118,10 +118,10 @@ class User < ApplicationRecord
   end
 
   def puntaje_mensual
-    2 * publicaciones.last_month.count +
-      4 * recetas.last_month.count +
-      3 * pois.last_month.count +
-      comentarios_last_month
+    2 * publicaciones.current_month.count +
+      4 * recetas.current_month.count +
+      3 * pois.current_month.count +
+      comentarios_current_month
   end
 
   def comentarios
@@ -131,6 +131,11 @@ class User < ApplicationRecord
   def comentarios_last_month
     comentario_publicaciones.last_month.count +
       comentario_recetas.last_month.count
+  end
+
+  def comentarios_current_month
+    comentario_publicaciones.current_month.count +
+      comentario_recetas.current_month.count
   end
 
   private

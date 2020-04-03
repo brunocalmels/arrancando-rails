@@ -19,4 +19,9 @@ class ComentarioPublicacion < ApplicationRecord
   scope :last_month, lambda {
     where("comentario_publicaciones.created_at > ? ", Time.zone.now - 1.month)
   }
+
+  scope :current_month, lambda {
+    where("comentario_publicaciones.created_at > ? ",
+          Time.zone.now.at_beginning_of_month)
+  }
 end
