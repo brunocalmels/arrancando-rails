@@ -23,6 +23,8 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
+    @og_image_url = first_image_to_share(@publicacion)
+
     return unless @publicacion.puntajes.any?
 
     @puntaje_prom = @publicacion.puntajes.map { |pu| pu[1] }.sum.to_f / @publicacion.puntajes.count

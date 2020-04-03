@@ -1,12 +1,21 @@
 <% provide(:title, "Punto de interés") %>
+<% provide(:og_title, "Punto de interés: #{@poi.titulo}") %>
+<% provide(:og_description,
+            @poi.
+              cuerpo.
+              truncate(100, separator: ' ')
+          ) %>
+<% provide(:og_image, @og_image_url) %>
 
 <div class="content-show">
+
+  <%= render 'shared/share_buttons' %>
 
   <div class="cabecera">
     <div class="imagen-fondo"></div>
     <div class="creador">
       <p>
-        <% if @current_user.admin? %>
+        <% if @current_user&.admin? %>
           <%= link_to "@#{@poi.user.username}", @poi.user %>
         <% else %>
           <%= "@#{@poi.user.username}" %>
@@ -56,7 +65,7 @@
   <% end %>
 
 
-  <% if @current_user.admin? %>
+  <% if @current_user&.admin? %>
     <div class="texto-compartir">
       <%= render 'shared/nota_admin' %>
       <p class='strong'>Texto para compartir:</p>
@@ -138,9 +147,9 @@
   <% end %>
 </div>
 
-<div class="botonera">
-  <%= link_to 'Editar', edit_poi_path(@poi), class: "btn btn-info" %>
-  <%= link_to 'Volver', pois_path, class: "btn btn-default" %>
-</div>
-
-<%= render 'shared/descarga_app' %>
+<% if @current_user&.admin? %>
+  <div class="botonera">
+    <%= link_to 'Editar', edit_poi_path(@poi), class: "btn btn-info" %>
+    <%= link_to 'Volver', pois_path, class: "btn btn-default" %>
+  </div>
+<% end %>

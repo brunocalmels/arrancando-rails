@@ -23,6 +23,8 @@ class PoisController < ApplicationController
   # GET /pois/1
   # GET /pois/1.json
   def show
+    @og_image_url = first_image_to_share(@poi)
+
     return unless @poi.puntajes.any?
 
     @puntaje_prom = @poi.puntajes.map { |pu| pu[1] }.sum.to_f / @poi.puntajes.count

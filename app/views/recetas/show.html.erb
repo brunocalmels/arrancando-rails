@@ -1,12 +1,21 @@
 <% provide(:title, "Receta") %>
+<% provide(:og_title, "Receta: #{@receta.titulo}") %>
+<% provide(:og_description,
+            @receta.
+              introduccion.
+              truncate(100, separator: ' ')
+          ) %>
+<% provide(:og_image, @og_image_url) %>
 
 <div class="content-show">
+
+  <%= render 'shared/share_buttons' %>
 
   <div class="cabecera">
     <div class="imagen-fondo"></div>
     <div class="creador">
       <p>
-        <% if @current_user.admin? %>
+        <% if @current_user&.admin? %>
           <%= link_to "@#{@receta.user.username}", @receta.user %>
         <% else %>
           <%= "@#{@receta.user.username}" %>
@@ -76,7 +85,7 @@
     </p>
   <% end %>
 
-  <% if @current_user.admin? %>
+  <% if @current_user&.admin? %>
     <div class="texto-compartir">
       <%= render 'shared/nota_admin' %>
       <p class='strong'>Texto para compartir:</p>
@@ -179,9 +188,9 @@
 
 </div>
 
-<div class="botonera">
-  <%= link_to 'Editar', edit_receta_path(@receta), class: "btn btn-info" %>
-  <%= link_to 'Volver', recetas_path, class: "btn btn-default" %>
-</div>
-
-<%= render 'shared/descarga_app' %>
+<% if @current_user&.admin? %>
+  <div class="botonera">
+    <%= link_to 'Editar', edit_receta_path(@receta), class: "btn btn-info" %>
+    <%= link_to 'Volver', recetas_path, class: "btn btn-default" %>
+  </div>
+<% end %>

@@ -1,12 +1,21 @@
 <% provide(:title, "Publicación") %>
+<% provide(:og_title, "Publicación: #{@publicacion.titulo}") %>
+<% provide(:og_description,
+            @publicacion.
+              cuerpo.
+              truncate(100, separator: ' ')
+          ) %>
+<% provide(:og_image, @og_image_url) %>
 
 <div class="content-show">
+
+<%= render 'shared/share_buttons' %>
 
   <div class="cabecera">
     <div class="imagen-fondo"></div>
     <div class="creador">
       <p>
-        <% if @current_user.admin? %>
+        <% if @current_user&.admin? %>
           <%= link_to "@#{@publicacion.user.username}", @publicacion.user %>
         <% else %>
           <%= "@#{@publicacion.user.username}" %>
@@ -55,7 +64,7 @@
     </p>
   <% end %>
 
-  <% if @current_user.admin? %>
+  <% if @current_user&.admin? %>
     <div class="texto-compartir">
       <%= render 'shared/nota_admin' %>
       <p class='strong'>Texto para compartir:</p>
@@ -148,9 +157,9 @@
 
 </div>
 
-<div class="botonera">
-  <%= link_to 'Editar', edit_publicacion_path(@publicacion), class: "btn btn-info" %>
-  <%= link_to 'Volver', publicaciones_path, class: "btn btn-default" %>
-</div>
-
-<%= render 'shared/descarga_app' %>
+<% if @current_user&.admin? %>
+  <div class="botonera">
+    <%= link_to 'Editar', edit_publicacion_path(@publicacion), class: "btn btn-info" %>
+    <%= link_to 'Volver', publicaciones_path, class: "btn btn-default" %>
+  </div>
+<% end %>

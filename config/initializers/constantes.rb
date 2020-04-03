@@ -36,6 +36,9 @@ CATEGORIAS_POIS = [
   "Artesanos del hierro"
 ].freeze
 
+CONTROLADORES_PUBLICOS = %w[publicaciones recetas pois].freeze
+ACCIONES_PUBLICAS = ["show"].freeze
+
 MAX_ATTACHMENT_SIZE_BYTES = 12.megabytes
 MAX_IMAGE_WIDTH_APP = 800
 MAX_IMAGE_HEIGHT_APP = 600
