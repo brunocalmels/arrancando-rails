@@ -108,4 +108,5 @@ Rails.application.configure do
 
   config.hosts << "arrancando.herokuapp.com" # Para callbacks de OAuth
   config.hosts << "arrancando-staging.herokuapp.com" # Para callbacks de OAuth
+  config.hosts << "arrancando.com.ar"
 end
