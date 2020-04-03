@@ -2,7 +2,7 @@
 <% provide(:og_title, "Receta: #{@receta.titulo}") %>
 <% provide(:og_description,
             @receta.
-              introduccion.
+              introduccion&.
               truncate(100, separator: ' ')
           ) %>
 <% provide(:og_image, @og_image_url) %>
