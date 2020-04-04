@@ -9,7 +9,6 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= favicon_link_tag asset_pack_path("media/images/favicon.ico") %>
-    <!-- <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css?family=Sofia&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500,600,800&display=swap" rel="stylesheet">
 
@@ -18,6 +17,13 @@
     <meta property="og:title"         content="<%= content_for?(:og_title) ? yield(:og_title) : "Arrancando" %>" />
     <meta property="og:description"   content="<%= content_for?(:og_description) ? yield(:og_description) : "Lo mejor para un buen asado"%>" />
     <meta property="og:image"         content="<%= content_for?(:og_image) ? yield(:og_image) : root_url + "images/logo.png"%>" />
+
+    <meta property="al:android:url"      content="<%= request.original_url %>" />
+    <meta property="al:android:package"  content="com.macherit.arrancando" />
+    <meta property="al:android:app_name" content="Arrancando" />
+    <meta property="al:ios:url"          content="<%= request.original_url %>" />
+    <meta property="al:ios:app_store_id" content="1490590335" />
+    <meta property="al:ios:app_name"     content="Arrancando" />
   </head>
 
   <body>
