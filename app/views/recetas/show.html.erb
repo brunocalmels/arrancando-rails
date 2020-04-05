@@ -81,7 +81,11 @@
   <% unless @receta.instrucciones.blank? %>
     <p>
       <p class='strong'>Instrucciones</p>
-      <%= @receta.instrucciones %>
+      <% if @current_user&.admin? %>
+        <%= @receta.instrucciones %>
+      <% else %>
+        <p style="font-style: italic;">...Instalá la app para conocer las instrucciones, y encontrar muchas más recetas como ésta, y mucho más...</p>
+      <% end %>
     </p>
   <% end %>
 
