@@ -1,12 +1,17 @@
-[
-{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "com.macherit.arrancando",
-               "sha256_cert_fingerprints": ["77:3E:B4:D1:04:8A:76:11:A9:F2:19:08:23:AE:11:D0:B3:93:FF:20:9E:C6:D5:FA:96:5E:E6:F4:10:F5:67:A8"] }
-},
-{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target" : { "namespace": "android_app", "package_name": "com.macherit.arrancando.pro",
-               "sha256_cert_fingerprints": ["A6:D9:1B:38:29:EE:7F:ED:F2:2B:2D:36:15:5C:B7:CA:15:0A:42:F1:06:DC:06:DF:34:2A:51:36:92:9C:0A:1C"] }
-}
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.macherit.arrancando",
+      "sha256_cert_fingerprints": ["77:3E:B4:D1:04:8A:76:11:A9:F2:19:08:23:AE:11:D0:B3:93:FF:20:9E:C6:D5:FA:96:5E:E6:F4:10:F5:67:A8", "0E:EA:EE:11:AE:FA:83:E6:FF:E3:31:98:05:61:DB:3A:43:F8:EB:EE:7B:A9:AF:58:67:56:A2:AC:FF:A1:E3:CD", "F2:F0:D9:68:D0:AF:5C:18:65:C5:31:EA:83:C2:A5:F7:60:16:02:D6:C6:66:F3:23:60:2D:74:6F:38:2D:13:C9"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.macherit.arrancando.pro",
+      "sha256_cert_fingerprints": ["A6:D9:1B:38:29:EE:7F:ED:F2:2B:2D:36:15:5C:B7:CA:15:0A:42:F1:06:DC:06:DF:34:2A:51:36:92:9C:0A:1C"]
+    }
+  }
 ]
