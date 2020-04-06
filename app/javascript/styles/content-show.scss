@@ -23,6 +23,10 @@
     position: absolute;
     right: 20px;
     top: 20px;
+
+    @media screen and (max-width: $bpMaxSmall) {
+      top: -33px;
+    }
   }
 
   .image-container {
