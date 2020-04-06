@@ -21,7 +21,7 @@ class Ciudad < ApplicationRecord
   has_many :pois, dependent: :nullify
   paginates_per 20
 
-  validate :unica
+  validate :unica, on: :create
 
   scope :search, lambda { |term|
     where("nombre ILIKE :term", term: "%#{term}%")
