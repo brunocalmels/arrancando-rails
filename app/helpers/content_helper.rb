@@ -97,8 +97,17 @@ module ContentHelper
   end
 
   def asset_url_for(asset, device: "web")
-    max_width = device == "app" ? MAX_IMAGE_WIDTH_APP : MAX_IMAGE_WIDTH_WEB
-    max_height = device == "app" ? MAX_IMAGE_HEIGHT_APP : MAX_IMAGE_HEIGHT_WEB
+    case device
+    when "app"
+      max_width = MAX_IMAGE_WIDTH_APP
+      max_height = MAX_IMAGE_HEIGHT_APP
+    when "metatag"
+      max_width = MAX_IMAGE_WIDTH_METATAG
+      max_height = MAX_IMAGE_HEIGHT_METATAG
+    else
+      max_width = MAX_IMAGE_WIDTH_WEB
+      max_height = MAX_IMAGE_HEIGHT_WEB
+    end
     case asset.blob.content_type
     when "video/mp4", "video/mpg", "video/mpeg"
       url_for(asset)
@@ -160,7 +169,7 @@ module ContentHelper
       when "video/mp4", "video/mpg", "video/mpeg"
         next
       when "image/jpg", "image/jpeg", "image/png", "image/gif"
-        return asset_url_for(img, device: "web")
+        return asset_url_for(img, device: "metatag")
       end
     end
   end
