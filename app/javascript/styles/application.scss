@@ -191,3 +191,26 @@ video {
     bottom: -3em;
   }
 }
+
+.download-links {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.download-link {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &:first-of-type {
+    margin-right: 5vw;
+  }
+
+  &:last-of-type {
+    margin-left: 5vw;
+  }
+}

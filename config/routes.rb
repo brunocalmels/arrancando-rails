@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   resources :paises, except: %i[show]
 
   get :docs, to: "home#docs"
+  get :android, to: "home#android"
 
   root to: "home#index"
 end

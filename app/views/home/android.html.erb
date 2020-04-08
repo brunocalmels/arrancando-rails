@@ -1,0 +1,18 @@
+<div class="home">
+  <%= image_tag("/images/logo.png", height: 100) %>
+  <h1>Arrancando</h1>
+  <h3>Descarga para Android</h3>
+  <p>Estamos teniendo algunos inconvenientes con Google Play Store. En unas horas estaremos de vuelta.</p>
+  <p>Mientras tanto, descargate el paquete de Arrancando e instalala usándolo. Es sólo bajarla usando tu celular y tocar el archivo para instalarla.</p>
+  <p>Dependiendo de tu celular, podés necesitar o bien uno o bien el otro de los paquetes.</p>
+  <div class="download-links">
+    <%= link_to '/app-armeabi-v7a-release.apk', class: 'download-link' do %>
+      <i class="fas fa-file-download fa-5x"></i>
+      armeabi-v7a
+    <% end %>
+    <%= link_to '/app-arm64-v8a-release.apk', class: 'download-link' do %>
+      <i class="fas fa-file-download fa-5x"></i>
+      arm64-v8a
+    <% end %>
+  </div>
+</div>

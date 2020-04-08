@@ -1,17 +1,21 @@
 <% unless @current_user&.admin? %>
-<div id="fill"></div>
-  <div id="descarga_app">
-    <p class="titulo">¿Todavía no tenés Arrancando en tu celular?</p>
-    <p class="sugerencia">Te estás perdiendo mucho contenido como éste.</p>
-    <ul class="stores_container">
-      <li>
-        Descargala para Android
-        <%= link_to(image_tag("playstore.png"), ANDROID_DOWNLOAD_URL) %>
-      </li>
-      <li>
-        Descargala para iOS
-        <%= link_to(image_tag("appstore.png"), IOS_DOWNLOAD_URL) %>
-      </li>
-    </ul>
-  </div>
+<% unless params[:controller] == "home" &&
+      params[:action] == "android" %>
+    <div id="fill"></div>
+      <div id="descarga_app">
+        <p class="titulo">¿Todavía no tenés Arrancando en tu celular?</p>
+        <p class="sugerencia">Te estás perdiendo mucho contenido como éste.</p>
+        <ul class="stores_container">
+          <li>
+            Descargala para Android
+            <%# link_to(image_tag("playstore.png"), ANDROID_DOWNLOAD_URL) %>
+            <%= link_to(image_tag("playstore.png"), "/android") %>
+          </li>
+          <li>
+            Descargala para iOS
+            <%= link_to(image_tag("appstore.png"), IOS_DOWNLOAD_URL) %>
+          </li>
+        </ul>
+      </div>
+  <% end %>
 <% end %>
