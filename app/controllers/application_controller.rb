@@ -53,16 +53,16 @@ class ApplicationController < ActionController::Base
       params[:action] == "index"
   end
 
-  def android_page?
-    params[:controller] == "home" &&
-      params[:action] == "android"
-  end
+  # def android_page?
+  #   params[:controller] == "home" &&
+  #     params[:action] == "android"
+  # end
 
   def authenticate_request
     @current_user = AuthorizeApiRequest.call(request.headers, session["auth_token"]).result
     respond_to do |format|
       format.html do
-        unless @current_user&.admin? || public_page? || home_page? || android_page?
+        unless @current_user&.admin? || public_page? || home_page? # || android_page?
           redirect_to root_url, notice: "No estás logueado o no sos admin."
         end
       end

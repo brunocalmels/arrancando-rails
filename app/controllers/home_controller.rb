@@ -15,9 +15,9 @@ class HomeController < ApplicationController
   def docs
   end
 
-  # GET /android
-  def android
-  end
+  # # GET /android
+  # def android
+  # end
 
   # POST /contacto
   def contacto
