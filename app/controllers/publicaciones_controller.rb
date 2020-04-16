@@ -152,7 +152,7 @@ class PublicacionesController < ApplicationController
 
   def fetch_items
     @publicaciones = @publicaciones
-                     .order(created_at: :desc)
+                     .order(updated_at: :desc)
                      .limit(params.key?(:limit) ? params[:limit].to_i : 10)
     return if params[:limit] && request.format.json?
 

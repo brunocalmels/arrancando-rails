@@ -11,7 +11,7 @@
 #
 
 class ComentarioReceta < ApplicationRecord
-  belongs_to :receta
+  belongs_to :receta, touch: true
   belongs_to :user
 
   validates :mensaje, presence: true

@@ -140,7 +140,7 @@ class RecetasController < ApplicationController
 
   def fetch_items
     @recetas = @recetas
-               .order(created_at: :desc)
+               .order(updated_at: :desc)
                .limit(params.key?(:limit) ? params[:limit].to_i : 10)
     return if params[:limit] && request.format.json?
 

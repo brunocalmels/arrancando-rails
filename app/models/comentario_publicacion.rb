@@ -11,7 +11,7 @@
 #
 
 class ComentarioPublicacion < ApplicationRecord
-  belongs_to :publicacion
+  belongs_to :publicacion, touch: true
   belongs_to :user
 
   validates :mensaje, presence: true
