@@ -51,7 +51,7 @@ class ContentController < ApplicationController
     end
     # .where(user: current_user)
     ac_record
-      .order(created_at: :desc).first(5 + params[:offset].to_i).map do |p|
+      .order(updated_at: :desc).first(5 + params[:offset].to_i).map do |p|
       get_object(
         p,
         type,
