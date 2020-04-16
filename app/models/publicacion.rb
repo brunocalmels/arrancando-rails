@@ -62,7 +62,7 @@ class Publicacion < ApplicationRecord
     publicaciones = Publicacion.arel_table
     case sort_option.to_s
     when "fecha"
-      order(publicaciones[:created_at].send(direction))
+      order(publicaciones[:updated_at].send(direction))
     when "puntuacion"
       # rubocop:disable Metrics/LineLength
       q = 'SELECT publicaciones.id from publicaciones left join (SELECT id, avg(value::FLOAT) FROM "publicaciones" JOIN jsonb_each(puntajes) d on true GROUP BY "publicaciones"."id") complex on publicaciones.id = complex.id order by avg desc nulls last'

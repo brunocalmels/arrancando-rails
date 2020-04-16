@@ -62,7 +62,7 @@ class Receta < ApplicationRecord
     recetas = Receta.arel_table
     case sort_option.to_s
     when "fecha"
-      order(recetas[:created_at].send(direction))
+      order(recetas[:updated_at].send(direction))
     when "puntuacion"
       # rubocop:disable Metrics/LineLength
       q = 'SELECT recetas.id from recetas left join (SELECT id, avg(value::FLOAT) FROM "recetas" JOIN jsonb_each(puntajes) d on true GROUP BY "recetas"."id") complex on recetas.id = complex.id order by avg desc nulls last'
