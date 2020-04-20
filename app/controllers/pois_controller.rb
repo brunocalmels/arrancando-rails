@@ -54,7 +54,7 @@ class PoisController < ApplicationController
   def create
     @poi = Poi.new(poi_params)
     # @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
-    @poi.user = current_user
+    @poi.user = current_user if @poi.user.nil?
 
     inferir_ciudad if request.format.json?
 

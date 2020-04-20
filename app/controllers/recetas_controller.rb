@@ -52,7 +52,7 @@ class RecetasController < ApplicationController
   # POST /recetas.json
   def create
     @receta = Receta.new(receta_params)
-    @receta.user = current_user
+    @receta.user @receta.user = current_user if @receta.user.nil?
 
     respond_to do |format|
       format.html do

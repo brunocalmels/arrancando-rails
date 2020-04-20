@@ -55,7 +55,7 @@ class PublicacionesController < ApplicationController
   def create
     @publicacion = Publicacion.new(publicacion_params)
     @publicacion.categoria_publicacion = CategoriaPublicacion.comunidad
-    @publicacion.user = current_user
+    @publicacion.user = current_user if @publicacion.user.nil?
 
     respond_to do |format|
       format.html do
