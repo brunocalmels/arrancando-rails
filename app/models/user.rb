@@ -79,6 +79,8 @@ class User < ApplicationRecord
       order(users[:apellido].send(direction))
     when /^act_/
       order(users[:last_seen_at].send(direction))
+    when /^ranking_mensual_/
+      order(users[:rank_mensual].send(direction))
     when /^ranking_/
       order(users[:rank].send(direction))
     else
@@ -95,7 +97,9 @@ class User < ApplicationRecord
       ["Última act. (asc.)", "act_asc"],
       ["Última act. (desc.)", "act_desc"],
       ["Ranking (desc.)", "ranking_desc"],
-      ["Ranking (asc.)", "ranking_asc"]
+      ["Ranking (asc.)", "ranking_asc"],
+      ["Ranking mens. (desc.)", "ranking_mensual_desc"],
+      ["Ranking mens. (asc.)", "ranking_mensual_asc"]
     ]
   end
 
