@@ -29,6 +29,18 @@ CATEGORIAS_RECETAS = %w[
   Parrilla
 ].freeze
 
+CATEGORIAS_RECETAS_V2 = %w[
+  Parrilla
+  Asador
+  Olla
+  Plancha
+  Disco
+  Horno
+  Sartén
+  Bowl
+  Wok
+].freeze
+
 CATEGORIAS_POIS = [
   "Carne",
   "Verdura",

@@ -66,7 +66,7 @@
           <td><%= receta.cuerpo.truncate(100, separator: ' ') %></td>
           <td><%= link_to(receta.user.username, receta.user) %></td>
           <td><%= receta.puntajes %></td>
-          <td><%= receta.categoria_receta.nombre %></td>
+          <td><%= receta.categoria_receta.nombre_con_version %></td>
           <td>
             <%= link_to receta_path(receta), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>

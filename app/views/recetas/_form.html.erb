@@ -44,7 +44,7 @@
 
   <div class="field">
     <%= form.label 'Categoría' %>
-    <%= form.select :categoria_receta_id, CategoriaReceta.all.collect { |c| [c.nombre, c.id] } %>
+    <%= form.select :categoria_receta_id, CategoriaReceta.order(nombre: :asc).collect { |c| [c.nombre_con_version, c.id] } %>
   </div>
 
   <div class="field">
