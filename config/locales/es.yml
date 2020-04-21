@@ -65,6 +65,8 @@ es:
               blank: El título no puede estar vacío
             cuerpo:
               blank: El cuerpo no puede estar vacío
+            complejidad:
+              inclusion: Debe tener un valor dentro de la lista permitida
         poi:
           attributes:
             titulo:

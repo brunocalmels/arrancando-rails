@@ -41,6 +41,12 @@ CATEGORIAS_RECETAS_V2 = %w[
   Wok
 ].freeze
 
+COMPLEJIDADES_RECETAS = %w[
+  Fácil
+  Media
+  Compleja
+].freeze
+
 CATEGORIAS_POIS = [
   "Carne",
   "Verdura",

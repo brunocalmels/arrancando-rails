@@ -36,6 +36,7 @@ class Receta < ApplicationRecord
   validates :titulo, presence: true
   # validates :cuerpo, presence: true
   validate :attachments_max_length
+  validate :complejidad_inclusion
 
   scope :habilitados, lambda {
     where(habilitado: true)
@@ -114,6 +115,13 @@ class Receta < ApplicationRecord
   end
 
   private
+
+  def complejidad_inclusion
+    return if complejidad.nil?
+    return if complejidad.in? COMPLEJIDADES_RECETAS
+
+    errors.add(:complejidad, "debe ser una de: #{COMPLEJIDADES_RECETAS}")
+  end
 
   def attachments_max_length
     imagenes.each do |att|
