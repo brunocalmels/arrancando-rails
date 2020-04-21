@@ -1,27 +1,62 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Ingredientes") %>
 
-<h1>Ingredientes</h1>
+<% if @ingredientes.any? || @filterrific.present? %>
+  <%= form_for_filterrific @filterrific, url: "/ingredientes" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Nombre'
+      ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Aplicar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/ingredientes?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @ingredientes.each do |ingrediente| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= ingrediente.nombre %></td>
-        <td><%= link_to 'Show', ingrediente %></td>
-        <td><%= link_to 'Edit', edit_ingrediente_path(ingrediente) %></td>
-        <td><%= link_to 'Destroy', ingrediente, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Nombre</th>
+        <th style="font-style: italic;">Cant. usos (próximamente)</th>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @ingredientes.each do |ingrediente| %>
+        <tr>
+          <td><%= ingrediente.nombre %></td>
+          <td></td>
+          <td>
+            <%= link_to edit_ingrediente_url(ingrediente), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= button_to ingrediente, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este ingrediente?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<%= link_to 'New Ingrediente', new_ingrediente_path %>
+<%= paginate @ingredientes %>
+
+<div class="botonera">
+  <%= link_to 'Nuevo ingrediente', new_ingrediente_path, class: "btn btn-success" %>
+</div>

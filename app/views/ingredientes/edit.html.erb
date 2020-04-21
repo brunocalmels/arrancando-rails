@@ -1,6 +1,7 @@
-<h1>Editing Ingrediente</h1>
+<% provide(:title, "Editar ingrediente") %>
 
 <%= render 'form', ingrediente: @ingrediente %>
 
-<%= link_to 'Show', @ingrediente %> |
-<%= link_to 'Back', ingredientes_path %>
+<div class="botonera">
+  <%= link_to 'Volver', ingredientes_path, class: 'btn btn-default'  %>
+</div>

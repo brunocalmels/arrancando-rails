@@ -41,30 +41,31 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>País</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @provincias.each do |provincia| %>
-      <tr>
-        <td style="font-style: italic; font-size: 90%;"><%= provincia.id %></td>
-        <td><%= provincia.nombre %></td>
-        <td><%= provincia.pais.nombre %></td>
-        <td>
-          <%= link_to edit_provincia_url(provincia), class: "btn btn-xs btn-info" do %>
-            <i class="fa fa-pencil-alt"></i>
-          <% end %>
-        </td>
-        <td>
-          <%= button_to provincia, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta provincia?" } do %>
-            <i class="fa fa-trash"></i>
-          <% end %>
-        </td>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @provincias.each do |provincia| %>
+        <tr>
+          <td style="font-style: italic; font-size: 90%;"><%= provincia.id %></td>
+          <td><%= provincia.nombre %></td>
+          <td><%= provincia.pais.nombre %></td>
+          <td>
+            <%= link_to edit_provincia_url(provincia), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= button_to provincia, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta provincia?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
 <%= paginate @provincias %>
 

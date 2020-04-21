@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :ingredientes
   get "app-version", to: "application#app_version"
 
   get "content", to: "content#index"
@@ -30,6 +29,8 @@ Rails.application.routes.draw do
 
   resources :comentario_recetas
   resources :comentario_publicaciones
+
+  resources :ingredientes
 
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]

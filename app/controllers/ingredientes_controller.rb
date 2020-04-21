@@ -4,7 +4,9 @@ class IngredientesController < ApplicationController
   # GET /ingredientes
   # GET /ingredientes.json
   def index
-    @ingredientes = Ingrediente.all
+    @filterrific = initialize_filterrific(Ingrediente.order(nombre: :asc), params[:filterrific], select_options: {})
+    @ingredientes = @filterrific.try(:find) || Ingrediente.order(nombre: :asc)
+    @ingredientes = @ingredientes.page(params[:page])
   end
 
   # GET /ingredientes/1
@@ -28,7 +30,7 @@ class IngredientesController < ApplicationController
 
     respond_to do |format|
       if @ingrediente.save
-        format.html { redirect_to @ingrediente, notice: 'Ingrediente was successfully created.' }
+        format.html { redirect_to new_ingrediente_path, notice: "Ingrediente satisfactoriamente creado." }
         format.json { render :show, status: :created, location: @ingrediente }
       else
         format.html { render :new }
@@ -42,7 +44,7 @@ class IngredientesController < ApplicationController
   def update
     respond_to do |format|
       if @ingrediente.update(ingrediente_params)
-        format.html { redirect_to @ingrediente, notice: 'Ingrediente was successfully updated.' }
+        format.html { redirect_to ingredientes_path, notice: "Ingrediente satisfactoriamente actualizado." }
         format.json { render :show, status: :ok, location: @ingrediente }
       else
         format.html { render :edit }
@@ -56,7 +58,7 @@ class IngredientesController < ApplicationController
   def destroy
     @ingrediente.destroy
     respond_to do |format|
-      format.html { redirect_to ingredientes_url, notice: 'Ingrediente was successfully destroyed.' }
+      format.html { redirect_to ingredientes_url, notice: "Ingrediente satisfactoriamente eliminado." }
       format.json { head :no_content }
     end
   end

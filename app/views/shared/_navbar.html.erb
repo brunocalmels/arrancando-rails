@@ -15,13 +15,16 @@
         </li>
 
         <li class="navbar-item">
-          <%= link_to("Publicaciones", publicaciones_path, class: 'nav-link' ) %>
+          <%= link_to("Pubs", publicaciones_path, class: 'nav-link' ) %>
         </li>
         <li class="navbar-item">
           <%= link_to("Recetas", recetas_path, class: 'nav-link' ) %>
         </li>
         <li class="navbar-item">
           <%= link_to("PoIs", pois_path, class: 'nav-link' ) %>
+        </li>
+        <li class="navbar-item">
+          <%= link_to("Ingredientes", ingredientes_path, class: 'nav-link' ) %>
         </li>
         <li class="navbar-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categorías<b class="caret"></b></a>
@@ -32,7 +35,7 @@
           </div>
         </li>
         <li class="navbar-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Geográfico<b class="caret"></b></a>
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Geo.<b class="caret"></b></a>
           <div class="dropdown-menu">
             <%= link_to("Ciudades", ciudades_path, class: 'nav-link' ) %>
             <%= link_to("Provincias", provincias_path, class: 'nav-link' ) %>

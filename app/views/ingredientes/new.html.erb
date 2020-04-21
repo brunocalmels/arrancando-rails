@@ -1,5 +1,7 @@
-<h1>New Ingrediente</h1>
+<% provide(:title, "Nuevo ingrediente") %>
 
 <%= render 'form', ingrediente: @ingrediente %>
 
-<%= link_to 'Back', ingredientes_path %>
+<div class="botonera">
+<%= link_to 'Volver', ingredientes_path, class: 'btn btn-default' %>
+</div>
