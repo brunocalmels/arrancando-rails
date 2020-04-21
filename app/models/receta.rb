@@ -29,7 +29,7 @@ class Receta < ApplicationRecord
            dependent: :destroy,
            class_name: "ComentarioReceta"
 
-  has_and_belongs_to_many :ingredientes,
+  has_and_belongs_to_many :ingredientes_items,
                           class_name: "Ingrediente",
                           join_table: "ingredientes_recetas"
 
