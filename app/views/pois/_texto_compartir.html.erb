@@ -1,0 +1,29 @@
+
+<div class="texto-compartir">
+  <%= render 'shared/nota_admin' %>
+  <p class='strong'>Texto para compartir:</p>
+  <p><%= @poi.titulo %></p>
+  <% unless @poi.cuerpo.blank? %>
+    <p><%= @poi.cuerpo %></p>
+  <% end %>
+  <% unless @poi.direccion.blank? %>
+    <h4>Dirección</h4>
+    <p><%= @poi.direccion %></p>
+  <% end %>
+  <p>
+  Mirá esta punto de interés: <%= link_to(ARRANCANDO_URL+'/pois/'+@poi.id.to_s, ARRANCANDO_URL+'/pois/'+@poi.id.to_s)%>
+  </p>
+  <p>
+    Si todavía no te descargaste Arrancando podés hacerlo:
+    <ul>
+      <li>
+        Para Android desde
+        <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
+      </li>
+      <li>
+        Para iOS desde
+        <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
+      </li>
+    </ul>
+  </p>
+</div>
