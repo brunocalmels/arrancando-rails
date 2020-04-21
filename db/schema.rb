@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_20_191154) do
+ActiveRecord::Schema.define(version: 2020_04_21_161347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,19 @@ ActiveRecord::Schema.define(version: 2020_04_20_191154) do
     t.index ["user_id"], name: "index_comentario_recetas_on_user_id"
   end
 
+  create_table "ingredientes", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ingredientes_recetas", id: false, force: :cascade do |t|
+    t.bigint "ingrediente_id", null: false
+    t.bigint "receta_id", null: false
+    t.index ["ingrediente_id", "receta_id"], name: "index_ingredientes_recetas_on_ingrediente_id_and_receta_id"
+    t.index ["receta_id", "ingrediente_id"], name: "index_ingredientes_recetas_on_receta_id_and_ingrediente_id"
+  end
+
   create_table "paises", force: :cascade do |t|
     t.string "nombre", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -159,6 +172,8 @@ ActiveRecord::Schema.define(version: 2020_04_20_191154) do
     t.text "ingredientes"
     t.text "instrucciones"
     t.boolean "habilitado", default: true
+    t.integer "duracion"
+    t.string "complejidad"
     t.index ["categoria_receta_id"], name: "index_recetas_on_categoria_receta_id"
     t.index ["titulo"], name: "index_recetas_on_titulo"
     t.index ["user_id"], name: "index_recetas_on_user_id"

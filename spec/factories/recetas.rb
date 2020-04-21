@@ -14,6 +14,8 @@
 #  ingredientes        :text
 #  instrucciones       :text
 #  habilitado          :boolean          default("true")
+#  duracion            :integer
+#  complejidad         :string
 #
 
 FactoryBot.define do

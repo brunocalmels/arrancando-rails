@@ -8,7 +8,9 @@ json.extract! receta,
               # :puntaje,
               :categoria_receta_id,
               :created_at,
-              :updated_at
+              :updated_at,
+              :duracion,
+              :complejidad
 
 json.puntajes do
   json.array! receta.my_puntajes

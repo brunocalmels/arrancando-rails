@@ -14,6 +14,8 @@
 #  ingredientes        :text
 #  instrucciones       :text
 #  habilitado          :boolean          default("true")
+#  duracion            :integer
+#  complejidad         :string
 #
 
 class Receta < ApplicationRecord
@@ -26,6 +28,10 @@ class Receta < ApplicationRecord
   has_many :comentarios,
            dependent: :destroy,
            class_name: "ComentarioReceta"
+
+  has_and_belongs_to_many :ingredientes,
+                          class_name: "Ingrediente",
+                          join_table: "ingredientes_recetas"
 
   validates :titulo, presence: true
   # validates :cuerpo, presence: true

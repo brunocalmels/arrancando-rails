@@ -1,16 +1,15 @@
 # == Schema Information
 #
-# Table name: categoria_recetas
+# Table name: ingredientes
 #
 #  id         :integer          not null, primary key
 #  nombre     :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  version    :integer          default("1"), not null
 #
 
 FactoryBot.define do
-  factory :categoria_receta do
+  factory :ingrediente do
     nombre { "MyString" }
   end
 end
