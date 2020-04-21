@@ -17,7 +17,12 @@ class ContentController < ApplicationController
       next if content.nil?
 
       imgs = content_images(content)
-      out << content.as_json(except: %i[puntajes puntaje]).merge(type: item["type"], imagenes: imgs, thumbnail: generate_thumb(content))
+      out << content.as_json(except: %i[puntajes puntaje]).merge(
+        type: item["type"],
+        imagenes: imgs,
+        thumbnail: generate_thumb(content),
+        user: get_user(content)
+      )
     end
     render json: out, status: :ok
   end
@@ -36,6 +41,7 @@ class ContentController < ApplicationController
     o["puntaje"] = nil
     o["puntajes"] = puntajes
     o["comentarios"] = item.comentarios unless type == "pois"
+    o["user"] = get_user(item)
     o
   end
 
@@ -76,5 +82,12 @@ class ContentController < ApplicationController
     else
       []
     end
+  end
+
+  def get_user(content)
+    has_avatar = content.user.avatar.attached?
+    content.user.as_json.merge(
+      "avatar" => has_avatar ? rails_blob_path(content.user.avatar) : '/images/unknown.png'
+    )
   end
 end

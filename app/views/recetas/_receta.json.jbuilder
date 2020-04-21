@@ -39,9 +39,13 @@ json.video_thumbs video_thumbs
 
 has_avatar = receta.user.avatar.attached?
 
+# rubocop: disable Metrics/LineLength
+
 json.user receta.user.as_json.merge(
-  "avatar" => has_avatar ? rails_blob_path(receta.user.avatar) : nil
+  "avatar" => has_avatar ? rails_blob_path(receta.user.avatar) : "/images/unknown.png"
 )
+
+# rubocop: enable Metrics/LineLength
 
 json.comentarios do
   json.array! receta.comentarios,

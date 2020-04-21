@@ -42,9 +42,13 @@ json.video_thumbs video_thumbs
 
 has_avatar = poi.user.avatar.attached?
 
+# rubocop: disable Metrics/LineLength
+
 json.user poi.user.as_json.merge(
-  "avatar" => has_avatar ? rails_blob_path(poi.user.avatar) : nil
+  "avatar" => has_avatar ? rails_blob_path(poi.user.avatar) : "/images/unknown.png"
 )
+
+# rubocop: enable Metrics/LineLength
 
 json.url poi_url(poi,
                  format: :json)
