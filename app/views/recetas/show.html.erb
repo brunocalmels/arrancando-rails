@@ -85,43 +85,19 @@
     </p>
   <% end %>
 
+  <p>
+    <p class='strong'>Complejidad</p>
+      <%= @receta.complejidad || "Sin definir" %>
+  </p>
+
+  <p>
+    <p class='strong'>Duración</p>
+      <%= @receta.duracion.nil? ? 'Sin definir' : "#{@receta.duracion.to_s} minutos"  %>
+  </p>
+
+
   <% if @current_user&.admin? %>
-    <div class="texto-compartir">
-      <%= render 'shared/nota_admin' %>
-      <p class='strong'>Texto para compartir:</p>
-      <h4><%= @receta.titulo %></h4>
-        <% unless @receta.cuerpo.blank? %>
-        <p><%= @receta.cuerpo %></p>
-      <% end %>
-      <% unless @receta.introduccion.blank? %>
-        <h5>Introdución</h5>
-        <p><%= @receta.introduccion %></p>
-      <% end %>
-      <% unless @receta.ingredientes.blank? %>
-        <h5>Ingredientes</h5>
-        <p><%= @receta.ingredientes %></p>
-      <% end %>
-      <% unless @receta.instrucciones.blank? %>
-        <h5>Instrucciones</h5>
-        <p><%= @receta.instrucciones %></p>
-      <% end %>
-      <p>
-        Mirá esta receta: <%= link_to(ARRANCANDO_URL+'/recetas/'+@receta.id.to_s, ARRANCANDO_URL+'/recetas/'+@receta.id.to_s)%>
-      </p>
-      <p>
-      Si todavía no te descargaste Arrancando podés hacerlo:
-      <ul>
-        <li>
-          Para Android desde
-          <%= link_to(ANDROID_DOWNLOAD_URL, ANDROID_DOWNLOAD_URL) %>
-        </li>
-        <li>
-          Para iOS desde
-          <%= link_to(IOS_DOWNLOAD_URL, IOS_DOWNLOAD_URL) %>
-        </li>
-      </ul>
-      </p>
-    </div>
+    <%# render 'texto_compartir' %>
 
     <p>
       <%= render 'shared/nota_admin' %>
