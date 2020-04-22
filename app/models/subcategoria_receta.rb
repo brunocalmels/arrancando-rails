@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: subcategoria_recetas
+#
+#  id         :integer          not null, primary key
+#  nombre     :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class SubcategoriaReceta < ApplicationRecord
   has_and_belongs_to_many :recetas,
                           class_name: "Receta",

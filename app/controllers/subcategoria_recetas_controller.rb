@@ -7,6 +7,7 @@ class SubcategoriaRecetasController < ApplicationController
     @filterrific = initialize_filterrific(SubcategoriaReceta.order(nombre: :asc), params[:filterrific], select_options: {})
     @subcategoria_recetas = @filterrific.try(:find) || SubcategoriaReceta.order(nombre: :asc)
     @subcategoria_recetas = @subcategoria_recetas.page(params[:page])
+    render json: @subcategoria_recetas
   end
 
   # # GET /subcategoria_recetas/1

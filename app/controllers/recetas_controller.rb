@@ -1,3 +1,5 @@
+# rubocop: disable Metrics/ClassLength
+
 class RecetasController < ApplicationController
   include ContentHelper
   before_action :set_receta, only: %i[show edit update destroy puntuar]
@@ -53,6 +55,7 @@ class RecetasController < ApplicationController
   def create
     @receta = Receta.new(receta_params)
     @receta.user = current_user if @receta.user.nil?
+    @receta.subcategoria_receta_ids = params[:subcategoria_receta_ids]
 
     respond_to do |format|
       format.html do
@@ -90,6 +93,9 @@ class RecetasController < ApplicationController
       format.json do
         if @receta.update(receta_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @receta))
           parse_ingredientes
+          unless params[:subcategoria_receta_ids].nil?
+            @receta.update subcategoria_receta_ids: params[:subcategoria_receta_ids]
+          end
           render :show, status: :ok, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity
@@ -120,11 +126,13 @@ class RecetasController < ApplicationController
   private
 
   def parse_ingredientes
-    ingr_items = params.require(:receta).permit(:ingredientes_items)
-    ingr_items.each do |ing|
-      next if Ingrediente.exists?(nombre: ing.ingrediente)
+    return if params[:ingredientes_items].nil?
 
-      Ingrediente.create(nombre: ing.ingrediente)
+    ingr_items = params[:ingredientes_items]
+    ingr_items.each do |ing|
+      next if Ingrediente.exists?(nombre: ing['ingrediente'])
+
+      Ingrediente.create(nombre: ing['ingrediente'])
     end
     @receta.update ingredientes_items: ingr_items
   end
@@ -164,9 +172,11 @@ class RecetasController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
     if request.format.json?
-      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :duracion, :complejidad)
+      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :duracion, :complejidad, ingredientes_items: [])
     else
       params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :habilitado, :user_id)
     end
   end
 end
+
+# rubocop: enable Metrics/ClassLength

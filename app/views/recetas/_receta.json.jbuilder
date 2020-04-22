@@ -16,6 +16,14 @@ json.puntajes do
   json.array! receta.my_puntajes
 end
 
+json.subcategoria_recetas do
+  json.array! receta.subcategoria_recetas
+end
+
+json.ingredientes_items do
+  json.array! receta.ingredientes_items
+end
+
 video_thumbs = {}
 
 if receta.imagenes.attached?

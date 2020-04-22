@@ -10,6 +10,13 @@
 #  categoria_receta_id :integer          not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  introduccion        :text
+#  ingredientes        :text
+#  instrucciones       :text
+#  habilitado          :boolean          default("true")
+#  duracion            :integer
+#  complejidad         :string
+#  ingredientes_items  :jsonb            default("[]")
 #
 
 FactoryBot.define do

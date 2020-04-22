@@ -15,6 +15,12 @@
 #  activo            :boolean
 #  usernames_pasados :string           default("{}"), is an Array
 #  last_seen_at      :datetime
+#  rank              :integer
+#  ciudad_id         :integer          default("1"), not null
+#  app_version       :string
+#  platform          :string
+#  rank_mensual      :integer
+#  rankeable         :boolean          default("true")
 #
 
 FactoryBot.define do
