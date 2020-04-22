@@ -1,0 +1,22 @@
+<%= form_with(model: subcategoria_receta, local: true) do |form| %>
+  <% if subcategoria_receta.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(subcategoria_receta.errors.count, "error") %> impidió que este i se guardara:</h2>
+
+      <ul>
+        <% subcategoria_receta.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :nombre %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Guardar", class: "btn btn-success"%>
+  </div>
+<% end %>

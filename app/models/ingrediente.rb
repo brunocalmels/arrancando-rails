@@ -9,9 +9,9 @@
 #
 
 class Ingrediente < ApplicationRecord
-  has_and_belongs_to_many :recetas,
-                          class_name: "Receta",
-                          join_table: "ingredientes_recetas"
+  # has_and_belongs_to_many :recetas,
+  #                         class_name: "Receta",
+  #                         join_table: "ingredientes_recetas"
 
   filterrific(
     persistance_id: false,

@@ -41,6 +41,15 @@ CATEGORIAS_RECETAS_V2 = %w[
   Wok
 ].freeze
 
+SUBCATEGORIAS_RECETAS = [
+  "Carne roja",
+  "Carne blanca",
+  "Vegatales",
+  "Frutos",
+  "Frutos secos",
+  "Especias"
+].freeze
+
 COMPLEJIDADES_RECETAS = %w[
   Fácil
   Media

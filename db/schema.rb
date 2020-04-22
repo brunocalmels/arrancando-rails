@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_161347) do
+ActiveRecord::Schema.define(version: 2020_04_22_132010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,12 +179,25 @@ ActiveRecord::Schema.define(version: 2020_04_21_161347) do
     t.index ["user_id"], name: "index_recetas_on_user_id"
   end
 
+  create_table "recetas_subcategoria_recetas", id: false, force: :cascade do |t|
+    t.bigint "receta_id", null: false
+    t.bigint "subcategoria_receta_id", null: false
+    t.index ["receta_id", "subcategoria_receta_id"], name: "index_recetas_subcats_recetas_unique", unique: true
+    t.index ["subcategoria_receta_id", "receta_id"], name: "index_subcats_recetas_unique", unique: true
+  end
+
   create_table "reportes", force: :cascade do |t|
     t.text "contenido", default: "", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_reportes_on_user_id"
+  end
+
+  create_table "subcategoria_recetas", force: :cascade do |t|
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

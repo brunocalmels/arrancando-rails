@@ -20,6 +20,7 @@
 
 class Receta < ApplicationRecord
   belongs_to :categoria_receta
+  has_many :subcategoria_recetas
   belongs_to :user
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
@@ -29,9 +30,12 @@ class Receta < ApplicationRecord
            dependent: :destroy,
            class_name: "ComentarioReceta"
 
-  has_and_belongs_to_many :ingredientes_items,
-                          class_name: "Ingrediente",
-                          join_table: "ingredientes_recetas"
+  # has_and_belongs_to_many :ingredientes_items,
+  #                         class_name: "Ingrediente",
+  #                         join_table: "ingredientes_recetas"
+  has_and_belongs_to_many :subcategoria_recetas,
+                          class_name: "SubcategoriaReceta",
+                          join_table: "recetas_subcategoria_recetas"
 
   validates :titulo, presence: true
   # validates :cuerpo, presence: true

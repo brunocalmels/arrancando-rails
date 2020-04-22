@@ -14,6 +14,12 @@ class IngredientesController < ApplicationController
   def show
   end
 
+  # GET /ingredientes/search
+  # GET /ingredientes/search.json
+  def search
+    index
+  end
+
   # GET /ingredientes/new
   def new
     @ingrediente = Ingrediente.new

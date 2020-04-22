@@ -31,9 +31,11 @@ Rails.application.routes.draw do
   resources :comentario_publicaciones
 
   resources :ingredientes
+  get "ingredientes/search", to: "ingredientes#search"
 
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
+  resources :subcategoria_recetas, except: %i[show new create]
   resources :categoria_publicaciones, except: [:show]
 
   post "contacto", to: "home#contacto"

@@ -1,0 +1,56 @@
+<% provide(:title, "Subcategorias recetas") %>
+
+<% if @subcategoria_recetas.any? || @filterrific.present? %>
+  <%= form_for_filterrific @filterrific, url: "/subcategoria_recetas" do |f| %>
+    <div>
+      <p class='etiqueta'>
+        Buscar
+      </p>
+      <%= f.text_field(
+        :search_query,
+        placeholder: 'Nombre'
+      ) %>
+    </div>
+    <div id="aplicar_filtros">
+      <%= f.submit 'Aplicar', class: 'btn btn-success' %>
+    </div>
+    <div id="borrar_filtros">
+      <%= link_to(
+        'Borrar',
+        "/subcategoria_recetas?filterrific[search_query]= ",
+        class: 'btn btn-warning'
+      ) %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @subcategoria_recetas.each do |subcategoria_receta| %>
+        <tr>
+          <td><%= subcategoria_receta.nombre %></td>
+          <td>
+            <%= link_to edit_subcategoria_receta_url(subcategoria_receta), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= button_to subcategoria_receta, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este subcategoria_receta?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @subcategoria_recetas %>
