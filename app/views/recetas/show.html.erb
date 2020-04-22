@@ -78,6 +78,13 @@
     </p>
   <% end %>
 
+  <% unless @receta.ingredientes_items.blank? %>
+    <p>
+      <p class='strong'>Ingredientes items</p>
+      <%= @receta.ingredientes_items %>
+    </p>
+  <% end %>
+
   <% unless @receta.instrucciones.blank? %>
     <p>
       <p class='strong'>Instrucciones</p>

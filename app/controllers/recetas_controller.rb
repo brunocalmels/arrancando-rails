@@ -57,6 +57,7 @@ class RecetasController < ApplicationController
     respond_to do |format|
       format.html do
         if (params[:receta][:imagenes].nil? || save_images_html(params, @receta, :receta)) && @receta.valid? && @receta.save
+          parse_ingredientes
           redirect_to new_receta_path, notice: "Receta satisfactoriamente creada."
         else
           render :new
@@ -64,6 +65,7 @@ class RecetasController < ApplicationController
       end
       format.json do
         if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @receta)) && @receta.valid? && @receta.save
+          parse_ingredientes
           render :show, status: :created, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity
@@ -79,6 +81,7 @@ class RecetasController < ApplicationController
     respond_to do |format|
       format.html do
         if @receta.update(receta_params) && (params[:receta][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @receta, :receta))
+          parse_ingredientes
           redirect_to @receta, notice: "Receta satisfactoriamente actualizada."
         else
           render :edit
@@ -86,6 +89,7 @@ class RecetasController < ApplicationController
       end
       format.json do
         if @receta.update(receta_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @receta))
+          parse_ingredientes
           render :show, status: :ok, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity
@@ -114,6 +118,16 @@ class RecetasController < ApplicationController
   end
 
   private
+
+  def parse_ingredientes
+    ingr_items = params.require(:receta).permit(:ingredientes_items)
+    ingr_items.each do |ing|
+      next if Ingrediente.exists?(nombre: ing.ingrediente)
+
+      Ingrediente.create(nombre: ing.ingrediente)
+    end
+    @receta.update ingredientes_items: ingr_items
+  end
 
   def filter_by_categoria_receta_id
     return unless params.key? :categoria_receta_id
@@ -150,9 +164,9 @@ class RecetasController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def receta_params
     if request.format.json?
-      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :ingredientes, :instrucciones, :categoria_receta_id, :duracion, :complejidad)
+      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :duracion, :complejidad)
     else
-      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :ingredientes, :instrucciones, :categoria_receta_id, :habilitado, :user_id)
+      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :habilitado, :user_id)
     end
   end
 end
