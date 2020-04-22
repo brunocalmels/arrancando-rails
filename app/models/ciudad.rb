@@ -2,15 +2,11 @@
 #
 # Table name: ciudades
 #
-#  id                        :integer          not null, primary key
-#  nombre                    :string           not null
-#  provincia_id              :integer          not null
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  populada                  :boolean          default("false")
-#  fecha_populacion          :datetime
-#  version_script_populacion :string
-#  rubros                    :string           default("{}"), is an Array
+#  id           :integer          not null, primary key
+#  nombre       :string           not null
+#  provincia_id :integer          not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 
 class Ciudad < ApplicationRecord

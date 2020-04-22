@@ -13,8 +13,6 @@
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  direccion        :string
-#  habilitado       :boolean          default("true")
-#  ciudad_id        :integer          default("1"), not null
 #
 
 require "rails_helper"
