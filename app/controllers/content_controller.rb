@@ -68,14 +68,15 @@ class ContentController < ApplicationController
 
   def build_feed(pars)
     to_show = []
-    if pars[:conenidos_home].nil?
+    if pars[:contenidos_home].nil?
       to_show = [
         build_objects("publicaciones"),
         build_objects("recetas"),
         build_objects("pois")
       ]
     else
-      pars[:contenidos_home].each do |ch|
+      contenidos_home = JSON.parse(pars[:contenidos_home])
+      contenidos_home.each do |ch|
         to_show << build_objects(ch)
       end
     end
