@@ -5,12 +5,13 @@ document.addEventListener('turbolinks:load', function (event) {
   //     })
   //   }
   // })
-  console.log('FB Anlytics: Afuera');
 
-  if (typeof firebase === 'function') {
-    console.log('FB Anlytics: Adentro');
-    firebase.analytics.logEvent('page_view', {
-      page_name: "Web Home"
+  if (typeof firebase === 'object') {
+    console.log('Logging page to Firebase');
+    // TODO: Completar configuracion
+    firebase.analytics().setCurrentScreen('WEB');
+    firebase.analytics().logEvent('screen_view', {
+      screen_name: "Web Nav Event"
     })
   }
 })
