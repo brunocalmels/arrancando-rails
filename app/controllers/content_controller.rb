@@ -66,12 +66,21 @@ class ContentController < ApplicationController
     end
   end
 
-  def build_feed(_params)
-    [
-      build_objects("publicaciones"),
-      build_objects("recetas"),
-      build_objects("pois")
-    ].flatten
+  def build_feed(pars)
+    to_show = []
+    if pars[:conenidos_home].nil?
+      to_show = [
+        build_objects("publicaciones"),
+        build_objects("recetas"),
+        build_objects("pois")
+      ]
+    else
+      pars[:contenidos_home].each do |ch|
+        to_show << build_objects(ch)
+      end
+    end
+
+    to_show.flatten
   end
 
   def content_images(content)
