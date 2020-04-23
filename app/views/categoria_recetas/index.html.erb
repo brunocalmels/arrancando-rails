@@ -15,7 +15,7 @@
       <% @categoria_recetas.each do |categoria_receta| %>
         <tr>
           <td><%= categoria_receta.id %></td>
-          <td><%= categoria_receta.nombre %></td>
+          <td><%= categoria_receta.nombre_con_version %></td>
           <td>
             <%= link_to edit_categoria_receta_url(categoria_receta), class: "btn btn-xs btn-info" do %>
               <i class="fa fa-pencil-alt"></i>
