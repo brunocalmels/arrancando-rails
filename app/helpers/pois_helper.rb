@@ -24,12 +24,15 @@ module PoisHelper
     @provincia2 = Provincia.find_by_nombre("Capital Federal")
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity
+
   def inferir_ciudad
     return unless params.key?(:nombre_ciudad) && params.key?(:nombre_provincia)
 
     inferir_provincia
 
     ciudad = Ciudad.find_by_nombre(params[:nombre_ciudad])
+    return if ciudad.nil?
     unless ciudad.provincia_id == @provincia.id ||
            (@provincia2 && ciudad.provincia_id == @provincia2.id)
       return
@@ -37,4 +40,6 @@ module PoisHelper
 
     @poi.ciudad = ciudad
   end
+
+  # rubocop:enable Metrics/CyclomaticComplexity
 end
