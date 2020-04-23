@@ -7,7 +7,7 @@ class IngredientesController < ApplicationController
     @filterrific = initialize_filterrific(Ingrediente.order(nombre: :asc), params[:filterrific], select_options: {})
     @ingredientes = @filterrific.try(:find) || Ingrediente.order(nombre: :asc)
     @ingredientes = @ingredientes.page(params[:page])
-    render json: @ingredientes
+    # render json: @ingredientes
   end
 
   # GET /ingredientes/1

@@ -20,4 +20,5 @@ $(document).on("turbolinks:load", function () {
 });
 
 import "./bootstrap_custom.js";
+import "./google_analytics.js";
 import "../styles/application";
