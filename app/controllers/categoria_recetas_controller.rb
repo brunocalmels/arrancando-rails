@@ -5,7 +5,11 @@ class CategoriaRecetasController < ApplicationController
   # GET /categoria_recetas
   # GET /categoria_recetas.json
   def index
-    @categoria_recetas = CategoriaReceta.order(nombre: :asc).all
+    @categoria_recetas = if request.format.json?
+                           CategoriaReceta.joins(:recetas).order(nombre: :asc).all
+                         else
+                           CategoriaReceta.order(nombre: :asc).all
+                         end
   end
 
   # GET /categoria_recetas/new
