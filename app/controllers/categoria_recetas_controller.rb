@@ -6,7 +6,7 @@ class CategoriaRecetasController < ApplicationController
   # GET /categoria_recetas.json
   def index
     @categoria_recetas = if request.format.json?
-                           CategoriaReceta.joins(:recetas).order(nombre: :asc).all
+                           CategoriaReceta.joins(:recetas).distinct.order(nombre: :asc).all
                          else
                            CategoriaReceta.order(nombre: :asc).all
                          end
