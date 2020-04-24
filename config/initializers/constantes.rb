@@ -53,7 +53,7 @@ SUBCATEGORIAS_RECETAS = [
 COMPLEJIDADES_RECETAS = %w[
   Fácil
   Media
-  Compleja
+  Difícil
 ].freeze
 
 CATEGORIAS_POIS = [
