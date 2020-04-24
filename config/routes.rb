@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
-  resources :subcategoria_recetas, except: %i[show new create]
+  resources :subcategoria_recetas, except: %i[show]
   resources :categoria_publicaciones, except: [:show]
 
   post "contacto", to: "home#contacto"

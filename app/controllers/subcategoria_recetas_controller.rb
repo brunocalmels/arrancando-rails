@@ -7,7 +7,8 @@ class SubcategoriaRecetasController < ApplicationController
     @filterrific = initialize_filterrific(SubcategoriaReceta.order(nombre: :asc), params[:filterrific], select_options: {})
     @subcategoria_recetas = @filterrific.try(:find) || SubcategoriaReceta.order(nombre: :asc)
     @subcategoria_recetas = @subcategoria_recetas.page(params[:page])
-    render json: @subcategoria_recetas
+    render :index
+    # render json: @subcategoria_recetas
   end
 
   # # GET /subcategoria_recetas/1
@@ -16,9 +17,9 @@ class SubcategoriaRecetasController < ApplicationController
   # end
 
   # # GET /subcategoria_recetas/new
-  # def new
-  #   @subcategoria_receta = SubcategoriaReceta.new
-  # end
+  def new
+    @subcategoria_receta = SubcategoriaReceta.new
+  end
 
   # GET /subcategoria_recetas/1/edit
   def edit
@@ -26,19 +27,19 @@ class SubcategoriaRecetasController < ApplicationController
 
   # # POST /subcategoria_recetas
   # # POST /subcategoria_recetas.json
-  # def create
-  #   @subcategoria_receta = SubcategoriaReceta.new(subcategoria_receta_params)
+  def create
+    @subcategoria_receta = SubcategoriaReceta.new(subcategoria_receta_params)
 
-  #   respond_to do |format|
-  #     if @subcategoria_receta.save
-  #       format.html { redirect_to new_subcategoria_receta_path, notice: "Subcategoría Receta satisfactoriamente creada." }
-  #       format.json { render :show, status: :created, location: @subcategoria_receta }
-  #     else
-  #       format.html { render :new }
-  #       format.json { render json: @subcategoria_receta.errors, status: :unprocessable_entity }
-  #     end
-  #   end
-  # end
+    respond_to do |format|
+      if @subcategoria_receta.save
+        format.html { redirect_to new_subcategoria_receta_path, notice: "Subcategoría Receta satisfactoriamente creada." }
+        format.json { render :show, status: :created, location: @subcategoria_receta }
+      else
+        format.html { render :new }
+        format.json { render json: @subcategoria_receta.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # PATCH/PUT /subcategoria_recetas/1
   # PATCH/PUT /subcategoria_recetas/1.json
