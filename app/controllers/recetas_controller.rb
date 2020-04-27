@@ -129,10 +129,12 @@ class RecetasController < ApplicationController
     return if params[:ingredientes_items].nil?
 
     ingr_items = params[:ingredientes_items]
-    ingr_items.each do |ing|
-      next if Ingrediente.exists?(nombre: ing['ingrediente'])
+    ingr_items = ingr_items.values if request.format.html?
 
-      Ingrediente.create(nombre: ing['ingrediente'])
+    ingr_items.each do |ing|
+      next if Ingrediente.exists?(nombre: ing["ingrediente"])
+
+      Ingrediente.create(nombre: ing["ingrediente"])
     end
     @receta.update ingredientes_items: ingr_items
   end
@@ -174,7 +176,7 @@ class RecetasController < ApplicationController
     if request.format.json?
       params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :duracion, :complejidad, ingredientes_items: [])
     else
-      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :habilitado, :user_id)
+      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :habilitado, :user_id, :duracion, :complejidad, ingredientes_items: [])
     end
   end
 end

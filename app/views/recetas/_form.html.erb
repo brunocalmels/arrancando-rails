@@ -1,3 +1,5 @@
+<%= javascript_pack_tag 'receta_form' %>
+
 <%= form_with(model: receta, local: true) do |form| %>
   <% if receta.errors.any? %>
     <div id="error_explanation">
@@ -22,6 +24,16 @@
   </div>
 
   <div class="field">
+    <%= form.label 'Complejidad' %>
+    <%= form.select :complejidad, COMPLEJIDADES_RECETAS %>
+  </div>
+  <div class="field">
+    <%= form.label 'Duración (en minutos)' %>
+    <%= form.text_field :duracion %>
+  </div>
+
+
+  <div class="field">
     <%= form.label "Introducción" %>
     <%= form.text_area :introduccion %>
   </div>
@@ -31,10 +43,24 @@
     <%= form.text_area :ingredientes %>
   </div>
 
+  <% if false %>
   <div class="field">
     <%= form.label :ingredientes_items %>
     <%= form.text_area :ingredientes_items %>
   </div>
+  <% end %>
+
+  <div class='field'>
+    <%= form.label 'Ingredientes items'%>
+    <div class='field' id="ingredientes_items">
+      <%= hidden_field_tag :ingredientes_count, receta.ingredientes_items.count %>
+      <% receta.ingredientes_items.each_with_index do |ing, ind| %>
+        <%= render 'ingrediente_fields', {ind:ind, ing: ing} %>
+      <% end %>
+    </div>
+  </div>
+  <p>Para "Cantidad necesaria": Dejar "Cant. necesaria" en la cantidad, con cualquier unidad.</p>
+  <%= link_to '+ ingrediente', '#', class: 'btn btn-info new_ingrediente_fields' %>
 
   <div class="field">
     <%= form.label :instrucciones %>
