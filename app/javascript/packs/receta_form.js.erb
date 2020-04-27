@@ -1,0 +1,40 @@
+document.addEventListener('turbolinks:load', function (event) {
+  let ind = parseInt($('#ingredientes_count')[0].value);
+
+  $('.new_ingrediente_fields').click(function (e) {
+    e.preventDefault();
+    ind++;
+    console.log(ind);
+    const html_to_add = fields(ind);
+    let nodo = document.createElement('div');
+    $(nodo).addClass('nested-fields');
+    nodo.innerHTML = html_to_add;
+    $('#ingredientes_items')[0].append(nodo);
+  })
+
+  $('.ingredientes_items_eliminar').click(function (e) {
+    e.preventDefault();
+    e.target.parentElement.remove();
+  })
+})
+
+function fields(index) {
+  const ingrs_options_list = <%= Ingrediente.pluck(:nombre) %>;
+  const map_ingrs_opciones = ingrs_options_list.map(op => {
+    return `<option value="${op}">${op}</option>`
+  });
+  const tags_ingrs_opciones = map_ingrs_opciones.join('');
+
+  const unis_options_list = <%= UNIDADES %>;
+  const map_unis_opciones = unis_options_list.map(op => {
+    return `<option value="${op}">${op}</option>`
+  });
+  const tags_unis_opciones = map_unis_opciones.join('');
+
+  return `<div class="field"><select name = "ingredientes_items[${index}][ingrediente]" id="receta_ingredientes_items_${index}_ingrediente">
+  ${tags_ingrs_opciones} </select><input type="text" name="ingredientes_items[${index}][cantidad]"
+  id = "receta_ingredientes_items_${index}_cantidad">
+  <select name = "ingredientes_items[${index}][unidad]"
+  id="receta_ingredientes_items_${index}_unidad">
+  ${tags_unis_opciones} </select><a class="btn btn-warning ingredientes_items_eliminar" href="#">Borrar</a></div>`
+}
