@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   post "apple-login", to: "users#apple_client"
   post "new-google-login", to: "users#new_google_client"
   get "google-login", to: "users#google_client"
+  post "new-facebook-login", to: "users#new_facebook_client"
   get "facebook-login", to: "users#facebook_client"
 
   resources :users

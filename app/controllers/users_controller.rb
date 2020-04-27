@@ -3,11 +3,12 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client]
-  skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client]
+  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client]
+  skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client new_facebook_client]
   before_action :user_by_email, only: %i[google_client]
   before_action :user_by_email_new_google, only: %i[new_google_client]
   before_action :user_by_email_apple, only: %i[apple_client]
+  before_action :user_by_email_new_facebook, only: %i[new_facebook_client]
   before_action :user_by_email_fb, only: %i[facebook_client]
 
   # GET /users
@@ -140,6 +141,25 @@ class UsersController < ApplicationController
   end
 
   def new_google_client
+    data = {
+      auth_token: JsonWebToken.encode(user_id: @user.id),
+      id: @user.id,
+      nombre: @user.nombre,
+      apellido: @user.apellido,
+      email: @user.email,
+      username: @user.username
+    }
+
+    data[:avatar] = if @user.avatar.attached?
+                      rails_blob_path(@user.avatar)
+                    else
+                      "/images/unknown.png"
+                    end
+
+    render json: data
+  end
+
+  def new_facebook_client
     data = {
       auth_token: JsonWebToken.encode(user_id: @user.id),
       id: @user.id,
@@ -309,6 +329,20 @@ class UsersController < ApplicationController
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
+  def fix_user_metadata_new_facebook
+    @metadata = params['credentials']
+    @email = @metadata["email"] || "#{@metadata['id']}@not-facebook.com"
+    @nombre = if !@metadata["name"].nil?
+                @metadata["name"]
+              elsif !@metadata["email"].nil?
+                @metadata["email"].split("@")[0].gsub(".", "_")
+              else
+                "usuario-#{@metadata['id'].split('.').first}"
+              end
+    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @password = "#{encode64(@nombre)}-#{random_string}"
+  end
+
   def fix_user_metadata_fb
     @email = @metadata["email"] || "#{@metadata['id']}@not-facebook.com"
     @nombre = if !@metadata["email"].nil?
@@ -344,6 +378,15 @@ class UsersController < ApplicationController
 
   def user_by_email_new_google
     fix_user_metadata_new_google
+
+    build_user
+  rescue StandardError => e
+    puts e
+    render json: nil, status: :unprocessable_entity
+  end
+
+  def user_by_email_new_facebook
+    fix_user_metadata_new_facebook
 
     build_user
   rescue StandardError => e
