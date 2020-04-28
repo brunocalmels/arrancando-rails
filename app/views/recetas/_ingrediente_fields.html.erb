@@ -2,7 +2,7 @@
   <div class="field">
     <%= select_tag "ingredientes_items[#{ind}][ingrediente]", options_for_select(Ingrediente.order(nombre: :asc).pluck(:nombre), { selected: ing['ingrediente'] } )%>
     <%= text_field_tag "ingredientes_items[#{ind}][cantidad]", ing['cantidad']%>
-    <%= select_tag "ingredientes_items[#{ind}][unidad]", options_for_select(UNIDADES, { selected: ing['unidad'] }) %>
+    <%= select_tag "ingredientes_items[#{ind}][unidad]", options_for_select(UNIDADES, { selected: ing['unidad'] }), include_blank: true %>
     <%= link_to 'Borrar', '#', class: 'btn btn-warning ingredientes_items_eliminar' %>
   </div>
 </div>

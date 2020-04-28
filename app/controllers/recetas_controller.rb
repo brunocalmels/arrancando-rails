@@ -137,6 +137,11 @@ class RecetasController < ApplicationController
       Ingrediente.create(nombre: ing["ingrediente"])
     end
     @receta.update ingredientes_items: ingr_items
+
+    @receta.ingredientes_items
+           .filter { |f| f["cantidad"] == "Cant. necesaria" }
+           .each { |f| f["unidad"] = "" }
+    @receta.save
   end
 
   def filter_by_categoria_receta_id
