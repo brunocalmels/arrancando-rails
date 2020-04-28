@@ -1,23 +1,35 @@
 document.addEventListener('turbolinks:load', function (event) {
-  let ind = parseInt($('#ingredientes_count')[0].value);
+  let nextSelectValue = $('.ingredientes_fields').length;
+  if(nextSelectValue == 1){
+    $('#ingredientes_fields_0').hide();
+  }
 
   $('.new_ingrediente_fields').click(function (e) {
     e.preventDefault();
     let nextSelectValue = $('.ingredientes_fields').length;
-    let num = $('.ingredientes_fields').length - 1;
-    let newNum  = new Number(num + 1);
-    let newInput = $('#ingredientes_fields_' + num).clone().attr('id', 'ingredientes_fields_' + newNum);
-    var selectInput = newInput.find('select:first');
-    selectInput.attr('name', selectInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
-    selectInput.attr('id', selectInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
-    var textInput = newInput.find('input[type=text]');
-    textInput.attr('name', textInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
-    textInput.attr('id', textInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
-    selectInput = newInput.find('select:last');
-    selectInput.attr('name', selectInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
-    selectInput.attr('id', selectInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
-    nextSelectValue += 1;
-    $('#ingredientes_fields_' + num).after(newInput);
+    // Primero
+    if(nextSelectValue == 1 && $('#ingredientes_fields_0')[0].style['display'] == 'none'
+    ) {
+        let num = $('.ingredientes_fields').length - 1;
+        $('#ingredientes_fields_' + num).show();
+    }
+    else {
+      // A partir del primero
+      let num = $('.ingredientes_fields').length - 1;
+      let newNum  = new Number(num + 1);
+      let newInput = $('#ingredientes_fields_' + num).clone().attr('id', 'ingredientes_fields_' + newNum);
+      var selectInput = newInput.find('select:first');
+      selectInput.attr('name', selectInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
+      selectInput.attr('id', selectInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
+      var textInput = newInput.find('input[type=text]');
+      textInput.attr('name', textInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
+      textInput.attr('id', textInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
+      selectInput = newInput.find('select:last');
+      selectInput.attr('name', selectInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
+      selectInput.attr('id', selectInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
+      nextSelectValue += 1;
+      $('#ingredientes_fields_' + num).after(newInput);
+    }
   })
 
   $('.ingredientes_items_eliminar').click(function (e) {

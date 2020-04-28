@@ -53,9 +53,13 @@
   <div class='field'>
     <%= form.label 'Ingredientes items'%>
     <div class='field' id="ingredientes_items">
-      <%= hidden_field_tag :ingredientes_count, receta.ingredientes_items.count %>
       <% receta.ingredientes_items.each_with_index do |ing, ind| %>
-        <%= render 'ingrediente_fields', {ind:ind, ing: ing} %>
+        <%= render 'ingrediente_fields', { ind:ind, ing: ing } %>
+      <% end %>
+      <% if receta.ingredientes_items.count < 1 %>
+        <% ing = Ingrediente.new %>
+        <% ind = 0 %>
+        <%= render 'ingrediente_fields', { ind:ind, ing: ing } %>
       <% end %>
     </div>
   </div>
