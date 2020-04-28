@@ -1,4 +1,4 @@
-<div class="nested-fields">
+<div class="nested-fields ingredientes_fields" id="ingredientes_fields_<%= ind %>"">
   <div class="field">
     <%= select_tag "ingredientes_items[#{ind}][ingrediente]", options_for_select(Ingrediente.all.pluck(:nombre), { selected: ing['ingrediente'] } )%>
     <%= text_field_tag "ingredientes_items[#{ind}][cantidad]", ing['cantidad']%>
