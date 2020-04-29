@@ -56,10 +56,33 @@
   <% end %>
 <% end %>
 
+<% if @users.any? %>
+  <div id="botonera">
+    <% unless @users.empty? %>
+      <% query_sep = request.original_url.last(5) == 'users' ? '?' : '&' %>
+
+      <% if false %>
+        <%= form_tag("#{request.original_url}#{query_sep}format=xls", method: :get) do %>
+          <%= hidden_field_tag :exports, value: '', id: "multiple_export" %>
+          <%= submit_tag 'Exportar', class: "btn btn-info" %>
+        <% end %>
+      <% end %>
+
+      <%= link_to "#{request.original_url}#{query_sep}format=xls", class: 'btn btn-info' do %>
+        <i class='fa fa-users'></i>Exportar
+      <% end %>
+
+    <% end %>
+  </div>
+<% end %>
+
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
+        <% if false %>
+          <th>Exp.</th>
+        <% end %>
         <th>Avatar</th>
         <th>Username</th>
         <th>Nombre</th>
@@ -78,6 +101,13 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
+          <% if false %>
+            <td>
+              <%= form_tag("#{request.original_url}#{query_sep}format=xls", method: :get) do %>
+                <%= check_box_tag "ckbox_multiple_export[#{user.id}]]", false, class: 'ckbox_multiple_export', id: "#{user.id}", label: '' %>
+              <% end %>
+            </td>
+          <% end %>
           <td><%= user.avatar.attached? ?
                   image_tag(user.avatar.variant(resize_to_limit:
                     [70, 70])) :
@@ -114,7 +144,7 @@
   </table>
 </div>
 
-<%= paginate @users %>
+<%# paginate @users %>
 
 <div id="user_count">
 <h4>Hay <%= User.count %> usuarios registrados en Arrancando.</h4>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Usuarios">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">ID Usuario</Data></Cell>
+        <Cell><Data ss:Type="String">Username</Data></Cell>
+        <Cell><Data ss:Type="String">Email</Data></Cell>
+        <Cell><Data ss:Type="String">Nombre</Data></Cell>
+        <Cell><Data ss:Type="String">Apellido</Data></Cell>
+        <Cell><Data ss:Type="String">Ciudad</Data></Cell>
+        <Cell><Data ss:Type="String">Provincia</Data></Cell>
+        <Cell><Data ss:Type="String">País</Data></Cell>
+        <Cell><Data ss:Type="String">Rank mensual</Data></Cell>
+        <Cell><Data ss:Type="String">Rank histórico</Data></Cell>
+        <Cell><Data ss:Type="String">Última act</Data></Cell>
+        <Cell><Data ss:Type="String">Plataforma</Data></Cell>
+        <Cell><Data ss:Type="String">Versión app</Data></Cell>
+      </Row>
+    <% @users.each do |user| %>
+      <Row>
+        <Cell><Data ss:Type="Number"><%= user.id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.username %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.email %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.nombre %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.apellido %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.ciudad.nombre %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.ciudad.provincia.nombre %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.ciudad.pais.nombre %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.rank.to_s %>°</Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.rank_mensual.to_s %>°</Data></Cell>
+        <Cell><Data ss:Type="String"><%= !user.last_seen_at.nil? ? user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : '' %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.platform %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= user.app_version %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

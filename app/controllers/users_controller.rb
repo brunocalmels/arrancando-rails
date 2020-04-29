@@ -23,7 +23,14 @@ class UsersController < ApplicationController
     @users = policy_scope(UserPolicy::Scope
       .new(current_user, @filterrific.try(:find) || User)
       .send("rol_#{@rol}"))
-             .page(params[:page])
+    # .page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.xls do
+        config_file
+      end
+    end
   end
 
   # GET /users/1
@@ -297,12 +304,12 @@ class UsersController < ApplicationController
               else
                 @metadata["id"]
               end
-    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @username = @nombre.gsub(".", "_").gsub(" ", "")
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
   def fix_user_metadata_apple
-    @metadata = params['credentials']
+    @metadata = params["credentials"]
     @email = @metadata["email"] || "#{@metadata['user']}@not-apple.com"
     @nombre = if !@metadata["name"].nil?
                 @metadata["name"]
@@ -311,12 +318,12 @@ class UsersController < ApplicationController
               else
                 "usuario-#{@metadata['user'].split('.').first}"
               end
-    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @username = @nombre.gsub(".", "_").gsub(" ", "")
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
   def fix_user_metadata_new_google
-    @metadata = params['credentials']
+    @metadata = params["credentials"]
     @email = @metadata["email"] || "#{@metadata['id']}@not-gmail.com"
     @nombre = if !@metadata["name"].nil?
                 @metadata["name"]
@@ -325,12 +332,12 @@ class UsersController < ApplicationController
               else
                 "usuario-#{@metadata['id'].split('.').first}"
               end
-    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @username = @nombre.gsub(".", "_").gsub(" ", "")
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
   def fix_user_metadata_new_facebook
-    @metadata = params['credentials']
+    @metadata = params["credentials"]
     @email = @metadata["email"] || "#{@metadata['id']}@not-facebook.com"
     @nombre = if !@metadata["name"].nil?
                 @metadata["name"]
@@ -339,7 +346,7 @@ class UsersController < ApplicationController
               else
                 "usuario-#{@metadata['id'].split('.').first}"
               end
-    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @username = @nombre.gsub(".", "_").gsub(" ", "")
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
@@ -350,7 +357,7 @@ class UsersController < ApplicationController
               else
                 @metadata["id"]
               end
-    @username = @nombre.gsub('.', '_').gsub(' ', '')
+    @username = @nombre.gsub(".", "_").gsub(" ", "")
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
@@ -419,3 +426,13 @@ end
 
 # rubocop:enable Metrics/ClassLength
 # rubocop:enable Metrics/CyclomaticComplexity
+
+def config_file
+  filename = "usuarios"
+  if params.key?(:filterrific) && params[:filterrific].try(:search_query).present?
+    filename += "-#{params[:filterrific][:search_query]}"
+  end
+  filename += ".xls"
+  headers["Content-Type"] ||= "application/xls"
+  headers["Content-Disposition"] = "attachment; filename=#{filename}"
+end
