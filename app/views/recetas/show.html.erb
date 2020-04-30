@@ -85,7 +85,7 @@
         <% @receta.ingredientes_items.each do |ing| %>
           <li>
             <%= ing['cantidad'] %>
-            <%= ing['unidad'] == 'unidad' ? 'unidades' : ing['unidad'] %> de
+            <%= ing['unidad'].pluralize %> de
             <%= ing['ingrediente'] %>
           </li>
         <% end %>

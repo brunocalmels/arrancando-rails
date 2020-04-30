@@ -131,6 +131,11 @@ ActiveSupport::Inflector.inflections do |inflect|
     infl.irregular "user", "users"
     infl.irregular "almacén", "almacenes"
     infl.irregular "delivery", "deliveries"
+    infl.irregular "l", "l"
+    infl.irregular "ml", "ml"
+    infl.irregular "gr", "gr"
+    infl.irregular "g", "g"
+    infl.irregular "kg", "kg"
   end
 end
 

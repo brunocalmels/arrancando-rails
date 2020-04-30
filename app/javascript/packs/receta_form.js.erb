@@ -3,9 +3,10 @@ document.addEventListener('turbolinks:load', function (event) {
 
   $('.new_ingrediente_fields').click(function (e) {
     e.preventDefault();
-    let num = $('.ingredientes_fields').length - 1;
+    // let num = $('.ingredientes_fields').length - 1;
+    let num = $('.ingredientes_fields').last().data('num');
     let newNum = new Number(num + 1);
-    let newInput = $('#ingredientes_fields_' + num).clone().attr('id', 'ingredientes_fields_' + newNum);
+    let newInput = $('#ingredientes_fields_' + num).clone().attr('id', 'ingredientes_fields_' + newNum).attr('data-num', newNum);
     var selectInput = newInput.find('select:first');
     selectInput.attr('name', selectInput.attr('name').replace(/\d+/, new String(nextSelectValue)));
     selectInput.attr('id', selectInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
@@ -17,10 +18,12 @@ document.addEventListener('turbolinks:load', function (event) {
     selectInput.attr('id', selectInput.attr('id').replace(/\d+/, new String(nextSelectValue)));
     nextSelectValue += 1;
     $('#ingredientes_fields_' + num).after(newInput);
+    $('.ingredientes_items_eliminar').last().click(function (e) {
+      e.target.parentElement.parentElement.remove();
+    })
   })
 
   $('.ingredientes_items_eliminar').click(function (e) {
-    e.preventDefault();
-    e.target.parentElement.remove();
+    e.target.parentElement.parentElement.remove();
   })
 })
