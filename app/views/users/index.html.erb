@@ -82,10 +82,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <% if false %>
-          <th>Exp.</th>
-        <% end %>
-        <th>Avatar</th>
+        <th>Tiene ávatar</th>
         <th>Username</th>
         <th>Nombre</th>
         <th>Apellido</th>
@@ -103,18 +100,15 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
+          <td><%= user.avatar.attached? ? 'Sí' : 'No' %></td>
+
           <% if false %>
-            <td>
-              <%= form_tag("#{request.original_url}#{query_sep}format=xls", method: :get) do %>
-                <%= check_box_tag "ckbox_multiple_export[#{user.id}]]", false, class: 'ckbox_multiple_export', id: "#{user.id}", label: '' %>
-              <% end %>
-            </td>
-          <% end %>
           <td><%= user.avatar.attached? ?
                   image_tag(user.avatar.variant(resize_to_limit:
                     [70, 70])) :
                   nil %>
           </td>
+          <% end %>
           <td><%= user.username %></td>
           <td><%= user.nombre %></td>
           <td><%= user.apellido %></td>
