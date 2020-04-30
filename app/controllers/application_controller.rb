@@ -65,12 +65,12 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.xls do
         unless @current_user&.admin? || public_page? || home_page? # || android_page?
-          redirect_to root_url, notice: "No estás logueado o no sos admin."
+          redirect_to root_path, notice: "No estás logueado o no sos admin."
         end
       end
       format.html do
         unless @current_user&.admin? || public_page? || home_page? # || android_page?
-          redirect_to root_url, notice: "No estás logueado o no sos admin."
+          redirect_to root_path, notice: "No estás logueado o no sos admin."
         end
       end
       format.json do
