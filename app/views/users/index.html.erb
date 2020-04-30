@@ -82,7 +82,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Tiene ávatar</th>
+        <th>Ávatar</th>
         <th>Username</th>
         <th>Nombre</th>
         <th>Apellido</th>
@@ -100,15 +100,11 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= user.avatar.attached? ? 'Sí' : 'No' %></td>
-
-          <% if false %>
           <td><%= user.avatar.attached? ?
                   image_tag(user.avatar.variant(resize_to_limit:
                     [70, 70])) :
                   nil %>
           </td>
-          <% end %>
           <td><%= user.username %></td>
           <td><%= user.nombre %></td>
           <td><%= user.apellido %></td>
