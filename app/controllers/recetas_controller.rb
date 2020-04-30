@@ -125,6 +125,7 @@ class RecetasController < ApplicationController
 
   private
 
+  # rubocop:disable Metrics/AbcSize
   def parse_ingredientes
     return if params[:ingredientes_items].nil?
 
@@ -138,11 +139,12 @@ class RecetasController < ApplicationController
     end
     @receta.update ingredientes_items: ingr_items
 
-    @receta.ingredientes_items
-           .filter { |f| f["cantidad"] == "Cant. necesaria" }
-           .each { |f| f["unidad"] = "" }
+    @receta.ingredientes_items.filter { |f| f["cantidad"] == "Cant. necesaria" }.each { |f| f["unidad"] = "" }
+    @receta.ingredientes_items.filter! { |f| !f["ingrediente"].blank? }
+    @receta.ingredientes_items.filter! { |f| !f["cantidad"].blank? }
     @receta.save
   end
+  # rubocop:enable Metrics/AbcSize
 
   def filter_by_categoria_receta_id
     return unless params.key? :categoria_receta_id
@@ -181,7 +183,7 @@ class RecetasController < ApplicationController
     if request.format.json?
       params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :duracion, :complejidad, ingredientes_items: [])
     else
-      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :habilitado, :user_id, :duracion, :complejidad, ingredientes_items: [])
+      params.require(:receta).permit(:titulo, :cuerpo, :introduccion, :instrucciones, :categoria_receta_id, :habilitado, :user_id, :duracion, :complejidad, :ingredientes, ingredientes_items: [])
     end
   end
 end

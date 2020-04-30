@@ -1,5 +1,3 @@
-<%= javascript_pack_tag 'receta_form' %>
-
 <%= form_with(model: receta, local: true) do |form| %>
   <% if receta.errors.any? %>
     <div id="error_explanation">
@@ -64,7 +62,7 @@
     </div>
   </div>
   <p>Para "Cantidad necesaria": Dejar "Cant. necesaria" en la cantidad, con cualquier unidad.</p>
-  <%= link_to '+ ingrediente', '#', class: 'btn btn-info new_ingrediente_fields' %>
+  <%= link_to '+ ingrediente', '', class: 'btn btn-info new_ingrediente_fields' %>
 
   <div class="field">
     <%= form.label :instrucciones %>

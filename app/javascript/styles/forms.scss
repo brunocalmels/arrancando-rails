@@ -196,8 +196,9 @@ div.field {
     height: 200px;
   }
 }
+
 #ingredientes_items {
-  flex-direction:column;
+  flex-direction: column;
 }
 
 .nested-fields {
@@ -206,8 +207,13 @@ div.field {
   input[type=text] {
     max-width: 5em;
   }
+
   select {
     margin-left: 20px;
     margin-right: 20px;
   }
+}
+
+#ingredientes_fields_0 .ingredientes_items_eliminar:first-of-type {
+  visibility: hidden;
 }

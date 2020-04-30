@@ -81,7 +81,15 @@
   <% unless @receta.ingredientes_items.blank? %>
     <p>
       <p class='strong'>Ingredientes items</p>
-      <%= @receta.ingredientes_items %>
+      <ul>
+        <% @receta.ingredientes_items.each do |ing| %>
+          <li>
+            <%= ing['cantidad'] %>
+            <%= ing['unidad'] == 'unidad' ? 'unidades' : ing['unidad'] %> de
+            <%= ing['ingrediente'] %>
+          </li>
+        <% end %>
+      </ul>
     </p>
   <% end %>
 

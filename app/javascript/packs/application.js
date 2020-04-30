@@ -21,5 +21,5 @@ $(document).on("turbolinks:load", function () {
 
 import "./bootstrap_custom.js";
 import "./google_analytics.js";
-// import "./receta_form.js";
+import "./receta_form.js";
 import "../styles/application";
