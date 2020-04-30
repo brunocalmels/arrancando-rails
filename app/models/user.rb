@@ -49,9 +49,9 @@ class User < ApplicationRecord
 
   scope :admins, -> { where(rol: :admin) }
   scope :normales, -> { where(rol: :normal) }
-  scope :rol, lambda { |rol|
-    where(rol: rol)
-  }
+  # scope :rol, lambda { |rol|
+  #   where(rol: rol)
+  # }
   scope :rankeables, -> { where(rankeable: true) }
 
   filterrific(
