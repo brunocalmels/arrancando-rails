@@ -2,16 +2,18 @@
 
 <% if @users.any? || @filterrific.search_query.present? %>
   <%= form_for_filterrific @filterrific, url: "/users?rol=#{@rol}" do |f| %>
+    <% if false %>
     <div>
       <p class='etiqueta'>
         Rol
       </p>
     <%= f.select(
-        :rol,
+      :rol,
         User.roles.collect { |c| [c[0].capitalize, c[1]] },
         include_blank: true
       ) %>
     </div>
+    <% end %>
     <div>
       <p class='etiqueta'>
         Buscar

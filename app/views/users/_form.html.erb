@@ -11,10 +11,12 @@
     </div>
   <% end %>
 
+  <% if false %>
   <div class="field">
     <%= form.label "Rol" %>
     <%= form.select :rol, User.roles.collect { |k, v| [k.capitalize, k] } %>
   </div>
+  <% end %>
 
   <div class="field">
     <%= form.label "Activo" %>
