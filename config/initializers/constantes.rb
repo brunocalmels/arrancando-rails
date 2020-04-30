@@ -87,4 +87,4 @@ ARRANCANDO_URL = "https://arrancando.com.ar".freeze
 ANDROID_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.macherit.arrancando".freeze
 IOS_DOWNLOAD_URL = "https://apps.apple.com/us/app/arrancando/id1490590335?l=es".freeze
 
-APP_VERSION = "2.0.2-alpha+46".freeze
+APP_VERSION = "2.0.3-alpha+47".freeze
