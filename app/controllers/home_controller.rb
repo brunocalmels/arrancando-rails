@@ -4,10 +4,12 @@ class HomeController < ApplicationController
   def index
     @user = current_user
     respond_to do |format|
+      format.html do
+        render(:index) && return
+      end
       format.json do
         render json: "Bienvenido"
       end
-      format.html {}
     end
   end
 

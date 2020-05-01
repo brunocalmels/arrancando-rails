@@ -59,13 +59,12 @@ class ApplicationController < ActionController::Base
   end
 
   # rubocop: disable Metrics/CyclomaticComplexity
-  # rubocop: disable Metrics/PerceivedComplexity
   def authenticate_request
     @current_user = AuthorizeApiRequest.call(request.headers, session["auth_token"]).result
     respond_to do |format|
       format.html do
         unless @current_user&.admin? || public_page? || home_page?
-          redirect_to(root_path, notice: "No estás logueado o no sos admin.") && return
+          redirect_to(root_path, notice: "No estás logueado o no sos admin.")
         end
       end
       format.json do
@@ -75,12 +74,11 @@ class ApplicationController < ActionController::Base
       end
       format.xls do
         unless @current_user&.admin? && xls_permitted?
-          redirect_to(root_path, notice: "No estás logueado o no sos admin.") && return
+          redirect_to(root_path, notice: "No estás logueado o no sos admin.")
         end
       end
     end
   end
 
   # rubocop: enable Metrics/CyclomaticComplexity
-  # rubocop: enable Metrics/PerceivedComplexity
 end
