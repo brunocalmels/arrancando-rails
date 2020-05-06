@@ -32,6 +32,10 @@
         <td><%= @user.rankeable? ? "Sí" : "No" %></td>
       </tr>
       <tr>
+        <th class="row-sm-2">Subidas ilimitadas</th>
+        <td><%= @user.unlim_upload? ? "Sí" : "No" %></td>
+      </tr>
+      <tr>
         <th class="row-sm-2">Admin</th>
         <td><%= @user.admin? ? "Sí" : "No" %></td>
       </tr>

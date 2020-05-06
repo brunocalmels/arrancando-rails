@@ -28,7 +28,7 @@ class Publicacion < ApplicationRecord
 
   validates :titulo, presence: true
   validates :cuerpo, presence: true
-  validate :attachments_max_length
+  validate :attachments_max_length, unless: -> { user.unlim_upload? }
 
   scope :habilitados, lambda {
     where(habilitado: true)

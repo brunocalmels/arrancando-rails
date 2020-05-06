@@ -28,7 +28,7 @@ class Poi < ApplicationRecord
   validates :titulo, presence: true
   validates :lat, presence: true
   validates :long, presence: true
-  validate :attachments_max_length
+  validate :attachments_max_length, unless: -> { user.unlim_upload? }
 
   scope :habilitados, lambda {
     where(habilitado: true)
