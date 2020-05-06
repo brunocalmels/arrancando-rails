@@ -23,21 +23,17 @@
 #  rankeable         :boolean          default("true")
 #
 
+# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
   include UsersHelper
-
   before_save :store_username
-
   enum rol: { normal: 0, admin: 1 }
 
   validates :email, uniqueness: true, presence: true
   validates :username, uniqueness: true
   validate :not_used_username
   has_secure_password
-
   has_one_attached :avatar
-  # validates :avatar, content_type: ["image/png", "image/jpeg"]
-
   belongs_to :ciudad
   has_many :publicaciones, dependent: :destroy
   has_many :recetas, dependent: :destroy
@@ -61,12 +57,22 @@ class User < ApplicationRecord
       search_query
       ciudad_id
       rol
+      app_version
+      platform
       sorted_by
     ]
   )
 
   scope :ciudad_id, lambda { |ciudad_id|
     where(ciudad_id: ciudad_id)
+  }
+
+  scope :app_version, lambda { |av|
+    where(app_version: av)
+  }
+
+  scope :platform, lambda { |plat|
+    where(platform: plat)
   }
 
   scope :sorted_by, lambda { |sort_option|
@@ -166,3 +172,5 @@ class User < ApplicationRecord
     errors.add(:username, "Ya utilizado")
   end
 end
+
+# rubocop:enable Metrics/ClassLength
