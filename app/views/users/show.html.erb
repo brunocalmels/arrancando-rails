@@ -99,8 +99,29 @@
         </td>
       </tr>
       <tr>
-        <th class="row-sm-2">Comentarios hechos</th>
-        <td><%= @user.comentarios %></td>
+        <th class="row-sm-2">Comentarios</th>
+        <td>
+          <% if @user.comentario_publicaciones.any? %>
+            <ul>
+              <% @user.comentario_publicaciones.each do |coment| %>
+                <li>
+                  Publicación: <%= link_to coment.publicacion.titulo, coment.publicacion %>.
+                  Mensaje: "<%= coment.mensaje %>"
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+          <% if @user.comentario_recetas.any? %>
+            <ul>
+              <% @user.comentario_recetas.each do |coment| %>
+                <li>
+                  Receta: <%= link_to coment.receta.titulo, coment.receta %>.
+                  Mensaje: "<%= coment.mensaje %>"
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </td>
       </tr>
     </tbody>
   </table>
