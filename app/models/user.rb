@@ -115,16 +115,16 @@ class User < ApplicationRecord
   }
 
   def puntaje
-    2 * publicaciones.count +
-      4 * recetas.count +
-      3 * pois.count +
+    5 * publicaciones.count +
+      10 * recetas.count +
+      10 * pois.count +
       comentarios
   end
 
   def puntaje_mensual
-    2 * publicaciones.current_month.count +
-      4 * recetas.current_month.count +
-      3 * pois.current_month.count +
+    5 * publicaciones.current_month.count +
+      10 * recetas.current_month.count +
+      10 * pois.current_month.count +
       comentarios_current_month
   end
 
