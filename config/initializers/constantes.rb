@@ -66,6 +66,10 @@ CATEGORIAS_POIS = [
 CONTROLADORES_PUBLICOS = %w[publicaciones recetas pois].freeze
 ACCIONES_PUBLICAS = ["show"].freeze
 
+PERMITTED_MIME_TYPES = [
+  "video/mp4", "video/mpg", "video/mpeg", "video/quicktime",
+  "image/jpg", "image/jpeg", "image/png", "image/gif"
+].freeze
 MAX_ATTACHMENT_SIZE_BYTES = 12.megabytes
 MAX_IMAGE_WIDTH_APP = 800
 MAX_IMAGE_HEIGHT_APP = 600

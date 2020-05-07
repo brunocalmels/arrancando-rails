@@ -46,20 +46,24 @@ module ContentHelper
   end
 
   def build_base64_img(img)
+    mime_type = Mime::Type.lookup_by_extension(
+      File.extname(img["file"])[1..-1]
+    ).to_s
+    return nil unless mime_type.in?(PERMITTED_MIME_TYPES)
+
     ActionDispatch::Http::UploadedFile.new(
       tempfile: tempfile(img["data"]),
       filename: img["file"],
-      type: Mime::Type.lookup_by_extension(
-        File.extname(img["file"])[1..-1]
-      ).to_s
+      type: mime_type
     )
   end
 
   def save_images_json(params, obj)
     params[:imagenes].each do |img|
-      obj.imagenes.attach(
-        build_base64_img(img)
-      )
+      objeto = build_base64_img(img)
+      next unless objeto
+
+      obj.imagenes.attach(objeto)
     end
     obj.valid?
   end
