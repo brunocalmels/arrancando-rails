@@ -78,7 +78,7 @@ class IngredientesController < ApplicationController
         render json: UNIDADES
       end
       format.html do
-        render nil
+        redirect_to root_url
       end
     end
   end

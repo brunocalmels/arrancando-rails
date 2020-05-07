@@ -41,6 +41,7 @@ class ComentarioRecetasController < ApplicationController
   # PATCH/PUT /comentario_recetas/1
   # PATCH/PUT /comentario_recetas/1.json
   def update
+    authorize @comentario_receta, policy_class: ComentarioPolicy
     respond_to do |format|
       if @comentario_receta.update(comentario_receta_params)
         format.html { redirect_to @comentario_receta, notice: 'Comentario receta fue satisfactoriamente actualizada.' }
@@ -55,6 +56,7 @@ class ComentarioRecetasController < ApplicationController
   # DELETE /comentario_recetas/1
   # DELETE /comentario_recetas/1.json
   def destroy
+    authorize @comentario_receta, policy_class: ComentarioPolicy
     @comentario_receta.destroy
     respond_to do |format|
       format.html { redirect_to comentario_recetas_url, notice: 'Comentario receta fue satisfactoriamente eliminada.' }
