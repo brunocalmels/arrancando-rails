@@ -52,6 +52,7 @@ class PoisController < ApplicationController
   # POST /pois
   # POST /pois.json
   def create
+    params[:poi][:titulo] = params[:poi][:titulo].strip
     @poi = Poi.new(poi_params)
     # @poi.geo_point = "POINT(#{poi_params['long']} #{poi_params['lat']})"
     @poi.user = current_user if @poi.user.nil?
@@ -80,6 +81,7 @@ class PoisController < ApplicationController
   # PATCH/PUT /pois/1.json
   def update
     authorize @poi
+    params[:poi][:titulo] = params[:poi][:titulo].strip
     respond_to do |format|
       format.html do
         if @poi.update(poi_params) && (params[:poi][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @poi, :poi))

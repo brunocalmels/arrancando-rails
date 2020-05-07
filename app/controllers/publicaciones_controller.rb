@@ -53,6 +53,7 @@ class PublicacionesController < ApplicationController
   # POST /publicaciones
   # POST /publicaciones.json
   def create
+    params[:publicacion][:titulo] = params[:publicacion][:titulo].strip
     @publicacion = Publicacion.new(publicacion_params)
     @publicacion.categoria_publicacion = CategoriaPublicacion.comunidad
     @publicacion.user = current_user if @publicacion.user.nil?
@@ -80,6 +81,7 @@ class PublicacionesController < ApplicationController
   # PATCH/PUT /publicaciones/1.json
   def update
     authorize @publicacion
+    params[:publicacion][:titulo] = params[:publicacion][:titulo].strip
     respond_to do |format|
       format.html do
         @publicacion.categoria_publicacion_id = params[:publicacion][:categoria_publicacion_id]

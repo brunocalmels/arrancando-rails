@@ -53,6 +53,7 @@ class RecetasController < ApplicationController
   # POST /recetas
   # POST /recetas.json
   def create
+    params[:receta][:titulo] = params[:receta][:titulo].strip
     @receta = Receta.new(receta_params)
     @receta.user = current_user if @receta.user.nil?
     @receta.subcategoria_receta_ids = params[:subcategoria_receta_ids]
@@ -81,6 +82,7 @@ class RecetasController < ApplicationController
   # PATCH/PUT /recetas/1.json
   def update
     authorize @receta
+    params[:receta][:titulo] = params[:receta][:titulo].strip
     respond_to do |format|
       format.html do
         if @receta.update(receta_params) && (params[:receta][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @receta, :receta))
