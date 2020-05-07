@@ -171,6 +171,11 @@
             <p class="mensaje">
               <%= comment.mensaje %>
             </p>
+            <p>
+              <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+            </p>
           </div>
         </li>
       <% end %>

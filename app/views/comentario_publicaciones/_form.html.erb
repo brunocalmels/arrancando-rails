@@ -1,7 +1,7 @@
 <%= form_with(model: comentario_publicacion, local: true) do |form| %>
   <% if comentario_publicacion.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(comentario_publicacion.errors.count, "error") %> prohibited this comentario_publicacion from being saved:</h2>
+      <h2><%= pluralize(comentario_publicacion.errors.count, "error") %> impidió que este comentario se guardara:</h2>
 
       <ul>
         <% comentario_publicacion.errors.full_messages.each do |message| %>
@@ -17,16 +17,11 @@
   </div>
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div class="field">
     <%= form.label :mensaje %>
     <%= form.text_area :mensaje %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Guardar", class: 'btn btn-success' %>
   </div>
 <% end %>

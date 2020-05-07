@@ -114,6 +114,7 @@
     <ul>
       <% @publicacion.comentarios.each do |comment| %>
         <li>
+        <div>
           <div class="image-container">
             <% if comment.user.avatar.attached? %>
               <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
@@ -127,6 +128,13 @@
             </p>
             <p class="mensaje">
               <%= comment.mensaje %>
+            </p>
+          </div>
+          <div>
+            <p>
+              <%= link_to edit_comentario_publicacion_url(comment), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
             </p>
           </div>
         </li>

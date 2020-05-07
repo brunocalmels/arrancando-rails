@@ -1,6 +1,7 @@
-<h1>Editing Comentario Publicacion</h1>
+<% provide(:title, "Editar comentario de publicación") %>
 
 <%= render 'form', comentario_publicacion: @comentario_publicacion %>
 
-<%= link_to 'Show', @comentario_publicacion %> |
-<%= link_to 'Back', comentario_publicaciones_path %>
+<div class="botonera">
+  <%= link_to 'Volver', ciudades_path, class: 'btn btn-default'  %>
+</div>

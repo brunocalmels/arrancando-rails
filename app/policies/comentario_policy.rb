@@ -6,10 +6,10 @@ class ComentarioPolicy < ApplicationPolicy
   end
 
   def update?
-    user&.admin? || user == resource.user
+    user&.admin? || user == record.user
   end
 
   def destroy?
-    user&.admin? || user == resource.user
+    user&.admin? || user == record.user
   end
 end

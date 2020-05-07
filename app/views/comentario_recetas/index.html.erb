@@ -1,31 +1,41 @@
-<p id="notice"><%= notice %></p>
+<% provide(:title, "Comentarios de Recetas") %>
 
-<h1>Comentario Recetas</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Receta</th>
-      <th>User</th>
-      <th>Mensaje</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @comentario_recetas.each do |comentario_receta| %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= comentario_receta.receta_id %></td>
-        <td><%= comentario_receta.user_id %></td>
-        <td><%= comentario_receta.mensaje %></td>
-        <td><%= link_to 'Show', comentario_receta %></td>
-        <td><%= link_to 'Edit', edit_comentario_receta_path(comentario_receta) %></td>
-        <td><%= link_to 'Destroy', comentario_receta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Receta</th>
+        <th>Usuario</th>
+        <th>Mensaje</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @comentario_recetas.each do |comentario_receta| %>
+        <tr>
+          <td><%= link_to comentario_receta.receta.titulo, comentario_receta.receta %></td>
+          <td><%= comentario_receta.user.username %></td>
+          <td><%= comentario_receta.mensaje %></td>
+          <td>
+            <%= link_to comentario_receta_path(comentario_receta), class: "btn btn-xs btn-success" do %>
+              <i class="fa fa-eye"></i>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to edit_comentario_receta_url(comentario_receta), class: "btn btn-xs btn-info" do %>
+              <i class="fa fa-pencil-alt"></i>
+            <% end %>
+          </td>
+        <td>
+          <%= button_to comentario_receta, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        </td>        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<%= link_to 'New Comentario Receta', new_comentario_receta_path %>
+<%# link_to 'Nuevo Comentario', new_comentario_receta_path %>

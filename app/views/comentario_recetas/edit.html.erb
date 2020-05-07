@@ -1,6 +1,7 @@
-<h1>Editing Comentario Receta</h1>
+<% provide(:title, "Editar comentario de receta") %>
 
 <%= render 'form', comentario_receta: @comentario_receta %>
 
-<%= link_to 'Show', @comentario_receta %> |
-<%= link_to 'Back', comentario_recetas_path %>
+<div class="botonera">
+  <%= link_to 'Volver', ciudades_path, class: 'btn btn-default'  %>
+</div>
