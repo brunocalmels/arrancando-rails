@@ -4,7 +4,7 @@ class ComentarioPublicacionesController < ApplicationController
   # GET /comentario_publicaciones
   # GET /comentario_publicaciones.json
   def index
-    @comentario_publicaciones = ComentarioPublicacion.all
+    @comentario_publicaciones = ComentarioPublicacion.page(params[:page])
   end
 
   # GET /comentario_publicaciones/1

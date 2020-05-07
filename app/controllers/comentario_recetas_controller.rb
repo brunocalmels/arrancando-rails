@@ -4,7 +4,7 @@ class ComentarioRecetasController < ApplicationController
   # GET /comentario_recetas
   # GET /comentario_recetas.json
   def index
-    @comentario_recetas = ComentarioReceta.all
+    @comentario_recetas = ComentarioReceta.page(params[:page])
   end
 
   # GET /comentario_recetas/1

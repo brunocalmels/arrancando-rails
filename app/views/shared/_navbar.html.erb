@@ -14,17 +14,25 @@
           <%= link_to("Usuarios", "/users", class: 'nav-link' ) %>
         </li>
 
-        <li class="navbar-item">
-          <%= link_to(publicaciones_path, class: 'nav-link dropdown', data: { toggle: "dropdown" }) do %>
+        <li class="navbar-item dropdown">
+          <%= link_to(publicaciones_path, class: 'nav-link dropdown-toggle', data: { toggle: "dropdown" }) do %>
           Pubs.
            <b class="caret"></b>
            <% end %>
           <div class="dropdown-menu">
+            <%= link_to("Publicaciones", publicaciones_path, class: 'nav-link' ) %>
             <%= link_to("Comentarios", comentario_publicaciones_path, class: 'nav-link' ) %>
           </div>
         </li>
-        <li class="navbar-item">
-          <%= link_to("Recetas", recetas_path, class: 'nav-link' ) %>
+        <li class="navbar-item dropdown">
+          <%= link_to(publicaciones_path, class: 'nav-link dropdown-toggle', data: { toggle: "dropdown" }) do %>
+          Recetas
+           <b class="caret"></b>
+           <% end %>
+          <div class="dropdown-menu">
+            <%= link_to("Recetas", recetas_path, class: 'nav-link' ) %>
+            <%= link_to("Comentarios", comentario_recetas_path, class: 'nav-link' ) %>
+          </div>
         </li>
         <li class="navbar-item">
           <%= link_to("PoIs", pois_path, class: 'nav-link' ) %>

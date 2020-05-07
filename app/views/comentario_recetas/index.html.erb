@@ -28,14 +28,17 @@
               <i class="fa fa-pencil-alt"></i>
             <% end %>
           </td>
-        <td>
-          <%= button_to comentario_receta, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
-            <i class="fa fa-trash"></i>
-          <% end %>
-        </td>        </tr>
+          <td>
+            <%= button_to comentario_receta, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
+<%= paginate @comentario_recetas %>
 
 <%# link_to 'Nuevo Comentario', new_comentario_receta_path %>
