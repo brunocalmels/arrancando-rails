@@ -49,7 +49,7 @@ module ContentHelper
     mime_type = Mime::Type.lookup_by_extension(
       File.extname(img["file"])[1..-1]
     ).to_s
-    return nil unless mime_type.in?(PERMITTED_MIME_TYPES)
+    # return nil unless mime_type.in?(PERMITTED_MIME_TYPES)
 
     ActionDispatch::Http::UploadedFile.new(
       tempfile: tempfile(img["data"]),
