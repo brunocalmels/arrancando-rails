@@ -109,7 +109,7 @@ module ContentHelper
       max_height = MAX_IMAGE_HEIGHT_WEB
     end
     case asset.blob.content_type
-    when "video/mp4", "video/mpg", "video/mpeg"
+    when "video/mp4", "video/mpg", "video/mpeg", "video/quicktime"
       url_for(asset)
     when "image/jpg", "image/jpeg", "image/png", "image/gif"
       url_for(asset.variant(
@@ -166,7 +166,7 @@ module ContentHelper
   def first_image_to_share(item)
     item.imagenes.any? && item.imagenes.each_with_index do |img, _i|
       case img.blob.content_type
-      when "video/mp4", "video/mpg", "video/mpeg"
+      when "video/mp4", "video/mpg", "video/mpeg", "video/quicktime"
         next
       when "image/jpg", "image/jpeg", "image/png", "image/gif"
         return asset_url_for(img, device: "metatag")

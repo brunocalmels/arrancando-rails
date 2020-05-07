@@ -30,7 +30,7 @@ if receta.imagenes.attached?
   @imgs = receta.imagenes.attachments.map do |img|
     url = asset_url_for(img, device: "app")
     case img.blob.content_type
-    when "video/mp4", "video/mpg", "video/mpeg"
+    when "video/mp4", "video/mpg", "video/mpeg", "video/quicktime"
       video_thumbs[url] = generate_video_thumb(img)
     end
     url
