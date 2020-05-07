@@ -171,12 +171,13 @@
             <p class="mensaje">
               <%= comment.mensaje %>
             </p>
-            <p>
-              <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info" do %>
+          </div>
+              <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info link_comment" do %>
               <i class="fa fa-pencil-alt"></i>
             <% end %>
-            </p>
-          </div>
+            <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
         </li>
       <% end %>
     </ul>

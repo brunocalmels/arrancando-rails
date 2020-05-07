@@ -114,7 +114,6 @@
     <ul>
       <% @publicacion.comentarios.each do |comment| %>
         <li>
-        <div>
           <div class="image-container">
             <% if comment.user.avatar.attached? %>
               <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
@@ -129,14 +128,15 @@
             <p class="mensaje">
               <%= comment.mensaje %>
             </p>
-          </div>
-          <div>
             <p>
-              <%= link_to edit_comentario_publicacion_url(comment), class: "btn btn-xs btn-info" do %>
+          </div>
+            <%= link_to edit_comentario_publicacion_url(comment), class: "btn btn btn-info link_comment" do %>
               <i class="fa fa-pencil-alt"></i>
             <% end %>
+            <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
             </p>
-          </div>
         </li>
       <% end %>
     </ul>
