@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   get "ingredientes/search", to: "ingredientes#search"
   resources :ingredientes
+  get "unidades_ingredientes", to: "ingredientes#unidades"
 
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
