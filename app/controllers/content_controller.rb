@@ -81,7 +81,7 @@ class ContentController < ApplicationController
       end
     end
 
-    to_show.flatten
+    to_show.flatten.sort_by { |c| c["created_at"] }.reverse
   end
 
   def content_images(content)
