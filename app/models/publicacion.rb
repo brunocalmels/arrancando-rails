@@ -29,7 +29,7 @@ class Publicacion < ApplicationRecord
   validates :titulo, presence: true
   validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
-  # validate :attachments_present
+  validate :attachments_present
 
   scope :habilitados, lambda {
     where(habilitado: true)
@@ -113,6 +113,15 @@ class Publicacion < ApplicationRecord
   end
 
   private
+
+  def attachments_present
+    return if imagenes.attached?
+
+    errors.add(
+      :archivos,
+      "La publicación debe incluir al menos una imagen o video."
+    )
+  end
 
   def attachments_max_length
     imagenes.each do |att|

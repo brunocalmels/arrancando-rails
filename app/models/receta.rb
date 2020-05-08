@@ -43,7 +43,7 @@ class Receta < ApplicationRecord
   # validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
   validate :complejidad_inclusion
-  # validate :attachments_present
+  validate :attachments_present
 
   scope :habilitados, lambda {
     where(habilitado: true)
@@ -123,13 +123,14 @@ class Receta < ApplicationRecord
 
   private
 
-  # def attachments_present
-  #   return unless imagenes.attached?
-  #   errors.add(
-  #     :archivos,
-  #     "La publicación debe incluir al menos una imagen o video."
-  #   )
-  # end
+  def attachments_present
+    return if imagenes.attached?
+
+    errors.add(
+      :archivos,
+      "La receta debe incluir al menos una imagen o video."
+    )
+  end
 
   def complejidad_inclusion
     return if complejidad.nil?
