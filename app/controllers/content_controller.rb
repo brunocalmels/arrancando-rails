@@ -57,7 +57,7 @@ class ContentController < ApplicationController
     end
     # .where(user: current_user)
     ac_record
-      .order(updated_at: :desc).first(5 + params[:offset].to_i).map do |p|
+      .order(updated_at: :desc).page(params[:page]).per(10).map do |p|
       get_object(
         p,
         type,
@@ -97,7 +97,7 @@ class ContentController < ApplicationController
   def get_user(content)
     has_avatar = content.user.avatar.attached?
     content.user.as_json.merge(
-      "avatar" => has_avatar ? rails_blob_path(content.user.avatar) : '/images/unknown.png'
+      "avatar" => has_avatar ? rails_blob_path(content.user.avatar) : "/images/unknown.png"
     )
   end
 end
