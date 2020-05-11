@@ -12,6 +12,7 @@ class Ingrediente < ApplicationRecord
   # has_and_belongs_to_many :recetas,
   #                         class_name: "Receta",
   #                         join_table: "ingredientes_recetas"
+  validates :nombre, presence: true, uniqueness: true
 
   filterrific(
     persistance_id: false,
