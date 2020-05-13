@@ -43,7 +43,7 @@ class Receta < ApplicationRecord
   # validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
   validate :complejidad_inclusion
-  validate :attachments_present
+  validate :attachments_present, on: :create
 
   scope :habilitados, lambda {
     where(habilitado: true)
