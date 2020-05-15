@@ -3,8 +3,9 @@ UNIDADES = %w[
   kg
   ml
   l
-  unidad
-  taza
-  cucharada
-  cucharadita
+  unidad/es
+  taza/s
+  cucharada/s
+  cucharadita/s
+  lata/s
 ].freeze
