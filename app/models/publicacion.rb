@@ -66,7 +66,7 @@ class Publicacion < ApplicationRecord
       order(publicaciones[:updated_at].send(direction))
     when "puntuacion"
       # rubocop:disable Metrics/LineLength
-      q = 'SELECT publicaciones.id from publicaciones left join (SELECT id, avg(value::FLOAT) FROM "publicaciones" JOIN jsonb_each(puntajes) d on true GROUP BY "publicaciones"."id") complex on publicaciones.id = complex.id order by avg desc nulls last'
+      q = 'SELECT publicaciones.id, avg, coms from publicaciones LEFT JOIN (SELECT id, avg(value::FLOAT) FROM "publicaciones" LEFT JOIN jsonb_each(puntajes) d ON true GROUP BY "publicaciones"."id") complex ON publicaciones.id = complex.id LEFT JOIN (SELECT publicacion_id, count(*) AS coms FROM comentario_publicaciones GROUP BY publicacion_id) comms_pub ON publicaciones.id = comms_pub.publicacion_id ORDER BY avg DESC nulls LAST, coms DESC nulls LAST'
       ids = ActiveRecord::Base.connection.execute(q).pluck "id"
       Publicacion.where(id: ids).order_by_ids(ids)
       # rubocop:enable Metrics/LineLength
