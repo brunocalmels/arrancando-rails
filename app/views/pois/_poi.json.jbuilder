@@ -8,7 +8,8 @@ json.extract! poi,
               :categoria_poi_id,
               :direccion,
               :created_at,
-              :updated_at
+              :updated_at,
+              :habilitado
 
 json.puntajes do
   json.array! poi.my_puntajes

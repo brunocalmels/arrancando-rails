@@ -10,7 +10,8 @@ json.extract! receta,
               :created_at,
               :updated_at,
               :duracion,
-              :complejidad
+              :complejidad,
+              :habilitado
 
 json.puntajes do
   json.array! receta.my_puntajes
