@@ -11,6 +11,8 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "activerecord-postgis-adapter"
 gem "geocoder"
 
+gem 'fcm'
+
 # Use Puma as the app server
 gem "puma", "~> 3.11"
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker

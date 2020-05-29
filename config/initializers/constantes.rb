@@ -104,3 +104,5 @@ ANDROID_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.macher
 IOS_DOWNLOAD_URL = "https://apps.apple.com/us/app/arrancando/id1490590335?l=es".freeze
 
 APP_VERSION = "2.0.7+51".freeze
+
+FIREBASE_FCM_KEY = "AAAAiFZRHCA:APA91bG_EBPE9Eq0xb0CsoCOHlhzSe6rmNrye6fiJjA4V06RrQH8CeNNhaFMGCRPoRU-myhyIW_IY95NiuJn2LQkaXlRIefe8qvKmUJpOcUb8NAblawEb9GPV6yrbF8h65o2qMf-_8oe".freeze

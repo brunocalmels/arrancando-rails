@@ -21,6 +21,8 @@
 #  platform          :string
 #  rank_mensual      :integer
 #  rankeable         :boolean          default("true")
+#  unlim_upload      :boolean          default("false")
+#  firebase_token    :string
 #
 
 FactoryBot.define do

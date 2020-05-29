@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_133509) do
+ActiveRecord::Schema.define(version: 2020_05_29_195147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2020_05_06_133509) do
     t.integer "rank_mensual"
     t.boolean "rankeable", default: true
     t.boolean "unlim_upload", default: false
+    t.string "firebase_token"
     t.index ["ciudad_id"], name: "index_users_on_ciudad_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["username"], name: "index_users_on_username"

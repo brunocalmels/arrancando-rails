@@ -3,7 +3,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client]
+  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token]
   skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client new_facebook_client]
   before_action :user_by_email, only: %i[google_client]
   before_action :user_by_email_new_google, only: %i[new_google_client]
@@ -90,6 +90,15 @@ class UsersController < ApplicationController
 
   # GET /login
   def login
+  end
+
+  def set_firebase_token
+    render(json: nil, status: :bad_request) && return unless params.key? :token
+    if current_user.update firebase_token: params[:token]
+      render json: nil, status: :ok
+    else
+      render json: nil, status: :unprocessable_entity
+    end
   end
 
   def google_client
