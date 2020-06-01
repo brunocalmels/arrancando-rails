@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "/notificaciones/unread", to: "notificaciones#unread"
+
   resources :notificaciones
   get "app-version", to: "application#app_version"
 

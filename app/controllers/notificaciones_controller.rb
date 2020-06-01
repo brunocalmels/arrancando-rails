@@ -4,7 +4,12 @@ class NotificacionesController < ApplicationController
   # GET /notificaciones
   # GET /notificaciones.json
   def index
-    @notificaciones = Notificacion.all
+    @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc)
+  end
+
+  def unread
+    @notificaciones = Notificacion.where(user_id: current_user, leido: false).order(created_at: :desc)
+    render json: @notificaciones
   end
 
   # GET /notificaciones/1
