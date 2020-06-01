@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :notificaciones
   get "app-version", to: "application#app_version"
 
   get "content", to: "content#index"

@@ -22,12 +22,12 @@ module NotificacionesHelper
     cuerpo = "@#{comentario.user.username} comentó tu publicación '#{comentario.publicacion.titulo}'"
     url = "/publicaciones/#{comentario.publicacion.id}"
     user = comentario.publicacion.user
-    # Notificacion.create(
-    #   titulo: titulo,
-    #   cuerpo: cuerpo,
-    #   url: url,
-    #   user: user
-    # )
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user
+    )
     unless user.firebase_token.nil?
       set_fcm
       response = send_fcm(
@@ -44,12 +44,12 @@ module NotificacionesHelper
     cuerpo = "@#{comentario.user.username} comentó tu receta '#{comentario.receta.titulo}'"
     url = "/recetas/#{comentario.receta.id}"
     user = comentario.receta.user
-    # Notificacion.create(
-    #   titulo: titulo,
-    #   cuerpo: cuerpo,
-    #   url: url,
-    #   user: user
-    # )
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user
+    )
     unless user.firebase_token.nil?
       set_fcm
       response = send_fcm(
@@ -67,12 +67,12 @@ module NotificacionesHelper
     cuerpo = "Tu #{tipo} obtuvo #{puntaje} puntos"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
-    # Notificacion.create(
-    #   titulo: titulo,
-    #   cuerpo: cuerpo,
-    #   url: url,
-    #   user: user
-    # )
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user
+    )
     unless user.firebase_token.nil?
       set_fcm
       response = send_fcm(
