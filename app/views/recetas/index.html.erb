@@ -63,7 +63,7 @@
         <tr>
           <td><%= receta.created_at.strftime("%d-%m-%Y") %></td>
           <td><%= receta.titulo %></td>
-          <td><%= !receta.cuerpo.empty? ? receta.cuerpo.truncate(100, separator: ' ') : receta.introduccion&.truncate(100, separator: ' ')%></td>
+          <td><%= !receta.cuerpo.nil? ? receta.cuerpo.truncate(100, separator: ' ') : receta.introduccion&.truncate(100, separator: ' ')%></td>
           <td><%= link_to(receta.user.username, receta.user) %></td>
           <td><%= receta.puntajes %></td>
           <td><%= receta.categoria_receta.nombre_con_version %></td>
