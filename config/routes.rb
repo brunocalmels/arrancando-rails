@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get "content", to: "content#index"
   get "content/saved", to: "content#saved"
+  post "content/shared_this", to: "content#shared_this"
 
   post "apple-login", to: "users#apple_client"
   post "new-google-login", to: "users#new_google_client"

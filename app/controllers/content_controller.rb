@@ -1,5 +1,6 @@
 class ContentController < ApplicationController
   include ContentHelper
+  include NotificacionesHelper
 
   # GET /content?data=[{1: publicaciones}, {2: recetas}, {3: pois},].json
   def saved
@@ -29,6 +30,26 @@ class ContentController < ApplicationController
 
   def index
     render json: build_feed(params), status: :ok
+  end
+
+  def shared_this
+    id = params['id']
+    tipo = params['type']
+    case tipo
+    when "publicaciones"
+      content = Publicacion.find(id)
+    when "recetas"
+      content = Receta.find(id)
+    when "pois"
+      content = Poi.find(id)
+    end
+
+    if !content.nil?
+      compartio_contenido(content, tipo)
+      render json: nil, status: :ok
+    else
+      render json: nil, status: :unprocessable_entity
+    end
   end
 
   private

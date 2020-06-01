@@ -63,8 +63,33 @@ module NotificacionesHelper
 
   def nueva_puntuacion(obj, puntaje)
     tipo = obj.class.name.downcase
-    titulo = "Alguien puntuó tu #{tipo}"
-    cuerpo = "Tu #{tipo} obtuvo #{puntaje} puntos"
+    pretty_tipo = tipo == 'publicacion' ? 'publicación' : tipo == 'poi' ? 'punto de interés' : 'receta'
+    tipo = tipo == 'publicacion' ? 'publicaciones' : tipo + 's'
+    titulo = "Alguien puntuó tu #{pretty_tipo}"
+    cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} puntos"
+    url = "/#{tipo}/#{obj.id}"
+    user = obj.user
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user
+    )
+    unless user.firebase_token.nil?
+      set_fcm
+      response = send_fcm(
+        user.firebase_token,
+        titulo,
+        cuerpo,
+        url: url
+      )
+    end
+  end
+
+  def compartio_contenido(obj, tipo)
+    pretty_tipo = tipo == 'publicaciones' ? 'publicación' : tipo == 'pois' ? 'punto de interés' : 'receta'
+    titulo = "@#{current_user.username} compartió tu #{pretty_tipo}"
+    cuerpo = "@#{current_user.username} compartió tu #{pretty_tipo} #{obj.titulo}"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
     Notificacion.create(
