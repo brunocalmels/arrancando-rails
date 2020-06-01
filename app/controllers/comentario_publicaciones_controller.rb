@@ -1,4 +1,5 @@
 class ComentarioPublicacionesController < ApplicationController
+  include NotificacionesHelper
   before_action :set_comentario_publicacion, only: %i[show edit update destroy]
 
   # GET /comentario_publicaciones
@@ -29,6 +30,7 @@ class ComentarioPublicacionesController < ApplicationController
 
     respond_to do |format|
       if @comentario_publicacion.save
+        nuevo_comentario_publicacion(@comentario_publicacion)
         format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion fue satisfactoriamente creada.' }
         format.json { render :show, status: :created, location: @comentario_publicacion }
       else

@@ -42,6 +42,7 @@ PreCommit:
     exclude:
       - "**/db/structure.sql"
       - "scripts/*"
+      - '*.sql'
 
   YamlSyntax:
     enabled: true

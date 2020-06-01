@@ -17,6 +17,7 @@ AllCops:
     - Guardfile
     - Rakefile
     - "scripts/*"
+    - app/helpers/notificaciones_helper.rb
 
 Layout/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space

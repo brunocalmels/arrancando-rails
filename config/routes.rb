@@ -1,14 +1,20 @@
 Rails.application.routes.draw do
+  get "/notificaciones/unread", to: "notificaciones#unread"
+
+  resources :notificaciones
   get "app-version", to: "application#app_version"
 
   get "content", to: "content#index"
   get "content/saved", to: "content#saved"
+  post "content/shared_this", to: "content#shared_this"
 
   post "apple-login", to: "users#apple_client"
   post "new-google-login", to: "users#new_google_client"
   get "google-login", to: "users#google_client"
   post "new-facebook-login", to: "users#new_facebook_client"
   get "facebook-login", to: "users#facebook_client"
+
+  put "users/set_firebase_token", to: "users#set_firebase_token"
 
   resources :users
   post :avatar, to: "users#set_avatar"
