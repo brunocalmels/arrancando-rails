@@ -134,6 +134,13 @@ class User < ApplicationRecord
       comentarios_current_month
   end
 
+  def puntaje_last_month
+    5 * publicaciones.last_month.count +
+      10 * recetas.last_month.count +
+      10 * pois.last_month.count +
+      comentarios_last_month
+  end
+
   def comentarios
     comentario_publicaciones.count + comentario_recetas.count
   end
