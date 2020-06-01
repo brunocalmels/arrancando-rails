@@ -5,7 +5,8 @@ json.extract! publicacion,
               # :puntajes,
               :ciudad_id,
               :created_at,
-              :updated_at
+              :updated_at,
+              :habilitado
 
 json.puntajes do
   json.array! publicacion.my_puntajes
