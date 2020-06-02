@@ -120,39 +120,60 @@ class User < ApplicationRecord
     )
   }
 
+  # rubocop: disable Metrics/AbcSize
   def puntaje
     5 * publicaciones.count +
       10 * recetas.count +
       10 * pois.count +
-      comentarios
+      weigh_number(comentarios) +
+      5 * pubs_more_eq_than_x_comments(publicaciones, 5) +
+      10 * recs_more_eq_than_x_comments(recetas, 5) +
+      5 * pubs_more_eq_than_x_comments(publicaciones, 10) +
+      10 * recs_more_eq_than_x_comments(recetas, 10)
   end
 
   def puntaje_mensual
     5 * publicaciones.current_month.count +
       10 * recetas.current_month.count +
       10 * pois.current_month.count +
-      comentarios_current_month
+      weigh_number(comentarios_current_month) +
+      5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 5) +
+      10 * recs_more_eq_than_x_comments(recetas.current_month, 5) +
+      5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 10) +
+      10 * recs_more_eq_than_x_comments(recetas.current_month, 10)
   end
 
   def puntaje_last_month
     5 * publicaciones.last_month.count +
       10 * recetas.last_month.count +
       10 * pois.last_month.count +
-      comentarios_last_month
+      weigh_number(comentarios_last_month) +
+      5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 5) +
+      10 * recs_more_eq_than_x_comments(recetas.last_month, 5) +
+      5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 10) +
+      10 * recs_more_eq_than_x_comments(recetas.last_month, 10)
   end
+  # rubocop: enable Metrics/AbcSize
 
   def comentarios
-    comentario_publicaciones.count + comentario_recetas.count
+    comentario_publicaciones.count +
+      comentario_recetas.count
+    # weigh_number(comentario_publicaciones.count) +
+    #   weigh_number(comentario_recetas.count)
   end
 
   def comentarios_last_month
     comentario_publicaciones.last_month.count +
       comentario_recetas.last_month.count
+    # weigh_number(comentario_publicaciones.last_month.count) +
+    #   weigh_number(comentario_recetas.last_month.count)
   end
 
   def comentarios_current_month
     comentario_publicaciones.current_month.count +
       comentario_recetas.current_month.count
+    # weigh_number(comentario_publicaciones.current_month.count) +
+    #   weigh_number(comentario_recetas.current_month.count)
   end
 
   private

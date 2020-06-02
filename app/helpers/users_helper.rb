@@ -24,4 +24,37 @@ module UsersHelper
     downloaded_image = URI.parse(url).open
     avatar.attach(io: downloaded_image, filename: "downloaded.jpg")
   end
+
+  def pubs_more_eq_than_x_comments(pubs, howmany)
+    pubs
+      .select("publicaciones.*,
+        COUNT(comentario_publicaciones.id) as comment_count")
+      .joins("LEFT OUTER JOIN comentario_publicaciones
+        ON (comentario_publicaciones.publicacion_id = publicaciones.id)")
+      .group("publicaciones.id")
+      .select { |pub| pub.comment_count >= howmany }
+      .count
+  end
+
+  def recs_more_eq_than_x_comments(recs, howmany)
+    recs
+      .select("recetas.*,
+        COUNT(comentario_recetas.id) as comment_count")
+      .joins("LEFT OUTER JOIN comentario_recetas
+        ON (comentario_recetas.receta_id = recetas.id)")
+      .group("recetas.id")
+      .select { |rec| rec.comment_count >= howmany }
+      .count
+  end
+
+  def weigh_number(number)
+    case number
+    when 0..4
+      number
+    when 5..9
+      number * 2
+    else
+      number * 3
+    end
+  end
 end

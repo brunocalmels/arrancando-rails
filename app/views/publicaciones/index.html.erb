@@ -41,6 +41,16 @@
         include_blank: true
       ) %>
     </div>
+    <div>
+      <p class='etiqueta'>
+        Sorted
+      </p>
+      <%= f.select(
+        :sorted_by,
+        ['fecha', 'puntuacion'],
+        include_blank: true
+      ) %>
+    </div>
     <div id="aplicar_filtros">
       <%= f.submit 'Aplicar', class: 'btn btn-success' %>
     </div>
