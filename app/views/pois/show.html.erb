@@ -87,6 +87,11 @@
   <% end %>
 
 <p>
+  <strong>Whatsapp:</strong>
+   <%= link_to "+#{@poi.whatsapp}", "https://wa.me/#{@poi.whatsapp}" %>
+</p>
+
+<p>
   <strong>Latitud:</strong>
   <%= @poi.lat %>
 </p>

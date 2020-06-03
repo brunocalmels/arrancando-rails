@@ -139,9 +139,9 @@ class PoisController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def poi_params
     if request.format.json?
-      params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id)
+      params.require(:poi).permit(:titulo, :cuerpo, :whatsapp, :lat, :long, :direccion, :categoria_poi_id)
     else
-      params.require(:poi).permit(:titulo, :cuerpo, :lat, :long, :direccion, :categoria_poi_id, :habilitado, :user_id, :ciudad_id)
+      params.require(:poi).permit(:titulo, :cuerpo, :whatsapp, :lat, :long, :direccion, :categoria_poi_id, :habilitado, :user_id, :ciudad_id)
     end
   end
 end

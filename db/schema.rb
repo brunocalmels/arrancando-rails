@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_01_183046) do
+ActiveRecord::Schema.define(version: 2020_06_03_221113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 2020_06_01_183046) do
     t.string "direccion"
     t.boolean "habilitado", default: true
     t.bigint "ciudad_id", default: 1, null: false
+    t.bigint "whatsapp"
     t.index ["categoria_poi_id"], name: "index_pois_on_categoria_poi_id"
     t.index ["ciudad_id"], name: "index_pois_on_ciudad_id"
     t.index ["titulo"], name: "index_pois_on_titulo"
