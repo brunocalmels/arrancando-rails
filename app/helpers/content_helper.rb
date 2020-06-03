@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/ModuleLength
 
 module ContentHelper
-  include NotificacionesHelper
+  # include NotificacionesHelper
 
   def puntuar_obj(obj)
     unless params["puntaje"]
