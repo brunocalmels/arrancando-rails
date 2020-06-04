@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_03_221113) do
+ActiveRecord::Schema.define(version: 2020_06_04_122824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 2020_06_03_221113) do
     t.boolean "habilitado", default: true
     t.bigint "ciudad_id", default: 1, null: false
     t.bigint "whatsapp"
+    t.bigint "vistas", default: 0
     t.index ["categoria_poi_id"], name: "index_pois_on_categoria_poi_id"
     t.index ["ciudad_id"], name: "index_pois_on_ciudad_id"
     t.index ["titulo"], name: "index_pois_on_titulo"
@@ -159,6 +160,7 @@ ActiveRecord::Schema.define(version: 2020_06_03_221113) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "habilitado", default: true
     t.bigint "categoria_publicacion_id", default: 1, null: false
+    t.bigint "vistas", default: 0
     t.index ["categoria_publicacion_id"], name: "index_publicaciones_on_categoria_publicacion_id"
     t.index ["ciudad_id"], name: "index_publicaciones_on_ciudad_id"
     t.index ["titulo"], name: "index_publicaciones_on_titulo"
@@ -180,6 +182,7 @@ ActiveRecord::Schema.define(version: 2020_06_03_221113) do
     t.integer "duracion"
     t.string "complejidad"
     t.jsonb "ingredientes_items", default: []
+    t.bigint "vistas", default: 0
     t.index ["categoria_receta_id"], name: "index_recetas_on_categoria_receta_id"
     t.index ["titulo"], name: "index_recetas_on_titulo"
     t.index ["user_id"], name: "index_recetas_on_user_id"

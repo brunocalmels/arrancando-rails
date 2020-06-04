@@ -24,6 +24,8 @@ class RecetasController < ApplicationController
   # GET /recetas/1
   # GET /recetas/1.json
   def show
+    @receta.update(vistas: @receta.vistas + 1)
+
     @og_image_url = first_image_to_share(@receta)
 
     return unless @receta.puntajes.any?

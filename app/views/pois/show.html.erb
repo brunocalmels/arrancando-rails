@@ -88,7 +88,7 @@
 
 <p>
   <strong>Whatsapp:</strong>
-   <%= link_to "+#{@poi.whatsapp}", "https://wa.me/#{@poi.whatsapp}" %>
+   <%= link_to "+#{@poi.whatsapp}", "https://wa.me/#{@poi.whatsapp}?text=Hola%2C%20los%20vi%20en%20Arrancando%20y%20quer%C3%ADa%20comunicarme%20directamente%20con%20ustedes." %>
 </p>
 
 <p>
@@ -100,6 +100,13 @@
   <strong>Longitud:</strong>
   <%= @poi.long %>
 </p>
+
+<% if @current_user&.admin? %>
+  <p>
+    <strong>Vistas:</strong>
+    <%= @poi.vistas %>
+  </p>
+<% end %>
 
 <p>
   <strong>Ciudad:</strong>

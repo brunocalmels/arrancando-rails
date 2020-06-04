@@ -133,6 +133,13 @@
     </p>
   <% end %>
 
+  <% if @current_user&.admin? %>
+    <p>
+      <strong>Vistas:</strong>
+      <%= @receta.vistas %>
+    </p>
+  <% end %>
+
   <p>
     <strong>Categoría:</strong>
     <%= @receta.categoria_receta.nombre %>

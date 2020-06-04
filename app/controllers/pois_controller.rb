@@ -23,6 +23,8 @@ class PoisController < ApplicationController
   # GET /pois/1
   # GET /pois/1.json
   def show
+    @poi.update(vistas: @poi.vistas + 1)
+
     @og_image_url = first_image_to_share(@poi)
 
     return unless @poi.puntajes.any?

@@ -23,6 +23,8 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
+    @publicacion.update(vistas: @publicacion.vistas + 1)
+
     @og_image_url = first_image_to_share(@publicacion)
 
     return unless @publicacion.puntajes.any?
