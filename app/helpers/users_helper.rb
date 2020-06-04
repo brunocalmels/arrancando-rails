@@ -25,6 +25,19 @@ module UsersHelper
     avatar.attach(io: downloaded_image, filename: "downloaded.jpg")
   end
 
+  def weigh_for_5_star_items(items)
+    cuenta_out = 0
+    items.all.each do |item|
+      cuenta_in = 0
+      item.puntajes.each do |_k, v|
+        cuenta_in += 1 if v == 5
+      end
+      cuenta_out += 1 if cuenta_in >= 5
+      cuenta_out += 1 if cuenta_in >= 10
+    end
+    cuenta_out
+  end
+
   def pubs_more_eq_than_x_comments(pubs, howmany)
     pubs
       .select("publicaciones.*,

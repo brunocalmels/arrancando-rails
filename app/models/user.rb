@@ -128,10 +128,12 @@ class User < ApplicationRecord
       10 * recetas.count +
       10 * pois.count +
       weigh_number(comentarios) +
-      5 * pubs_more_eq_than_x_comments(publicaciones, 5) +
-      10 * recs_more_eq_than_x_comments(recetas, 5) +
-      5 * pubs_more_eq_than_x_comments(publicaciones, 10) +
-      10 * recs_more_eq_than_x_comments(recetas, 10)
+      weigh_for_5_star_items(publicaciones) +
+      weigh_for_5_star_items(recetas)
+    # 5 * pubs_more_eq_than_x_comments(publicaciones, 5) +
+    # 10 * recs_more_eq_than_x_comments(recetas, 5) +
+    # 5 * pubs_more_eq_than_x_comments(publicaciones, 10) +
+    # 10 * recs_more_eq_than_x_comments(recetas, 10)
   end
 
   def puntaje_mensual
@@ -139,10 +141,12 @@ class User < ApplicationRecord
       10 * recetas.current_month.count +
       10 * pois.current_month.count +
       weigh_number(comentarios_current_month) +
-      5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 5) +
-      10 * recs_more_eq_than_x_comments(recetas.current_month, 5) +
-      5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 10) +
-      10 * recs_more_eq_than_x_comments(recetas.current_month, 10)
+      weigh_for_5_star_items(publicaciones.current_month) +
+      weigh_for_5_star_items(recetas.current_month)
+    # 5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 5) +
+    # 10 * recs_more_eq_than_x_comments(recetas.current_month, 5) +
+    # 5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 10) +
+    # 10 * recs_more_eq_than_x_comments(recetas.current_month, 10)
   end
 
   def puntaje_last_month
@@ -150,10 +154,12 @@ class User < ApplicationRecord
       10 * recetas.last_month.count +
       10 * pois.last_month.count +
       weigh_number(comentarios_last_month) +
-      5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 5) +
-      10 * recs_more_eq_than_x_comments(recetas.last_month, 5) +
-      5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 10) +
-      10 * recs_more_eq_than_x_comments(recetas.last_month, 10)
+      weigh_for_5_star_items(publicaciones.last_month) +
+      weigh_for_5_star_items(recetas.last_month)
+    # 5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 5) +
+    # 10 * recs_more_eq_than_x_comments(recetas.last_month, 5) +
+    # 5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 10) +
+    # 10 * recs_more_eq_than_x_comments(recetas.last_month, 10)
   end
   # rubocop: enable Metrics/AbcSize
 
