@@ -23,7 +23,10 @@ class PoisController < ApplicationController
   # GET /pois/1
   # GET /pois/1.json
   def show
-    @poi.update(vistas: @poi.vistas + 1)
+    # @poi.update(vistas: @poi.vistas + 1)
+    @poi.update_columns(
+      vistas: @poi.increment(:vistas, 1).vistas
+    )
 
     @og_image_url = first_image_to_share(@poi)
 

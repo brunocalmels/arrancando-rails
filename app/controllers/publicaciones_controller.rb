@@ -1,3 +1,4 @@
+# rubocop: disable Metrics/ClassLength
 class PublicacionesController < ApplicationController
   include ContentHelper
   before_action :set_publicacion, only: %i[show edit update destroy puntuar]
@@ -23,7 +24,10 @@ class PublicacionesController < ApplicationController
   # GET /publicaciones/1
   # GET /publicaciones/1.json
   def show
-    @publicacion.update(vistas: @publicacion.vistas + 1)
+    # @publicacion.update(vistas: @publicacion.vistas + 1)
+    @publicacion.update_columns(
+      vistas: @publicacion.increment(:vistas, 1).vistas
+    )
 
     @og_image_url = first_image_to_share(@publicacion)
 
@@ -172,3 +176,5 @@ class PublicacionesController < ApplicationController
     end
   end
 end
+
+# rubocop: enable Metrics/ClassLength

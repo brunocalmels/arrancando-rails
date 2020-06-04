@@ -24,7 +24,10 @@ class RecetasController < ApplicationController
   # GET /recetas/1
   # GET /recetas/1.json
   def show
-    @receta.update(vistas: @receta.vistas + 1)
+    # @receta.update(vistas: @receta.vistas + 1)
+    @receta.update_columns(
+      vistas: @receta.increment(:vistas, 1).vistas
+    )
 
     @og_image_url = first_image_to_share(@receta)
 
