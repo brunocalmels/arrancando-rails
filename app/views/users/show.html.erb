@@ -56,6 +56,10 @@
         <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB])) : nil %></td>
       </tr>
       <tr>
+        <th class="row-sm-2">Token Firebase</th>
+        <td><%= @user.firebase_token %></td>
+      </tr>
+      <tr>
         <th class="row-sm-2">Ranking mensual</th>
         <td><%= @user.rank_mensual %>°</td>
       </tr>
@@ -70,6 +74,18 @@
       <tr>
         <th class="row-sm-2">Puntaje histórico</th>
         <td><%= @user.puntaje %><i class="fa fa-star"></i></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Publicaciones puntuadas</th>
+        <td><%= @user.publicaciones_comentadas.count %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">Recetas puntuadas</th>
+        <td><%= @user.recetas_comentadas.count %></td>
+      </tr>
+      <tr>
+        <th class="row-sm-2">PoIs puntuados</th>
+        <td><%= @user.pois_comentados.count %></td>
       </tr>
       <tr>
         <th class="row-sm-2">Publicaciones creadas</th>

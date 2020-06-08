@@ -38,27 +38,27 @@ module UsersHelper
     cuenta_out
   end
 
-  def pubs_more_eq_than_x_comments(pubs, howmany)
-    pubs
-      .select("publicaciones.*,
-        COUNT(comentario_publicaciones.id) as comment_count")
-      .joins("LEFT OUTER JOIN comentario_publicaciones
-        ON (comentario_publicaciones.publicacion_id = publicaciones.id)")
-      .group("publicaciones.id")
-      .select { |pub| pub.comment_count >= howmany }
-      .count
-  end
+  # def pubs_more_eq_than_x_comments(pubs, howmany)
+  #   pubs
+  #     .select("publicaciones.*,
+  #       COUNT(comentario_publicaciones.id) as comment_count")
+  #     .joins("LEFT OUTER JOIN comentario_publicaciones
+  #       ON (comentario_publicaciones.publicacion_id = publicaciones.id)")
+  #     .group("publicaciones.id")
+  #     .select { |pub| pub.comment_count >= howmany }
+  #     .count
+  # end
 
-  def recs_more_eq_than_x_comments(recs, howmany)
-    recs
-      .select("recetas.*,
-        COUNT(comentario_recetas.id) as comment_count")
-      .joins("LEFT OUTER JOIN comentario_recetas
-        ON (comentario_recetas.receta_id = recetas.id)")
-      .group("recetas.id")
-      .select { |rec| rec.comment_count >= howmany }
-      .count
-  end
+  # def recs_more_eq_than_x_comments(recs, howmany)
+  #   recs
+  #     .select("recetas.*,
+  #       COUNT(comentario_recetas.id) as comment_count")
+  #     .joins("LEFT OUTER JOIN comentario_recetas
+  #       ON (comentario_recetas.receta_id = recetas.id)")
+  #     .group("recetas.id")
+  #     .select { |rec| rec.comment_count >= howmany }
+  #     .count
+  # end
 
   def weigh_number(number)
     case number
@@ -68,6 +68,39 @@ module UsersHelper
       number * 2
     else
       number * 3
+    end
+  end
+
+  def publicaciones_comentadas
+    Publicacion.where("puntajes -> '?' is not null", id)
+  end
+
+  def borrar_comentarios_publicaciones
+    publicaciones_comentadas.each do |pub|
+      pub.puntajes.except!(id)
+      pub.save
+    end
+  end
+
+  def recetas_comentadas
+    Receta.where("puntajes -> '?' is not null", id)
+  end
+
+  def borrar_comentarios_recetas
+    recetas_comentadas.each do |rec|
+      rec.puntajes.except!(id)
+      rec.save
+    end
+  end
+
+  def pois_comentados
+    Poi.where("puntajes -> '?' is not null", id)
+  end
+
+  def borrar_comentarios_pois
+    pois_comentados.each do |poi|
+      poi.puntajes.except!(id)
+      poi.save
     end
   end
 end
