@@ -1,4 +1,6 @@
 class NotificacionesController < ApplicationController
+  include NotificacionesHelper
+
   before_action :set_notificacion, only: %i[show edit update destroy]
 
   # GET /notificaciones
@@ -30,10 +32,10 @@ class NotificacionesController < ApplicationController
   # POST /notificaciones.json
   def create
     @notificacion = Notificacion.new(notificacion_params)
-
+    web_fcm(@notificacion)
     respond_to do |format|
       if @notificacion.save
-        format.html { redirect_to @notificacion, notice: 'Notificacion was successfully created.' }
+        format.html { redirect_to @notificacion, notice: "Notificación creada satisfactoriamente." }
         format.json { render :show, status: :created, location: @notificacion }
       else
         format.html { render :new }
@@ -47,7 +49,7 @@ class NotificacionesController < ApplicationController
   def update
     respond_to do |format|
       if @notificacion.update(notificacion_params)
-        format.html { redirect_to @notificacion, notice: 'Notificacion was successfully updated.' }
+        format.html { redirect_to @notificacion, notice: "Notificación guardada satisfactoriamente." }
         format.json { render :show, status: :ok, location: @notificacion }
       else
         format.html { render :edit }
@@ -61,7 +63,7 @@ class NotificacionesController < ApplicationController
   def destroy
     @notificacion.destroy
     respond_to do |format|
-      format.html { redirect_to notificaciones_url, notice: 'Notificacion was successfully destroyed.' }
+      format.html { redirect_to notificaciones_url, notice: "Notificación eliminada satisfactoriamente." }
       format.json { head :no_content }
     end
   end

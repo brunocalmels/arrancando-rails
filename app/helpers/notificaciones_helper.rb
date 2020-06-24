@@ -10,10 +10,10 @@ module NotificacionesHelper
               "notification": {
                 "title": title,
                 "body": body,
-                "url": url
+                "url": url,
               },
               "data": {
-                "click_action": "FLUTTER_NOTIFICATION_CLICK"
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
               })
   end
 
@@ -26,7 +26,7 @@ module NotificacionesHelper
       titulo: titulo,
       cuerpo: cuerpo,
       url: url,
-      user: user
+      user: user,
     )
     unless user.firebase_token.nil?
       set_fcm
@@ -34,7 +34,7 @@ module NotificacionesHelper
         user.firebase_token,
         titulo,
         cuerpo,
-        url: url
+        url: url,
       )
     end
   end
@@ -48,7 +48,7 @@ module NotificacionesHelper
       titulo: titulo,
       cuerpo: cuerpo,
       url: url,
-      user: user
+      user: user,
     )
     unless user.firebase_token.nil?
       set_fcm
@@ -56,15 +56,15 @@ module NotificacionesHelper
         user.firebase_token,
         titulo,
         cuerpo,
-        url: url
+        url: url,
       )
     end
   end
 
   def nueva_puntuacion(obj, puntaje)
     tipo = obj.class.name.downcase
-    pretty_tipo = tipo == 'publicacion' ? 'publicación' : tipo == 'poi' ? 'punto de interés' : 'receta'
-    tipo = tipo == 'publicacion' ? 'publicaciones' : tipo + 's'
+    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "receta"
+    tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"
     titulo = "Alguien puntuó tu #{pretty_tipo}"
     cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} puntos"
     url = "/#{tipo}/#{obj.id}"
@@ -73,7 +73,7 @@ module NotificacionesHelper
       titulo: titulo,
       cuerpo: cuerpo,
       url: url,
-      user: user
+      user: user,
     )
     unless user.firebase_token.nil?
       set_fcm
@@ -81,13 +81,13 @@ module NotificacionesHelper
         user.firebase_token,
         titulo,
         cuerpo,
-        url: url
+        url: url,
       )
     end
   end
 
   def compartio_contenido(obj, tipo)
-    pretty_tipo = tipo == 'publicaciones' ? 'publicación' : tipo == 'pois' ? 'punto de interés' : 'receta'
+    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "receta"
     titulo = "@#{current_user.username} compartió tu #{pretty_tipo}"
     cuerpo = "@#{current_user.username} compartió tu #{pretty_tipo} #{obj.titulo}"
     url = "/#{tipo}/#{obj.id}"
@@ -96,7 +96,7 @@ module NotificacionesHelper
       titulo: titulo,
       cuerpo: cuerpo,
       url: url,
-      user: user
+      user: user,
     )
     unless user.firebase_token.nil?
       set_fcm
@@ -104,7 +104,20 @@ module NotificacionesHelper
         user.firebase_token,
         titulo,
         cuerpo,
-        url: url
+        url: url,
+      )
+    end
+  end
+
+  def web_fcm(notificacion)
+    user = notificacion.user
+    unless user.firebase_token.nil?
+      set_fcm
+      response = send_fcm(
+        user.firebase_token,
+        titulo: notificacion.titulo,
+        cuerpo: notificacion.cuerpo,
+        url: notificacion.url,
       )
     end
   end

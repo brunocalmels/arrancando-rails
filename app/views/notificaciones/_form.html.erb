@@ -27,16 +27,11 @@
   </div>
 
   <div class="field">
-    <%= form.label :leido %>
-    <%= form.check_box :leido %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+    <%= form.label 'Usuario' %>
+    <%= form.select :user_id, User.all.collect { |c| [c.username, c.id] } %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Enviar', class: 'btn btn-success' %>
   </div>
 <% end %>
