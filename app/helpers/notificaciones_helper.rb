@@ -115,8 +115,8 @@ module NotificacionesHelper
       set_fcm
       response = send_fcm(
         user.firebase_token,
-        titulo: notificacion.titulo,
-        cuerpo: notificacion.cuerpo,
+        notificacion.titulo,
+        notificacion.cuerpo,
         url: notificacion.url,
       )
     end
