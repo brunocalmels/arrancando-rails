@@ -35,7 +35,7 @@ class NotificacionesController < ApplicationController
     web_fcm(@notificacion)
     respond_to do |format|
       if @notificacion.save
-        format.html { redirect_to @notificacion, notice: "Notificación creada satisfactoriamente." }
+        format.html { redirect_to :new, notice: "Notificación creada satisfactoriamente." }
         format.json { render :show, status: :created, location: @notificacion }
       else
         format.html { render :new }

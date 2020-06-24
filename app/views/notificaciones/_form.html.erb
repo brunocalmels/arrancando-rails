@@ -1,4 +1,4 @@
-<%= form_with(model: notificacion, local: true) do |form| %>
+<%= form_with(model: notificacion, local: true, remote: true) do |form| %>
   <% if notificacion.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(notificacion.errors.count, "error") %> prohibited this notificacion from being saved:</h2>
@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label :url %>
-    <%= form.text_field :url %>
+    <%= form.text_field :url, 'https://arrancando.com.ar/' %>
   </div>
 
   <div class="field">
