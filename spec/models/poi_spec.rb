@@ -15,6 +15,8 @@
 #  direccion        :string
 #  habilitado       :boolean          default("true")
 #  ciudad_id        :integer          default("1"), not null
+#  whatsapp         :integer
+#  vistas           :integer          default("0")
 #
 
 require "rails_helper"

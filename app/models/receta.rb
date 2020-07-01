@@ -17,6 +17,7 @@
 #  duracion            :integer
 #  complejidad         :string
 #  ingredientes_items  :jsonb            default("[]")
+#  vistas              :integer          default("0")
 #
 
 class Receta < ApplicationRecord

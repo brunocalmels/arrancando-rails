@@ -15,6 +15,8 @@
 #  direccion        :string
 #  habilitado       :boolean          default("true")
 #  ciudad_id        :integer          default("1"), not null
+#  whatsapp         :integer
+#  vistas           :integer          default("0")
 #
 
 class Poi < ApplicationRecord
@@ -24,6 +26,10 @@ class Poi < ApplicationRecord
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
   paginates_per 30
+
+  has_many :comentarios,
+           dependent: :destroy,
+           class_name: "ComentarioPoi"
 
   validates :titulo, presence: true
   validates :lat, presence: true

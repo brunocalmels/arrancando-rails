@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Comentario Pois</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Poi</th>
+      <th>User</th>
+      <th>Mensaje</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @comentario_pois.each do |comentario_poi| %>
+      <tr>
+        <td><%= comentario_poi.poi_id %></td>
+        <td><%= comentario_poi.user_id %></td>
+        <td><%= comentario_poi.mensaje %></td>
+        <td><%= link_to 'Show', comentario_poi %></td>
+        <td><%= link_to 'Edit', edit_comentario_poi_path(comentario_poi) %></td>
+        <td><%= link_to 'Destroy', comentario_poi, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Comentario Poi', new_comentario_poi_path %>

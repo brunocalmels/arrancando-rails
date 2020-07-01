@@ -12,6 +12,7 @@
 #  updated_at               :datetime         not null
 #  habilitado               :boolean          default("true")
 #  categoria_publicacion_id :integer          default("1"), not null
+#  vistas                   :integer          default("0")
 #
 
 class Publicacion < ApplicationRecord

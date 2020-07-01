@@ -1,6 +1,7 @@
 class ComentarioPublicacionesController < ApplicationController
+  include ComentarioHelper
   include NotificacionesHelper
-  before_action :set_comentario_publicacion, only: %i[show edit update destroy]
+  before_action :set_comentario_publicacion, only: %i[show edit update destroy puntuar]
 
   # GET /comentario_publicaciones
   # GET /comentario_publicaciones.json
@@ -66,6 +67,10 @@ class ComentarioPublicacionesController < ApplicationController
     end
   end
 
+  def puntuar
+    puntuar_comentario(@comentario_publicacion)
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -75,6 +80,6 @@ class ComentarioPublicacionesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def comentario_publicacion_params
-    params.require(:comentario_publicacion).permit(:publicacion_id, :mensaje)
+    params.require(:comentario_publicacion).permit(:publicacion_id, :mensaje, :puntajes)
   end
 end

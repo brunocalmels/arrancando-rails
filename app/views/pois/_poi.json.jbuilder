@@ -52,5 +52,11 @@ json.user poi.user.as_json.merge(
 
 # rubocop: enable Metrics/LineLength
 
+json.comentarios do
+  json.array! poi.comentarios,
+              partial: "comentario_pois/comentario_poi.json",
+              as: :comentario_poi
+end
+
 json.url poi_url(poi,
                  format: :json)

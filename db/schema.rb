@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_122824) do
+ActiveRecord::Schema.define(version: 2020_07_01_213351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,12 +78,23 @@ ActiveRecord::Schema.define(version: 2020_06_04_122824) do
     t.index ["provincia_id"], name: "index_ciudades_on_provincia_id"
   end
 
+  create_table "comentario_pois", force: :cascade do |t|
+    t.bigint "poi_id", null: false
+    t.bigint "user_id", null: false
+    t.text "mensaje", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["poi_id"], name: "index_comentario_pois_on_poi_id"
+    t.index ["user_id"], name: "index_comentario_pois_on_user_id"
+  end
+
   create_table "comentario_publicaciones", force: :cascade do |t|
     t.bigint "publicacion_id", null: false
     t.bigint "user_id", null: false
     t.text "mensaje", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "puntajes", default: {}
     t.index ["publicacion_id"], name: "index_comentario_publicaciones_on_publicacion_id"
     t.index ["user_id"], name: "index_comentario_publicaciones_on_user_id"
   end
@@ -237,6 +248,8 @@ ActiveRecord::Schema.define(version: 2020_06_04_122824) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "ciudades", "provincias"
+  add_foreign_key "comentario_pois", "pois"
+  add_foreign_key "comentario_pois", "users"
   add_foreign_key "comentario_publicaciones", "publicaciones"
   add_foreign_key "comentario_publicaciones", "users"
   add_foreign_key "comentario_recetas", "recetas"
