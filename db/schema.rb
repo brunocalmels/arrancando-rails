@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_02_192544) do
+ActiveRecord::Schema.define(version: 2020_07_03_204426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,6 +216,15 @@ ActiveRecord::Schema.define(version: 2020_07_02_192544) do
     t.index ["user_id"], name: "index_reportes_on_user_id"
   end
 
+  create_table "seguimientos", force: :cascade do |t|
+    t.bigint "seguidor_id", null: false
+    t.bigint "seguido_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["seguido_id"], name: "index_seguimientos_on_seguido_id"
+    t.index ["seguidor_id"], name: "index_seguimientos_on_seguidor_id"
+  end
+
   create_table "subcategoria_recetas", force: :cascade do |t|
     t.string "nombre", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -267,5 +276,7 @@ ActiveRecord::Schema.define(version: 2020_07_02_192544) do
   add_foreign_key "recetas", "categoria_recetas"
   add_foreign_key "recetas", "users"
   add_foreign_key "reportes", "users"
+  add_foreign_key "seguimientos", "users", column: "seguido_id"
+  add_foreign_key "seguimientos", "users", column: "seguidor_id"
   add_foreign_key "users", "ciudades"
 end

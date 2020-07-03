@@ -1,0 +1,27 @@
+<%= form_with(model: seguimiento, local: true) do |form| %>
+  <% if seguimiento.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(seguimiento.errors.count, "error") %> prohibited this seguimiento from being saved:</h2>
+
+      <ul>
+        <% seguimiento.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :seguidor_id %>
+    <%= form.text_field :seguidor_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :seguido_id %>
+    <%= form.text_field :seguido_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

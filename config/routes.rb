@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :seguimientos
   get "/notificaciones/unread", to: "notificaciones#unread"
 
   resources :notificaciones

@@ -54,6 +54,7 @@ class ContentController < ApplicationController
     end
   end
 
+  # rubocop: disable Metrics/AbcSize
   def count
     unless params['user_id']
       render json: nil, status: :unprocessable_entity && return
@@ -64,9 +65,11 @@ class ContentController < ApplicationController
       "recetas": Receta.where(user_id: params['user_id'].to_i).count,
       "pois": Poi.where(user_id: params['user_id'].to_i).count,
       # "wiki": Wiki.where(user_id: params['user_id'].to_i).count
-      "master": get_master(params['user_id'].to_i)
+      "master": get_master(params['user_id'].to_i),
+      "siguiendo": get_siguiendo(params['user_id'].to_i)
     }, status: :ok
   end
+  # rubocop: enable Metrics/AbcSize
 
   private
 
@@ -153,6 +156,14 @@ class ContentController < ApplicationController
       end
     end
     selected.downcase
+  end
+
+  def get_siguiendo(user_id)
+    seguimiento = Seguimiento.where(
+      seguidor_id: current_user.id,
+      seguido_id: user_id
+    ).first
+    seguimiento.nil? ? nil : seguimiento.id
   end
 end
 
