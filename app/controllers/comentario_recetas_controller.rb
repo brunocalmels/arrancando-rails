@@ -1,6 +1,7 @@
 class ComentarioRecetasController < ApplicationController
+  include ComentarioHelper
   include NotificacionesHelper
-  before_action :set_comentario_receta, only: %i[show edit update destroy]
+  before_action :set_comentario_receta, only: %i[show edit update destroy puntuar]
 
   # GET /comentario_recetas
   # GET /comentario_recetas.json
@@ -64,6 +65,10 @@ class ComentarioRecetasController < ApplicationController
       format.html { redirect_to comentario_recetas_url, notice: 'Comentario receta fue satisfactoriamente eliminada.' }
       format.json { head :no_content }
     end
+  end
+
+  def puntuar
+    puntuar_comentario(@comentario_receta)
   end
 
   private

@@ -61,7 +61,7 @@ class ContentController < ApplicationController
     o["thumbnail"] = generate_thumb(item)
     o["puntaje"] = nil
     o["puntajes"] = puntajes
-    o["comentarios"] = item.comentarios unless type == "pois"
+    o["comentarios"] = item.comentarios.as_json(except: %i[puntajes puntaje])
     o["user"] = get_user(item)
     o
   end

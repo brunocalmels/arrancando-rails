@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_213351) do
+ActiveRecord::Schema.define(version: 2020_07_02_192544) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,6 +84,7 @@ ActiveRecord::Schema.define(version: 2020_07_01_213351) do
     t.text "mensaje", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "puntajes", default: {}
     t.index ["poi_id"], name: "index_comentario_pois_on_poi_id"
     t.index ["user_id"], name: "index_comentario_pois_on_user_id"
   end
@@ -105,6 +106,7 @@ ActiveRecord::Schema.define(version: 2020_07_01_213351) do
     t.text "mensaje", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "puntajes", default: {}
     t.index ["receta_id"], name: "index_comentario_recetas_on_receta_id"
     t.index ["user_id"], name: "index_comentario_recetas_on_user_id"
   end

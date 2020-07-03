@@ -1,6 +1,7 @@
 class ComentarioPoisController < ApplicationController
+  include ComentarioHelper
   include NotificacionesHelper
-  before_action :set_comentario_poi, only: %i[show edit update destroy]
+  before_action :set_comentario_poi, only: %i[show edit update destroy puntuar]
 
   # GET /comentario_pois
   # GET /comentario_pois.json
@@ -64,6 +65,10 @@ class ComentarioPoisController < ApplicationController
       format.html { redirect_to comentario_pois_url, notice: 'Comentario poi was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def puntuar
+    puntuar_comentario(@comentario_poi)
   end
 
   private

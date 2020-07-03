@@ -15,4 +15,8 @@ json.user cp.user.as_json.merge(
   has_avatar ? rails_blob_path(cp.user.avatar) : nil
 )
 
+json.puntajes do
+  json.array! cp.my_puntajes
+end
+
 json.url comentario_publicacion_url(cp, format: :json)

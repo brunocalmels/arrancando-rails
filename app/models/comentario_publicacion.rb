@@ -12,6 +12,8 @@
 #
 
 class ComentarioPublicacion < ApplicationRecord
+  include ComentarioHelper
+
   belongs_to :publicacion, touch: true
   belongs_to :user
 
@@ -25,4 +27,8 @@ class ComentarioPublicacion < ApplicationRecord
     where("comentario_publicaciones.created_at > ? ",
           Time.zone.now.at_beginning_of_month)
   }
+
+  def my_puntajes
+    comment_my_puntajes(self)
+  end
 end

@@ -1,6 +1,8 @@
 require "#{Rails.root}/app/helpers/notificaciones_helper"
 
 # rubocop:disable Metrics/ModuleLength
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/PerceivedComplexity
 
 module ContentHelper
   include NotificacionesHelper
@@ -9,9 +11,15 @@ module ContentHelper
     unless params["puntaje"]
       render(json: "Invalid data", status: :unprocessable_entity) && return
     end
-    obj.puntajes[current_user.id] = params["puntaje"].to_i
+    if params["puntaje"].to_i == 0
+      obj.puntajes.delete(current_user.id)
+    else
+      obj.puntajes[current_user.id] = params["puntaje"].to_i
+    end
     if obj.save
-      nueva_puntuacion(obj, params["puntaje"].to_i)
+      if params["puntaje"].to_i != 0
+        nueva_puntuacion(obj, params["puntaje"].to_i)
+      end
       render json: nil, status: :ok
     else
       render json: "Invalid data", status: :unprocessable_entity
@@ -184,4 +192,6 @@ module ContentHelper
   end
 end
 
+# rubocop:enable Metrics/PerceivedComplexity
+# rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/ModuleLength

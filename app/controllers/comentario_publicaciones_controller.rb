@@ -80,6 +80,6 @@ class ComentarioPublicacionesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def comentario_publicacion_params
-    params.require(:comentario_publicacion).permit(:publicacion_id, :mensaje, :puntajes)
+    params.require(:comentario_publicacion).permit(:publicacion_id, :mensaje)
   end
 end

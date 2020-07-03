@@ -8,9 +8,12 @@
 #  mensaje    :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  puntajes   :jsonb            default("{}")
 #
 
 class ComentarioPoi < ApplicationRecord
+  include ComentarioHelper
+
   belongs_to :poi, touch: true
   belongs_to :user
 
@@ -24,4 +27,8 @@ class ComentarioPoi < ApplicationRecord
     where("comentario_pois.created_at > ? ",
           Time.zone.now.at_beginning_of_month)
   }
+
+  def my_puntajes
+    comment_my_puntajes(self)
+  end
 end

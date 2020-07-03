@@ -34,6 +34,8 @@ Rails.application.routes.draw do
   get "pois/search", to: "pois#search"
   resources :pois
 
+  put "comentario_pois/:id/puntuar", to: "comentario_pois#puntuar"
+  put "comentario_recetas/:id/puntuar", to: "comentario_recetas#puntuar"
   put "comentario_publicaciones/:id/puntuar", to: "comentario_publicaciones#puntuar"
 
   resources :comentario_pois
