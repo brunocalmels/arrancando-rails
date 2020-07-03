@@ -1,3 +1,5 @@
+# rubocop: disable Metrics/ClassLength
+
 class ContentController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
@@ -50,6 +52,20 @@ class ContentController < ApplicationController
     else
       render json: nil, status: :unprocessable_entity
     end
+  end
+
+  def count
+    unless params['user_id']
+      render json: nil, status: :unprocessable_entity && return
+    end
+
+    render json: {
+      "publicaciones": Publicacion.where(user_id: params['user_id'].to_i).count,
+      "recetas": Receta.where(user_id: params['user_id'].to_i).count,
+      "pois": Poi.where(user_id: params['user_id'].to_i).count,
+      # "wiki": Wiki.where(user_id: params['user_id'].to_i).count
+      "master": get_master(params['user_id'].to_i)
+    }, status: :ok
   end
 
   private
@@ -121,4 +137,23 @@ class ContentController < ApplicationController
       "avatar" => has_avatar ? rails_blob_path(content.user.avatar) : "/images/unknown.png"
     )
   end
+
+  def get_master(user_id)
+    count = 0
+    selected = ''
+    Receta.where(user_id: user_id)
+          .joins(:categoria_receta)
+          .select(:nombre)
+          .group(:nombre)
+          .count
+          .map do |k, v|
+      if v > count
+        count = v
+        selected = k
+      end
+    end
+    selected.downcase
+  end
 end
+
+# rubocop: enable Metrics/ClassLength

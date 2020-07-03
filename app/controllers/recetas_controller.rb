@@ -180,6 +180,7 @@ class RecetasController < ApplicationController
     @recetas = @recetas
                .order(updated_at: :desc)
                .limit(params.key?(:limit) ? params[:limit].to_i : 10)
+               .offset(params.key?(:offset) ? params[:offset].to_i : 0)
     return if params[:limit] && request.format.json?
 
     @recetas = @recetas.page(params[:page])
