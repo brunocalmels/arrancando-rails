@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   post "new-facebook-login", to: "users#new_facebook_client"
   get "facebook-login", to: "users#facebook_client"
 
+  get "users/usernames", to: "users#usernames"
+  get "users/by_username", to: "users#by_username"
   put "users/set_firebase_token", to: "users#set_firebase_token"
 
   resources :users

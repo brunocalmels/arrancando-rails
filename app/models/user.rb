@@ -23,6 +23,7 @@
 #  rankeable         :boolean          default("true")
 #  unlim_upload      :boolean          default("false")
 #  firebase_token    :string
+#  url_instagram     :string
 #
 
 # rubocop:disable Metrics/ClassLength

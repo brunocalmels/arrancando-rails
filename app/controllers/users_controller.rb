@@ -33,6 +33,50 @@ class UsersController < ApplicationController
     end
   end
 
+  def usernames
+    unless params['search']
+      render json: nil, status: :unprocessable_entity && return
+    end
+
+    search = params['search'].to_s
+
+    found = User.where("username ILIKE :term", term: "%#{search}%")
+
+    users = found.map do |u|
+      o = {}
+      o['id'] = u.id
+      o['username'] = u.username
+      o['avatar'] = u.avatar.attached? ? rails_blob_path(u.avatar) : "/images/unknown.png"
+      o
+    end
+
+    render json: users, status: :ok
+  end
+
+  def by_username
+    unless params['username']
+      render json: nil, status: :unprocessable_entity && return
+    end
+
+    search = params['username'].to_s
+
+    user = User.where("username = :term", term: search.to_s).first
+
+    out = nil
+
+    unless user.nil?
+      out = user.as_json.merge(
+        "avatar" => user.avatar.attached? ? rails_blob_path(user.avatar) : "/images/unknown.png"
+      )
+    end
+
+    if !out.nil?
+      render json: out, status: :ok
+    else
+      render json: nil, status: :unprocessable_entity
+    end
+  end
+
   # GET /users/1
   # GET /users/1.json
   def show
@@ -218,7 +262,7 @@ class UsersController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     if request.format.json?
-      params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono, :app_version, :platform, :ciudad_id)
+      params.require(:user).permit(:nombre, :apellido, :email, :username, :password, :telefono, :app_version, :platform, :ciudad_id, :url_instagram)
     else # HTML
       params.require(:user).permit(:nombre, :apellido, :email, :username, :rol, :telefono, :activo, :avatar, :ciudad_id, :rankeable, :unlim_upload)
     end
