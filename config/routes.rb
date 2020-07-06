@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
+  get "seguimientos/:uid/seguidos", to: "seguimientos#seguidos"
+  get "seguimientos/:uid/seguidores", to: "seguimientos#seguidores"
   resources :seguimientos
+
   get "/notificaciones/unread", to: "notificaciones#unread"
 
   resources :notificaciones

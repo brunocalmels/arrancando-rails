@@ -43,6 +43,9 @@ class User < ApplicationRecord
   has_many :comentario_publicaciones, dependent: :destroy
   has_many :comentario_recetas, dependent: :destroy
 
+  has_many :seguimientos, class_name: "Seguimiento", foreign_key: :seguidor
+  has_many :seguidores, class_name: "Seguimiento", foreign_key: :seguido
+
   paginates_per 20
 
   scope :admins, -> { where(rol: :admin) }

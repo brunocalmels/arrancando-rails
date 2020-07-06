@@ -45,7 +45,12 @@ class Publicacion < ApplicationRecord
   }
 
   scope :search, lambda { |term|
-    where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
+    where(
+      "titulo ILIKE :term OR
+      cuerpo ILIKE :term OR
+      username ILIKE :term",
+      term: "%#{term}%"
+    ).joins(:user)
   }
 
   filterrific(

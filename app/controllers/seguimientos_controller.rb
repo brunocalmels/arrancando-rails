@@ -7,6 +7,34 @@ class SeguimientosController < ApplicationController
     @seguimientos = Seguimiento.all
   end
 
+  def seguidos
+    user = User.find(params[:uid])
+    users = User.where(id: user.seguimientos.pluck(:seguido_id))
+    if users.count > 0
+      users = users.map do |u|
+        avatar = u.avatar.attached? ? rails_blob_path(u.avatar) : "/images/unknown.png"
+        o = u.attributes
+        o['avatar'] = avatar
+        o
+      end
+    end
+    render json: users.to_json, status: :ok
+  end
+
+  def seguidores
+    user = User.find(params[:uid])
+    users = User.where(id: user.seguidores.pluck(:seguidor_id))
+    if users.count > 0
+      users = users.map do |u|
+        avatar = u.avatar.attached? ? rails_blob_path(u.avatar) : "/images/unknown.png"
+        o = u.attributes
+        o['avatar'] = avatar
+        o
+      end
+    end
+    render json: users.to_json, status: :ok
+  end
+
   # GET /seguimientos/1
   # GET /seguimientos/1.json
   def show

@@ -49,7 +49,12 @@ class Poi < ApplicationRecord
   }
 
   scope :search, lambda { |term|
-    where("titulo ILIKE :term OR cuerpo ILIKE :term", term: "%#{term}%")
+    where(
+      "titulo ILIKE :term OR
+      cuerpo ILIKE :term OR
+      username ILIKE :term",
+      term: "%#{term}%"
+    ).joins(:user)
   }
 
   scope :ciudad_id, lambda { |ciudad_id|

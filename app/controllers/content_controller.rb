@@ -66,7 +66,9 @@ class ContentController < ApplicationController
       "pois": Poi.where(user_id: params['user_id'].to_i).count,
       # "wiki": Wiki.where(user_id: params['user_id'].to_i).count
       "master": get_master(params['user_id'].to_i),
-      "siguiendo": get_siguiendo(params['user_id'].to_i)
+      "siguiendo": siguiendo?(params['user_id'].to_i),
+      "seguidos": get_seguidos(params['user_id'].to_i),
+      "seguidores": get_seguidores(params['user_id'].to_i)
     }, status: :ok
   end
   # rubocop: enable Metrics/AbcSize
@@ -158,12 +160,24 @@ class ContentController < ApplicationController
     selected.downcase
   end
 
-  def get_siguiendo(user_id)
+  def siguiendo?(user_id)
     seguimiento = Seguimiento.where(
       seguidor_id: current_user.id,
       seguido_id: user_id
     ).first
     seguimiento.nil? ? nil : seguimiento.id
+  end
+
+  def get_seguidos(user_id)
+    Seguimiento.where(
+      seguidor_id: user_id
+    ).count
+  end
+
+  def get_seguidores(user_id)
+    Seguimiento.where(
+      seguido_id: user_id
+    ).count
   end
 end
 
