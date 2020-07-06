@@ -50,5 +50,12 @@ json.comentarios do
               as: :comentario_publicacion
 end
 
+seguimiento = Seguimiento.where(
+  seguidor_id: @current_user.id,
+  seguido_id: publicacion.user.id
+).first
+
+json.seguido seguimiento.nil? ? nil : seguimiento.id
+
 json.url publicacion_url(publicacion,
                          format: :json)

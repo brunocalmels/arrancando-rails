@@ -64,4 +64,11 @@ json.comentarios do
               as: :comentario_receta
 end
 
+seguimiento = Seguimiento.where(
+  seguidor_id: @current_user.id,
+  seguido_id: receta.user.id
+).first
+
+json.seguido seguimiento.nil? ? nil : seguimiento.id
+
 json.url receta_url(receta, format: :json)

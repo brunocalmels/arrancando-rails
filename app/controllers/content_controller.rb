@@ -1,4 +1,7 @@
 # rubocop: disable Metrics/ClassLength
+# rubocop: disable Metrics/AbcSize
+# rubocop: disable Metrics/CyclomaticComplexity
+# rubocop: disable Metrics/PerceivedComplexity
 
 class ContentController < ApplicationController
   include ContentHelper
@@ -54,7 +57,6 @@ class ContentController < ApplicationController
     end
   end
 
-  # rubocop: disable Metrics/AbcSize
   def count
     unless params['user_id']
       render json: nil, status: :unprocessable_entity && return
@@ -71,7 +73,6 @@ class ContentController < ApplicationController
       "seguidores": get_seguidores(params['user_id'].to_i)
     }, status: :ok
   end
-  # rubocop: enable Metrics/AbcSize
 
   private
 
@@ -84,10 +85,11 @@ class ContentController < ApplicationController
     o["puntajes"] = puntajes
     o["comentarios"] = item.comentarios.as_json(except: %i[puntajes puntaje])
     o["user"] = get_user(item)
+    o["seguido"] = seguido?(item.user_id)
     o
   end
 
-  def build_objects(type)
+  def build_objects(type, only_followed=nil)
     ac_record = Publicacion
     case type
     when "publicaciones"
@@ -97,7 +99,9 @@ class ContentController < ApplicationController
     when "pois"
       ac_record = Poi
     end
-    # .where(user: current_user)
+    unless only_followed.nil?
+      ac_record = ac_record.where(user_id: only_followed)
+    end
     ac_record
       .order(updated_at: :desc).page(params[:page]).per(10).map do |p|
       get_object(
@@ -110,16 +114,24 @@ class ContentController < ApplicationController
 
   def build_feed(pars)
     to_show = []
-    if pars[:contenidos_home].nil?
+    if pars[:contenidos_home].nil? || JSON.parse(pars[:contenidos_home]) == ['followed']
+      only_followed = nil
+      if !pars[:contenidos_home].nil? && JSON.parse(pars[:contenidos_home]) == ['followed']
+        only_followed = current_user.seguimientos.pluck(:seguido_id)
+      end
       to_show = [
-        build_objects("publicaciones"),
-        build_objects("recetas"),
-        build_objects("pois")
+        build_objects("publicaciones", only_followed),
+        build_objects("recetas", only_followed),
+        build_objects("pois", only_followed)
       ]
     else
       contenidos_home = JSON.parse(pars[:contenidos_home])
+      only_followed = nil
+      if contenidos_home.include?('followed')
+        only_followed = current_user.seguimientos.pluck(:seguido_id)
+      end
       contenidos_home.each do |ch|
-        to_show << build_objects(ch)
+        to_show << build_objects(ch, only_followed) if ch != 'followed'
       end
     end
 
@@ -168,6 +180,14 @@ class ContentController < ApplicationController
     seguimiento.nil? ? nil : seguimiento.id
   end
 
+  def seguido?(user_id)
+    seguimiento = Seguimiento.where(
+      seguidor_id: current_user.id,
+      seguido_id: user_id
+    ).first
+    seguimiento.nil? ? nil : seguimiento.id
+  end
+
   def get_seguidos(user_id)
     Seguimiento.where(
       seguidor_id: user_id
@@ -181,4 +201,7 @@ class ContentController < ApplicationController
   end
 end
 
+# rubocop: enable Metrics/PerceivedComplexity
+# rubocop: enable Metrics/CyclomaticComplexity
+# rubocop: enable Metrics/AbcSize
 # rubocop: enable Metrics/ClassLength
