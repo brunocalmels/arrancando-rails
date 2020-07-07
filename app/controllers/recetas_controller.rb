@@ -2,6 +2,7 @@
 
 class RecetasController < ApplicationController
   include ContentHelper
+  include NotificacionesHelper
   before_action :set_receta, only: %i[show edit update destroy puntuar]
 
   # GET /recetas
@@ -75,6 +76,7 @@ class RecetasController < ApplicationController
       format.json do
         if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @receta)) && @receta.valid? && @receta.save
           parse_ingredientes
+          notificar_mencionados(@receta, "recetas")
           render :show, status: :created, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity

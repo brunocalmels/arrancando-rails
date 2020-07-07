@@ -1,6 +1,7 @@
 # rubocop: disable Metrics/ClassLength
 class PublicacionesController < ApplicationController
   include ContentHelper
+  include NotificacionesHelper
   before_action :set_publicacion, only: %i[show edit update destroy puntuar]
 
   # GET /publicaciones
@@ -75,6 +76,7 @@ class PublicacionesController < ApplicationController
       end
       format.json do
         if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @publicacion)) && @publicacion.valid? && @publicacion.save
+          notificar_mencionados(@publicacion, "publicaciones")
           render :show, status: :created, location: @publicacion
         else
           render json: @publicacion.errors, status: :unprocessable_entity

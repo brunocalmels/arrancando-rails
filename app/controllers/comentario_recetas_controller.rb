@@ -1,4 +1,5 @@
 class ComentarioRecetasController < ApplicationController
+  include ContentHelper
   include ComentarioHelper
   include NotificacionesHelper
   before_action :set_comentario_receta, only: %i[show edit update destroy puntuar]
@@ -32,6 +33,7 @@ class ComentarioRecetasController < ApplicationController
     respond_to do |format|
       if @comentario_receta.save
         nuevo_comentario_receta(@comentario_receta)
+        notificar_mencionados(@comentario_receta.receta, "recetas", comentario: true)
         format.html { redirect_to @comentario_receta, notice: 'Comentario receta fue satisfactoriamente creada.' }
         format.json { render :show, status: :created, location: @comentario_receta }
       else

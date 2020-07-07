@@ -3,6 +3,7 @@ require "#{Rails.root}/app/helpers/notificaciones_helper"
 # rubocop:disable Metrics/ModuleLength
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Metrics/CyclomaticComplexity
 
 module ContentHelper
   include NotificacionesHelper
@@ -190,8 +191,38 @@ module ContentHelper
       end
     end
   end
+
+  def find_users(texto)
+    mencionados = []
+    arrobas = texto.split(" ").filter { |p| p[0] == "@" }
+    arrobas.each do |a|
+      user = User.where(username: a.gsub("@", "")).first
+      mencionados << user unless user.nil?
+    end
+    mencionados
+  end
+
+  def notificar_mencionados(obj, tipo, comentario: false)
+    mencionados = []
+    if obj.has_attribute?("cuerpo") && !obj.cuerpo.nil?
+      mencionados += find_users(obj.cuerpo)
+    end
+    if obj.has_attribute?("introduccion") && !obj.introduccion.nil?
+      mencionados += find_users(obj.introduccion)
+    end
+    if obj.has_attribute?("instrucciones") && !obj.instrucciones.nil?
+      mencionados += find_users(obj.instrucciones)
+    end
+
+    return if mencionados.uniq.empty?
+
+    mencionados.uniq.each do |m|
+      nueva_mencion(obj, tipo, m, comentario)
+    end
+  end
 end
 
+# rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
 # rubocop:enable Metrics/AbcSize
 # rubocop:enable Metrics/ModuleLength

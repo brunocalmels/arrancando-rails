@@ -1,4 +1,5 @@
 class SeguimientosController < ApplicationController
+  include NotificacionesHelper
   before_action :set_seguimiento, only: %i[show edit update destroy]
 
   # GET /seguimientos
@@ -57,6 +58,7 @@ class SeguimientosController < ApplicationController
 
     respond_to do |format|
       if @seguimiento.save
+        nuevo_seguimiento(@seguimiento)
         format.html { redirect_to @seguimiento, notice: 'Seguimiento was successfully created.' }
         format.json { render :show, status: :created, location: @seguimiento }
       else

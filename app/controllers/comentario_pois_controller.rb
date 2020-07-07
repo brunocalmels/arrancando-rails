@@ -1,4 +1,5 @@
 class ComentarioPoisController < ApplicationController
+  include ContentHelper
   include ComentarioHelper
   include NotificacionesHelper
   before_action :set_comentario_poi, only: %i[show edit update destroy puntuar]
@@ -32,6 +33,7 @@ class ComentarioPoisController < ApplicationController
     respond_to do |format|
       if @comentario_poi.save
         nuevo_comentario_poi(@comentario_poi)
+        notificar_mencionados(@comentario_poi.poi, "pois", comentario: true)
         format.html { redirect_to @comentario_poi, notice: 'Comentario poi was successfully created.' }
         format.json { render :show, status: :created, location: @comentario_poi }
       else

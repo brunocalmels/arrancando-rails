@@ -1,6 +1,7 @@
 class PoisController < ApplicationController
   include ContentHelper
   include PoisHelper
+  include NotificacionesHelper
   before_action :set_poi, only: %i[show edit update destroy puntuar]
 
   # GET /pois
@@ -74,6 +75,7 @@ class PoisController < ApplicationController
       end
       format.json do
         if params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @poi) && @poi.valid? && @poi.save
+          notificar_mencionados(@poi, "pois")
           render :show, status: :created, location: @poi
         else
           render json: @poi.errors, status: :unprocessable_entity
