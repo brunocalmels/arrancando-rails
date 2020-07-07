@@ -4,7 +4,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token]
+  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token by_username usernames]
   skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client new_facebook_client]
   before_action :user_by_email, only: %i[google_client]
   before_action :user_by_email_new_google, only: %i[new_google_client]
