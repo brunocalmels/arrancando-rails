@@ -12,9 +12,9 @@ module ContentHelper
       render(json: "Invalid data", status: :unprocessable_entity) && return
     end
     if params["puntaje"].to_i == 0
-      obj.puntajes.delete(current_user.id)
+      obj.puntajes.delete(current_user.id.to_s)
     else
-      obj.puntajes[current_user.id] = params["puntaje"].to_i
+      obj.puntajes[current_user.id.to_s] = params["puntaje"].to_i
     end
     if obj.save
       if params["puntaje"].to_i != 0
