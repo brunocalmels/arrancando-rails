@@ -1,5 +1,6 @@
-# rubocop:disable Metrics/ClassLength
-# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop: disable Metrics/ClassLength
+# rubocop: disable Metrics/AbcSize
+# rubocop: disable Metrics/CyclomaticComplexity
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
@@ -254,6 +255,10 @@ class UsersController < ApplicationController
     (0...8).map { rand(65..90).chr }.join.downcase
   end
 
+  def random_number
+    rand(1..100)
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
@@ -392,14 +397,19 @@ class UsersController < ApplicationController
   def fix_user_metadata_new_facebook
     @metadata = params["credentials"]
     @email = @metadata["email"] || "#{@metadata['id']}@not-facebook.com"
-    @nombre = if !@metadata["name"].nil?
-                @metadata["name"]
+    @nombre = if !@metadata["nombre"].nil?
+                @metadata["nombre"]
               elsif !@metadata["email"].nil?
                 @metadata["email"].split("@")[0].gsub(".", "_")
               else
                 "usuario-#{@metadata['id'].split('.').first}"
               end
-    @username = @nombre.gsub(".", "_").gsub(" ", "")
+    @apellido = @metadata["apellido"]
+    @username = if !@metadata["username"].nil?
+                  @metadata["username"].gsub(".", "_").gsub(" ", "")
+                else
+                  @nombre.gsub(".", "_").gsub(" ", "")
+                end
     @password = "#{encode64(@nombre)}-#{random_string}"
   end
 
@@ -468,17 +478,21 @@ class UsersController < ApplicationController
   end
 
   def build_user
+    unless User.where(username: @username).first.nil?
+      @username = "#{@username}#{random_number}"
+    end
     @user = User.find_by_email(@email) || User.create!(
       nombre: @nombre,
+      apellido: @apellido,
       username: @username,
       email: @email,
       password: @password
     )
+    return unless params['credentials']['avatar']
+
+    @user.set_avatar(params['credentials']['avatar'])
   end
 end
-
-# rubocop:enable Metrics/ClassLength
-# rubocop:enable Metrics/CyclomaticComplexity
 
 def config_file
   filename = "usuarios"
@@ -489,3 +503,7 @@ def config_file
   headers["Content-Type"] ||= "application/xls"
   headers["Content-Disposition"] = "attachment; filename=#{filename}"
 end
+
+# rubocop: enable Metrics/CyclomaticComplexity
+# rubocop: enable Metrics/AbcSize
+# rubocop: enable Metrics/ClassLength
