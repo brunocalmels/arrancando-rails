@@ -68,6 +68,7 @@
         <th>Long</th>
         <th>Ciudad</th>
         <th>Calificaciones</th>
+        <th>Archs. (MB)</th>
         <th colspan="3"></th>
       </tr>
     </thead>
@@ -84,6 +85,8 @@
           <td><%= poi.long %></td>
           <td><%= poi.ciudad.nombre %></td>
           <td><%= poi.puntajes %></td>
+          <td><%= (poi.imagenes.map(&:byte_size).sum.to_f / 1.megabyte).round 2 %></td>
+
           <td>
             <%= link_to poi_path(poi), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>

@@ -30,6 +30,7 @@ class PoisController < ApplicationController
     )
 
     @og_image_url = first_image_to_share(@poi)
+    @total_attachment_size = @poi.imagenes.map(&:byte_size).sum
 
     return unless @poi.puntajes.any?
 

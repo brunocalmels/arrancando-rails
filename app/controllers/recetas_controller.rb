@@ -31,6 +31,7 @@ class RecetasController < ApplicationController
     )
 
     @og_image_url = first_image_to_share(@receta)
+    @total_attachment_size = @receta.imagenes.map(&:byte_size).sum
 
     return unless @receta.puntajes.any?
 

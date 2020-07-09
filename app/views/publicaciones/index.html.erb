@@ -75,6 +75,7 @@
         <th>Calificaciones</th>
         <th>Ciudad</th>
         <th>Categoría</th>
+        <th>Archs. (MB)</th>
 
         <th colspan="3"></th>
       </tr>
@@ -90,6 +91,7 @@
           <td><%= publicacion.puntajes %></td>
           <td><%= publicacion.ciudad.nombre %></td>
           <td><%= publicacion.categoria_publicacion.nombre %></td>
+          <td><%= (publicacion.imagenes.map(&:byte_size).sum.to_f / 1.megabyte).round 2 %></td>
           <td>
             <%= link_to publicacion_path(publicacion), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>
