@@ -47,7 +47,7 @@ class User < ApplicationRecord
   has_many :seguimientos, class_name: "Seguimiento", foreign_key: :seguidor
   has_many :seguidores, class_name: "Seguimiento", foreign_key: :seguido
 
-  paginates_per 20
+  paginates_per 25
 
   scope :admins, -> { where(rol: :admin) }
   scope :normales, -> { where(rol: :normal) }

@@ -27,7 +27,9 @@ class UsersController < ApplicationController
     # .page(params[:page])
 
     respond_to do |format|
-      format.html
+      format.html do
+        @users = @users.page(params[:page])
+      end
       format.xls do
         config_file
       end

@@ -28,5 +28,10 @@
 
 FactoryBot.define do
   factory :user do
+    nombre { Faker::Name.first_name }
+    apellido { Faker::Name.last_name }
+    username { "#{nombre.downcase}_#{apellido.downcase}" }
+    email { Faker::Internet.email }
+    password { "123456" }
   end
 end

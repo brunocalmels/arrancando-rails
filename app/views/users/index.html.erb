@@ -157,7 +157,10 @@
   </table>
 </div>
 
-<%# paginate @users %>
+<% begin %>
+<%= paginate @users %>
+<% rescue %>
+<% end %>
 
 <div id="user_count">
 <h4>Hay <%= User.count %> usuarios registrados en Arrancando.</h4>
