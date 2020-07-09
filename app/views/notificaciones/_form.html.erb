@@ -28,7 +28,7 @@
 
   <div class="field">
     <%= form.label 'Usuario' %>
-    <%= form.select :user_id, User.all.collect { |c| [c.username, c.id] } %>
+    <%= form.select :user_id, User.order(username: :asc).collect { |c| [c.username, c.id] } %>
   </div>
 
   <div class="actions">
