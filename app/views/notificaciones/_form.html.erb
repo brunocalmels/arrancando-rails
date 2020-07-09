@@ -31,6 +31,11 @@
     <%= form.select :user_id, User.order(username: :asc).collect { |c| [c.username, c.id] } %>
   </div>
 
+  <div class="field">
+    <%= form.label 'Todos los usuarios' %>
+    <%= check_box_tag :all_users %>
+  </div>
+
   <div class="actions">
     <%= form.submit 'Enviar', class: 'btn btn-success' %>
   </div>

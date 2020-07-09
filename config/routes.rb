@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get "/notificaciones/unread", to: "notificaciones#unread"
 
-  resources :notificaciones
+  resources :notificaciones, only: %i[new index create]
   get "app-version", to: "application#app_version"
 
   get "content", to: "content#index"
