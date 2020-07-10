@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     end
 
     search = params['search'].to_s.downcase
-    max_items = [params[:limit].to_i, 20].max
+    max_items = [params[:limit].to_i, 20].min
 
     found = User
             .where("username ILIKE :term", term: "%#{search}%")
