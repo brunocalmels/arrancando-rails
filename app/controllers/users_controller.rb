@@ -36,22 +36,29 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /users/usernames.json
   def usernames
     unless params['search']
       render json: nil, status: :unprocessable_entity && return
     end
 
     search = params['search'].to_s.downcase
-    max_items = [params[:limit].to_i, 20].min
 
     found = User
             .where("username ILIKE :term", term: "%#{search}%")
-            .limit(params.key?(:limit) ? max_items : 20)
+
+    if params.key?(:limit)
+      max_items = [params[:limit].to_i, 25].min
+      found = found.limit(max_items)
+    else
+      found = found.page(params[:page])
+    end
 
     users = found.map do |u|
       o = {}
       o['id'] = u.id
       o['username'] = u.username
+      o['url_instagram'] = u.url_instagram
       o['avatar'] = u.avatar.attached? ? rails_blob_path(u.avatar) : "/images/unknown.png"
       o
     end
