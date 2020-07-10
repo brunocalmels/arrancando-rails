@@ -1,0 +1,23 @@
+<% provide(:title, "Unidad") %>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @unidades.each do |unidad| %>
+        <tr>
+          <td><%= unidad.nombre %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="botonera">
+  <%= link_to 'Nueva unidad', new_unidad_path, class: "btn btn-success" %>
+</div>

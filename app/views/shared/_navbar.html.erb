@@ -37,9 +37,21 @@
         <li class="navbar-item">
           <%= link_to("PoIs", pois_path, class: 'nav-link' ) %>
         </li>
+
+        <% if false %>
         <li class="navbar-item">
           <%= link_to("Ingreds.", ingredientes_path, class: 'nav-link' ) %>
         </li>
+        <% end %>
+
+        <li class="navbar-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Ingreds.<b class="caret"></b></a>
+          <div class="dropdown-menu">
+            <%= link_to("Ingreds.", ingredientes_path, class: 'nav-link' ) %>
+            <%= link_to("Unidades", unidades_path, class: 'nav-link' ) %>
+          </div>
+        </li>
+
         <li class="navbar-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Categorías<b class="caret"></b></a>
           <div class="dropdown-menu">

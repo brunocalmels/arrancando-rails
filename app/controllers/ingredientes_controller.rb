@@ -70,19 +70,6 @@ class IngredientesController < ApplicationController
     end
   end
 
-  # GET /unidades_ingredientes
-  # GET /unidades_ingredientes.json
-  def unidades
-    respond_to do |format|
-      format.json do
-        render json: UNIDADES
-      end
-      format.html do
-        redirect_to root_url
-      end
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.

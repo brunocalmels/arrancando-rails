@@ -51,7 +51,8 @@ Rails.application.routes.draw do
 
   get "ingredientes/search", to: "ingredientes#search"
   resources :ingredientes
-  get "unidades_ingredientes", to: "ingredientes#unidades"
+  get :unidades_ingredientes, to: "unidades#index"
+  resources :unidades, only: %i[new index create]
 
   resources :categoria_pois, except: [:show]
   resources :categoria_recetas, except: [:show]
