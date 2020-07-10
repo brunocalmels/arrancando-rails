@@ -84,11 +84,11 @@ class Publicacion < ApplicationRecord
 
   scope :search_query, lambda { |query|
     where(
-      "LOWER(titulo) LIKE ?
-      OR LOWER(cuerpo) LIKE ?",
-      "%#{query.to_s.downcase}%",
-      "%#{query.to_s.downcase}%"
-    )
+      "titulo ILIKE :term OR
+       cuerpo ILIKE :term OR
+       users.username ILIKE :term",
+      term: "%#{query.downcase}%"
+    ).joins(:user)
   }
 
   scope :categoria_publicacion_id, lambda { |categoria_publicacion_id|
@@ -112,7 +112,7 @@ class Publicacion < ApplicationRecord
   def self.order_by_ids(ids)
     order_by = ["CASE"]
     ids.each_with_index do |id, index|
-      order_by << "WHEN id='#{id}' THEN #{index}"
+      order_by << "WHEN publicaciones.id='#{id}' THEN #{index}"
     end
     order_by << "END"
     order(order_by.join(" "))

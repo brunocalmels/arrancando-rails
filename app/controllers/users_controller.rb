@@ -41,9 +41,12 @@ class UsersController < ApplicationController
       render json: nil, status: :unprocessable_entity && return
     end
 
-    search = params['search'].to_s
+    search = params['search'].to_s.downcase
+    max_items = [params[:limit].to_i, 20].max
 
-    found = User.where("username ILIKE :term", term: "%#{search}%")
+    found = User
+            .where("username ILIKE :term", term: "%#{search}%")
+            .limit(params.key?(:limit) ? max_items : 20)
 
     users = found.map do |u|
       o = {}

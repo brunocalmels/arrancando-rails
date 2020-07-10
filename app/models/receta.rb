@@ -100,11 +100,14 @@ class Receta < ApplicationRecord
 
   scope :search_query, lambda { |query|
     where(
-      "LOWER(titulo) LIKE ?
-      OR LOWER(cuerpo) LIKE ?",
-      "%#{query.to_s.downcase}%",
-      "%#{query.to_s.downcase}%"
-    )
+      "titulo ILIKE :term OR
+      cuerpo ILIKE :term OR
+      introduccion ILIKE :term OR
+      ingredientes ILIKE :term OR
+      instrucciones ILIKE :term OR
+      username ILIKE :term",
+      term: "%#{query.downcase}%"
+    ).joins(:user)
   }
 
   scope :user_id, lambda { |user_id|
@@ -124,7 +127,7 @@ class Receta < ApplicationRecord
   def self.order_by_ids(ids)
     order_by = ["CASE"]
     ids.each_with_index do |id, index|
-      order_by << "WHEN id='#{id}' THEN #{index}"
+      order_by << "WHEN recetas.id='#{id}' THEN #{index}"
     end
     order_by << "END"
     order(order_by.join(" "))
