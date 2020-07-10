@@ -3,11 +3,10 @@ class NotificacionesController < ApplicationController
 
   # before_action :set_notificacion, only: %i[show edit update destroy]
 
-  # # GET /notificaciones
-  # # GET /notificaciones.json
-  # def index
-  #   @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc)
-  # end
+  # GET /notificaciones.json
+  def index
+    @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc).page(1)
+  end
 
   def unread
     @notificaciones = Notificacion.where(user_id: current_user, leido: false).order(created_at: :desc)
