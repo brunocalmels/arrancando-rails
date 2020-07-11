@@ -118,7 +118,7 @@
   <%= @poi.categoria_poi.nombre %>
 </p>
 
-<% if @current_user.admin? %>
+<% if @current_user&.admin? %>
   <strong>Tamaño total de archivos:</strong>
   <%= (@total_attachment_size.to_f / 1.megabyte).round 2 %> MB
 <% end %>
