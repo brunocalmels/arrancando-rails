@@ -33,7 +33,7 @@ class ComentarioPublicacionesController < ApplicationController
     respond_to do |format|
       if @comentario_publicacion.save
         nuevo_comentario_publicacion(@comentario_publicacion)
-        notificar_mencionados(@comentario_publicacion.publicacion, "publicaciones", comentario: true)
+        notificar_mencionados(@comentario_publicacion, "publicaciones", comentario: true)
         format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion fue satisfactoriamente creada.' }
         format.json { render :show, status: :created, location: @comentario_publicacion }
       else

@@ -204,14 +204,20 @@ module ContentHelper
 
   def notificar_mencionados(obj, tipo, comentario: false)
     mencionados = []
-    if obj.has_attribute?("cuerpo") && !obj.cuerpo.nil?
-      mencionados += find_users(obj.cuerpo)
-    end
-    if obj.has_attribute?("introduccion") && !obj.introduccion.nil?
-      mencionados += find_users(obj.introduccion)
-    end
-    if obj.has_attribute?("instrucciones") && !obj.instrucciones.nil?
-      mencionados += find_users(obj.instrucciones)
+    if comentario
+      if obj.has_attribute?("mensaje") && !obj.mensaje.nil?
+        mencionados += find_users(obj.mensaje)
+      end
+    else
+      if obj.has_attribute?("cuerpo") && !obj.cuerpo.nil?
+        mencionados += find_users(obj.cuerpo)
+      end
+      if obj.has_attribute?("introduccion") && !obj.introduccion.nil?
+        mencionados += find_users(obj.introduccion)
+      end
+      if obj.has_attribute?("instrucciones") && !obj.instrucciones.nil?
+        mencionados += find_users(obj.instrucciones)
+      end
     end
 
     return if mencionados.uniq.empty?

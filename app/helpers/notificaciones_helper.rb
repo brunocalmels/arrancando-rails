@@ -186,16 +186,17 @@ module NotificacionesHelper
   end
 
   def nueva_mencion(obj, tipo, user, comentario)
-    return user == current_user
+    return if user == current_user
+
     pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "receta"
-    articulo = tipo == "pois" ? 'el' : 'la'
+    articulo = tipo == "pois" ? 'un' : 'una'
     titulo = if comentario
                 "@#{current_user.username} te mencionó en un comentario"
             else
               "@#{current_user.username} te mencionó en su #{pretty_tipo}"
             end
     cuerpo =  if comentario
-                "@#{current_user.username} te mencionó en un comentario de #{articulo} #{pretty_tipo} #{obj.titulo}"
+                "@#{current_user.username} te mencionó en un comentario de #{articulo} #{pretty_tipo}"
               else
                 "@#{current_user.username} te mencionó en su #{pretty_tipo} #{obj.titulo}"
               end
