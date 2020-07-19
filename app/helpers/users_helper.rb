@@ -71,36 +71,33 @@ module UsersHelper
     end
   end
 
-  def publicaciones_comentadas
+  def publicaciones_puntuadas
     Publicacion.where("puntajes -> '?' is not null", id)
   end
 
-  def borrar_comentarios_publicaciones
-    publicaciones_comentadas.each do |pub|
-      pub.puntajes.except!(id)
-      pub.save
+  def borrar_puntajes_publicaciones
+    publicaciones_puntuadas.each do |pub|
+      pub.update puntajes: pub.puntajes.except(id.to_s)
     end
   end
 
-  def recetas_comentadas
+  def recetas_puntuadas
     Receta.where("puntajes -> '?' is not null", id)
   end
 
-  def borrar_comentarios_recetas
-    recetas_comentadas.each do |rec|
-      rec.puntajes.except!(id)
-      rec.save
+  def borrar_puntajes_recetas
+    recetas_puntuadas.each do |rec|
+      rec.update puntajes: rec.puntajes.except(id.to_s)
     end
   end
 
-  def pois_comentados
+  def pois_puntuados
     Poi.where("puntajes -> '?' is not null", id)
   end
 
-  def borrar_comentarios_pois
-    pois_comentados.each do |poi|
-      poi.puntajes.except!(id)
-      poi.save
+  def borrar_puntajes_pois
+    pois_puntuados.each do |poi|
+      poi.update puntajes: poi.puntajes.except(id.to_s)
     end
   end
 end
