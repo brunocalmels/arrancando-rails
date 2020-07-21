@@ -36,10 +36,15 @@ class NotificacionesController < ApplicationController
     if params[:all_users]
       send_to_all
       return
-    elsif (@users = User.find(params[:filtered_user_ids].split(' ')))
+    elsif params[:filtered_user_ids]
+      @users = User.find(params[:filtered_user_ids].split(' '))
       send_to_some
       return
     end
+    send_to_one
+  end
+
+  def send_to_one
     web_fcm(@notificacion)
     respond_to do |format|
       if @notificacion.save
