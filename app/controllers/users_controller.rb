@@ -28,8 +28,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @users = @users.page(params[:page])
         @user_ids = @users.pluck :id
+        @users = @users.page(params[:page])
       end
       format.xls do
         config_file
