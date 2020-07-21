@@ -26,15 +26,23 @@
     <%= form.text_field :url, value: 'https://arrancando.com.ar/' %>
   </div>
 
-  <div class="field">
-    <%= form.label 'Usuario' %>
-    <%= form.select :user_id, User.order(username: :asc).collect { |c| [c.username, c.id] } %>
-  </div>
+  <% if @filtered_user_ids %>
+    <div class="field">
+      <%= form.label 'Usuarios preseleccionados', style: 'text-align: center;' %>
+      <%= hidden_field_tag :filtered_user_ids, @filtered_user_ids %>
+    </div>
 
-  <div class="field">
-    <%= form.label 'Todos los usuarios' %>
-    <%= check_box_tag :all_users %>
-  </div>
+  <% else %>
+    <div class="field">
+      <%= form.label 'Usuario' %>
+      <%= form.select :user_id, User.order(username: :asc).collect { |c| [c.username, c.id] } %>
+    </div>
+
+    <div class="field">
+      <%= form.label 'Todos los usuarios' %>
+      <%= check_box_tag :all_users %>
+    </div>
+  <% end %>
 
   <div class="actions">
     <%= form.submit 'Enviar', class: 'btn btn-success' %>

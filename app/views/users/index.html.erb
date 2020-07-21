@@ -83,15 +83,12 @@
     <% unless @users.empty? %>
       <% query_sep = request.original_url.last(5) == 'users' ? '?' : '&' %>
 
-      <% if false %>
-        <%= form_tag("#{request.original_url}#{query_sep}format=xls", method: :get) do %>
-          <%= hidden_field_tag :exports, value: '', id: "multiple_export" %>
-          <%= submit_tag 'Exportar', class: "btn btn-info" %>
-        <% end %>
-      <% end %>
-
       <%= link_to "#{request.original_url}#{query_sep}format=xls", class: 'btn btn-info' do %>
         <i class='fa fa-users'></i>Exportar
+      <% end %>
+
+      <%= link_to new_notificacion_path(params: {user_ids: @user_ids}), class: 'btn btn-info' do %>
+        <i class='fa fa-mobile'></i>Enviar notificación
       <% end %>
 
     <% end %>

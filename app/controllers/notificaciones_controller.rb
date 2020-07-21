@@ -21,6 +21,8 @@ class NotificacionesController < ApplicationController
   # GET /notificaciones/new
   def new
     @notificacion = Notificacion.new
+
+    @filtered_user_ids = params['user_ids']
   end
 
   # # GET /notificaciones/1/edit
@@ -34,6 +36,9 @@ class NotificacionesController < ApplicationController
     if params[:all_users]
       send_to_all
       return
+    elsif (@users = User.find(params[:filtered_user_ids].split(' ')))
+      send_to_some
+      return
     end
     web_fcm(@notificacion)
     respond_to do |format|
@@ -45,6 +50,21 @@ class NotificacionesController < ApplicationController
         format.json { render json: @notificacion.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def send_to_some
+    @notificacion.user = @users.first
+    unless @notificacion.valid?
+      redirect_to(
+        users_path,
+        alert: @notificacion.errors
+      ) && return
+    end
+    NotificacionesToSomeJob.perform_later(@users, @notificacion.attributes)
+    redirect_to(
+      users_path,
+      notice: "Se enviarán las notificaciones en breve."
+    )
   end
 
   def send_to_all
