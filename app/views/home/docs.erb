@@ -18,16 +18,17 @@ Si todavía no te descargaste Arrancando podés hacerlo:
 
 <h2>Puntaje de usuarios</h2>
 <p>La puntuación de usuarios se calcula de según la siguiente fórmula: <br>
-  <span class="formula">P = 5 x Pub + 10 x Rec + 10 x Poi + w(Com) + 5 x f(5, Pub) + 10 x f(5, Rec) + 5 x f(10, Pub) + 10 x f(10, Rec)</span>
+  <span class="formula">P = 5 x Pub + 10 x Rec + 10 x Poi + w(Com) + f(Pub) + f(Rec)</span>
   <br>
   donde:
   <ul>
     <li><span style="font-style: italic;">P</span>: Puntaje</li>
     <li><span style="font-style: italic;">Pub</span>: Cantidad de Publicaciones creadas por el usuario</li>
-    <li><span style="font-style: italic;">Rec</span>: Cantidad de Receetas creadas por el usuario</li>
+    <li><span style="font-style: it
+    alic;">Rec</span>: Cantidad de Receetas creadas por el usuario</li>
     <li><span style="font-style: italic;">Poi</span>: Cantidad de Puntos de interés creados por el usuario</li>
     <li><span style="font-style: italic;">Com</span>: Cantidad de Comentarios hechos por el usuario</li>
     <li><span style="font-style: italic;">w(x)</span>: Función que devuelve 1 si (0 < x < 5), 2 si (5 =< x < 10) y 3 si (10 =< x)</li>
-    <li><span style="font-style: italic;">f(x, Items)</span>: Función que devuelve la cantidad de Items con más que x comentarios que tiene el usuario.</li>
+    <li><span style="font-style: italic;">f(x, Items)</span>: Función que devuelve la cantidad de Items con más que x puntajes de 5 estrellas que tiene el usuario. Si el ítem tiene más de 5 votos de 5 estrellas, vale doble. Si tiene más de 10, vale triple.</li>
   </ul>
 </p>
