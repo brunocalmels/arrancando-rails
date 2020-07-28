@@ -18,6 +18,7 @@ AllCops:
     - Rakefile
     - "scripts/*"
     - app/helpers/notificaciones_helper.rb
+    - app/helpers/content_helper.rb
 
 Layout/SpaceAroundEqualsInParameterDefault:
   EnforcedStyle: no_space

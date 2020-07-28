@@ -1,10 +1,5 @@
 require "#{Rails.root}/app/helpers/notificaciones_helper"
 
-# rubocop:disable Metrics/ModuleLength
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/PerceivedComplexity
-# rubocop:disable Metrics/CyclomaticComplexity
-
 module ContentHelper
   include NotificacionesHelper
 
@@ -167,13 +162,9 @@ module ContentHelper
 
     puts "Obteniendo thumbnail"
 
-    # rubocop:disable Metrics/LineLength
-
     downloaded_image = URI.parse(
       "https://maps.googleapis.com/maps/api/place/photo?photoreference=#{item['photos'][0]['photo_reference']}&sensor=false&maxheight=#{MAX_SIZE_POI_IMAGE}&maxwidth=#{MAX_SIZE_POI_IMAGE}&key=#{ENV['MAPS_API_KEY']}"
     ).open
-
-    # rubocop:enable Metrics/LineLength
 
     poi.imagenes.attach(
       io: downloaded_image,
@@ -226,9 +217,22 @@ module ContentHelper
       nueva_mencion(obj, tipo, m, comentario)
     end
   end
-end
 
-# rubocop:enable Metrics/CyclomaticComplexity
-# rubocop:enable Metrics/PerceivedComplexity
-# rubocop:enable Metrics/AbcSize
-# rubocop:enable Metrics/ModuleLength
+  def likes_color_object(obj)
+    get_color(
+      obj.puntajes.filter do |_k, p|
+        p == 5
+      end.count
+    )
+  end
+
+  private
+
+  def get_color(number)
+    LIKES_TO_COLOR[
+      LIKES_TO_COLOR.keys
+                    .filter { |k| number >= k[0] && number < k[1] }
+                    .first
+    ]
+  end
+end

@@ -95,7 +95,7 @@ module NotificacionesHelper
     pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "receta"
     tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"
     titulo = "@#{current_user.username} puntuó tu #{pretty_tipo}"
-    cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} puntos"
+    cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} #{puntaje > 1 ? 'puntos' : 'punto'}"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
     Notificacion.create(

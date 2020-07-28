@@ -21,6 +21,8 @@
 #
 
 class Receta < ApplicationRecord
+  include ContentHelper
+
   belongs_to :categoria_receta
   has_many :subcategoria_recetas
   belongs_to :user
@@ -131,6 +133,10 @@ class Receta < ApplicationRecord
     end
     order_by << "END"
     order(order_by.join(" "))
+  end
+
+  def likes_color
+    likes_color_object(self)
   end
 
   private

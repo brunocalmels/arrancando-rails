@@ -86,6 +86,7 @@ class ContentController < ApplicationController
     o["comentarios"] = item.comentarios.as_json(except: %i[puntajes puntaje])
     o["user"] = get_user(item)
     o["seguido"] = seguido?(item.user_id)
+    o["color"] = item.likes_color
     o
   end
 

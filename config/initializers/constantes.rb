@@ -106,3 +106,11 @@ IOS_DOWNLOAD_URL = "https://apps.apple.com/us/app/arrancando/id1490590335?l=es".
 APP_VERSION = "2.1.0+56".freeze
 
 FIREBASE_FCM_KEY = "AAAAiFZRHCA:APA91bG_EBPE9Eq0xb0CsoCOHlhzSe6rmNrye6fiJjA4V06RrQH8CeNNhaFMGCRPoRU-myhyIW_IY95NiuJn2LQkaXlRIefe8qvKmUJpOcUb8NAblawEb9GPV6yrbF8h65o2qMf-_8oe".freeze
+
+LIKES_TO_COLOR = {
+  [0, 6] => "verde",
+  [6, 11] => "cobre",
+  [11, 21] => "bronce",
+  [21, 31] => "plata",
+  [31, Float::INFINITY] => "oro"
+}.freeze

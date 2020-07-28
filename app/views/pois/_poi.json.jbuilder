@@ -65,5 +65,7 @@ seguimiento = Seguimiento.where(
 
 json.seguido seguimiento.nil? ? nil : seguimiento.id
 
+json.color publicacion.likes_color
+
 json.url poi_url(poi,
                  format: :json)

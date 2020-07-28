@@ -16,6 +16,8 @@
 #
 
 class Publicacion < ApplicationRecord
+  include ContentHelper
+
   belongs_to :ciudad
   belongs_to :user
   belongs_to :categoria_publicacion
@@ -116,6 +118,10 @@ class Publicacion < ApplicationRecord
     end
     order_by << "END"
     order(order_by.join(" "))
+  end
+
+  def likes_color
+    likes_color_object(self)
   end
 
   private
