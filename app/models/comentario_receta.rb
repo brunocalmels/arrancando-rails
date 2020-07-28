@@ -31,4 +31,8 @@ class ComentarioReceta < ApplicationRecord
   def my_puntajes
     comment_my_puntajes(self)
   end
+
+  def ref_id
+    receta.id
+  end
 end

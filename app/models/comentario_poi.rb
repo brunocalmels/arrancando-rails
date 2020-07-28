@@ -31,4 +31,8 @@ class ComentarioPoi < ApplicationRecord
   def my_puntajes
     comment_my_puntajes(self)
   end
+
+  def ref_id
+    poi.id
+  end
 end

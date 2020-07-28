@@ -200,7 +200,12 @@ module NotificacionesHelper
               else
                 "@#{current_user.username} te mencionó en su #{pretty_tipo} #{obj.titulo}"
               end
-    url = "/#{tipo}/#{obj.id}"
+    id =  if comentario
+            obj.ref_id
+          else
+            obj.id
+          end
+    url = "/#{tipo}/#{id}"
     user = user
     Notificacion.create(
       titulo: titulo,

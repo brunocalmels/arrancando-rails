@@ -31,4 +31,8 @@ class ComentarioPublicacion < ApplicationRecord
   def my_puntajes
     comment_my_puntajes(self)
   end
+
+  def ref_id
+    publicacion.id
+  end
 end
