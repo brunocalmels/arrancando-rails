@@ -31,14 +31,17 @@ Rails.application.routes.draw do
   delete "deauthenticate", to: "authentication#deauthenticate"
 
   put "recetas/:id/puntuar", to: "recetas#puntuar"
+  put "recetas/:id/saved", to: "recetas#saved"
   get "recetas/search", to: "recetas#search"
   resources :recetas
 
   put "publicaciones/:id/puntuar", to: "publicaciones#puntuar"
+  put "publicaciones/:id/saved", to: "publicaciones#saved"
   get "publicaciones/search", to: "publicaciones#search"
   resources :publicaciones
 
   put "pois/:id/puntuar", to: "pois#puntuar"
+  put "pois/:id/saved", to: "pois#saved"
   get "pois/search", to: "pois#search"
   resources :pois
 

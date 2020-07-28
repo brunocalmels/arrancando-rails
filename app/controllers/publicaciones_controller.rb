@@ -2,7 +2,7 @@
 class PublicacionesController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
-  before_action :set_publicacion, only: %i[show edit update destroy puntuar]
+  before_action :set_publicacion, only: %i[show edit update destroy puntuar saved]
 
   # GET /publicaciones
   # GET /publicaciones.json
@@ -127,6 +127,10 @@ class PublicacionesController < ApplicationController
 
   def puntuar
     puntuar_obj(@publicacion)
+  end
+
+  def saved
+    saved_obj(@publicacion)
   end
 
   private

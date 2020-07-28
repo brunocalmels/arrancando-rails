@@ -18,6 +18,7 @@
 #  complejidad         :string
 #  ingredientes_items  :jsonb            default("[]")
 #  vistas              :integer          default("0")
+#  saved               :integer          default("{}"), is an Array
 #
 
 FactoryBot.define do

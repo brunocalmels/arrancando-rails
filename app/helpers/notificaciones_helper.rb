@@ -224,6 +224,31 @@ module NotificacionesHelper
     end
   end
 
+  def guardo_contenido(obj)
+    return if obj.user == current_user
+    tipo = obj.class.name.downcase
+    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "receta"
+    titulo = "@#{current_user.username} guardó tu #{pretty_tipo}"
+    cuerpo = "@#{current_user.username} guardó tu #{pretty_tipo} #{obj.titulo}"
+    url = "/#{tipo}/#{obj.id}"
+    user = obj.user
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user,
+    )
+    unless user.firebase_token.nil?
+      set_fcm
+      response = send_fcm(
+        user.firebase_token,
+        titulo,
+        cuerpo,
+        url: url,
+      )
+    end
+  end
+
   def web_fcm(notificacion)
     user = notificacion.user
     logger.info "Enviando notificación a #{user.username}"

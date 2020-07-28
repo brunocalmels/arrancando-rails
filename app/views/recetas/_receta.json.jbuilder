@@ -71,6 +71,6 @@ seguimiento = Seguimiento.where(
 
 json.seguido seguimiento.nil? ? nil : seguimiento.id
 
-json.color publicacion.likes_color
+json.color receta.likes_color
 
 json.url receta_url(receta, format: :json)

@@ -226,6 +226,28 @@ module ContentHelper
     )
   end
 
+  def saved_obj(obj)
+    unless params.key?(:saved)
+      render(json: "Invalid data", status: :unprocessable_entity) && return
+    end
+    if params["saved"]
+      obj.saved = obj.saved + [current_user.id.to_i]
+    else
+      obj.saved = obj.saved - [current_user.id.to_i]
+    end
+
+    obj.saved = obj.saved.uniq
+
+    if obj.save
+      if params["saved"]
+        guardo_contenido(obj)
+      end
+      render json: nil, status: :ok
+    else
+      render json: "Invalid data", status: :unprocessable_entity
+    end
+  end
+
   private
 
   def get_color(number)

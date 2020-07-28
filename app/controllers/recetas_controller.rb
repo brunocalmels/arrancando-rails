@@ -3,7 +3,7 @@
 class RecetasController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
-  before_action :set_receta, only: %i[show edit update destroy puntuar]
+  before_action :set_receta, only: %i[show edit update destroy puntuar saved]
 
   # GET /recetas
   # GET /recetas.json
@@ -131,6 +131,10 @@ class RecetasController < ApplicationController
 
   def puntuar
     puntuar_obj(@receta)
+  end
+
+  def saved
+    saved_obj(@receta)
   end
 
   private

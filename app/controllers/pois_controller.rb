@@ -2,7 +2,7 @@ class PoisController < ApplicationController
   include ContentHelper
   include PoisHelper
   include NotificacionesHelper
-  before_action :set_poi, only: %i[show edit update destroy puntuar]
+  before_action :set_poi, only: %i[show edit update destroy puntuar saved]
 
   # GET /pois
   # GET /pois.json
@@ -125,6 +125,10 @@ class PoisController < ApplicationController
 
   def puntuar
     puntuar_obj(@poi)
+  end
+
+  def saved
+    saved_obj(@poi)
   end
 
   private

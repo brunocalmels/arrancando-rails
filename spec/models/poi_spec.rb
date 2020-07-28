@@ -17,6 +17,7 @@
 #  ciudad_id        :integer          default("1"), not null
 #  whatsapp         :integer
 #  vistas           :integer          default("0")
+#  saved            :integer          default("{}"), is an Array
 #
 
 require "rails_helper"

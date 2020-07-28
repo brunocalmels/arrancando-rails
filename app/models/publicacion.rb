@@ -13,6 +13,7 @@
 #  habilitado               :boolean          default("true")
 #  categoria_publicacion_id :integer          default("1"), not null
 #  vistas                   :integer          default("0")
+#  saved                    :integer          default("{}"), is an Array
 #
 
 class Publicacion < ApplicationRecord
