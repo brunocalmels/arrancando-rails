@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :seguimientos
 
   get "/notificaciones/unread", to: "notificaciones#unread"
+  put "/notificaciones/:id", to: "notificaciones#update"
 
   resources :notificaciones, only: %i[new index create]
   get "app-version", to: "application#app_version"
