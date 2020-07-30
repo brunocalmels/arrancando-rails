@@ -79,7 +79,10 @@
       <ul>
         <% @poi.puntajes.each do |punt| %>
           <li>
-            @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+            @<%= User.find_by_id(punt[0]) ?
+                  User.find(punt[0]).username :
+                  'Usuario eliminado' %>
+            : <%= punt[1]%>
           </li>
         <% end %>
       </ul>

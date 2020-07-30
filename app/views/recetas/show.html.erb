@@ -126,7 +126,10 @@
       <ul>
         <% @receta.puntajes.each do |punt| %>
           <li>
-            @<%= User.find(punt[0]).username %>: <%= punt[1]%>
+            @<%= User.find_by_id(punt[0]) ?
+                  User.find(punt[0]).username :
+                  'Usuario eliminado' %>
+            : <%= punt[1]%>
           </li>
         <% end %>
       </ul>
@@ -183,11 +186,13 @@
               <%= comment.mensaje %>
             </p>
           </div>
-              <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info link_comment" do %>
-              <i class="fa fa-pencil-alt"></i>
-            <% end %>
-            <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
-              <i class="fa fa-trash"></i>
+            <% if @current_user&.admin? %>
+                <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info link_comment" do %>
+                <i class="fa fa-pencil-alt"></i>
+              <% end %>
+              <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+                <i class="fa fa-trash"></i>
+              <% end %>
             <% end %>
         </li>
       <% end %>
