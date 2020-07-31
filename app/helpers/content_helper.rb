@@ -193,7 +193,7 @@ module ContentHelper
     mencionados
   end
 
-  def notificar_mencionados(obj, tipo, comentario: false)
+  def get_mencionados(obj, comentario: false)
     mencionados = []
     if comentario
       if obj.has_attribute?("mensaje") && !obj.mensaje.nil?
@@ -210,11 +210,16 @@ module ContentHelper
         mencionados += find_users(obj.instrucciones)
       end
     end
+    mencionados.uniq
+  end
 
-    return if mencionados.uniq.empty?
+  def notificar_mencionados(obj, tipo, comentario: false)
+    mencionados = get_mencionados(obj, comentario: comentario)
 
-    mencionados.uniq.each do |m|
-      nueva_mencion(obj, tipo, m, comentario)
+    return if mencionados.empty?
+
+    mencionados.each do |m|
+      nueva_mencion(obj, tipo, m, comentario: comentario)
     end
   end
 

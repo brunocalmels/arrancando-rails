@@ -91,6 +91,7 @@ class PublicacionesController < ApplicationController
   def update
     authorize @publicacion
     params[:publicacion][:titulo] = params[:publicacion][:titulo].strip
+    current_mencionados = get_mencionados(@publicacion)
     respond_to do |format|
       format.html do
         @publicacion.categoria_publicacion_id = params[:publicacion][:categoria_publicacion_id]
@@ -102,6 +103,10 @@ class PublicacionesController < ApplicationController
       end
       format.json do
         if @publicacion.update(publicacion_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @publicacion))
+          new_mencionados = get_mencionados(@publicacion)
+          (new_mencionados - current_mencionados).each do |m|
+            nueva_mencion(@publicacion, "publicaciones", m)
+          end
           render :show, status: :ok, location: @publicacion
         else
           render json: @publicacion.errors, status: :unprocessable_entity

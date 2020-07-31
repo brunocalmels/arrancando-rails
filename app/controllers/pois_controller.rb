@@ -90,6 +90,7 @@ class PoisController < ApplicationController
   def update
     authorize @poi
     params[:poi][:titulo] = params[:poi][:titulo].strip
+    current_mencionados = get_mencionados(@poi)
     respond_to do |format|
       format.html do
         if @poi.update(poi_params) && (params[:poi][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @poi, :poi))
@@ -100,6 +101,11 @@ class PoisController < ApplicationController
       end
       format.json do
         if @poi.update(poi_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @poi))
+
+          new_mencionados = get_mencionados(@poi)
+          (new_mencionados - current_mencionados).each do |m|
+            nueva_mencion(@poi, "pois", m)
+          end
           render :show, status: :ok, location: @poi
         else
           render json: @poi.errors, status: :unprocessable_entity

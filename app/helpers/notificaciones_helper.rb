@@ -185,7 +185,7 @@ module NotificacionesHelper
     end
   end
 
-  def nueva_mencion(obj, tipo, user, comentario)
+  def nueva_mencion(obj, tipo, user, comentario: false)
     return if user == current_user
 
     pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "receta"

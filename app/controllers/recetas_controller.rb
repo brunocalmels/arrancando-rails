@@ -88,9 +88,11 @@ class RecetasController < ApplicationController
 
   # PATCH/PUT /recetas/1
   # PATCH/PUT /recetas/1.json
+  # rubocop: disable Metrics/MethodLength
   def update
     authorize @receta
     params[:receta][:titulo] = params[:receta][:titulo].strip
+    current_mencionados = get_mencionados(@receta)
     respond_to do |format|
       format.html do
         if @receta.update(receta_params) && (params[:receta][:imagenes].nil? && params["remove_imagenes"].nil? || update_images_html(params, @receta, :receta))
@@ -106,6 +108,10 @@ class RecetasController < ApplicationController
           unless params[:subcategoria_receta_ids].nil?
             @receta.update subcategoria_receta_ids: params[:subcategoria_receta_ids]
           end
+          new_mencionados = get_mencionados(@receta)
+          (new_mencionados - current_mencionados).each do |m|
+            nueva_mencion(@receta, "recetas", m)
+          end
           render :show, status: :ok, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity
@@ -113,6 +119,7 @@ class RecetasController < ApplicationController
       end
     end
   end
+  # rubocop: enable Metrics/MethodLength
 
   # rubocop:enable Metrics/AbcSize
   # rubocop: enable Metrics/CyclomaticComplexity
