@@ -6,11 +6,8 @@
               truncate(100, separator: ' ')
           ) %>
 <% provide(:og_image, @og_image_url) %>
-
 <div class="content-show">
-
   <%= render 'shared/share_buttons' %>
-
   <div class="cabecera">
     <div class="imagen-fondo"></div>
     <div class="creador">
@@ -53,31 +50,33 @@
             <i class="fas fa-user"></i>)
           </span>
         </div>
-        </div>
+      </div>
     <% end %>
   </div>
-
   <% unless @receta.cuerpo.blank? %>
     <p>
       <p class='strong'>Cuerpo</p>
-      <%= @receta.cuerpo %>
+      <p class="contains_newlines">
+        <%= @receta.cuerpo %>
+      </p>
     </p>
   <% end %>
-
   <% unless @receta.introduccion.blank? %>
     <p>
       <p class='strong'>Introducción</p>
-      <%= @receta.introduccion %>
+      <p class="contains_newlines">
+        <%= @receta.introduccion %>
+      </p>
     </p>
   <% end %>
-
   <% unless @receta.ingredientes.blank? %>
     <p>
       <p class='strong'>Ingredientes</p>
-      <%= @receta.ingredientes %>
+      <p class="contains_newlines">
+        <%= @receta.ingredientes %>
+      </p>
     </p>
   <% end %>
-
   <% unless @receta.ingredientes_items.blank? %>
     <p>
       <p class='strong'>Ingredientes items</p>
@@ -92,34 +91,29 @@
       </ul>
     </p>
   <% end %>
-
   <% unless @receta.instrucciones.blank? %>
     <p>
       <p class='strong'>Instrucciones</p>
+      <p class="contains_newlines">
         <%= @receta.instrucciones %>
+      </p>
     </p>
   <% end %>
-
   <p>
     <p class='strong'>Complejidad</p>
-      <%= @receta.complejidad || "Sin definir" %>
+    <%= @receta.complejidad || "Sin definir" %>
   </p>
-
   <p>
     <p class='strong'>Duración</p>
-      <%= @receta.duracion.nil? ? 'Sin definir' : "#{@receta.duracion.to_s} minutos"  %>
+    <%= @receta.duracion.nil? ? 'Sin definir' : "#{@receta.duracion.to_s} minutos"  %>
   </p>
-
-
   <% if @current_user&.admin? %>
     <%# render 'texto_compartir' %>
-
     <p>
       <%= render 'shared/nota_admin' %>
       <strong>Habilitada:</strong>
       <%= @receta.habilitado? ? "Sí" : "No" %>
     </p>
-
     <p>
       <%= render 'shared/nota_admin' %>
       <strong>Puntajes:</strong>
@@ -135,72 +129,65 @@
       </ul>
     </p>
   <% end %>
-
   <% if @current_user&.admin? %>
     <p>
       <strong>Vistas:</strong>
       <%= @receta.vistas %>
     </p>
   <% end %>
-
   <p>
     <strong>Categoría:</strong>
     <%= @receta.categoria_receta.nombre %>
   </p>
-
   <% if @current_user&.admin? %>
     <strong>Tamaño total de archivos:</strong>
     <%= (@total_attachment_size.to_f / 1.megabyte).round 2 %> MB
   <% end %>
-
   <div class='multimedia'>
     <!-- <strong>Multimedia:</strong> -->
     <% @receta.imagenes.any? && @receta.imagenes.each_with_index do |img, i| %>
       <% case img.blob.content_type %>
       <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
-        <video controls>
-          <source src=<%= asset_url_for(img, device: 'web') %> />
-        </video>
+      <video controls>
+        <source src=<%= asset_url_for(img, device: 'web') %> />
+      </video>
       <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
-        <%= image_tag(asset_url_for(img, device: 'web')) %>
-      <% end %>
+      <%= image_tag(asset_url_for(img, device: 'web')) %>
     <% end %>
-  </div>
-
-  <div class="comentarios">
-    <ul>
-      <% @receta.comentarios.each do |comment| %>
-        <li>
-          <div class="image-container">
-            <% if comment.user.avatar.attached? %>
-              <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
-            <% else %>
-              <%= image_tag("/images/unknown.png", class: "avatar") %>
-            <% end %>
-          </div>
-          <div class="cuerpo_comment">
-            <p class="user">
-              @<%= comment.user.username %>
-            </p>
-            <p class="mensaje">
-              <%= comment.mensaje %>
-            </p>
-          </div>
-            <% if @current_user&.admin? %>
-                <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info link_comment" do %>
-                <i class="fa fa-pencil-alt"></i>
-              <% end %>
-              <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
-                <i class="fa fa-trash"></i>
-              <% end %>
-            <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-
+  <% end %>
 </div>
-
+<div class="comentarios">
+  <ul>
+    <% @receta.comentarios.each do |comment| %>
+      <li>
+        <div class="image-container">
+          <% if comment.user.avatar.attached? %>
+            <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
+          <% else %>
+            <%= image_tag("/images/unknown.png", class: "avatar") %>
+          <% end %>
+        </div>
+        <div class="cuerpo_comment">
+          <p class="user">
+            @<%= comment.user.username %>
+          </p>
+          <p class="mensaje">
+            <%= comment.mensaje %>
+          </p>
+        </div>
+        <% if @current_user&.admin? %>
+          <%= link_to edit_comentario_receta_url(comment), class: "btn btn-xs btn-info link_comment" do %>
+            <i class="fa fa-pencil-alt"></i>
+          <% end %>
+          <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+</div>
 <% if @current_user&.admin? %>
   <div class="botonera">
     <%= link_to 'Editar', edit_receta_path(@receta), class: "btn btn-info" %>

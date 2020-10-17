@@ -6,11 +6,8 @@
               truncate(100, separator: ' ')
           ) %>
 <% provide(:og_image, @og_image_url) %>
-
 <div class="content-show">
-
   <%= render 'shared/share_buttons' %>
-
   <div class="cabecera">
     <div class="imagen-fondo"></div>
     <div class="creador">
@@ -53,26 +50,24 @@
             <i class="fas fa-user"></i>)
           </span>
         </div>
-        </div>
+      </div>
     <% end %>
   </div>
-
   <% unless @poi.cuerpo.blank? %>
     <p>
       <p class='strong'>Cuerpo</p>
-      <%= @poi.cuerpo %>
+      <p class="contains_newlines">
+        <%= @poi.cuerpo %>
+      </p>
     </p>
   <% end %>
-
   <% if @current_user&.admin? %>
     <%# render 'texto_compartir' %>
-
     <p>
       <%= render 'shared/nota_admin' %>
       <strong>Habilitada:</strong>
       <%= @poi.habilitado? ? "Sí" : "No" %>
     </p>
-
     <p>
       <%= render 'shared/nota_admin' %>
       <strong>Puntajes:</strong>
@@ -88,57 +83,48 @@
       </ul>
     </p>
   <% end %>
-
-<p>
-  <strong>Whatsapp:</strong>
-   <%= link_to "+#{@poi.whatsapp}", "https://wa.me/#{@poi.whatsapp}?text=Hola%2C%20los%20vi%20en%20Arrancando%20y%20quer%C3%ADa%20comunicarme%20directamente%20con%20ustedes." %>
-</p>
-
-<p>
-  <strong>Latitud:</strong>
-  <%= @poi.lat %>
-</p>
-
-<p>
-  <strong>Longitud:</strong>
-  <%= @poi.long %>
-</p>
-
-<% if @current_user&.admin? %>
   <p>
-    <strong>Vistas:</strong>
-    <%= @poi.vistas %>
+    <strong>Whatsapp:</strong>
+    <%= link_to "+#{@poi.whatsapp}", "https://wa.me/#{@poi.whatsapp}?text=Hola%2C%20los%20vi%20en%20Arrancando%20y%20quer%C3%ADa%20comunicarme%20directamente%20con%20ustedes." %>
   </p>
-<% end %>
-
-<p>
-  <strong>Ciudad:</strong>
-  <%= @poi.ciudad.nombre_con_provincia %>
-</p>
-
-<p>
-  <strong>Categoría:</strong>
-  <%= @poi.categoria_poi.nombre %>
-</p>
-
-<% if @current_user&.admin? %>
-  <strong>Tamaño total de archivos:</strong>
-  <%= (@total_attachment_size.to_f / 1.megabyte).round 2 %> MB
-<% end %>
-
-<div class='multimedia'>
-  <% @poi.imagenes.any? && @poi.imagenes.each_with_index do |img, i| %>
-    <% case img.blob.content_type %>
-    <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+  <p>
+    <strong>Latitud:</strong>
+    <%= @poi.lat %>
+  </p>
+  <p>
+    <strong>Longitud:</strong>
+    <%= @poi.long %>
+  </p>
+  <% if @current_user&.admin? %>
+    <p>
+      <strong>Vistas:</strong>
+      <%= @poi.vistas %>
+    </p>
+  <% end %>
+  <p>
+    <strong>Ciudad:</strong>
+    <%= @poi.ciudad.nombre_con_provincia %>
+  </p>
+  <p>
+    <strong>Categoría:</strong>
+    <%= @poi.categoria_poi.nombre %>
+  </p>
+  <% if @current_user&.admin? %>
+    <strong>Tamaño total de archivos:</strong>
+    <%= (@total_attachment_size.to_f / 1.megabyte).round 2 %> MB
+  <% end %>
+  <div class='multimedia'>
+    <% @poi.imagenes.any? && @poi.imagenes.each_with_index do |img, i| %>
+      <% case img.blob.content_type %>
+      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
       <video controls>
         <source src=<%= asset_url_for(img, device: 'web') %> />
       </video>
-    <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
+      <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
       <%= image_tag(asset_url_for(img, device: 'web')) %>
     <% end %>
   <% end %>
 </div>
-
 <% if @current_user&.admin? %>
   <div class="botonera">
     <%= link_to 'Editar', edit_poi_path(@poi), class: "btn btn-info" %>

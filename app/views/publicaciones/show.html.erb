@@ -6,11 +6,8 @@
               truncate(100, separator: ' ')
           ) %>
 <% provide(:og_image, @og_image_url) %>
-
 <div class="content-show">
-
-<%= render 'shared/share_buttons' %>
-
+  <%= render 'shared/share_buttons' %>
   <div class="cabecera">
     <div class="imagen-fondo"></div>
     <div class="creador">
@@ -53,26 +50,24 @@
             <i class="fas fa-user"></i>)
           </span>
         </div>
-        </div>
+      </div>
     <% end %>
   </div>
-
   <% unless @publicacion.cuerpo.blank? %>
     <p>
       <p class='strong'>Cuerpo</p>
-      <%= @publicacion.cuerpo %>
+      <p class="contains_newlines">
+        <%= @publicacion.cuerpo %>
+      </p>
     </p>
   <% end %>
-
   <% if @current_user&.admin? %>
     <%# render 'texto_compartir' %>
-
     <p>
       <%= render 'shared/nota_admin' %>
       <strong>Habilitada:</strong>
       <%= @publicacion.habilitado? ? "Sí" : "No" %>
     </p>
-
     <p>
       <%= render 'shared/nota_admin' %>
       <strong>Puntajes:</strong>
@@ -88,77 +83,68 @@
       </ul>
     </p>
   <% end %>
-
   <% if @current_user&.admin? %>
     <p>
       <strong>Vistas:</strong>
       <%= @publicacion.vistas %>
     </p>
   <% end %>
-
   <p>
     <strong>Ciudad:</strong>
     <%= @publicacion.ciudad.nombre %>
   </p>
-
-
   <p>
     <strong>Categoría:</strong>
     <%= @publicacion.categoria_publicacion.nombre %>
   </p>
-
   <% if @current_user&.admin? %>
     <strong>Tamaño total de archivos:</strong>
     <%= (@total_attachment_size.to_f / 1.megabyte).round 2 %> MB
   <% end %>
-
   <div class='multimedia'>
     <% @publicacion.imagenes.any? && @publicacion.imagenes.each_with_index do |img, i| %>
       <% case img.blob.content_type %>
       <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
-        <video controls>
-          <source src=<%= asset_url_for(img, device: 'web') %> />
-        </video>
+      <video controls>
+        <source src=<%= asset_url_for(img, device: 'web') %> />
+      </video>
       <% when 'image/jpg', 'image/jpeg', 'image/png', "image/gif" %>
-        <%= image_tag(asset_url_for(img, device: 'web')) %>
-      <% end %>
+      <%= image_tag(asset_url_for(img, device: 'web')) %>
     <% end %>
-  </div>
-
-  <div class="comentarios">
-    <ul>
-      <% @publicacion.comentarios.each do |comment| %>
-        <li>
-          <div class="image-container">
-            <% if comment.user.avatar.attached? %>
-              <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
-            <% else %>
-              <%= image_tag("/images/unknown.png", class: "avatar") %>
-            <% end %>
-          </div>
-          <div class="cuerpo_comment">
-            <p class="user">
-              @<%= comment.user.username %>
-            </p>
-            <p class="mensaje">
-              <%= comment.mensaje %>
-            </p>
-          </div>
-          <% if @current_user&.admin? %>
-            <%= link_to edit_comentario_publicacion_url(comment), class: "btn btn btn-info link_comment" do %>
-              <i class="fa fa-pencil-alt"></i>
-            <% end %>
-            <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
-              <i class="fa fa-trash"></i>
-            <% end %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-
+  <% end %>
 </div>
-
+<div class="comentarios">
+  <ul>
+    <% @publicacion.comentarios.each do |comment| %>
+      <li>
+        <div class="image-container">
+          <% if comment.user.avatar.attached? %>
+            <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
+          <% else %>
+            <%= image_tag("/images/unknown.png", class: "avatar") %>
+          <% end %>
+        </div>
+        <div class="cuerpo_comment">
+          <p class="user">
+            @<%= comment.user.username %>
+          </p>
+          <p class="mensaje">
+            <%= comment.mensaje %>
+          </p>
+        </div>
+        <% if @current_user&.admin? %>
+          <%= link_to edit_comentario_publicacion_url(comment), class: "btn btn btn-info link_comment" do %>
+            <i class="fa fa-pencil-alt"></i>
+          <% end %>
+          <%= button_to comment, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este comentario?" } do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+</div>
 <% if @current_user&.admin? %>
   <div class="botonera">
     <%= link_to 'Editar', edit_publicacion_path(@publicacion), class: "btn btn-info" %>
