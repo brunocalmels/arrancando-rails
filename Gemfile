@@ -11,7 +11,7 @@ gem "pg", ">= 0.18", "< 2.0"
 gem "activerecord-postgis-adapter"
 gem "geocoder"
 
-gem 'fcm'
+gem "fcm"
 
 # Use Puma as the app server
 gem "puma", "~> 3.11"
@@ -46,6 +46,7 @@ gem "filterrific"
 gem "mini_magick"
 gem "omniauth-google-oauth2"
 gem "signet"
+gem "rinku"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

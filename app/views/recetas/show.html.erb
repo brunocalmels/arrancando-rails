@@ -65,7 +65,7 @@
     <p>
       <p class='strong'>Introducción</p>
       <p class="contains_newlines">
-        <%= @receta.introduccion %>
+        <%= Rinku.auto_link(@receta.introduccion, mode=:urls, 'target="_blank"').html_safe %>
       </p>
     </p>
   <% end %>
@@ -73,7 +73,7 @@
     <p>
       <p class='strong'>Ingredientes</p>
       <p class="contains_newlines">
-        <%= @receta.ingredientes %>
+        <%= Rinku.auto_link(@receta.ingredientes, mode=:urls, 'target="_blank"').html_safe %>
       </p>
     </p>
   <% end %>
@@ -95,7 +95,7 @@
     <p>
       <p class='strong'>Instrucciones</p>
       <p class="contains_newlines">
-        <%= @receta.instrucciones %>
+        <%= Rinku.auto_link(@receta.instrucciones, mode=:urls, 'target="_blank"').html_safe %>
       </p>
     </p>
   <% end %>

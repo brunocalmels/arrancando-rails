@@ -57,7 +57,7 @@
     <p>
       <p class='strong'>Cuerpo</p>
       <p class="contains_newlines">
-        <%= @publicacion.cuerpo %>
+        <%= Rinku.auto_link(@publicacion.cuerpo, mode=:urls, 'target="_blank"').html_safe %>
       </p>
     </p>
   <% end %>
