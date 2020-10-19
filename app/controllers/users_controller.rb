@@ -501,7 +501,7 @@ class UsersController < ApplicationController
       email: @email,
       password: @password
     )
-    return unless params['credentials']['avatar']
+    return unless params['credentials']['avatar'] && !@user.avatar.attached?
 
     @user.set_avatar(params['credentials']['avatar'])
   end

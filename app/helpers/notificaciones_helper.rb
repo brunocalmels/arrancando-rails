@@ -92,7 +92,7 @@ module NotificacionesHelper
   def nueva_puntuacion(obj, puntaje)
     return if obj.user == current_user
     tipo = obj.class.name.downcase
-    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "receta"
+    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "recetas"
     tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"
     titulo = "@#{current_user.username} puntuó tu #{pretty_tipo}"
     cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} #{puntaje > 1 ? 'puntos' : 'punto'}"
@@ -117,7 +117,7 @@ module NotificacionesHelper
 
   def compartio_contenido(obj, tipo)
     return if obj.user == current_user
-    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "receta"
+    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "recetas"
     titulo = "@#{current_user.username} compartió tu #{pretty_tipo}"
     cuerpo = "@#{current_user.username} compartió tu #{pretty_tipo} #{obj.titulo}"
     url = "/#{tipo}/#{obj.id}"
@@ -188,7 +188,7 @@ module NotificacionesHelper
   def nueva_mencion(obj, tipo, user, comentario: false)
     return if user == current_user
 
-    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "receta"
+    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "recetas"
     articulo = tipo == "pois" ? 'un' : 'una'
     titulo = if comentario
                 "@#{current_user.username} te mencionó en un comentario"
@@ -227,7 +227,7 @@ module NotificacionesHelper
   def guardo_contenido(obj)
     return if obj.user == current_user
     tipo = obj.class.name.downcase
-    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "receta"
+    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "recetas"
     titulo = "@#{current_user.username} guardó tu #{pretty_tipo}"
     cuerpo = "@#{current_user.username} guardó tu #{pretty_tipo} #{obj.titulo}"
     url = "/#{tipo}/#{obj.id}"
