@@ -1,5 +1,4 @@
 <% provide(:title, "Publicaciones") %>
-
 <% if @publicaciones.any? || @filterrific.present? %>
   <%= form_for_filterrific @filterrific, url: "/publicaciones" do |f| %>
     <div>
@@ -47,7 +46,7 @@
       </p>
       <%= f.select(
         :sorted_by,
-        ['fecha', 'puntuacion'],
+        ['fecha_actualizacion', 'fecha_creacion', 'puntuacion'],
         include_blank: true
       ) %>
     </div>
@@ -63,7 +62,6 @@
     </div>
   <% end %>
 <% end %>
-
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -76,11 +74,9 @@
         <th>Ciudad</th>
         <th>Categoría</th>
         <th>Archs. (MB)</th>
-
         <th colspan="3"></th>
       </tr>
     </thead>
-
     <tbody>
       <% @publicaciones.each do |publicacion| %>
         <tr>
@@ -101,7 +97,7 @@
             <%= link_to edit_publicacion_url(publicacion), class: "btn btn-xs btn-info" do %>
               <i class="fa fa-pencil-alt"></i>
             <% end %>
-            </td>
+          </td>
           <td>
             <%= button_to publicacion, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta publicación?" } do %>
               <i class="fa fa-trash"></i>
@@ -112,11 +108,8 @@
     </tbody>
   </table>
 </div>
-
 <%= paginate @publicaciones %>
-
 <br>
-
 <div class="botonera">
   <%= link_to 'Nueva Publicación', new_publicacion_path, class: 'btn btn-success' %>
 </div>
