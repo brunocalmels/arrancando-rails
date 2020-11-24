@@ -10,6 +10,7 @@ json.extract! poi,
               :direccion,
               :created_at,
               :updated_at,
+              :vistas,
               :habilitado
 
 json.puntajes do

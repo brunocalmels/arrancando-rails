@@ -6,6 +6,7 @@ json.extract! publicacion,
               :ciudad_id,
               :created_at,
               :updated_at,
+              :vistas,
               :habilitado
 
 json.puntajes do

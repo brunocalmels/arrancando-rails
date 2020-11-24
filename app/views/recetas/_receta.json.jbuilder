@@ -11,6 +11,7 @@ json.extract! receta,
               :updated_at,
               :duracion,
               :complejidad,
+              :vistas,
               :habilitado
 
 json.puntajes do
