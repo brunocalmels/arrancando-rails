@@ -71,7 +71,7 @@ class Publicacion < ApplicationRecord
     direction = "desc"
     publicaciones = Publicacion.arel_table
     case sort_option.to_s
-    when "fecha"
+    when "fecha_actualizacion"
       order(publicaciones[:updated_at].send(direction))
     when "fecha_creacion"
       order(publicaciones[:created_at].send(direction))
