@@ -1,3 +1,5 @@
+# rubocop: disable Metrics/ClassLength
+
 # == Schema Information
 #
 # Table name: recetas
@@ -87,6 +89,8 @@ class Receta < ApplicationRecord
     direction = "desc"
     recetas = Receta.arel_table
     case sort_option.to_s
+    when "vistas"
+      order(recetas[:vistas].send(direction))
     when "fecha_actualizacion"
       order(recetas[:updated_at].send(direction))
     when "fecha_creacion"
@@ -142,6 +146,11 @@ class Receta < ApplicationRecord
     likes_color_object(self)
   end
 
+  def self.likes(user_id)
+    query = ContentHelper.query_for_likes(user_id, "recetas")
+    (ActiveRecord::Base.connection.execute(query).pluck "suma")[0].to_i
+  end
+
   private
 
   def attachments_present
@@ -174,3 +183,5 @@ class Receta < ApplicationRecord
     end
   end
 end
+
+# rubocop: enable Metrics/ClassLength

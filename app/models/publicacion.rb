@@ -71,6 +71,8 @@ class Publicacion < ApplicationRecord
     direction = "desc"
     publicaciones = Publicacion.arel_table
     case sort_option.to_s
+    when "vistas"
+      order(publicaciones[:vistas].send(direction))
     when "fecha_actualizacion"
       order(publicaciones[:updated_at].send(direction))
     when "fecha_creacion"
@@ -125,6 +127,11 @@ class Publicacion < ApplicationRecord
 
   def likes_color
     likes_color_object(self)
+  end
+
+  def self.likes(user_id)
+    query = ContentHelper.query_for_likes(user_id, "publicaciones")
+    (ActiveRecord::Base.connection.execute(query).pluck "suma")[0].to_i
   end
 
   private

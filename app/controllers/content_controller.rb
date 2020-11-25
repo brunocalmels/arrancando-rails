@@ -70,7 +70,9 @@ class ContentController < ApplicationController
       "master": get_master(params['user_id'].to_i),
       "siguiendo": siguiendo?(params['user_id'].to_i),
       "seguidos": get_seguidos(params['user_id'].to_i),
-      "seguidores": get_seguidores(params['user_id'].to_i)
+      "seguidores": get_seguidores(params['user_id'].to_i),
+      "likes": get_likes(params['user_id'].to_i),
+      "experiencia": User.find(params['user_id'].to_i).puntaje
     }, status: :ok
   end
 
@@ -199,6 +201,10 @@ class ContentController < ApplicationController
     Seguimiento.where(
       seguido_id: user_id
     ).count
+  end
+
+  def get_likes(user_id)
+    Publicacion.likes(user_id) + Receta.likes(user_id) + Poi.likes(user_id)
   end
 end
 

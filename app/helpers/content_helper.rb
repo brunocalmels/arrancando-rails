@@ -253,6 +253,14 @@ module ContentHelper
     end
   end
 
+  def get_likes(obj)
+    obj.puntajes.filter{|k,v| v == 5}.count
+  end
+
+  def self.query_for_likes(user_id, tabla)
+    "SELECT sum(cant_punt) as suma FROM ( SELECT #{tabla}.id, cant_punt FROM #{tabla} LEFT JOIN ( SELECT id, user_id, count(*) as cant_punt FROM #{tabla} LEFT JOIN jsonb_each(puntajes) d ON true WHERE (d.value :: float) = 5 GROUP BY #{tabla}.id ) complex ON #{tabla}.id = complex.id WHERE #{tabla}.user_id = #{user_id} AND cant_punt IS NOT NULL ORDER BY cant_punt DESC nulls LAST ) filtrado;"
+  end
+
   private
 
   def get_color(number)

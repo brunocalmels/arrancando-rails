@@ -79,6 +79,8 @@ class Poi < ApplicationRecord
     direction = "desc"
     pois = Poi.arel_table
     case sort_option.to_s
+    when "vistas"
+      order(pois[:vistas].send(direction))
     when "proximidad"
       order(pois[:created_at].send(direction))
       # TODO: Filtrar por proximidad
@@ -128,6 +130,11 @@ class Poi < ApplicationRecord
 
   def likes_color
     likes_color_object(self)
+  end
+
+  def self.likes(user_id)
+    query = ContentHelper.query_for_likes(user_id, "pois")
+    (ActiveRecord::Base.connection.execute(query).pluck "suma")[0].to_i
   end
 
   private
