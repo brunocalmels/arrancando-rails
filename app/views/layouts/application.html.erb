@@ -5,14 +5,12 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= render 'layouts/firebase_scripts' %>
-
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= favicon_link_tag asset_pack_path("media/images/favicon.ico") %>
+    <%= favicon_link_tag asset_pack_path("media/images/Logo-2.png") %>
     <link href="https://fonts.googleapis.com/css?family=Sofia&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500,600,800&display=swap" rel="stylesheet">
-
     <meta property="og:site_name"     content="Arrancando" />
     <meta property="og:url"           content="<%= request.original_url.gsub('http://', 'https://') %>" />
     <meta property="og:type"          content="website" />
@@ -20,7 +18,6 @@
     <meta property="og:description"   content="<%= content_for?(:og_description) ? yield(:og_description) : "Lo mejor para el buen asado y el buen comer."%>" />
     <meta property="og:image" itemprop="image" content="<%= (content_for?(:og_image) ? yield(:og_image) : root_url + "images/Logo-1.png").gsub("https:", "").gsub("http:", "")%>" />
     <meta property="og:image:alt"     content="<%= content_for?(:og_title) ? yield(:og_title) : "Arrancando" %>" />
-
     <meta property="fb:app_id"        content="909518196171089" />
     <meta property="al:android:url"      content="<%= request.original_url.gsub('http://', 'arrancando://') %>" />
     <meta property="al:android:package"  content="com.macherit.arrancando" />
@@ -28,24 +25,20 @@
     <meta property="al:ios:url"          content="<%= request.original_url.gsub('http://', 'arrancando://') %>" />
     <meta property="al:ios:app_store_id" content="1490590335" />
     <meta property="al:ios:app_name"     content="Arrancando" />
-
     <meta property="al:web:url" content="<%= request.original_url.gsub('http://', 'https://') %>" />
     <!-- <meta property="al:web:should_fallback" content="false" /> -->
-
   </head>
-
   <body>
     <% if @current_user&.admin? %>
       <%= render 'shared/navbar' %>
     <% end %>
-
     <h1 class="title">
       <%= content_for?(:title) ? yield(:title) : '' %>
     </h1>
     <% if notice.present? %>
-        <p class='alert alert-success'>
-          <%= notice %>
-        </p>
+      <p class='alert alert-success'>
+        <%= notice %>
+      </p>
     <% end %>
     <% if alert.present? %>
       <p class='alert alert-danger'>
@@ -55,8 +48,6 @@
     <div class="main">
       <%= yield %>
     </div>
-
     <%= render 'shared/descarga_app' %>
-
   </body>
 </html>
