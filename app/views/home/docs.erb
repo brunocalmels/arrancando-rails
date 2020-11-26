@@ -1,8 +1,7 @@
 <h1>Documentación para Admins</h1>
-
 <h2>URLs de descarga</h2>
 <p>
-Si todavía no te descargaste Arrancando podés hacerlo:
+  Si todavía no te descargaste Arrancando podés hacerlo:
   <ul>
     <li>
       Para Android desde
@@ -14,21 +13,22 @@ Si todavía no te descargaste Arrancando podés hacerlo:
     </li>
   </ul>
 </p>
-
-
 <h2>Puntaje de usuarios</h2>
 <p>La puntuación de usuarios se calcula de según la siguiente fórmula: <br>
-  <span class="formula">P = 5 x Pub + 10 x Rec + 10 x Poi + w(Com) + f(Pub) + f(Rec)</span>
+  <span class="formula">P = 5 x Pub + 10 x Rec + 10 x Poi + w(Com) + w(L(UPub)) + w(L(URec)) + w(L(UPoi)) + f(Pub) + f(Rec)</span>
   <br>
   donde:
   <ul>
-    <li><span style="font-style: italic;">P</span>: Puntaje</li>
-    <li><span style="font-style: italic;">Pub</span>: Cantidad de Publicaciones creadas por el usuario</li>
-    <li><span style="font-style: it
-    alic;">Rec</span>: Cantidad de Receetas creadas por el usuario</li>
-    <li><span style="font-style: italic;">Poi</span>: Cantidad de Puntos de interés creados por el usuario</li>
-    <li><span style="font-style: italic;">Com</span>: Cantidad de Comentarios hechos por el usuario</li>
-    <li><span style="font-style: italic;">w(x)</span>: Función que devuelve 1 si (0 < x < 5), 2 si (5 =< x < 10) y 3 si (10 =< x)</li>
-    <li><span style="font-style: italic;">f(x, Items)</span>: Función que devuelve la cantidad de Items con más que x puntajes de 5 estrellas que tiene el usuario. Si el ítem tiene más de 5 votos de 5 estrellas, vale doble. Si tiene más de 10, vale triple.</li>
-  </ul>
-</p>
+    <li><span style="font-weight: bold;">P</span>: Puntaje</li>
+    <li><span style="font-weight: bold;">Pub</span>: Cantidad de Publicaciones creadas por el usuario</li>
+    <li><span style="font-weight: bold;">Rec</span>: Cantidad de Recetas creadas por el usuario</li>
+    <li><span style="font-weight: bold;">Poi</span>: Cantidad de Puntos de interés creados por el usuario</li>
+    <li><span style="font-weight: bold;">Com</span>: Cantidad de Comentarios hechos por el usuario</li>
+    <li><span style="font-weight: bold;">w(x)</span>: Función que devuelve 1 si (0 < x < 5), 2 si (5 =< x < 10), 3 si (10 =< x < 20), 4 si (20 =< x < 40), y 5 si (x >= 40).</li>
+      <li><span style="font-weight: bold;">UPub</span>: Universo de Publicaciones.</li>
+      <li><span style="font-weight: bold;">URec</span>: Universo de Recetas.</li>
+      <li><span style="font-weight: bold;">UPoi</span>: Universo de Puntos de interés.</li>
+      <li><span style="font-weight: bold;">L(Items)</span>: Devuelve la cantidad de likes que el usuario ha dado en el conjunto Items.</li>
+      <li><span style="font-weight: bold;">f(x, Items)</span>: Función que devuelve la cantidad de Items con más que x puntajes de 5 estrellas que tiene el usuario. Si el ítem tiene más de 5 votos de 5 estrellas, vale doble. Si tiene más de 10, vale triple. Cuádruple para más de 20, y quíntuple para más de 40.</li>
+    </ul>
+  </p>
