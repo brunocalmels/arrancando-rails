@@ -34,6 +34,8 @@ module UsersHelper
       end
       cuenta_out += 1 if cuenta_in >= 5
       cuenta_out += 1 if cuenta_in >= 10
+      cuenta_out += 1 if cuenta_in >= 20
+      cuenta_out += 1 if cuenta_in >= 40
     end
     cuenta_out
   end
@@ -66,13 +68,27 @@ module UsersHelper
       number
     when 5..9
       number * 2
-    else
+    when 10..19
       number * 3
+    when 20..39
+      number * 4
+    else
+      number * 5
     end
   end
 
   def publicaciones_puntuadas
     Publicacion.where("puntajes -> '?' is not null", id)
+  end
+
+  def rated_5_stars(item_type)
+    item_type
+      .where("puntajes -> '?' is not null", id)
+      .where(
+        "(puntajes -> '?') :: integer = ?",
+        id,
+        5
+      ).count
   end
 
   def borrar_puntajes_publicaciones

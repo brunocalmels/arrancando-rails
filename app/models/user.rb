@@ -132,6 +132,9 @@ class User < ApplicationRecord
       10 * recetas.count +
       10 * pois.count +
       weigh_number(comentarios) +
+      weigh_number(rated_5_stars(Publicacion)) +
+      weigh_number(rated_5_stars(Receta)) +
+      weigh_number(rated_5_stars(Poi)) +
       weigh_for_5_star_items(publicaciones) +
       weigh_for_5_star_items(recetas)
     # 5 * pubs_more_eq_than_x_comments(publicaciones, 5) +
@@ -145,6 +148,9 @@ class User < ApplicationRecord
       10 * recetas.current_month.count +
       10 * pois.current_month.count +
       weigh_number(comentarios_current_month) +
+      weigh_number(rated_5_stars(Publicacion.current_month)) +
+      weigh_number(rated_5_stars(Receta.current_month)) +
+      weigh_number(rated_5_stars(Poi.current_month)) +
       weigh_for_5_star_items(publicaciones.current_month) +
       weigh_for_5_star_items(recetas.current_month)
     # 5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 5) +
@@ -158,6 +164,9 @@ class User < ApplicationRecord
       10 * recetas.last_month.count +
       10 * pois.last_month.count +
       weigh_number(comentarios_last_month) +
+      weigh_number(rated_5_stars(Publicacion.last_month)) +
+      weigh_number(rated_5_stars(Receta.last_month)) +
+      weigh_number(rated_5_stars(Poi.last_month)) +
       weigh_for_5_star_items(publicaciones.last_month) +
       weigh_for_5_star_items(recetas.last_month)
     # 5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 5) +
@@ -165,27 +174,22 @@ class User < ApplicationRecord
     # 5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 10) +
     # 10 * recs_more_eq_than_x_comments(recetas.last_month, 10)
   end
+
   # rubocop: enable Metrics/AbcSize
 
   def comentarios
     comentario_publicaciones.count +
       comentario_recetas.count
-    # weigh_number(comentario_publicaciones.count) +
-    #   weigh_number(comentario_recetas.count)
   end
 
   def comentarios_last_month
     comentario_publicaciones.last_month.count +
       comentario_recetas.last_month.count
-    # weigh_number(comentario_publicaciones.last_month.count) +
-    #   weigh_number(comentario_recetas.last_month.count)
   end
 
   def comentarios_current_month
     comentario_publicaciones.current_month.count +
       comentario_recetas.current_month.count
-    # weigh_number(comentario_publicaciones.current_month.count) +
-    #   weigh_number(comentario_recetas.current_month.count)
   end
 
   private
