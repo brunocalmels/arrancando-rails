@@ -95,6 +95,8 @@ class Receta < ApplicationRecord
       order(recetas[:updated_at].send(direction))
     when "fecha_creacion"
       order(recetas[:created_at].send(direction))
+    when "fecha"
+      order(recetas[:created_at].send(direction))
     when "puntuacion"
       # rubocop:disable Metrics/LineLength
       q = 'SELECT recetas.id, avg, cant_punt, coms from recetas LEFT JOIN  ( SELECT id, avg(value::FLOAT), count(*) as cant_punt FROM "recetas" LEFT JOIN jsonb_each(puntajes) d ON true GROUP BY "recetas"."id" ) complex ON recetas.id = complex.id LEFT JOIN ( SELECT receta_id, count(*) AS coms FROM comentario_recetas GROUP BY receta_id ) comms_pub ON recetas.id = comms_pub.receta_id ORDER BY avg DESC nulls LAST, cant_punt DESC nulls LAST, coms DESC nulls LAST'
