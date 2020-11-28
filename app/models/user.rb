@@ -131,65 +131,59 @@ class User < ApplicationRecord
     5 * publicaciones.count +
       10 * recetas.count +
       10 * pois.count +
-      weigh_number(comentarios) +
-      weigh_number(rated_5_stars(Publicacion)) +
-      weigh_number(rated_5_stars(Receta)) +
-      weigh_number(rated_5_stars(Poi)) +
+      2 * comentarios +
+      2 * comentarios_received +
+      rated_5_stars(Publicacion) +
+      rated_5_stars(Receta) +
+      rated_5_stars(Poi) +
       weigh_for_5_star_items(publicaciones) +
       weigh_for_5_star_items(recetas)
-    # 5 * pubs_more_eq_than_x_comments(publicaciones, 5) +
-    # 10 * recs_more_eq_than_x_comments(recetas, 5) +
-    # 5 * pubs_more_eq_than_x_comments(publicaciones, 10) +
-    # 10 * recs_more_eq_than_x_comments(recetas, 10)
   end
 
   def puntaje_mensual
     5 * publicaciones.current_month.count +
       10 * recetas.current_month.count +
       10 * pois.current_month.count +
-      weigh_number(comentarios_current_month) +
-      weigh_number(rated_5_stars(Publicacion.current_month)) +
-      weigh_number(rated_5_stars(Receta.current_month)) +
-      weigh_number(rated_5_stars(Poi.current_month)) +
+      2 * comentarios("current_month") +
+      2 * comentarios_received("current_month") +
+      rated_5_stars(Publicacion.current_month) +
+      rated_5_stars(Receta.current_month) +
+      rated_5_stars(Poi.current_month) +
       weigh_for_5_star_items(publicaciones.current_month) +
       weigh_for_5_star_items(recetas.current_month)
-    # 5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 5) +
-    # 10 * recs_more_eq_than_x_comments(recetas.current_month, 5) +
-    # 5 * pubs_more_eq_than_x_comments(publicaciones.current_month, 10) +
-    # 10 * recs_more_eq_than_x_comments(recetas.current_month, 10)
   end
 
   def puntaje_last_month
     5 * publicaciones.last_month.count +
       10 * recetas.last_month.count +
       10 * pois.last_month.count +
-      weigh_number(comentarios_last_month) +
-      weigh_number(rated_5_stars(Publicacion.last_month)) +
-      weigh_number(rated_5_stars(Receta.last_month)) +
-      weigh_number(rated_5_stars(Poi.last_month)) +
+      2 * comentarios("last_month") +
+      2 * comentarios_received("last_month") +
+      rated_5_stars(Publicacion.last_month) +
+      rated_5_stars(Receta.last_month) +
+      rated_5_stars(Poi.last_month) +
       weigh_for_5_star_items(publicaciones.last_month) +
       weigh_for_5_star_items(recetas.last_month)
-    # 5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 5) +
-    # 10 * recs_more_eq_than_x_comments(recetas.last_month, 5) +
-    # 5 * pubs_more_eq_than_x_comments(publicaciones.last_month, 10) +
-    # 10 * recs_more_eq_than_x_comments(recetas.last_month, 10)
   end
 
   # rubocop: enable Metrics/AbcSize
 
-  def comentarios
-    comentario_publicaciones.count +
-      comentario_recetas.count
+  def comentarios(scope="all")
+    comentario_publicaciones.send(scope).count +
+      comentario_recetas.send(scope).count
   end
 
-  def comentarios_last_month
-    comentario_publicaciones.last_month.count +
-      comentario_recetas.last_month.count
-  end
-
-  def comentarios_current_month
-    comentario_publicaciones.current_month.count +
-      comentario_recetas.current_month.count
+  def comentarios_received(scope="all")
+    ComentarioPublicacion
+      .send(scope)
+      .joins(:publicacion)
+      .where("publicaciones.user_id = ?", id)
+      .count +
+      ComentarioReceta
+      .send(scope)
+      .joins(:receta)
+      .where("recetas.user_id = ?", id)
+      .count
   end
 
   private
