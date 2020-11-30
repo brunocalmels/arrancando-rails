@@ -230,6 +230,7 @@ module NotificacionesHelper
     pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "recetas"
     titulo = "@#{current_user.username} guardó tu #{pretty_tipo}"
     cuerpo = "@#{current_user.username} guardó tu #{pretty_tipo} #{obj.titulo}"
+    tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
     Notificacion.create(
