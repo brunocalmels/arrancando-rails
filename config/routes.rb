@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :seguimientos
 
   get "/notificaciones/unread", to: "notificaciones#unread"
+  post "/notificaciones/mark_all_as_read", to: "notificaciones#mark_all_as_read"
   put "/notificaciones/:id", to: "notificaciones#update"
 
   resources :notificaciones, only: %i[new index create]

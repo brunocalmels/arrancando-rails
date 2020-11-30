@@ -6,7 +6,7 @@ class NotificacionesController < ApplicationController
 
   # GET /notificaciones.json
   def index
-    @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc).page(1)
+    @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc).page(params['page'] || 1)
   end
 
   def unread
@@ -111,6 +111,12 @@ class NotificacionesController < ApplicationController
   #     format.json { head :no_content }
   #   end
   # end
+
+  def mark_all_as_read
+    @notificaciones = Notificacion.where(user_id: current_user, leido: false).order(created_at: :desc)
+    @notificaciones.update_all(leido: true)
+    render json: nil, status: :ok
+  end
 
   private
 
