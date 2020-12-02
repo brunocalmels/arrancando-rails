@@ -13,7 +13,7 @@ module NotificacionesHelper
               },
               "data": {
                 "click_action": "FLUTTER_NOTIFICATION_CLICK",
-                "url": url
+                "url": url,
               })
   end
 
@@ -68,7 +68,7 @@ module NotificacionesHelper
   def nuevo_comentario_poi(comentario)
     if comentario.poi.user != current_user
       titulo = "Nuevo comentario"
-      cuerpo = "@#{comentario.user.username} comentó tu punto de interés '#{comentario.poi.titulo}'"
+      cuerpo = "@#{comentario.user.username} comentó tu tienda '#{comentario.poi.titulo}'"
       url = "/pois/#{comentario.poi.id}"
       user = comentario.poi.user
       Notificacion.create(
@@ -92,10 +92,10 @@ module NotificacionesHelper
   def nueva_puntuacion(obj, puntaje)
     return if obj.user == current_user
     tipo = obj.class.name.downcase
-    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "recetas"
+    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "tienda" : "recetas"
     tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"
     titulo = "@#{current_user.username} puntuó tu #{pretty_tipo}"
-    cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} #{puntaje > 1 ? 'puntos' : 'punto'}"
+    cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} #{puntaje > 1 ? "puntos" : "punto"}"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
     Notificacion.create(
@@ -117,7 +117,7 @@ module NotificacionesHelper
 
   def compartio_contenido(obj, tipo)
     return if obj.user == current_user
-    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "recetas"
+    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "tienda" : "recetas"
     titulo = "@#{current_user.username} compartió tu #{pretty_tipo}"
     cuerpo = "@#{current_user.username} compartió tu #{pretty_tipo} #{obj.titulo}"
     url = "/#{tipo}/#{obj.id}"
@@ -188,23 +188,23 @@ module NotificacionesHelper
   def nueva_mencion(obj, tipo, user, comentario: false)
     return if user == current_user
 
-    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "punto de interés" : "recetas"
-    articulo = tipo == "pois" ? 'un' : 'una'
+    pretty_tipo = tipo == "publicaciones" ? "publicación" : tipo == "pois" ? "tienda" : "recetas"
+    articulo = tipo == "pois" ? "un" : "una"
     titulo = if comentario
-                "@#{current_user.username} te mencionó en un comentario"
-            else
-              "@#{current_user.username} te mencionó en su #{pretty_tipo}"
-            end
-    cuerpo =  if comentario
-                "@#{current_user.username} te mencionó en un comentario de #{articulo} #{pretty_tipo}"
-              else
-                "@#{current_user.username} te mencionó en su #{pretty_tipo} #{obj.titulo}"
-              end
-    id =  if comentario
-            obj.ref_id
-          else
-            obj.id
-          end
+               "@#{current_user.username} te mencionó en un comentario"
+             else
+               "@#{current_user.username} te mencionó en su #{pretty_tipo}"
+             end
+    cuerpo = if comentario
+               "@#{current_user.username} te mencionó en un comentario de #{articulo} #{pretty_tipo}"
+             else
+               "@#{current_user.username} te mencionó en su #{pretty_tipo} #{obj.titulo}"
+             end
+    id = if comentario
+           obj.ref_id
+         else
+           obj.id
+         end
     url = "/#{tipo}/#{id}"
     user = user
     Notificacion.create(
@@ -227,7 +227,7 @@ module NotificacionesHelper
   def guardo_contenido(obj)
     return if obj.user == current_user
     tipo = obj.class.name.downcase
-    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "punto de interés" : "recetas"
+    pretty_tipo = tipo == "publicacion" ? "publicación" : tipo == "poi" ? "tienda" : "recetas"
     titulo = "@#{current_user.username} guardó tu #{pretty_tipo}"
     cuerpo = "@#{current_user.username} guardó tu #{pretty_tipo} #{obj.titulo}"
     tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"

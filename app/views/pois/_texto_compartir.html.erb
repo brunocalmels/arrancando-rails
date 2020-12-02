@@ -1,4 +1,3 @@
-
 <div class="texto-compartir">
   <%= render 'shared/nota_admin' %>
   <p class='strong'>Texto para compartir:</p>
@@ -11,7 +10,7 @@
     <p><%= @poi.direccion %></p>
   <% end %>
   <p>
-  Mirá esta punto de interés: <%= link_to(ARRANCANDO_URL+'/pois/'+@poi.id.to_s, ARRANCANDO_URL+'/pois/'+@poi.id.to_s)%>
+    Mirá esta tienda: <%= link_to(ARRANCANDO_URL+'/pois/'+@poi.id.to_s, ARRANCANDO_URL+'/pois/'+@poi.id.to_s)%>
   </p>
   <p>
     Si todavía no te descargaste Arrancando podés hacerlo:
