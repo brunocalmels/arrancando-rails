@@ -83,13 +83,12 @@ class Poi < ApplicationRecord
       order(pois[:vistas].send(direction))
     when "proximidad"
       order(pois[:created_at].send(direction))
-      # TODO: Filtrar por proximidad
     when "puntuacion"
       # rubocop:disable Metrics/LineLength
-      q = 'SELECT pois.id from pois left join (SELECT id, avg(value::FLOAT) FROM "pois" JOIN jsonb_each(puntajes) d on true GROUP BY "pois"."id") complex on pois.id = complex.id order by avg desc nulls last'
+      q = 'SELECT pois.id, avg, cant_punt from pois LEFT JOIN ( SELECT id, avg(value :: FLOAT), count(*) as cant_punt FROM "pois" LEFT JOIN jsonb_each(puntajes) d ON true GROUP BY "pois"."id" ) complex ON pois.id = complex.id ORDER BY avg DESC nulls LAST, cant_punt DESC nulls LAST'
+      # rubocop:enable Metrics/LineLength
       ids = ActiveRecord::Base.connection.execute(q).pluck "id"
       Poi.where(id: ids).order_by_ids(ids)
-      # rubocop:enable Metrics/LineLength
     else
       raise(ArgumentError,
             "Invalid sort option: #{sort_option.inspect}")
