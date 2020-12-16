@@ -3,6 +3,8 @@
 # rubocop: disable Metrics/CyclomaticComplexity
 
 class UsersController < ApplicationController
+  include UsersMigrationHelper
+
   before_action :set_user, only: %i[show edit update destroy]
   before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token by_username usernames]
   skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client new_facebook_client]
@@ -39,11 +41,11 @@ class UsersController < ApplicationController
 
   # GET /users/usernames.json
   def usernames
-    unless params['search']
+    unless params["search"]
       render json: nil, status: :unprocessable_entity && return
     end
 
-    search = params['search'].to_s.downcase
+    search = params["search"].to_s.downcase
 
     found = User
             .where("username ILIKE :term", term: "%#{search}%")
@@ -57,10 +59,10 @@ class UsersController < ApplicationController
 
     users = found.map do |u|
       o = {}
-      o['id'] = u.id
-      o['username'] = u.username
-      o['url_instagram'] = u.url_instagram
-      o['avatar'] = u.avatar.attached? ? rails_blob_path(u.avatar) : "/images/unknown.png"
+      o["id"] = u.id
+      o["username"] = u.username
+      o["url_instagram"] = u.url_instagram
+      o["avatar"] = u.avatar.attached? ? rails_blob_path(u.avatar) : "/images/unknown.png"
       o
     end
 
@@ -68,11 +70,11 @@ class UsersController < ApplicationController
   end
 
   def by_username
-    unless params['username']
+    unless params["username"]
       render json: nil, status: :unprocessable_entity && return
     end
 
-    search = params['username'].to_s
+    search = params["username"].to_s
 
     user = User.where("username = :term", term: search.to_s).first
 
@@ -94,6 +96,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    authorize @user
   end
 
   # GET /users/new
@@ -103,6 +106,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @users = User
   end
 
   # POST /users
@@ -260,6 +264,22 @@ class UsersController < ApplicationController
       current_user.set_avatar(params[:avatar])
     end
     render json: { avatar: rails_blob_path(current_user.avatar) }, status: :ok
+  end
+
+  # POST /users/migrate_items
+  def migrate_items
+    @original_owner = User.find(params.require(:migrate).permit(:original_owner_id)["original_owner_id"])
+    authorize @original_owner
+    @new_owner = User.find(params.require(:migrate).permit(:new_owner_id)["new_owner_id"])
+    if migrate_user(@original_owner, @new_owner)
+      respond_to do |format|
+        format.html { redirect_to @new_owner, notice: "Migración satisfactoria." }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to @original_owner, warning: "No se pudo completar la migración." }
+      end
+    end
   end
 
   private
@@ -501,9 +521,9 @@ class UsersController < ApplicationController
       email: @email,
       password: @password
     )
-    return unless params['credentials']['avatar'] && !@user.avatar.attached?
+    return unless params["credentials"]["avatar"] && !@user.avatar.attached?
 
-    @user.set_avatar(params['credentials']['avatar'])
+    @user.set_avatar(params["credentials"]["avatar"])
   end
 end
 

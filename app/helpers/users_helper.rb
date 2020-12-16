@@ -1,6 +1,5 @@
 module UsersHelper
   # rubocop: disable Naming/AccessorMethodName
-  # TODO: Arreglar esto
   def set_avatar(avatar)
     tempfile = Tempfile.new("fileupload")
     tempfile.binmode
@@ -77,10 +76,6 @@ module UsersHelper
     end
   end
 
-  def publicaciones_puntuadas
-    Publicacion.where("puntajes -> '?' is not null", id)
-  end
-
   def rated_5_stars(item_type)
     item_type
       .where("puntajes -> '?' is not null", id)
@@ -89,6 +84,10 @@ module UsersHelper
         id,
         5
       ).count
+  end
+
+  def publicaciones_puntuadas
+    Publicacion.where("puntajes -> '?' is not null", id)
   end
 
   def borrar_puntajes_publicaciones

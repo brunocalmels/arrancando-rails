@@ -1,0 +1,14 @@
+<div style="margin-top: 20px;">
+  <h2>Migrar items</h2>
+  <p>Se transferirá la autoría de Publicaciones, Recetas, Tiendas, Comentarios y Likes del usuario al siguiente usuario.</p>
+  <%= form_for :migrate, url: '/users/migrate_items' do |f| %>
+    <%= f.hidden_field :original_owner_id, value: @user.id %>
+    <%= f.select(
+      :new_owner_id,
+      User.all.order(username: :asc).collect { |c| [c.username, c.id] },
+      include_blank: true
+      ) %>
+    <%# f.text_field :new_owner_id %>
+    <%= f.submit :Migrar, class: "btn btn-success" %>
+  <% end %>
+</div>

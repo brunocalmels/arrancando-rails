@@ -1,7 +1,6 @@
 <% provide(:title, "Editar usuario") %> </h1>
-
 <%= render 'form', user: @user %>
-
+<%= render 'migrate', user: @user %>
 <div class="botonera">
   <%= link_to 'Ver', @user, class: 'btn btn-info' %>
   <%= link_to 'Volver', users_path, class: 'btn btn-default' %>

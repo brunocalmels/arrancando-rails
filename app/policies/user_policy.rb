@@ -20,4 +20,12 @@ class UserPolicy < ApplicationPolicy
   def update?
     record == user || user.admin?
   end
+
+  def show?
+    user.admin?
+  end
+
+  def migrate_items?
+    user.admin?
+  end
 end

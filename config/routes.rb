@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get "users/usernames", to: "users#usernames"
   get "users/by_username", to: "users#by_username"
   put "users/set_firebase_token", to: "users#set_firebase_token"
+  post "users/migrate_items", to: "users#migrate_items"
 
   resources :users
   post :avatar, to: "users#set_avatar"
