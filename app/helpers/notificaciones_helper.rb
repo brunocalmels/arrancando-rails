@@ -207,7 +207,7 @@ module NotificacionesHelper
       unless seguidor.firebase_token.nil?
         set_fcm
         response = send_fcm(
-          user.firebase_token,
+          seguidor.firebase_token,
           titulo,
           cuerpo,
           url: url,
