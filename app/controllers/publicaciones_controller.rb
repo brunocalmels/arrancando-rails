@@ -78,6 +78,7 @@ class PublicacionesController < ApplicationController
       format.json do
         if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @publicacion)) && @publicacion.valid? && @publicacion.save
           notificar_mencionados(@publicacion, "publicaciones")
+          notificar_created(@publicacion)
           render :show, status: :created, location: @publicacion
         else
           render json: @publicacion.errors, status: :unprocessable_entity

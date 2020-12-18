@@ -75,8 +75,9 @@ class PoisController < ApplicationController
         end
       end
       format.json do
-        if params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @poi) && @poi.valid? && @poi.save
+        if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @poi) && @poi.valid?) && @poi.save
           notificar_mencionados(@poi, "pois")
+          notificar_created(@poi)
           render :show, status: :created, location: @poi
         else
           render json: @poi.errors, status: :unprocessable_entity
@@ -101,7 +102,6 @@ class PoisController < ApplicationController
       end
       format.json do
         if @poi.update(poi_params) && (params[:imagenes].nil? && params["remove_imagenes"].nil? || update_images_json(params, @poi))
-
           new_mencionados = get_mencionados(@poi)
           (new_mencionados - current_mencionados).each do |m|
             nueva_mencion(@poi, "pois", m)

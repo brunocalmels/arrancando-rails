@@ -185,6 +185,37 @@ module NotificacionesHelper
     end
   end
 
+  def notificar_created(item)
+    notificar_seguidores(item)
+  end
+
+  def notificar_seguidores(item)
+    creador = item.user
+    tipo = item.class.to_s
+    pretty_tipo = tipo == "Publicacion" ? "publicación" : tipo == "Poi" ? "tienda" : "receta"
+    titulo = "@#{creador.username}, a quien seguís, creó una nueva #{pretty_tipo}"
+    cuerpo = item.titulo
+    url = "/#{tipo.pluralize.downcase}/#{item.id}"
+    creador.seguidores.each do |seg|
+      seguidor = User.find(seg.seguidor_id)
+      Notificacion.create(
+        titulo: titulo,
+        cuerpo: cuerpo,
+        url: url,
+        user: seguidor,
+      )
+      unless seguidor.firebase_token.nil?
+        set_fcm
+        response = send_fcm(
+          user.firebase_token,
+          titulo,
+          cuerpo,
+          url: url,
+        )
+      end
+    end
+  end
+
   def nueva_mencion(obj, tipo, user, comentario: false)
     return if user == current_user
 

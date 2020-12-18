@@ -78,6 +78,7 @@ class RecetasController < ApplicationController
         if (params[:imagenes].nil? || params[:imagenes].class == Array && save_images_json(params, @receta)) && @receta.valid? && @receta.save
           parse_ingredientes
           notificar_mencionados(@receta, "recetas")
+          notificar_created(@receta)
           render :show, status: :created, location: @receta
         else
           render json: @receta.errors, status: :unprocessable_entity
@@ -119,6 +120,7 @@ class RecetasController < ApplicationController
       end
     end
   end
+
   # rubocop: enable Metrics/MethodLength
 
   # rubocop:enable Metrics/AbcSize
@@ -165,6 +167,7 @@ class RecetasController < ApplicationController
     @receta.ingredientes_items.filter! { |f| !f["cantidad"].blank? }
     @receta.save
   end
+
   # rubocop:enable Metrics/AbcSize
 
   def filter_by_categoria_receta_id
