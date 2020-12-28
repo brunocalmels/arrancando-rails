@@ -149,6 +149,8 @@ module ContentHelper
   end
 
   def is_vertical?(img)
+    return false if img.blob.metadata[:width].nil?
+    return false if img.blob.metadata[:height].nil?
     img.blob.metadata[:width] < img.blob.metadata[:height]
   end
 
