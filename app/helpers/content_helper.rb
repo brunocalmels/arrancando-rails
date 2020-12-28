@@ -121,6 +121,9 @@ module ContentHelper
       max_width = MAX_IMAGE_WIDTH_WEB
       max_height = MAX_IMAGE_HEIGHT_WEB
     end
+    maxes = get_max_sizes(asset, max_width, max_height)
+    max_width = maxes[:width]
+    max_height = maxes[:height]
     case asset.blob.content_type
     when "video/mp4", "video/mpg", "video/mpeg", "video/quicktime"
       url_for(asset)
@@ -129,6 +132,24 @@ module ContentHelper
         resize_to_limit: [max_width, max_height],
       ).processed)
     end
+  end
+
+  def get_max_sizes(img, max_width, max_height)
+    if is_vertical?(img)
+      return {
+               width: COMPRESSED_IMAGE_WIDTH,
+               height: max_height,
+             }
+    else
+      return {
+               width: max_width,
+               height: COMPRESSED_IMAGE_HEIGHT,
+             }
+    end
+  end
+
+  def is_vertical?(img)
+    img.blob.metadata[:width] < img.blob.metadata[:height]
   end
 
   def generate_thumb(obj)
