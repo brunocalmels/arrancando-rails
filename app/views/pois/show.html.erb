@@ -20,7 +20,7 @@
       </p>
       <div class="image-container">
         <% if @poi.user.avatar.attached? %>
-          <%= image_tag(@poi.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]), class: "avatar") %>
+          <%= image_tag(@poi.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]).processed, class: "avatar") %>
         <% else %>
           <%= image_tag("/images/unknown.png", class: "avatar") %>
         <% end %>

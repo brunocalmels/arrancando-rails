@@ -52,7 +52,7 @@
       </tr>
       <tr>
         <th class="row-sm-2">Avatar</th>
-        <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB])) : nil %></td>
+        <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB]).processed) : nil %></td>
       </tr>
       <tr>
         <th class="row-sm-2">Token Firebase</th>

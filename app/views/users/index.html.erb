@@ -1,100 +1,94 @@
 <% provide(:title, "Usuarios") %>
-
 <%# if @users.any? || @filterrific.search_query.present? %>
-  <%= form_for_filterrific @filterrific, url: "/users?rol=#{@rol}" do |f| %>
-    <% if false %>
+<%= form_for_filterrific @filterrific, url: "/users?rol=#{@rol}" do |f| %>
+  <% if false %>
     <div>
       <p class='etiqueta'>
         Rol
       </p>
-    <%= f.select(
+      <%= f.select(
       :rol,
         User.roles.collect { |c| [c[0].capitalize, c[1]] },
         include_blank: true
       ) %>
     </div>
-    <% end %>
-    <div>
-      <p class='etiqueta'>
-        Buscar
-      </p>
-      <%= f.text_field(
+  <% end %>
+  <div>
+    <p class='etiqueta'>
+      Buscar
+    </p>
+    <%= f.text_field(
         :search_query,
         placeholder: 'Username, nombre, apellido'
       ) %>
-    </div>
-    <div>
-      <p class='etiqueta'>
-        Ciudad
-      </p>
-      <%= f.select(
+  </div>
+  <div>
+    <p class='etiqueta'>
+      Ciudad
+    </p>
+    <%= f.select(
         :ciudad_id,
         Ciudad.joins(:users).distinct.order(nombre: :asc).collect { |c| [c.nombre, c.id] },
         include_blank: true
       ) %>
-    </div>
-    <div>
-      <p class='etiqueta'>
-        Versión app
-      </p>
-      <%= f.select(
+  </div>
+  <div>
+    <p class='etiqueta'>
+      Versión app
+    </p>
+    <%= f.select(
         :app_version,
         User.select(:app_version).distinct.pluck(:app_version).filter{ |q| !q.nil? },
         include_blank: true
       ) %>
-    </div>
-    <div>
-      <p class='etiqueta'>
-        Plataforma
-      </p>
-      <%= f.select(
+  </div>
+  <div>
+    <p class='etiqueta'>
+      Plataforma
+    </p>
+    <%= f.select(
         :platform,
         User.select(:platform).distinct.pluck(:platform).filter{ |q| !q.nil? },
         include_blank: true
       ) %>
-    </div>
-    <div>
-      <p class='etiqueta'>
-        Ordenar
-      </p>
-      <%= f.select(
+  </div>
+  <div>
+    <p class='etiqueta'>
+      Ordenar
+    </p>
+    <%= f.select(
         :sorted_by,
         @filterrific.select_options[:sorted_by],
         { include_blank: true },
         {}
       ) %>
-    </div>
-    <div id="aplicar_filtros">
-      <%= f.submit 'Aplicar', class: 'btn btn-success' %>
-    </div>
-    <div id="borrar_filtros">
-      <%= link_to(
+  </div>
+  <div id="aplicar_filtros">
+    <%= f.submit 'Aplicar', class: 'btn btn-success' %>
+  </div>
+  <div id="borrar_filtros">
+    <%= link_to(
         'Borrar',
         "/users?rol=#{@rol}&filterrific[search_query]= ",
         class: 'btn btn-warning'
       ) %>
-    </div>
-    <%# render_filterrific_spinner %>
-  <% end %>
+  </div>
+  <%# render_filterrific_spinner %>
+<% end %>
 <%# end %>
-
 <% if @users.any? %>
   <div id="botonera">
     <% unless @users.empty? %>
       <% query_sep = request.original_url.last(5) == 'users' ? '?' : '&' %>
-
       <%= link_to "#{request.original_url}#{query_sep}format=xls", class: 'btn btn-info' do %>
         <i class='fa fa-users'></i>Exportar
       <% end %>
-
       <%= link_to new_notificacion_path(params: {user_ids: @user_ids}), class: 'btn btn-info' do %>
         <i class='fa fa-mobile'></i>Enviar notificación
       <% end %>
-
     <% end %>
   </div>
 <% end %>
-
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -113,14 +107,13 @@
         <th colspan="3"></th>
       </tr>
     </thead>
-
     <tbody>
       <% @users.each do |user| %>
         <tr>
           <td><%= (user.avatar.attached? &&
                   user.avatar.blob.content_type.in?(PERMITTED_IMAGE_TYPES)) ?
                   image_tag(user.avatar.variant(resize_to_limit:
-                    [70, 70])) :
+                    [70, 70]).processed) :
                   nil %>
           </td>
           <td><%= user.username %></td>
@@ -142,7 +135,7 @@
             <%= link_to edit_user_url(user), class: "btn btn-xs btn-info" do %>
               <i class="fa fa-pencil-alt"></i>
             <% end %>
-            </td>
+          </td>
           <td>
             <%= button_to user, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar este usuario?" } do %>
               <i class="fa fa-trash"></i>
@@ -153,19 +146,15 @@
     </tbody>
   </table>
 </div>
-
 <% begin %>
-<%= paginate @users %>
-<% rescue %>
+  <%= paginate @users %>
+  <% rescue %>
 <% end %>
-
 <div id="user_count">
-<h4>Hay <%= User.count %> usuarios registrados en Arrancando.</h4>
-<p>¡Dale que cada vez somos más amantes del asado!</p>
+  <h4>Hay <%= User.count %> usuarios registrados en Arrancando.</h4>
+  <p>¡Dale que cada vez somos más amantes del asado!</p>
 </div>
-
 <br>
-
 <!--
 <div class="botonera">
   <%= link_to 'Nuevo Usuario', new_user_path, class: "btn btn-success"%>

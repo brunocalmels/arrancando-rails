@@ -63,7 +63,7 @@ module ContentHelper
     ActionDispatch::Http::UploadedFile.new(
       tempfile: tempfile(img["data"]),
       filename: img["file"],
-      type: mime_type
+      type: mime_type,
     )
   end
 
@@ -84,7 +84,7 @@ module ContentHelper
          img.size > MIN_IMAGE_SIZE_TO_ENFORCE_COMPRESSION
         path = img.tempfile.path
         img_resized = MiniMagick::Image
-                      .new(path)
+          .new(path)
         img_resized = img_resized.resize \
           "#{MAX_IMAGE_WIDTH_APP}x#{MAX_IMAGE_HEIGHT_APP}"
         fi = File.open(img_resized.path)
@@ -126,8 +126,8 @@ module ContentHelper
       url_for(asset)
     when "image/jpg", "image/jpeg", "image/png", "image/gif"
       url_for(asset.variant(
-                resize_to_limit: [max_width, max_height]
-              ))
+        resize_to_limit: [max_width, max_height],
+      ).processed)
     end
   end
 
@@ -136,12 +136,12 @@ module ContentHelper
 
     if obj.imagenes.first.previewable?
       url_for(obj.imagenes.first.preview(
-                resize_to_limit: [THUMB_SIZE, THUMB_SIZE]
-              ))
+        resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
+      ))
     else
       url_for(obj.imagenes.first.variant(
-                resize_to_limit: [THUMB_SIZE, THUMB_SIZE]
-              ))
+        resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
+      ).processed)
     end
   end
 
@@ -149,8 +149,8 @@ module ContentHelper
     return unless video.previewable?
 
     url_for(video.preview(
-              resize_to_limit: [THUMB_SIZE, THUMB_SIZE]
-            ))
+      resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
+    ))
   end
 
   def get_maps_image(poi, item)
@@ -163,12 +163,12 @@ module ContentHelper
     puts "Obteniendo thumbnail"
 
     downloaded_image = URI.parse(
-      "https://maps.googleapis.com/maps/api/place/photo?photoreference=#{item['photos'][0]['photo_reference']}&sensor=false&maxheight=#{MAX_SIZE_POI_IMAGE}&maxwidth=#{MAX_SIZE_POI_IMAGE}&key=#{ENV['MAPS_API_KEY']}"
+      "https://maps.googleapis.com/maps/api/place/photo?photoreference=#{item["photos"][0]["photo_reference"]}&sensor=false&maxheight=#{MAX_SIZE_POI_IMAGE}&maxwidth=#{MAX_SIZE_POI_IMAGE}&key=#{ENV["MAPS_API_KEY"]}"
     ).open
 
     poi.imagenes.attach(
       io: downloaded_image,
-      filename: "#{poi.id}-maps-image.jpg"
+      filename: "#{poi.id}-maps-image.jpg",
     )
   end
 
@@ -254,7 +254,7 @@ module ContentHelper
   end
 
   def get_likes(obj)
-    obj.puntajes.filter{|k,v| v == 5}.count
+    obj.puntajes.filter { |k, v| v == 5 }.count
   end
 
   def self.query_for_likes(user_id, tabla)

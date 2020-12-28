@@ -20,7 +20,7 @@
       </p>
       <div class="image-container">
         <% if @receta.user.avatar.attached? %>
-          <%= image_tag(@receta.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]), class: "avatar") %>
+          <%= image_tag(@receta.user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]).processed, class: "avatar") %>
         <% else %>
           <%= image_tag("/images/unknown.png", class: "avatar") %>
         <% end %>
@@ -162,7 +162,7 @@
       <li>
         <div class="image-container">
           <% if comment.user.avatar.attached? %>
-            <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]), class: "avatar") %>
+            <%= image_tag(comment.user.avatar.variant(resize_to_limit: [WEB_COMMENT_THUMB_SIZE, WEB_COMMENT_THUMB_SIZE]).processed, class: "avatar") %>
           <% else %>
             <%= image_tag("/images/unknown.png", class: "avatar") %>
           <% end %>
