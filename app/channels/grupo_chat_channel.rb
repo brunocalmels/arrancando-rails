@@ -1,4 +1,6 @@
 class GrupoChatChannel < ApplicationCable::Channel
+  include MensajeChatsHelper
+
   def subscribed
     @grupo_chat = GrupoChat.find params[:grupo_chat_id]
     stream_from stream_name
@@ -10,7 +12,17 @@ class GrupoChatChannel < ApplicationCable::Channel
   end
 
   def receive(data)
-    ActionCable.server.broadcast stream_name, data.fetch("message")
+    @mensaje_chat = MensajeChat.new(
+      mensaje: data.fetch("mensaje"),
+      grupo_chat: GrupoChat.find(JSON(identifier)["grupo_chat_id"].to_i)
+    )
+    @mensaje_chat.user = user
+    return unless @mensaje_chat.save
+
+    ActionCable.server.broadcast(
+      "grupo_chat_#{@mensaje_chat.grupo_chat.id}",
+      to_broadcast(@mensaje_chat)
+    )
   end
 
   private
