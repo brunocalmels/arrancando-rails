@@ -50,6 +50,15 @@ class Ciudad < ApplicationRecord
     nombre + " (" + provincia.nombre + ")"
   end
 
+  def self.all_cached_and_ordered
+    Rails.cache.fetch(
+      "Ciudad.order(id: :asc)",
+      expires_in: 12.hours
+    ) do
+      order(id: :asc)
+    end
+  end
+
   private
 
   def unica
