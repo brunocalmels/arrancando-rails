@@ -1,7 +1,7 @@
 class AuthorizeApiRequest
   prepend SimpleCommand
 
-  def initialize(headers={}, session_auth_token="")
+  def initialize(headers={}, session_auth_token=nil)
     @headers = headers
     @auth_token = session_auth_token
   end
@@ -15,7 +15,6 @@ class AuthorizeApiRequest
   attr_reader :headers, :auth_token
 
   def user
-    puts "DAT: #{decoded_auth_token}"
     @user ||= User.find(decoded_auth_token[:user_id]) if decoded_auth_token
     @user || errors.add(:token, "Invalid token") && nil
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_28_190045) do
+ActiveRecord::Schema.define(version: 2020_12_29_132146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,10 +111,29 @@ ActiveRecord::Schema.define(version: 2020_07_28_190045) do
     t.index ["user_id"], name: "index_comentario_recetas_on_user_id"
   end
 
+  create_table "grupo_chats", force: :cascade do |t|
+    t.string "simbolo", null: false
+    t.string "color", null: false
+    t.string "nombre", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["nombre"], name: "index_grupo_chats_on_nombre"
+  end
+
   create_table "ingredientes", force: :cascade do |t|
     t.string "nombre", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "mensaje_chats", force: :cascade do |t|
+    t.bigint "grupo_chat_id", null: false
+    t.bigint "user_id", null: false
+    t.text "mensaje"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["grupo_chat_id"], name: "index_mensaje_chats_on_grupo_chat_id"
+    t.index ["user_id"], name: "index_mensaje_chats_on_user_id"
   end
 
   create_table "notificaciones", force: :cascade do |t|
@@ -275,6 +294,8 @@ ActiveRecord::Schema.define(version: 2020_07_28_190045) do
   add_foreign_key "comentario_publicaciones", "users"
   add_foreign_key "comentario_recetas", "recetas"
   add_foreign_key "comentario_recetas", "users"
+  add_foreign_key "mensaje_chats", "grupo_chats"
+  add_foreign_key "mensaje_chats", "users"
   add_foreign_key "notificaciones", "users"
   add_foreign_key "pois", "categoria_pois"
   add_foreign_key "pois", "ciudades"
