@@ -5,6 +5,10 @@ class GrupoChatsController < ApplicationController
     @mensajes = @grupo_chat.mensaje_chats.last_first.page(params[:page])
   end
 
+  def index
+    @grupo_chats = GrupoChat.all
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

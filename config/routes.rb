@@ -76,7 +76,7 @@ Rails.application.routes.draw do
   resources :paises, except: %i[show]
 
   # post "/mensaje_chats", to: "mensaje_chats#create"
-  resources :grupo_chats, only: %i[show]
+  resources :grupo_chats, only: %i[show index]
 
   get :docs, to: "home#docs"
 
