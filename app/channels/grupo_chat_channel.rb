@@ -11,6 +11,15 @@ class GrupoChatChannel < ApplicationCable::Channel
     )
   end
 
+  def unsubscribed
+    @grupo_chat = GrupoChat.find params[:grupo_chat_id]
+    ActionCable.server.broadcast(
+      "grupo_chat_#{@grupo_chat.id}",
+      type: "Mensaje grupal",
+      mensaje: "@#{user.username} ha salido de la sala."
+    )
+  end
+
   def receive(data)
     @mensaje_chat = MensajeChat.new(
       mensaje: data.fetch("mensaje"),
