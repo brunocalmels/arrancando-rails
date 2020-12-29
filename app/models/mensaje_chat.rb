@@ -6,5 +6,5 @@ class MensajeChat < ApplicationRecord
 
   scope :last_first, -> { order(created_at: :desc) }
 
-  paginates_per 2
+  paginates_per 50
 end
