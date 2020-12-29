@@ -5,5 +5,7 @@ json.extract! grupo_chat,
               :color
 
 json.mensajes do
-  json.array! @mensajes
+  json.array! @mensajes,
+              partial: "mensaje_chats/mensaje_chat",
+              as: :mensaje_chat
 end
