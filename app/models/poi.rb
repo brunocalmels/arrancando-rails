@@ -88,12 +88,17 @@ class Poi < ApplicationRecord
       q = 'SELECT pois.id, avg, cant_punt from pois LEFT JOIN ( SELECT id, avg(value :: FLOAT), count(*) as cant_punt FROM "pois" LEFT JOIN jsonb_each(puntajes) d ON true GROUP BY "pois"."id" ) complex ON pois.id = complex.id ORDER BY avg DESC nulls LAST, cant_punt DESC nulls LAST'
       # rubocop:enable Metrics/LineLength
       ids = ActiveRecord::Base.connection.execute(q).pluck "id"
+      # Poi.cached_by_puntuacion(ids)
       Poi.where(id: ids).order_by_ids(ids)
     else
       raise(ArgumentError,
             "Invalid sort option: #{sort_option.inspect}")
     end
   }
+
+  # def cached_by_puntuacion(ids)
+  #   where(id: ids).order_by_ids(ids)
+  # end
 
   scope :search_query, lambda { |query|
     where(

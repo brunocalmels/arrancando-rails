@@ -2,17 +2,27 @@ class CiudadesController < ApplicationController
   before_action :set_ciudad, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: %i[importacion_masiva]
 
+  caches_action :index, expires_in: 12.hours
+  caches_action :search, expires_in: 12.hours, cache_path: -> { request.fullpath }
+
   # GET /ciudades
   # GET /ciudades.json
   def index
-    @filterrific = initialize_filterrific(Ciudad.order(id: :asc), params[:filterrific], select_options: {})
-    @ciudades = policy_scope(@filterrific.try(:find) || Ciudad.order(id: :asc), policy_scope_class: GeoPolicy::Scope)
-
-    if request.format.json?
-      render json: @ciudades
-    else
-      @ciudades = @ciudades.page(params[:page])
-      alert_new_ciudades
+    respond_to do |format|
+      format.json do
+        @ciudades = Ciudad.all_cached_and_ordered
+        render(:index, ciudades: @ciudades)
+      end
+      format.html do
+        @filterrific = initialize_filterrific(
+          Ciudad.order(id: :asc),
+          params[:filterrific],
+          select_options: {}
+        )
+        @ciudades = @filterrific.try(:find) || Ciudad.order(id: :asc)
+        @ciudades = @ciudades.page(params[:page])
+        alert_new_ciudades
+      end
     end
   end
 

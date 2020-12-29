@@ -7,8 +7,15 @@ class PoisController < ApplicationController
   # GET /pois
   # GET /pois.json
   def index
-    @filterrific = initialize_filterrific(Poi, params[:filterrific], select_options: {})
-    @pois = policy_scope(@filterrific.try(:find) || Poi)
+    @filterrific = initialize_filterrific(
+      Poi,
+      params[:filterrific],
+      select_options: {}
+    )
+
+    # Sin uso real
+    # @pois = policy_scope(@filterrific.try(:find) || Poi)
+    @pois = @filterrific.try(:find) || Poi
 
     if request.format.json? && !params.include?("filterrific")
       filter_by_categria_poi_id
