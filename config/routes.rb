@@ -75,8 +75,13 @@ Rails.application.routes.draw do
   resources :provincias, except: %i[show]
   resources :paises, except: %i[show]
 
+  # resources :mensaje_chats, only: %i[create]
+  post "/mensaje_chats", to: "mensaje_chats#create"
+
   get :docs, to: "home#docs"
   # get :android, to: "home#android"
+
+  # mount ActionCable.server => "/cable"
 
   root to: "home#index"
 end

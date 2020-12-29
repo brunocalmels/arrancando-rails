@@ -62,4 +62,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.hosts << "192.168.1.3.xip.io" # Para callbacks de OAuth
+
+  # config.action_cable.url = "ws://localhost:5000"
+  config.action_cable.disable_request_forgery_protection = true
 end
