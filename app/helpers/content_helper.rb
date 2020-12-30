@@ -162,9 +162,14 @@ module ContentHelper
         resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
       ))
     else
+      begin
       url_for(obj.imagenes.first.variant(
         resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
       ).processed)
+    rescue
+      ActiveStorage::FileNotFoundError
+      nil
+    end
     end
   end
 

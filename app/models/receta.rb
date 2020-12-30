@@ -1,5 +1,3 @@
-# rubocop: disable Metrics/ClassLength
-
 # == Schema Information
 #
 # Table name: recetas
@@ -185,5 +183,3 @@ class Receta < ApplicationRecord
     end
   end
 end
-
-# rubocop: enable Metrics/ClassLength

@@ -5,6 +5,16 @@ class RecetasController < ApplicationController
   include NotificacionesHelper
   before_action :set_receta, only: %i[show edit update destroy puntuar saved]
 
+  caches_action :index,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
+  caches_action :search,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /recetas
   # GET /recetas.json
   def index

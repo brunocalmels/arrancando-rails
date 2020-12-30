@@ -4,6 +4,16 @@ class PublicacionesController < ApplicationController
   include NotificacionesHelper
   before_action :set_publicacion, only: %i[show edit update destroy puntuar saved]
 
+  caches_action :index,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
+  caches_action :search,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /publicaciones
   # GET /publicaciones.json
   def index

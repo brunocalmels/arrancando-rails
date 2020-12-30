@@ -7,6 +7,11 @@ class ContentController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
 
+  caches_action :index,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /content?data=[{1: publicaciones}, {2: recetas}, {3: pois},].json
   def saved
     out = []

@@ -2,7 +2,7 @@ class CiudadesController < ApplicationController
   before_action :set_ciudad, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: %i[importacion_masiva]
 
-  caches_action :index, expires_in: 12.hours
+  caches_action :index, expires_in: 1.days
   caches_action :search, expires_in: 12.hours, cache_path: -> { request.fullpath }
 
   # GET /ciudades

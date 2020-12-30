@@ -4,6 +4,16 @@ class PoisController < ApplicationController
   include NotificacionesHelper
   before_action :set_poi, only: %i[show edit update destroy puntuar saved]
 
+  caches_action :index,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
+  caches_action :search,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /pois
   # GET /pois.json
   def index
@@ -76,6 +86,8 @@ class PoisController < ApplicationController
     respond_to do |format|
       format.html do
         if (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi)) && @poi.valid? && @poi.save
+          # expire_action :action => :index, cache_path: -> { request.fullpath }
+          # expire_action :action => :search, cache_path: -> { request.fullpath }
           redirect_to new_poi_path, notice: "PoI satisfactoriamente creado."
         else
           render :new
