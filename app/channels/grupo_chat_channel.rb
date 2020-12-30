@@ -5,19 +5,30 @@ class GrupoChatChannel < ApplicationCable::Channel
     @grupo_chat = GrupoChat.find params[:grupo_chat_id]
     stream_from stream_name
     ActionCable.server.broadcast(
-      "grupo_chat_#{@grupo_chat.id}",
+      stream_name,
       type: "Mensaje grupal",
       mensaje: "@#{user.username} ha entrado a la sala."
     )
+    @cantidad_usuarios ||= {}
+    @cantidad_usuarios[stream_name] = @cantidad_usuarios[stream_name] || 0
+    @cantidad_usuarios[stream_name] = @cantidad_usuarios[stream_name] + 1
+
+    broadcast_cantidad_usuarios(@cantidad_usuarios[stream_name])
   end
 
   def unsubscribed
     @grupo_chat = GrupoChat.find params[:grupo_chat_id]
     ActionCable.server.broadcast(
-      "grupo_chat_#{@grupo_chat.id}",
+      stream_name,
       type: "Mensaje grupal",
       mensaje: "@#{user.username} ha salido de la sala."
     )
+    @cantidad_usuarios[stream_name] =
+      @cantidad_usuarios[stream_name] - 1
+    @cantidad_usuarios[stream_name] =
+      @cantidad_usuarios[stream_name] < 0 ? 0 : @cantidad_usuarios[stream_name]
+
+    broadcast_cantidad_usuarios(@cantidad_usuarios[stream_name])
   end
 
   def receive(data)
@@ -50,5 +61,13 @@ class GrupoChatChannel < ApplicationCable::Channel
     mimic = {}
     mimic["Authorization"] = params[:token]
     AuthorizeApiRequest.call(mimic).result
+  end
+
+  def broadcast_cantidad_usuarios(cantidad)
+    ActionCable.server.broadcast(
+      stream_name,
+      type: "Cantidad usuarios",
+      mensaje: cantidad.to_s
+    )
   end
 end
