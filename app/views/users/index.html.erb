@@ -110,14 +110,17 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td><%= (user.avatar.attached? &&
+          <td>
+            <%= begin
+              (user.avatar.attached? &&
                   user.avatar.blob.content_type.in?(PERMITTED_IMAGE_TYPES)) ?
                   image_tag(user.avatar.variant(resize_to_limit:
                     [70, 70]).processed) :
                   nil
-                rescue ActionView::Template::Error
+          rescue ActionView::Template::Error
                   nil
-                  %>
+          end
+          %>
           </td>
           <td><%= user.username %></td>
           <td><%= user.nombre %></td>
