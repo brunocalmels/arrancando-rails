@@ -30,4 +30,14 @@ module MensajeChatsHelper
   def mensaje_chat_params
     params.require(:mensaje_chat).permit(:mensaje, :grupo_chat_id)
   end
+
+  def notificar_mencionados_en_mensaje(current_user, mensaje, grupo)
+    mencionados = get_mencionados(mensaje, comentario: true)
+
+    return if mencionados.empty?
+
+    mencionados.each do |user|
+      nueva_mencion_en_mensaje(current_user, mensaje, user, grupo)
+    end
+  end
 end

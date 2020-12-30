@@ -21,12 +21,18 @@ class GrupoChatChannel < ApplicationCable::Channel
   end
 
   def receive(data)
+    grupo = GrupoChat.find(JSON(identifier)["grupo_chat_id"].to_i)
+
+    return unless grupo
+
     @mensaje_chat = MensajeChat.new(
       mensaje: data.fetch("mensaje"),
-      grupo_chat: GrupoChat.find(JSON(identifier)["grupo_chat_id"].to_i)
+      grupo_chat: grupo
     )
     @mensaje_chat.user = user
     return unless @mensaje_chat.save
+
+    notificar_mencionados_en_mensaje(user, @mensaje_chat, grupo)
 
     ActionCable.server.broadcast(
       "grupo_chat_#{@mensaje_chat.grupo_chat.id}",

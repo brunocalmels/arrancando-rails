@@ -255,6 +255,32 @@ module NotificacionesHelper
     end
   end
 
+  def nueva_mencion_en_mensaje(current_user, mensaje, user, grupo)
+    return if user == current_user
+
+    titulo = "@#{current_user.username} te mencionó en un grupo"
+    cuerpo = "@#{current_user.username} te mencionó en el grupo de chat #{grupo.nombre}"
+    id = grupo.id
+    url = "/grupo_chats/#{id}"
+    user = user
+
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user,
+    )
+    unless user.firebase_token.nil?
+      set_fcm
+      response = send_fcm(
+        user.firebase_token,
+        titulo,
+        cuerpo,
+        url: url,
+      )
+    end
+  end
+
   def guardo_contenido(obj)
     return if obj.user == current_user
     tipo = obj.class.name.downcase
