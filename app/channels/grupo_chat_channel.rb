@@ -9,11 +9,19 @@ class GrupoChatChannel < ApplicationCable::Channel
       type: "Mensaje grupal",
       mensaje: "@#{user.username} ha entrado a la sala."
     )
-    @cantidad_usuarios ||= {}
-    @cantidad_usuarios[stream_name] = @cantidad_usuarios[stream_name] || 0
-    @cantidad_usuarios[stream_name] = @cantidad_usuarios[stream_name] + 1
 
-    broadcast_cantidad_usuarios(@cantidad_usuarios[stream_name])
+    lista_usuarios = Rails.cache.read(
+      "#{stream_name}_user_list"
+    ) || []
+
+    lista_usuarios += [user.id]
+
+    Rails.cache.write(
+      "#{stream_name}_user_list",
+      lista_usuarios
+    )
+
+    broadcast_cantidad_usuarios(lista_usuarios)
   end
 
   def unsubscribed
@@ -23,12 +31,19 @@ class GrupoChatChannel < ApplicationCable::Channel
       type: "Mensaje grupal",
       mensaje: "@#{user.username} ha salido de la sala."
     )
-    @cantidad_usuarios[stream_name] =
-      @cantidad_usuarios[stream_name] - 1
-    @cantidad_usuarios[stream_name] =
-      @cantidad_usuarios[stream_name] < 0 ? 0 : @cantidad_usuarios[stream_name]
 
-    broadcast_cantidad_usuarios(@cantidad_usuarios[stream_name])
+    lista_usuarios = Rails.cache.read(
+      "#{stream_name}_user_list"
+    ) || []
+
+    lista_usuarios.delete user.id
+
+    Rails.cache.write(
+      "#{stream_name}_user_list",
+      lista_usuarios
+    )
+
+    broadcast_cantidad_usuarios(lista_usuarios)
   end
 
   def receive(data)
@@ -67,7 +82,7 @@ class GrupoChatChannel < ApplicationCable::Channel
     ActionCable.server.broadcast(
       stream_name,
       type: "Cantidad usuarios",
-      mensaje: cantidad.to_s
+      mensaje: cantidad.uniq.count.to_s
     )
   end
 end
