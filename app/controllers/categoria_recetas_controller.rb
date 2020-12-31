@@ -2,6 +2,11 @@ class CategoriaRecetasController < ApplicationController
   before_action :set_categoria_receta, only: %i[edit update destroy]
   before_action :allow_only_html, except: [:index]
 
+  caches_action :index,
+                expires_in: LONG_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /categoria_recetas
   # GET /categoria_recetas.json
   def index

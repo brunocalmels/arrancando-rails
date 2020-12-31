@@ -14,6 +14,16 @@ class UsersController < ApplicationController
   before_action :user_by_email_new_facebook, only: %i[new_facebook_client]
   before_action :user_by_email_fb, only: %i[facebook_client]
 
+  caches_action :usernames,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
+  caches_action :by_username,
+                expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /users
   # GET /users.json
   def index

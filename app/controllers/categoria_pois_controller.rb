@@ -2,6 +2,11 @@ class CategoriaPoisController < ApplicationController
   before_action :set_categoria_poi, only: %i[edit update destroy]
   before_action :allow_only_html, except: [:index]
 
+  caches_action :index,
+                expires_in: LONG_ACTION_CACHE_DURATION,
+                cache_path: -> { request.fullpath },
+                if: -> { request.format.json? }
+
   # GET /categoria_pois
   # GET /categoria_pois.json
   def index
