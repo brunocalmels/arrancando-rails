@@ -23,8 +23,8 @@ class AuthenticationController < ApplicationController
             apellido: @u.apellido,
             email: @u.email,
             username: @u.username,
+            instagram: @u.url_instagram,
             avatar: @avatar
-            # preferencia: !@u.preferencia.nil? ? @u.preferencia.attributes.merge(keys: KEYS_PREFERENCIAS) : nil
           }
         end
         format.html do
