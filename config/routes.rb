@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   post "users/migrate_items", to: "users#migrate_items"
 
   resources :users
+  get "/usuarios/:username", to: "users#show_by_username"
   post :avatar, to: "users#set_avatar"
   get "login", to: "users#login"
   post "authenticate", to: "authentication#authenticate"
@@ -80,5 +81,7 @@ Rails.application.routes.draw do
   get :docs, to: "home#docs"
 
   root to: "home#index"
+
+  # Rompe las rutas a los assets (habría que excluir esas rutas):
   # get "*path", to: "home#index"
 end

@@ -22,7 +22,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin?
+    user
   end
 
   def migrate_items?

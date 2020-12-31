@@ -1,147 +1,187 @@
-<% provide(:title, "Usuario ##{@user.id}") %>
-<div class="table-responsive">
-  <table class="table table-bordered">
-    <tbody>
-      <tr>
-        <th class="row-sm-2">Nombre</th>
-        <td><%= @user.nombre %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Apellido</th>
-        <td><%= @user.apellido %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Username</th>
-        <td><%= @user.username %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Ciudad</th>
-        <td><%= @user.ciudad.nombre_con_provincia %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Email</th>
-        <td><%= @user.email %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Activo</th>
-        <td><%= @user.activo? ? "Sí" : "No" %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Rankeable</th>
-        <td><%= @user.rankeable? ? "Sí" : "No" %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Subidas ilimitadas</th>
-        <td><%= @user.unlim_upload? ? "Sí" : "No" %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Admin</th>
-        <td><%= @user.admin? ? "Sí" : "No" %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Última actividad</th>
-        <td><%= !@user.last_seen_at.nil? ? @user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : ''  %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Versión app</th>
-        <td><%= @user.app_version %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Plataforma</th>
-        <td><%= @user.platform %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Avatar</th>
-        <td><%= @user.avatar.attached? ? image_tag(@user.avatar.variant(resize_to_limit: [MAX_IMAGE_WIDTH_WEB, MAX_IMAGE_HEIGHT_WEB]).processed) : nil %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Token Firebase</th>
-        <td><%= @user.firebase_token %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Ranking mensual</th>
-        <td><%= @user.rank_mensual %>°</td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Ranking histórico</th>
-        <td><%= @user.rank %>°</td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Puntaje mensual</th>
-        <td><%= @user.puntaje_mensual %><i class="fa fa-star"></i></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Puntaje histórico</th>
-        <td><%= @user.puntaje %><i class="fa fa-star"></i></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Publicaciones puntuadas</th>
-        <td><%= @user.publicaciones_puntuadas.count %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Recetas puntuadas</th>
-        <td><%= @user.recetas_puntuadas.count %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">PoIs puntuados</th>
-        <td><%= @user.pois_puntuados.count %></td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Publicaciones creadas</th>
-        <td>
-          <%= @user.publicaciones.count %>
-          <%= link_to publicaciones_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
-            <i class="fa fa-eye"></i>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Recetas creadas</th>
-        <td>
-          <%= @user.recetas.count %>
-          <%= link_to recetas_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
-            <i class="fa fa-eye"></i>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">PoIs creados</th>
-        <td>
-          <%= @user.pois.count %>
-          <%= link_to pois_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
-            <i class="fa fa-eye"></i>
-          <% end %>
-        </td>
-      </tr>
-      <tr>
-        <th class="row-sm-2">Comentarios</th>
-        <td>
-          <% if @user.comentario_publicaciones.any? %>
-            <ul>
-              <% @user.comentario_publicaciones.each do |coment| %>
-                <li>
-                  Publicación: <%= link_to coment.publicacion.titulo, coment.publicacion %>.
-                  Mensaje: "<%= coment.mensaje %>"
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-          <% if @user.comentario_recetas.any? %>
-            <ul>
-              <% @user.comentario_recetas.each do |coment| %>
-                <li>
-                  Receta: <%= link_to coment.receta.titulo, coment.receta %>.
-                  Mensaje: "<%= coment.mensaje %>"
-                </li>
-              <% end %>
-            </ul>
-          <% end %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<% provide(:title, "@#{@user.username}") %>
+<% provide(:og_title, "Usuario @#{@user.username}") %>
+<% provide(:og_description,
+            @user.
+              username
+          ) %>
+<% provide(:og_image, @og_image_url) %>
+<div class="content-show">
+  <%= render 'shared/share_buttons' %>
+  <div class="cabecera">
+    <div class="imagen-fondo"></div>
+    <div class="creador">
+      <div class="image-container">
+        <% if @user.avatar.attached? %>
+          <%= image_tag(@user.avatar.variant(resize_to_limit: [WEB_THUMB_SIZE, WEB_THUMB_SIZE]).processed, class: "avatar") %>
+        <% else %>
+          <%= image_tag("/images/unknown.png", class: "avatar") %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div>
+    <p>
+      <strong>Ciudad:</strong>
+      <%= @user.ciudad.nombre_con_provincia %>
+    </p>
+    <p>
+      <strong>Ranking mensual:</strong>
+      <%= @user.rank_mensual %>°
+    </p>
+    <p>
+      <strong>Ranking histórico:</strong>
+      <%= @user.rank %>°
+    </p>
+    <p>
+      <strong>Puntaje mensual:</strong>
+      <%= @user.puntaje_mensual %><i class="fa fa-star"></i>
+    </p>
+    <p>
+      <strong>Puntaje histórico:</strong>
+      <%= @user.puntaje %><i class="fa fa-star"></i>
+    </p>
+    <p>
+      <strong>Publicaciones creadas:</strong>
+      <%= @user.publicaciones.count %>
+    </p>
+    <p>
+      <strong>Recetas creadas:</strong>
+      <%= @user.recetas.count %>
+    </p>
+    <p>
+      <strong>Markets creados:</strong>
+      <%= @user.pois.count %>
+    </p>
+    <p>
+      <strong>Comentarios hechos:</strong>
+      <%= @user.comentarios %>
+    </p>
+    <p>
+      <strong>Comentarios recibidos:</strong>
+      <%= @user.comentarios_received %>
+    </p>
+  </div>
 </div>
-<div class="botonera">
-  <%= link_to 'Editar', edit_user_path(@user), class: "btn btn-info" %>
-  <%= link_to 'Volver', users_path, class: "btn btn-default" %>
-</div>
+<% if @current_user&.admin? %>
+  <div class="admin_info">
+    <h3>Admin info</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th class="row-sm-2">Nombre</th>
+            <td><%= @user.nombre %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Apellido</th>
+            <td><%= @user.apellido %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Email</th>
+            <td><%= @user.email %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Activo</th>
+            <td><%= @user.activo? ? "Sí" : "No" %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Rankeable</th>
+            <td><%= @user.rankeable? ? "Sí" : "No" %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Subidas ilimitadas</th>
+            <td><%= @user.unlim_upload? ? "Sí" : "No" %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Admin</th>
+            <td><%= @user.admin? ? "Sí" : "No" %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Última actividad</th>
+            <td><%= !@user.last_seen_at.nil? ? @user.last_seen_at.strftime("%d-%m-%Y %H:%M hs") : ''  %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Versión app</th>
+            <td><%= @user.app_version %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Plataforma</th>
+            <td><%= @user.platform %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Token Firebase</th>
+            <td><%= @user.firebase_token %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Publicaciones puntuadas</th>
+            <td><%= @user.publicaciones_puntuadas.count %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Recetas puntuadas</th>
+            <td><%= @user.recetas_puntuadas.count %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">PoIs puntuados</th>
+            <td><%= @user.pois_puntuados.count %></td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Publicaciones creadas</th>
+            <td>
+              <%= @user.publicaciones.count %>
+              <%= link_to publicaciones_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
+                <i class="fa fa-eye"></i>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Recetas creadas</th>
+            <td>
+              <%= @user.recetas.count %>
+              <%= link_to recetas_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
+                <i class="fa fa-eye"></i>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">PoIs creados</th>
+            <td>
+              <%= @user.pois.count %>
+              <%= link_to pois_path(filterrific: { user_id: @user.id }), class: "btn btn-xs btn-success btn-in-table" do %>
+                <i class="fa fa-eye"></i>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th class="row-sm-2">Comentarios</th>
+            <td>
+              <% if @user.comentario_publicaciones.any? %>
+                <ul>
+                  <% @user.comentario_publicaciones.each do |coment| %>
+                    <li>
+                      Publicación: <%= link_to coment.publicacion.titulo, coment.publicacion %>.
+                      Mensaje: "<%= coment.mensaje %>"
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+              <% if @user.comentario_recetas.any? %>
+                <ul>
+                  <% @user.comentario_recetas.each do |coment| %>
+                    <li>
+                      Receta: <%= link_to coment.receta.titulo, coment.receta %>.
+                      Mensaje: "<%= coment.mensaje %>"
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="botonera">
+      <%= link_to 'Editar', edit_user_path(@user), class: "btn btn-info" %>
+      <%= link_to 'Volver', users_path, class: "btn btn-default" %>
+    </div>
+  </div>
+<% end %>

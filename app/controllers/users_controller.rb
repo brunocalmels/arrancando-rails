@@ -6,8 +6,8 @@ class UsersController < ApplicationController
   include UsersMigrationHelper
 
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :assure_admin!, except: %i[create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token by_username usernames]
-  skip_before_action :authenticate_request, only: %i[create login google_client new_google_client apple_client facebook_client new_facebook_client]
+  before_action :assure_admin!, except: %i[show_by_username create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token by_username usernames]
+  skip_before_action :authenticate_request, only: %i[show_by_username create login google_client new_google_client apple_client facebook_client new_facebook_client]
   before_action :user_by_email, only: %i[google_client]
   before_action :user_by_email_new_google, only: %i[new_google_client]
   before_action :user_by_email_apple, only: %i[apple_client]
@@ -107,6 +107,18 @@ class UsersController < ApplicationController
   # GET /users/1.json
   def show
     authorize @user
+  end
+
+  # GET /usuarios/:username
+  def show_by_username
+    respond_to do |format|
+      format.html do
+        redirect_to(root_url, alert: "Usuario inexistente") && return unless
+        (@user = User.find_by_username(params.require(:username)))
+        @og_image_url = rails_blob_path(@user.avatar) if @user.avatar.attached?
+        render :show
+      end
+    end
   end
 
   # GET /users/new
