@@ -80,5 +80,5 @@ Rails.application.routes.draw do
   get :docs, to: "home#docs"
 
   root to: "home#index"
-  get "*path", to: "home#index"
+  # get "*path", to: "home#index"
 end
