@@ -8,7 +8,6 @@ gem "rails", "~> 6.0.0"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
-gem "activerecord-postgis-adapter"
 gem "geocoder"
 
 gem "fcm"
@@ -89,6 +88,7 @@ end
 
 group :production do
   gem "aws-sdk-s3"
+  gem "activerecord-postgis-adapter"
   gem "newrelic_rpm"
 end
 

@@ -11,6 +11,7 @@
 
 FactoryBot.define do
   factory :provincia do
-    nombre { "MyString" }
+    nombre { ["Neuquén", "Río Negro", "Mendoza"].sample }
+    pais { Pais.any? ? Pais.all.sample : create(:pais) }
   end
 end

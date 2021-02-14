@@ -15,7 +15,7 @@
 
 FactoryBot.define do
   factory :ciudad do
-    nombre { "MyString" }
-    provincia { nil }
+    nombre { "Los Recaldes" }
+    provincia { Provincia.any? ? Provincia.sample : create(:provincia) }
   end
 end

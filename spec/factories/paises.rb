@@ -10,6 +10,6 @@
 
 FactoryBot.define do
   factory :pais do
-    nombre { "MyString" }
+    nombre { %w[Argentina Brasil Chile].sample }
   end
 end

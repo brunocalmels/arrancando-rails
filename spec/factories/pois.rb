@@ -24,6 +24,7 @@ FactoryBot.define do
   factory :poi do
     titulo { Faker::Restaurant.name }
     cuerpo { Faker::Restaurant.description }
+    ciudad { Ciudad.any? ? Ciudad.all.sample : create(:ciudad) }
     # Ubicación en la zona del Alto Valle
     lat { -38.8286134 + rand * (-38.981255 + 38.8286134) }
     # latitud { Faker::Address.latitude }
@@ -31,6 +32,12 @@ FactoryBot.define do
     direccion { %w[Urquiza Sarmiento Esmeralda].sample + " " + rand(1..1000).to_s }
     puntajes { {} }
     user { User.all.sample }
-    categoria_poi { CategoriaPoi.all.sample }
+    categoria_poi do
+      if CategoriaPoi.any?
+        CategoriaPoi.all.sample
+      else
+        CategoriaPoi.create(nombre: "Asador")
+      end
+    end
   end
 end

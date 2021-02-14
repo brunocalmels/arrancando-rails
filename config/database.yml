@@ -15,8 +15,9 @@
 # gem 'pg'
 
 development:
-  adapter: postgis
-  postgis_extension: true
+  adapter: postgresql
+  # adapter: postgis
+  postgis_extension: false
   encoding: unicode
   database: arrancando
   pool: 5
@@ -25,8 +26,9 @@ development:
   port: <%= ENV.fetch('DB_PORT', '') %>
 
 test: &TEST
-  adapter: postgis
-  postgis_extension: true
+  adapter: postgresql
+  # adapter: postgis
+  postgis_extension: false
   encoding: unicode
   database: arrancando_test
   pool: 5

@@ -27,6 +27,12 @@ FactoryBot.define do
     cuerpo { Faker::Restaurant.description }
     puntajes { {} }
     user { User.all.sample }
-    categoria_receta { CategoriaReceta.all.sample }
+    categoria_receta do
+      if CategoriaReceta.any?
+        CategoriaReceta.all.sample
+      else
+        CategoriaReceta.create(nombre: "Asador")
+      end
+    end
   end
 end

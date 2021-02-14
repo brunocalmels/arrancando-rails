@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 2020_12_29_132146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
+  # enable_extension "postgis"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(version: 2020_12_29_132146) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "direccion"
     t.boolean "habilitado", default: true
-    t.bigint "ciudad_id", default: 1, null: false
+    t.bigint "ciudad_id", null: false
     t.bigint "whatsapp"
     t.bigint "vistas", default: 0
     t.integer "saved", default: [], array: true

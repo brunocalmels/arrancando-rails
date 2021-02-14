@@ -23,6 +23,12 @@ FactoryBot.define do
     puntajes { {} }
     user { User.all.sample }
     ciudad { Ciudad.all.sample }
-    categoria_publicacion { CategoriaPublicacion.all.sample }
+    categoria_publicacion do
+      if CategoriaPublicacion.any?
+        CategoriaPublicacion.all.sample
+      else
+        CategoriaPublicacion.create(nombre: "Asador")
+      end
+    end
   end
 end

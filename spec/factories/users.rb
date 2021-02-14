@@ -31,6 +31,7 @@ FactoryBot.define do
     nombre { Faker::Name.first_name }
     apellido { Faker::Name.last_name }
     username { "#{nombre.downcase}_#{apellido.downcase}" }
+    ciudad { Ciudad.any? ? Ciudad.all.sample : create(:ciudad) }
     email { Faker::Internet.email }
     password { "123456" }
   end
