@@ -27,18 +27,19 @@ RSpec.describe UsersController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # User. As you add validations to User, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) do
-    skip("Add a hash of attributes valid for your model")
-  end
+  # let(:valid_attributes) do
+  #   skip("Add a hash of attributes valid for your model")
+  # end
 
-  let(:invalid_attributes) do
-    skip("Add a hash of attributes invalid for your model")
-  end
+  # let(:invalid_attributes) do
+  #   skip("Add a hash of attributes invalid for your model")
+  # end
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # UsersController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:user) { TestHelper.create_user }
+
+  # before(:each) do
+  #   TestHelper.authenticate_json(@request, user)
+  # end
 
   describe "GET #index" do
     it "returns a success response" do
@@ -134,6 +135,37 @@ RSpec.describe UsersController, type: :controller do
       user = User.create! valid_attributes
       delete :destroy, params: { id: user.to_param }, session: valid_session
       expect(response).to redirect_to(users_url)
+    end
+  end
+
+  describe "POST /users/migrate_items" do
+    context "for a given user" do
+      it "migrates items, likes and connections to another one" do
+        admin = TestHelper.create_admin
+        TestHelper.authenticate_html(@request, admin)
+        seguido = FactoryBot.create :user
+        seguidor = FactoryBot.create :user
+        new_user = FactoryBot.create :user
+        Seguimiento.create(seguido: seguido, seguidor: user)
+        Seguimiento.create(seguidor: seguidor, seguido: user)
+        pub = FactoryBot.create(:publicacion, user: user)
+        rec = FactoryBot.create(:receta, user: user)
+        poi = FactoryBot.create(:poi, user: user)
+        expect do
+          post :migrate_items,
+               params: { migrate: {
+                 original_owner_id: user.id,
+                 new_owner_id: new_user.id
+               } }
+        end.to change(new_user.seguimientos, :count).by(1)
+        assert_redirected_to new_user
+        expect(pub.reload.user).to eq(new_user)
+        expect(rec.reload.user).to eq(new_user)
+        expect(poi.reload.user).to eq(new_user)
+        expect(new_user.seguidores.count).to eq(1)
+        expect(user.seguidores.count).to eq(0)
+        expect(user.seguimientos.count).to eq(0)
+      end
     end
   end
 end

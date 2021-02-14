@@ -9,6 +9,7 @@ module UsersMigrationHelper
     change_likes(Publicacion, original_owner, new_owner)
     change_likes(Receta, original_owner, new_owner)
     change_likes(Poi, original_owner, new_owner)
+    change_connections(original_owner, new_owner)
   end
 
   def change_owner(items, new_owner)
@@ -26,6 +27,15 @@ module UsersMigrationHelper
                     .puntajes
                     .except(original_owner.id.to_s)
                     .merge(new_owner.id.to_s => punt))
+    end
+  end
+
+  def change_connections(original_owner, new_owner)
+    original_owner.seguimientos.each do |conn|
+      conn.update seguidor: new_owner
+    end
+    original_owner.seguidores.each do |conn|
+      conn.update seguido: new_owner
     end
   end
 end
