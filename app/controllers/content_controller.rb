@@ -112,7 +112,7 @@ class ContentController < ApplicationController
     end
     ac_record
       .where("puntajes -> '?' is null", current_user.id) # Not rated by user
-      .order(updated_at: :desc)
+      .order("RANDOM()") # .order(updated_at: :desc)
       .page(params[:page]).per(10).map do |p|
       get_object(
         p,
