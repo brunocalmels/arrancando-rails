@@ -103,6 +103,7 @@ MAX_SIZE_POI_IMAGE = 400
 
 DEFAULT_INDEX_ACTION_CACHE_DURATION = 30.minutes
 LONG_ACTION_CACHE_DURATION = 1.days
+DB_RECORDS_LIFETIME = 3.months
 
 ARRANCANDO_URL = "https://arrancando.com.ar".freeze
 ANDROID_DOWNLOAD_URL = "https://play.google.com/store/apps/details?id=com.macherit.arrancando".freeze

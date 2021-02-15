@@ -18,6 +18,6 @@ FactoryBot.define do
     cuerpo { "MyText" }
     url { "MyString" }
     leido { false }
-    user { nil }
+    user { User.any? ? User.all.sample : FactoryBot.create(:user) }
   end
 end
