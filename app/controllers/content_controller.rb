@@ -9,7 +9,7 @@ class ContentController < ApplicationController
 
   caches_action :index,
                 expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
-                cache_path: -> { request.fullpath },
+                cache_path: -> { request.fullpath + '/user_id=' + current_user.id.to_s },
                 if: -> { request.format.json? }
 
   # GET /content?data=[{1: publicaciones}, {2: recetas}, {3: pois},].json
@@ -111,7 +111,9 @@ class ContentController < ApplicationController
       ac_record = ac_record.where(user_id: only_followed)
     end
     ac_record
-      .order(updated_at: :desc).page(params[:page]).per(10).map do |p|
+      .where("puntajes -> '?' is null", current_user.id) # Not rated by user
+      .order(updated_at: :desc)
+      .page(params[:page]).per(10).map do |p|
       get_object(
         p,
         type,
