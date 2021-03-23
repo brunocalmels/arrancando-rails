@@ -39,7 +39,8 @@ class ContentController < ApplicationController
   end
 
   def index
-    render json: build_feed(params), status: :ok
+    content = build_feed(params)
+    render json: content, status: :ok
   end
 
   def shared_this
@@ -131,8 +132,8 @@ class ContentController < ApplicationController
       end
       to_show = [
         build_objects("publicaciones", only_followed),
-        build_objects("recetas", only_followed),
-        build_objects("pois", only_followed)
+        build_objects("recetas", only_followed)
+        # build_objects("pois", only_followed) # Too many Pois, not currently showing them.
       ]
     else
       contenidos_home = JSON.parse(pars[:contenidos_home])
@@ -141,6 +142,8 @@ class ContentController < ApplicationController
         only_followed = current_user.seguimientos.pluck(:seguido_id)
       end
       contenidos_home.each do |ch|
+        # next if ch == 'pois' # In case we dont want to show Pois
+
         to_show << build_objects(ch, only_followed) if ch != 'followed'
       end
     end
