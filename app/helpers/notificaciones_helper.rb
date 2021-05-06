@@ -309,15 +309,14 @@ module NotificacionesHelper
 
   def web_fcm(notificacion)
     user = notificacion.user
+    return if user.firebase_token.nil?
     logger.info "Enviando notificación a #{user.username}"
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        notificacion.titulo,
-        notificacion.cuerpo,
-        url: notificacion.url,
-      )
-    end
+    set_fcm
+    response = send_fcm(
+      user.firebase_token,
+      notificacion.titulo,
+      notificacion.cuerpo,
+      url: notificacion.url,
+    )
   end
 end

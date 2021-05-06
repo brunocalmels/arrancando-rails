@@ -4,9 +4,8 @@ class NotificacionesToAllJob < ApplicationJob
   queue_as :default
 
   def perform(notif_atts)
-    notif = Notificacion.new(notif_atts)
     User.all.each do |user|
-      notif.user = user
+      notif = Notificacion.create(notif_atts.merge!(user: user))
       web_fcm(notif)
     end
   end
