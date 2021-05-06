@@ -163,8 +163,12 @@
     }
 
     img {
-      max-width: 25%;
-      max-height: 25vh;
+      max-width: 80%;
+
+      @media screen and (min-width: $bpMaxSmall) {
+        max-width: 25%;
+        max-height: 25vh;
+      }
     }
   }
 
@@ -211,11 +215,15 @@
 
     .link_comment,
     .cuerpo_comment {
+      overflow-wrap: anywhere;
       margin-left: 30px;
 
       p.user {
         font-weight: 600;
-        font-size: 120%;
+
+        @media screen and (min-width: $bpMaxSmall) {
+          font-size: 120%;
+        }
       }
 
       p.mensaje {
