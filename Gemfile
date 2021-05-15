@@ -90,6 +90,8 @@ group :production do
   gem "aws-sdk-s3"
   gem "activerecord-postgis-adapter"
   gem "newrelic_rpm"
+  gem "rack-timeout"
+  gem "barnes"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
