@@ -92,6 +92,7 @@ group :production do
   gem "newrelic_rpm"
   gem "rack-timeout"
   gem "barnes"
+  gem "scout_apm"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
