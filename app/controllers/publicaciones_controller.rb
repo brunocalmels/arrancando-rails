@@ -189,7 +189,9 @@ class PublicacionesController < ApplicationController
                      .offset(params.key?(:offset) ? params[:offset].to_i : 0)
     return if params[:limit] && request.format.json?
 
-    @publicaciones = @publicaciones.page(params[:page])
+    @publicaciones = @publicaciones
+                     .page(params[:page])
+                     .with_attached_imagenes
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

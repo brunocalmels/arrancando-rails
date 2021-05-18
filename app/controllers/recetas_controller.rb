@@ -212,7 +212,9 @@ class RecetasController < ApplicationController
                .offset(params.key?(:offset) ? params[:offset].to_i : 0)
     return if params[:limit] && request.format.json?
 
-    @recetas = @recetas.page(params[:page])
+    @recetas = @recetas
+               .page(params[:page])
+               .with_attached_imagenes
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

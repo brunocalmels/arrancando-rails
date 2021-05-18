@@ -51,6 +51,7 @@ json.comentarios do
               as: :comentario_publicacion
 end
 
+# CACHE: The following disallows caching, as it's specific to @current_user
 seguimiento = Seguimiento.where(
   seguidor_id: @current_user.id,
   seguido_id: publicacion.user.id
