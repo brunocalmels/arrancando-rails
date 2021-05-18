@@ -1,24 +1,7 @@
-# README
+# ARRANCANDO
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Arrancando es una app para apasionados por la comida. Es una comunidad donde podés aprender y compartir, publicaciones, recetas, técnicas, tips, culturas culinarias de más de 20 países. En Arrancando también podés crear tu tienda virtual gratis para promocionar tus productos.
 
-Things you may want to cover:
+## To do
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+-[ ] Analizar N+1 con Scout APM y eliminarlas

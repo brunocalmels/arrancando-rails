@@ -40,6 +40,7 @@ class RecetasController < ApplicationController
       vistas: @receta.increment(:vistas, 1).vistas
     )
 
+    # TODO: Only needed for HTML
     @og_image_url = first_image_to_share(@receta)
     @total_attachment_size = @receta.imagenes.map(&:byte_size).sum
 
@@ -200,7 +201,7 @@ class RecetasController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_receta
-    @receta = Receta.find(params[:id])
+    @receta = Receta.with_attached_imagenes.find(params[:id])
   end
 
   def fetch_items

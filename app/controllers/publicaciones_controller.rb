@@ -39,6 +39,7 @@ class PublicacionesController < ApplicationController
       vistas: @publicacion.increment(:vistas, 1).vistas
     )
 
+    # TODO: Only needed for HTML
     @og_image_url = first_image_to_share(@publicacion)
     @total_attachment_size = @publicacion.imagenes.map(&:byte_size).sum
 
@@ -177,7 +178,7 @@ class PublicacionesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_publicacion
-    @publicacion = Publicacion.find(params[:id])
+    @publicacion = Publicacion.with_attached_imagenes.find(params[:id])
   end
 
   def fetch_items

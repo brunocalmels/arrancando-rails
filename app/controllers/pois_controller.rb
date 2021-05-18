@@ -46,6 +46,7 @@ class PoisController < ApplicationController
       vistas: @poi.increment(:vistas, 1).vistas
     )
 
+    # TODO: Only needed for HTML
     @og_image_url = first_image_to_share(@poi)
     @total_attachment_size = @poi.imagenes.map(&:byte_size).sum
 
@@ -160,7 +161,7 @@ class PoisController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_poi
-    @poi = Poi.find(params[:id])
+    @poi = Poi.with_attached_imagenes.find(params[:id])
   end
 
   def fetch_items
