@@ -46,9 +46,10 @@ class PoisController < ApplicationController
       vistas: @poi.increment(:vistas, 1).vistas
     )
 
-    # TODO: Only needed for HTML
-    @og_image_url = first_image_to_share(@poi)
-    @total_attachment_size = @poi.imagenes.map(&:byte_size).sum
+    if request.format.html?
+      @og_image_url = first_image_to_share(@poi)
+      @total_attachment_size = @poi.imagenes.map(&:byte_size).sum
+    end
 
     return unless @poi.puntajes.any?
 

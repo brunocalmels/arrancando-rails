@@ -4,4 +4,6 @@ Arrancando es una app para apasionados por la comida. Es una comunidad donde pod
 
 ## To do
 
--[ ] Analizar N+1 con Scout APM y eliminarlas
+- [ ] Analizar N+1 con Scout APM y eliminarlas
+- [ ] Considerar *processed* para avatars de usuarios
+- [x] Utilizar *with_attached_images* (https://stackoverflow.com/questions/57357892/rails-reducing-the-amount-of-activestorage-queries)

@@ -40,9 +40,10 @@ class RecetasController < ApplicationController
       vistas: @receta.increment(:vistas, 1).vistas
     )
 
-    # TODO: Only needed for HTML
-    @og_image_url = first_image_to_share(@receta)
-    @total_attachment_size = @receta.imagenes.map(&:byte_size).sum
+    if request.format.html?
+      @og_image_url = first_image_to_share(@receta)
+      @total_attachment_size = @receta.imagenes.map(&:byte_size).sum
+    end
 
     return unless @receta.puntajes.any?
 
