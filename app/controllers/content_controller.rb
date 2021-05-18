@@ -9,9 +9,10 @@ class ContentController < ApplicationController
 
   caches_action :index,
                 expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
-                cache_path: -> { request.fullpath + '/user_id=' + current_user.id.to_s },
+                cache_path: -> { request.fullpath + "/user_id=" + current_user.id.to_s },
                 if: -> { request.format.json? }
 
+  # TODO: Fix this. Lots of room for improvement (rewrite as ActiveRecord queries)
   # GET /content?data=[{1: publicaciones}, {2: recetas}, {3: pois},].json
   def saved
     out = []
@@ -19,11 +20,11 @@ class ContentController < ApplicationController
     items.each do |item|
       case item["type"]
       when "publicaciones"
-        content = Publicacion.find(item["id"])
+        content = Publicacion.with_attached_imagenes.find(item["id"])
       when "recetas"
-        content = Receta.find(item["id"])
+        content = Receta.with_attached_imagenes.find(item["id"])
       when "pois"
-        content = Poi.find(item["id"])
+        content = Poi.with_attached_imagenes.find(item["id"])
       end
       next if content.nil?
 
@@ -44,8 +45,8 @@ class ContentController < ApplicationController
   end
 
   def shared_this
-    id = params['id']
-    tipo = params['type']
+    id = params["id"]
+    tipo = params["type"]
     case tipo
     when "publicaciones"
       content = Publicacion.find(id)
@@ -64,21 +65,21 @@ class ContentController < ApplicationController
   end
 
   def count
-    unless params['user_id']
+    unless params["user_id"]
       render json: nil, status: :unprocessable_entity && return
     end
 
     render json: {
-      "publicaciones": Publicacion.where(user_id: params['user_id'].to_i).count,
-      "recetas": Receta.where(user_id: params['user_id'].to_i).count,
-      "pois": Poi.where(user_id: params['user_id'].to_i).count,
+      "publicaciones": Publicacion.where(user_id: params["user_id"].to_i).count,
+      "recetas": Receta.where(user_id: params["user_id"].to_i).count,
+      "pois": Poi.where(user_id: params["user_id"].to_i).count,
       # "wiki": Wiki.where(user_id: params['user_id'].to_i).count
-      "master": get_master(params['user_id'].to_i),
-      "siguiendo": siguiendo?(params['user_id'].to_i),
-      "seguidos": get_seguidos(params['user_id'].to_i),
-      "seguidores": get_seguidores(params['user_id'].to_i),
-      "likes": get_likes(params['user_id'].to_i),
-      "experiencia": User.find(params['user_id'].to_i).puntaje
+      "master": get_master(params["user_id"].to_i),
+      "siguiendo": siguiendo?(params["user_id"].to_i),
+      "seguidos": get_seguidos(params["user_id"].to_i),
+      "seguidores": get_seguidores(params["user_id"].to_i),
+      "likes": get_likes(params["user_id"].to_i),
+      "experiencia": User.find(params["user_id"].to_i).puntaje
     }, status: :ok
   end
 
@@ -128,9 +129,9 @@ class ContentController < ApplicationController
 
   def build_feed(pars)
     to_show = []
-    if pars[:contenidos_home].nil? || JSON.parse(pars[:contenidos_home]) == ['followed']
+    if pars[:contenidos_home].nil? || JSON.parse(pars[:contenidos_home]) == ["followed"]
       only_followed = nil
-      if !pars[:contenidos_home].nil? && JSON.parse(pars[:contenidos_home]) == ['followed']
+      if !pars[:contenidos_home].nil? && JSON.parse(pars[:contenidos_home]) == ["followed"]
         only_followed = current_user.seguimientos.pluck(:seguido_id)
       end
       to_show = [
@@ -141,13 +142,13 @@ class ContentController < ApplicationController
     else
       contenidos_home = JSON.parse(pars[:contenidos_home])
       only_followed = nil
-      if contenidos_home.include?('followed')
+      if contenidos_home.include?("followed")
         only_followed = current_user.seguimientos.pluck(:seguido_id)
       end
       contenidos_home.each do |ch|
         # next if ch == 'pois' # In case we dont want to show Pois
 
-        to_show << build_objects(ch, only_followed) if ch != 'followed'
+        to_show << build_objects(ch, only_followed) if ch != "followed"
       end
     end
 
@@ -173,7 +174,7 @@ class ContentController < ApplicationController
 
   def get_master(user_id)
     count = 0
-    selected = ''
+    selected = ""
     Receta.where(user_id: user_id)
           .joins(:categoria_receta)
           .select(:nombre)
