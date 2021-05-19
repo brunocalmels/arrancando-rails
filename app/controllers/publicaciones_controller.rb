@@ -39,7 +39,7 @@ class PublicacionesController < ApplicationController
       vistas: @publicacion.increment(:vistas, 1).vistas
     )
 
-    if request.format.html?
+    unless request.format.json?
       @og_image_url = first_image_to_share(@publicacion)
       @total_attachment_size = @publicacion.imagenes.map(&:byte_size).sum
     end

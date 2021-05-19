@@ -41,12 +41,11 @@ class PoisController < ApplicationController
   # GET /pois/1
   # GET /pois/1.json
   def show
-    # @poi.update(vistas: @poi.vistas + 1)
     @poi.update_columns(
       vistas: @poi.increment(:vistas, 1).vistas
     )
 
-    if request.format.html?
+    unless request.format.json?
       @og_image_url = first_image_to_share(@poi)
       @total_attachment_size = @poi.imagenes.map(&:byte_size).sum
     end
