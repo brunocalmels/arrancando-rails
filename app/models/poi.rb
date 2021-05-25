@@ -28,7 +28,7 @@ class Poi < ApplicationRecord
   belongs_to :ciudad, optional: true
   has_many_attached :imagenes
   has_rich_text :cuerpo_rich
-  paginates_per 30
+  paginates_per 10
 
   has_many :comentarios,
            dependent: :destroy,

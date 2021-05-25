@@ -13,6 +13,7 @@ class ContentController < ApplicationController
                 if: -> { request.format.json? }
 
   # TODO: Fix this. Lots of room for improvement (rewrite as ActiveRecord queries)
+  # PERFORMANCE
   # GET /content?data=[{1: publicaciones}, {2: recetas}, {3: pois},].json
   def saved
     out = []

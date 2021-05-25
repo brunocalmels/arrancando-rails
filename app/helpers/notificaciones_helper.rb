@@ -196,6 +196,8 @@ module NotificacionesHelper
     titulo = "@#{creador.username}, a quien seguís, creó una nueva #{pretty_tipo}"
     cuerpo = item.titulo
     url = "/#{tipo.pluralize.downcase}/#{item.id}"
+    # TODO: This needs to be moved to a separate tasks, to be fulfilled async in anothe worker.
+    # PERFORMANCE
     creador.seguidores.each do |seg|
       seguidor = User.find(seg.seguidor_id)
       Notificacion.create(
