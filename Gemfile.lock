@@ -124,6 +124,7 @@ GEM
     childprocess (3.0.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.5)
+    connection_pool (2.2.5)
     crass (1.0.5)
     debug_inspector (0.0.3)
     devise (4.7.1)
@@ -349,6 +350,10 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     shellany (0.0.1)
+    sidekiq (6.2.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
     signet (0.12.0)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -450,6 +455,7 @@ DEPENDENCIES
   rubocop-performance
   scout_apm
   selenium-webdriver
+  sidekiq
   signet
   simple_command
   spring

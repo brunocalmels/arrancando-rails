@@ -17,27 +17,34 @@ module NotificacionesHelper
               })
   end
 
+  def create_notification_and_send(user_id, titulo, cuerpo, url)
+    user = User.find(user_id)
+    Notificacion.create(
+      titulo: titulo,
+      cuerpo: cuerpo,
+      url: url,
+      user: user,
+    )
+    unless user.firebase_token.nil?
+      set_fcm
+      response = send_fcm(
+        user.firebase_token,
+        titulo,
+        cuerpo,
+        url: url,
+      )
+    end
+  end
+
   def nuevo_comentario_publicacion(comentario)
     if comentario.publicacion.user != current_user
       titulo = "Nuevo comentario"
       cuerpo = "@#{comentario.user.username} comentó tu publicación '#{comentario.publicacion.titulo}'"
       url = "/publicaciones/#{comentario.publicacion.id}"
       user = comentario.publicacion.user
-      Notificacion.create(
-        titulo: titulo,
-        cuerpo: cuerpo,
-        url: url,
-        user: user,
+      NotificationSendSingleWorker.perform_async(
+        user.id, titulo, cuerpo, url
       )
-      unless user.firebase_token.nil?
-        set_fcm
-        response = send_fcm(
-          user.firebase_token,
-          titulo,
-          cuerpo,
-          url: url,
-        )
-      end
     end
   end
 
@@ -47,21 +54,9 @@ module NotificacionesHelper
       cuerpo = "@#{comentario.user.username} comentó tu receta '#{comentario.receta.titulo}'"
       url = "/recetas/#{comentario.receta.id}"
       user = comentario.receta.user
-      Notificacion.create(
-        titulo: titulo,
-        cuerpo: cuerpo,
-        url: url,
-        user: user,
+      NotificationSendSingleWorker.perform_async(
+        user.id, titulo, cuerpo, url
       )
-      unless user.firebase_token.nil?
-        set_fcm
-        response = send_fcm(
-          user.firebase_token,
-          titulo,
-          cuerpo,
-          url: url,
-        )
-      end
     end
   end
 
@@ -71,21 +66,9 @@ module NotificacionesHelper
       cuerpo = "@#{comentario.user.username} comentó tu tienda '#{comentario.poi.titulo}'"
       url = "/pois/#{comentario.poi.id}"
       user = comentario.poi.user
-      Notificacion.create(
-        titulo: titulo,
-        cuerpo: cuerpo,
-        url: url,
-        user: user,
+      NotificationSendSingleWorker.perform_async(
+        user.id, titulo, cuerpo, url
       )
-      unless user.firebase_token.nil?
-        set_fcm
-        response = send_fcm(
-          user.firebase_token,
-          titulo,
-          cuerpo,
-          url: url,
-        )
-      end
     end
   end
 
@@ -98,21 +81,9 @@ module NotificacionesHelper
     cuerpo = "Tu #{pretty_tipo} #{obj.titulo} obtuvo #{puntaje} #{puntaje > 1 ? "puntos" : "punto"}"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def compartio_contenido(obj, tipo)
@@ -122,21 +93,9 @@ module NotificacionesHelper
     cuerpo = "@#{current_user.username} compartió tu #{pretty_tipo} #{obj.titulo}"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def nuevo_like_comentario(comentario, tipo, obj_id)
@@ -145,21 +104,9 @@ module NotificacionesHelper
     cuerpo = "@#{current_user.username} indicó que le gustó tu comentario: #{comentario.mensaje[0, 10]}..."
     url = "/#{tipo}/#{obj_id}"
     user = comentario.user
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def nuevo_seguimiento(seguimiento)
@@ -168,21 +115,9 @@ module NotificacionesHelper
     cuerpo = "@#{current_user.username} ha comenzado a seguirte, seguilo/a vos también!"
     url = "/usuarios/#{current_user.username}"
     user = seguimiento.seguido
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def notificar_created(item)
@@ -196,26 +131,10 @@ module NotificacionesHelper
     titulo = "@#{creador.username}, a quien seguís, creó una nueva #{pretty_tipo}"
     cuerpo = item.titulo
     url = "/#{tipo.pluralize.downcase}/#{item.id}"
-    # TODO: This needs to be moved to a separate tasks, to be fulfilled async in anothe worker.
-    # PERFORMANCE
-    creador.seguidores.each do |seg|
-      seguidor = User.find(seg.seguidor_id)
-      Notificacion.create(
-        titulo: titulo,
-        cuerpo: cuerpo,
-        url: url,
-        user: seguidor,
-      )
-      unless seguidor.firebase_token.nil?
-        set_fcm
-        response = send_fcm(
-          seguidor.firebase_token,
-          titulo,
-          cuerpo,
-          url: url,
-        )
-      end
-    end
+    seguidores_ids = creador.seguidores.pluck :seguidor_id
+    NotificationSendMultipleWorker.perform_async(
+      seguidores_ids, titulo, cuerpo, url
+    )
   end
 
   def nueva_mencion(obj, tipo, user, comentario: false)
@@ -239,22 +158,9 @@ module NotificacionesHelper
            obj.id
          end
     url = "/#{tipo}/#{id}"
-    user = user
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def nueva_mencion_en_mensaje(current_user, mensaje, user, grupo)
@@ -264,23 +170,9 @@ module NotificacionesHelper
     cuerpo = "@#{current_user.username} te mencionó en el grupo de chat #{grupo.nombre}"
     id = grupo.id
     url = "/grupo_chats/#{id}"
-    user = user
-
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def guardo_contenido(obj)
@@ -292,21 +184,9 @@ module NotificacionesHelper
     tipo = tipo == "publicacion" ? "publicaciones" : tipo + "s"
     url = "/#{tipo}/#{obj.id}"
     user = obj.user
-    Notificacion.create(
-      titulo: titulo,
-      cuerpo: cuerpo,
-      url: url,
-      user: user,
+    NotificationSendSingleWorker.perform_async(
+      user.id, titulo, cuerpo, url
     )
-    unless user.firebase_token.nil?
-      set_fcm
-      response = send_fcm(
-        user.firebase_token,
-        titulo,
-        cuerpo,
-        url: url,
-      )
-    end
   end
 
   def web_fcm(notificacion)

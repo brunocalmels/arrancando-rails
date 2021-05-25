@@ -34,7 +34,7 @@ class ComentarioPublicacionesController < ApplicationController
       if @comentario_publicacion.save
         nuevo_comentario_publicacion(@comentario_publicacion)
         notificar_mencionados(@comentario_publicacion, "publicaciones", comentario: true)
-        format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion fue satisfactoriamente creada.' }
+        format.html { redirect_to @comentario_publicacion, notice: "Comentario publicacion fue satisfactoriamente creada." }
         format.json { render :show, status: :created, location: @comentario_publicacion }
       else
         format.html { render :new }
@@ -49,7 +49,7 @@ class ComentarioPublicacionesController < ApplicationController
     authorize @comentario_publicacion, policy_class: ComentarioPolicy
     respond_to do |format|
       if @comentario_publicacion.update(comentario_publicacion_params)
-        format.html { redirect_to @comentario_publicacion, notice: 'Comentario publicacion fue satisfactoriamente actualizada.' }
+        format.html { redirect_to @comentario_publicacion, notice: "Comentario publicacion fue satisfactoriamente actualizada." }
         format.json { render :show, status: :ok, location: @comentario_publicacion }
       else
         format.html { render :edit }
@@ -64,7 +64,7 @@ class ComentarioPublicacionesController < ApplicationController
     authorize @comentario_publicacion, policy_class: ComentarioPolicy
     @comentario_publicacion.destroy
     respond_to do |format|
-      format.html { redirect_to comentario_publicaciones_url, notice: 'Comentario publicacion fue satisfactoriamente eliminada.' }
+      format.html { redirect_to comentario_publicaciones_url, notice: "Comentario publicacion fue satisfactoriamente eliminada." }
       format.json { head :no_content }
     end
   end
