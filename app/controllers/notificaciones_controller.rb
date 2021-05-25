@@ -6,11 +6,11 @@ class NotificacionesController < ApplicationController
 
   # GET /notificaciones.json
   def index
-    @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc).page(params['page'] || 1)
+    @notificaciones = Notificacion.where(user_id: current_user).order(created_at: :desc).page(params["page"] || 1)
   end
 
   def unread
-    @notificaciones = Notificacion.where(user_id: current_user, leido: false).order(created_at: :desc)
+    @notificaciones = Notificacion.where(user_id: current_user, leido: false).order(created_at: :desc).page(1)
     render json: @notificaciones
   end
 
@@ -23,7 +23,7 @@ class NotificacionesController < ApplicationController
   def new
     @notificacion = Notificacion.new
 
-    @filtered_user_ids = params['user_ids']
+    @filtered_user_ids = params["user_ids"]
   end
 
   # # GET /notificaciones/1/edit
@@ -38,7 +38,7 @@ class NotificacionesController < ApplicationController
       send_to_all
       return
     elsif params[:filtered_user_ids]
-      @users = User.find(params[:filtered_user_ids].split(' '))
+      @users = User.find(params[:filtered_user_ids].split(" "))
       send_to_some
       return
     end
