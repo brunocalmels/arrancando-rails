@@ -6,6 +6,7 @@ Arrancando es una app para apasionados por la comida. Es una comunidad donde pod
 ### Performance improvements
 
 - [ ] /publicaciones/new.html.erb está generando timeouts por el N+1 de ciudades y provincias (https://my.papertrailapp.com/groups/25145861/events?focus=1334321140786372629&q=%222f8f659d-2797-4127-8094-57d0d50b3324%22)
+- [ ] Pasar notificaciones masivas a Sidekiq.
 - [ ] Crear índice en Items para puntuación y utilizarlo para scope sorted_by. Crear task para actualizarlo periódicamente.
 - [ ] Considerar caché de fragmentos de vistas (comentarios, x ej, q se renderizan mucho).
 - [ ] Encolar (queue) todos los envíos de notificaciones de FCM (NotificacionesHelper::notificar_seguidores, x ej).
