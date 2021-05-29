@@ -2,7 +2,6 @@
   <% if publicacion.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(publicacion.errors.count, "error") %> impidió que este publicacion se guardara:</h2>
-
       <ul>
         <% publicacion.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,32 +9,26 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= form.label :titulo %>
     <%= form.text_field :titulo %>
   </div>
-
   <div class="field">
     <%= form.label :cuerpo %>
     <%= form.text_area :cuerpo %>
   </div>
-
   <div class="field">
     <%= form.label 'Usuario' %>
     <%= form.select :user_id, User.all.collect { |c| [c.username, c.id] } %>
   </div>
-
   <div class="field">
     <%= form.label 'Categoría' %>
     <%= form.select :categoria_publicacion_id, CategoriaPublicacion.all.collect { |c| [c.nombre, c.id] } %>
   </div>
-
   <div class="field">
     <%= form.label :habilitado %>
     <%= form.check_box :habilitado %>
   </div>
-
   <!--
   <div class="field">
     <%= form.label :cuerpo_rich %>
@@ -47,21 +40,24 @@
     <%= form.text_field :puntajes %>
   </div>
   -->
-
   <div class="field">
     <%= form.label :ciudad %>
-    <%= form.select :ciudad_id, Ciudad.order(nombre: :asc).collect { |c| [c.nombre_con_provincia, c.id] } %>
+    <%=
+      form.select :ciudad_id,
+      @ciudades.collect { |c|
+        [c.nombre_con_provincia, c.id]
+      }
+    %>
   </div>
-
   <div class="multimedia">
     <% publicacion.imagenes.any? && publicacion.imagenes.each_with_index do |img, i| %>
-    <div class="item_multimedia">
-      <% case img.blob.content_type %>
-      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+      <div class="item_multimedia">
+        <% case img.blob.content_type %>
+        <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
         <video controls>
           <source src=<%= asset_url_for(img, device: 'web') %> />
         </video>
-      <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
+        <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
         <%= image_tag(asset_url_for(img, device: 'web')) %>
       <% end %>
       <div>
@@ -69,15 +65,13 @@
         <%= check_box_tag "remove_imagenes[#{i}]", asset_url_for(img) %>
       </div>
     </div>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= form.label :imagenes %>
-    <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg' %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit :Guardar, class: "btn btn-success" %>
-  </div>
+  <% end %>
+</div>
+<div class="field">
+  <%= form.label :imagenes %>
+  <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg' %>
+</div>
+<div class="actions">
+  <%= form.submit :Guardar, class: "btn btn-success" %>
+</div>
 <% end %>

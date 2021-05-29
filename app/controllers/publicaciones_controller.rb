@@ -3,6 +3,7 @@ class PublicacionesController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
   before_action :set_publicacion, only: %i[show edit update destroy puntuar saved]
+  before_action :set_ciudades, only: %i[new edit]
 
   caches_action :index,
                 expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
@@ -201,6 +202,10 @@ class PublicacionesController < ApplicationController
     else
       params.require(:publicacion).permit(:titulo, :cuerpo, :puntajes, :ciudad_id, :habilitado, :user_id)
     end
+  end
+
+  def set_ciudades
+    @ciudades = Ciudad.eager_load(:provincia).order(nombre: :asc)
   end
 end
 
