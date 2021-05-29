@@ -132,6 +132,8 @@ module ContentHelper
         resize_to_limit: [max_width, max_height],
       ).processed)
     end
+  rescue ActiveStorage::FileNotFoundError
+    url_for("/images/missing.png")
   end
 
   def get_max_sizes(img, max_width, max_height)
@@ -163,13 +165,13 @@ module ContentHelper
       ))
     else
       begin
-      url_for(obj.imagenes.first.variant(
-        resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
-      ).processed)
-    rescue
-      ActiveStorage::FileNotFoundError
-      nil
-    end
+        url_for(obj.imagenes.first.variant(
+          resize_to_limit: [THUMB_SIZE, THUMB_SIZE],
+        ).processed)
+      rescue
+        ActiveStorage::FileNotFoundError
+        nil
+      end
     end
   end
 
