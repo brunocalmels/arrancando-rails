@@ -68,6 +68,7 @@ class Publicacion < ApplicationRecord
     ]
   )
 
+  # rubocop:disable Metrics/BlockLength
   scope :sorted_by, lambda { |sort_option|
     direction = "desc"
     publicaciones = Publicacion.arel_table
@@ -83,6 +84,23 @@ class Publicacion < ApplicationRecord
     when "puntuacion"
       # rubocop:disable Metrics/LineLength
       q = 'SELECT publicaciones.id, avg, cant_punt, coms from publicaciones LEFT JOIN  ( SELECT id, avg(value::FLOAT), count(*) as cant_punt FROM "publicaciones" LEFT JOIN jsonb_each(puntajes) d ON true GROUP BY "publicaciones"."id" ) complex ON publicaciones.id = complex.id LEFT JOIN ( SELECT publicacion_id, count(*) AS coms FROM comentario_publicaciones GROUP BY publicacion_id ) comms_pub ON publicaciones.id = comms_pub.publicacion_id ORDER BY avg DESC nulls LAST, cant_punt DESC nulls LAST, coms DESC nulls LAST'
+      ids = ActiveRecord::Base.connection.execute(q).pluck "id"
+      Publicacion.where(id: ids).order_by_ids(ids)
+    when "attachment_size"
+      q = 'SELECT publicaciones.id
+      FROM publicaciones
+      ORDER BY (
+        SELECT SUM(active_storage_blobs.byte_size) as suma
+        FROM active_storage_blobs
+        WHERE active_storage_blobs.id IN (
+          SELECT active_storage_attachments.id
+          FROM active_storage_attachments
+          WHERE
+          active_storage_attachments.record_id = publicaciones.id AND
+          active_storage_attachments.record_type = "Publicacion" AND
+          active_storage_attachments.name = "imagenes"
+        )
+        ) DESC nulls LAST;'
       # rubocop:enable Metrics/LineLength
       ids = ActiveRecord::Base.connection.execute(q).pluck "id"
       Publicacion.where(id: ids).order_by_ids(ids)
@@ -91,6 +109,7 @@ class Publicacion < ApplicationRecord
             "Invalid sort option: #{sort_option.inspect}")
     end
   }
+  # rubocop:enable Metrics/BlockLength
 
   scope :search_query, lambda { |query|
     where(
