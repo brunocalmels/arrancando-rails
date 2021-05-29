@@ -119,9 +119,9 @@ class User < ApplicationRecord
 
   scope :search_query, lambda { |query|
     where(
-      "LOWER(apellido) LIKE ?
-      OR LOWER(nombre) LIKE ?
-      OR LOWER(username) LIKE ?",
+      "LOWER(users.apellido) LIKE ?
+      OR LOWER(users.nombre) LIKE ?
+      OR LOWER(users.username) LIKE ?",
       "%#{query.to_s.downcase}%",
       "%#{query.to_s.downcase}%",
       "%#{query.to_s.downcase}%"
