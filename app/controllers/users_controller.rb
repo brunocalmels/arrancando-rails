@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   include UsersMigrationHelper
 
   before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_ciudades, only: %i[new edit]
   before_action :assure_admin!, except: %i[show_by_username create update login set_avatar google_client new_google_client apple_client facebook_client new_facebook_client set_firebase_token by_username usernames]
   skip_before_action :authenticate_request, only: %i[show_by_username create login google_client new_google_client apple_client facebook_client new_facebook_client]
   before_action :user_by_email, only: %i[google_client]
@@ -41,7 +42,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html do
         @user_ids = @users.pluck :id
-        @users = @users.page(params[:page])
+        @users = @users
+                 .page(params[:page])
+                 .eager_load(:ciudad)
+                 .with_attached_avatar
       end
       format.xls do
         config_file
@@ -114,7 +118,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to(root_url, alert: "Usuario inexistente") && return unless
-        (@user = User.find_by_username(params.require(:username)))
+          (@user = User.find_by_username(params.require(:username)))
         @og_image_url = rails_blob_path(@user.avatar) if @user.avatar.attached?
         render :show
       end

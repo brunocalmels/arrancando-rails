@@ -41,7 +41,7 @@
   </div>
   <div class="field">
     <%= form.label :ciudad %>
-    <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre_con_provincia, c.id] } %>
+    <%= form.select :ciudad_id, @ciudades.collect { |c| [c.nombre_con_provincia, c.id] } %>
   </div>
   <div class="field">
     <%= form.label "Teléfono" %>

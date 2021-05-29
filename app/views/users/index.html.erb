@@ -111,7 +111,6 @@
       <% @users.each do |user| %>
         <tr>
           <td>
-            <% Rails.logger.info "User: #{user.username}" %>
             <%= begin
               (user.avatar.attached? &&
                   user.avatar.blob.content_type.in?(PERMITTED_IMAGE_TYPES)) ?
