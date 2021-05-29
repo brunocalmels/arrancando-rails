@@ -81,4 +81,8 @@ class ApplicationController < ActionController::Base
   end
 
   # rubocop: enable Metrics/CyclomaticComplexity
+
+  def set_ciudades
+    @ciudades = Ciudad.eager_load(:provincia).order(nombre: :asc)
+  end
 end

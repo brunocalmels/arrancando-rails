@@ -3,6 +3,7 @@ class PoisController < ApplicationController
   include PoisHelper
   include NotificacionesHelper
   before_action :set_poi, only: %i[show edit update destroy puntuar saved]
+  before_action :set_ciudades, only: %i[new edit]
 
   caches_action :index,
                 expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
@@ -23,14 +24,18 @@ class PoisController < ApplicationController
       select_options: {}
     )
 
-    # Sin uso real
-    # @pois = policy_scope(@filterrific.try(:find) || Poi)
     @pois = @filterrific.try(:find) || Poi
 
     if request.format.json? && !params.include?("filterrific")
       filter_by_categria_poi_id
       filter_by_term
       filter_habilitados
+    elsif request.format.html?
+      @ciudades_con_pois = Ciudad
+                           .eager_load(:provincia)
+                           .joins(:pois)
+                           .distinct
+                           .order(nombre: :asc)
     end
 
     fetch_items
@@ -87,8 +92,6 @@ class PoisController < ApplicationController
     respond_to do |format|
       format.html do
         if (params[:poi][:imagenes].nil? || save_images_html(params, @poi, :poi)) && @poi.valid? && @poi.save
-          # expire_action :action => :index, cache_path: -> { request.fullpath }
-          # expire_action :action => :search, cache_path: -> { request.fullpath }
           redirect_to new_poi_path, notice: "PoI satisfactoriamente creado."
         else
           render :new
@@ -166,12 +169,15 @@ class PoisController < ApplicationController
 
   def fetch_items
     @pois = @pois
+            .eager_load(:user, :categoria_poi, :ciudad)
+            .with_attached_imagenes
             .order(titulo: :asc)
             .limit(params.key?(:limit) ? params[:limit].to_i : 10)
             .offset(params.key?(:offset) ? params[:offset].to_i : 0)
     return if params[:limit] && request.format.json?
 
-    @pois = @pois.page(params[:page]).with_attached_imagenes
+    @pois = @pois
+            .page(params[:page])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

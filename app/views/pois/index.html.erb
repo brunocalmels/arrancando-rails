@@ -16,7 +16,7 @@
       </p>
       <%= f.select(
         :ciudad_id,
-        Ciudad.joins(:pois).distinct.order(nombre: :asc).collect { |c| [c.nombre_con_provincia, c.id] },
+        @ciudades_con_pois.collect { |c| [c.nombre_con_provincia, c.id] },
         include_blank: true
       ) %>
     </div>

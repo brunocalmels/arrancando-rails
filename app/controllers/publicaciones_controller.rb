@@ -26,6 +26,8 @@ class PublicacionesController < ApplicationController
       filter_by_ciudad_id
       filter_by_term
       filter_habilitados
+    elsif request.format.html?
+      set_ciudades_con_publicaciones
     end
 
     fetch_items
@@ -185,14 +187,14 @@ class PublicacionesController < ApplicationController
 
   def fetch_items
     @publicaciones = @publicaciones
+                     .eager_load(:user, :ciudad, :categoria_publicacion)
+                     .with_attached_imagenes
                      .order(updated_at: :desc)
                      .limit(params.key?(:limit) ? params[:limit].to_i : 10)
                      .offset(params.key?(:offset) ? params[:offset].to_i : 0)
     return if params[:limit] && request.format.json?
 
-    @publicaciones = @publicaciones
-                     .page(params[:page])
-                     .with_attached_imagenes
+    @publicaciones = @publicaciones.page(params[:page])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
@@ -204,8 +206,12 @@ class PublicacionesController < ApplicationController
     end
   end
 
-  def set_ciudades
-    @ciudades = Ciudad.eager_load(:provincia).order(nombre: :asc)
+  def set_ciudades_con_publicaciones
+    @ciudades_con_publicaciones = Ciudad
+                                  .eager_load(:provincia)
+                                  .joins(:publicaciones)
+                                  .distinct
+                                  .order(nombre: :asc)
   end
 end
 

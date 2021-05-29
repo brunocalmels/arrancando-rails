@@ -2,7 +2,6 @@
   <% if poi.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(poi.errors.count, "error") %> impidió que este Poi se guardara:</h2>
-
       <ul>
         <% poi.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,69 +9,62 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= form.label 'Usuario' %>
     <%= form.select :user_id, User.all.collect { |c| [c.username, c.id] } %>
   </div>
-
   <div class="field">
     <%= form.label :titulo %>
     <%= form.text_field :titulo %>
   </div>
-
   <div class="field">
     <%= form.label :cuerpo %>
     <%= form.text_area :cuerpo %>
   </div>
-
   <div class="field">
     <%= form.label :whatsapp %>
     <%= form.number_field :whatsapp %>
     <p style="margin-left: 20px; max-width: 300px;">Comenzando por código de país (549 para Argentina), después código de área, sin símbolos ni espacios (por ej. 5492994589675).</p>
   </div>
-
   <div class="field">
     <%= form.label :lat %>
     <%= form.text_field :lat %>
   </div>
-
   <div class="field">
     <%= form.label :long %>
     <%= form.text_field :long %>
   </div>
-
   <div class="field">
     <%= form.label :ciudad %>
-    <%= form.select :ciudad_id, Ciudad.all.collect { |c| [c.nombre_con_provincia, c.id] } %>
+    <%= form.select :ciudad_id, @ciudades.collect { |c|
+      [c.nombre_con_provincia, c.id] }
+    %>
   </div>
-
   <div class="field">
     <%= form.label 'Categoría' %>
-    <%= form.select :categoria_poi_id, CategoriaPoi.all.collect { |c| [c.nombre, c.id] } %>
+    <%= form.select :categoria_poi_id, CategoriaPoi.all.collect { |c|
+      [c.nombre, c.id] }
+    %>
   </div>
-
   <div class="field">
     <%= form.label :habilitado %>
     <%= form.check_box :habilitado %>
   </div>
-
   <!--
   <div class="field">
     <%= form.label :puntaje %>
     <%= form.text_field :puntaje %>
   </div>
   -->
-
   <div class="multimedia">
     <% poi.imagenes.any? && poi.imagenes.each_with_index do |img, i| %>
-    <div class="item_multimedia">
-      <% case img.blob.content_type %>
-      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+      <div class="item_multimedia">
+        <% case img.blob.content_type %>
+        <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
         <video controls>
           <source src=<%= asset_url_for(img, device: 'web') %> />
         </video>
-      <% when 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' %>
+        <% when 'image/jpg', 'image/jpeg', 'image/png', 'image/gif' %>
         <%= image_tag(asset_url_for(img, device: 'web')) %>
       <% end %>
       <div>
@@ -80,16 +72,13 @@
         <%= check_box_tag "remove_imagenes[#{i}]", asset_url_for(img, device: 'web') %>
       </div>
     </div>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= form.label 'Imágenes' %>
-    <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg'%>
-  </div>
-
-
-  <div class="actions">
-    <%= form.submit :Guardar, class: "btn btn-success" %>
-  </div>
+  <% end %>
+</div>
+<div class="field">
+  <%= form.label 'Imágenes' %>
+  <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg'%>
+</div>
+<div class="actions">
+  <%= form.submit :Guardar, class: "btn btn-success" %>
+</div>
 <% end %>

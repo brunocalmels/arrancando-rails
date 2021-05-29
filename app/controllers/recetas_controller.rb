@@ -206,14 +206,14 @@ class RecetasController < ApplicationController
 
   def fetch_items
     @recetas = @recetas
+               .eager_load(:user, :categoria_receta)
+               .with_attached_imagenes
                .order(updated_at: :desc)
                .limit(params.key?(:limit) ? params[:limit].to_i : 10)
                .offset(params.key?(:offset) ? params[:offset].to_i : 0)
     return if params[:limit] && request.format.json?
 
-    @recetas = @recetas
-               .page(params[:page])
-               .with_attached_imagenes
+    @recetas = @recetas.page(params[:page])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
