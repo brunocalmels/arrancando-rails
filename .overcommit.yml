@@ -41,8 +41,9 @@ PreCommit:
     enabled: true
     exclude:
       - "**/db/structure.sql"
+      - "db/sample_queries/*"
       - "scripts/*"
-      - '*.sql'
+      - "*.sql"
 
   YamlSyntax:
     enabled: true

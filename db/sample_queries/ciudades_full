@@ -1,0 +1,25 @@
+﻿SELECT 
+  ciudades.nombre AS ciudad_nombre,
+  ciudades.id,
+  provincias.nombre AS provincia_nombre,
+  COUNT(DISTINCT(publicaciones.id)) AS publicaciones_count,
+  COUNT(DISTINCT(users.id)) AS users_count,
+  COUNT(DISTINCT(pois.id)) AS pois_count
+  
+FROM
+  public.ciudades
+  JOIN public.provincias ON provincias.id = ciudades.provincia_id
+  FULL JOIN public.publicaciones ON publicaciones.ciudad_id = ciudades.id 
+  FULL JOIN public.users ON users.ciudad_id = ciudades.id
+  FULL JOIN public.pois ON pois.ciudad_id = ciudades.id
+
+
+GROUP BY
+  ciudades.id, provincias.id
+
+ORDER BY ciudades.id
+
+ 
+ 
+
+;

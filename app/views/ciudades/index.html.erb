@@ -1,19 +1,17 @@
 <% provide(:title, "Ciudades") %>
-
 <% unless @ciudades_alert.empty? %>
   <div class='ciudades_alert'>
     <h3>Ciudades con usuarios activos y sin popular:</h3>
     <ul>
-    <% @ciudades_alert.each do |ciudad| %>
-      <li>
-        <%= ciudad[0] %>
-        (id: <%= ciudad[1] %>)
-      </li>
-    <% end %>
+      <% @ciudades_alert.each do |ciudad| %>
+        <li>
+          <%= ciudad[0] %>
+          (id: <%= ciudad[1] %>)
+        </li>
+      <% end %>
     </ul>
   </div>
 <% end %>
-
 <% if @ciudades.any? || @filterrific.present? %>
   <%= form_for_filterrific @filterrific, url: "/ciudades" do |f| %>
     <div>
@@ -31,7 +29,7 @@
       </p>
       <%= f.select(
         :provincia_id,
-        Provincia.order(nombre: :asc).collect { |c| [c.nombre_con_pais, c.id] },
+        @provincias.collect { |c| [c.nombre_con_pais, c.id] },
         include_blank: true
       ) %>
     </div>
@@ -47,7 +45,6 @@
     </div>
   <% end %>
 <% end %>
-
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -62,17 +59,16 @@
         <th colspan="3"></th>
       </tr>
     </thead>
-
     <tbody>
       <% @ciudades.each do |ciudad| %>
         <tr>
           <td style="font-style: italic; font-size: 90%;"><%= ciudad.id %></td>
           <td><%= ciudad.nombre %></td>
-          <td><%= ciudad.provincia.nombre %></td>
-          <td><%= ciudad.users.count %></td>
-          <td><%= ciudad.publicaciones.count %></td>
+          <td><%= ciudad.provincia_nombre %></td>
+          <td><%= ciudad.users_count %></td>
+          <td><%= ciudad.publicaciones_count %></td>
           <td><%= ciudad.populada? ? "Sí" : "No" %></td>
-          <td><%= ciudad.pois.count %></td>
+          <td><%= ciudad.pois_count %></td>
           <td>
             <%= link_to ciudad_path(ciudad), class: "btn btn-xs btn-success" do %>
               <i class="fa fa-eye"></i>
@@ -83,23 +79,19 @@
               <i class="fa fa-pencil-alt"></i>
             <% end %>
           </td>
-        <td>
-          <%= button_to ciudad, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta ciudad?" } do %>
-            <i class="fa fa-trash"></i>
-          <% end %>
-        </td>
+          <td>
+            <%= button_to ciudad, class: "btn btn-xs btn-danger", method: :delete, data: { confirm: "¿Seguro de que desea eliminar esta ciudad?" } do %>
+              <i class="fa fa-trash"></i>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
-
 <%= paginate @ciudades %>
-
 <br>
-
 <div class="botonera">
   <%= link_to 'Importación masiva', ciudades_importacion_masiva_path, class: 'btn btn-info' %>
   <%= link_to 'Nueva Ciudad', new_ciudad_path, class: 'btn btn-success' %>
 </div>
-
