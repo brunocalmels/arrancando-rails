@@ -2,7 +2,8 @@
 class PublicacionesController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
-  before_action :set_publicacion, only: %i[show edit update destroy puntuar saved]
+  before_action :set_publicacion, only: %i[update destroy puntuar saved]
+  before_action :set_publicacion_with_attachments, only: %i[show edit]
   before_action :set_ciudades, only: %i[new edit]
 
   caches_action :index,
@@ -182,7 +183,14 @@ class PublicacionesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_publicacion
-    @publicacion = Publicacion.with_attached_imagenes.find(params[:id])
+    @publicacion = Publicacion.find(params[:id])
+  end
+
+  def set_publicacion_with_attachments
+    @publicacion = Publicacion
+                   .eager_load(comentarios: [:user])
+                   .with_attached_imagenes
+                   .find(params[:id])
   end
 
   def fetch_items

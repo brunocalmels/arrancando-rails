@@ -2,7 +2,8 @@ class PoisController < ApplicationController
   include ContentHelper
   include PoisHelper
   include NotificacionesHelper
-  before_action :set_poi, only: %i[show edit update destroy puntuar saved]
+  before_action :set_poi, only: %i[update destroy puntuar saved]
+  before_action :set_poi_with_attachments, only: %i[show edit]
   before_action :set_ciudades, only: %i[new edit]
 
   caches_action :index,
@@ -165,6 +166,13 @@ class PoisController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_poi
     @poi = Poi.with_attached_imagenes.find(params[:id])
+  end
+
+  def set_poi_with_attachments
+    @poi = Poi.
+           # eager_load(:comentarios => [:user]).
+           with_attached_imagenes
+              .find(params[:id])
   end
 
   def fetch_items

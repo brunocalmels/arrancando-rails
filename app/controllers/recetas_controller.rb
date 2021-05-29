@@ -3,7 +3,8 @@
 class RecetasController < ApplicationController
   include ContentHelper
   include NotificacionesHelper
-  before_action :set_receta, only: %i[show edit update destroy puntuar saved]
+  before_action :set_receta, only: %i[update destroy puntuar saved]
+  before_action :set_receta_with_attachments, only: %i[show edit]
 
   caches_action :index,
                 expires_in: DEFAULT_INDEX_ACTION_CACHE_DURATION,
@@ -201,7 +202,14 @@ class RecetasController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_receta
-    @receta = Receta.with_attached_imagenes.find(params[:id])
+    @receta = Receta.find(params[:id])
+  end
+
+  def set_receta_with_attachments
+    @receta = Receta
+              .eager_load(comentarios: [:user])
+              .with_attached_imagenes
+              .find(params[:id])
   end
 
   def fetch_items
