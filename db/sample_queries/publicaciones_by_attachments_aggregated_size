@@ -1,0 +1,14 @@
+﻿SELECT publicaciones.id
+FROM publicaciones
+ORDER BY (
+	SELECT SUM(active_storage_blobs.byte_size) as suma
+	FROM active_storage_blobs
+	WHERE active_storage_blobs.id IN (
+		SELECT active_storage_attachments.id
+		FROM active_storage_attachments
+		WHERE
+		active_storage_attachments.record_id = publicaciones.id AND
+		active_storage_attachments.record_type = 'Publicacion' AND
+		active_storage_attachments.name = 'imagenes'
+	)
+) DESC nulls LAST;
