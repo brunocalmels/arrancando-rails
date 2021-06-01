@@ -90,6 +90,14 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
+  # Lograge for reducing Rails logs noise
+  config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    params = event.payload[:params].reject do |k|
+      %w[controller action].include? k
+    end
+    { "params" => params }
+  end
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

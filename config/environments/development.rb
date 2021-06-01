@@ -62,6 +62,16 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  # Trying Lograge
+  config.lograge.enabled = true
+  config.lograge.custom_options = lambda do |event|
+    params = event.payload[:params].reject do |k|
+      %w[controller action].include? k
+    end
+    { "params" => params }
+  end
+  config.log_level = :info
+
   config.hosts << "192.168.1.3.xip.io" # Para callbacks de OAuth
 
   # config.action_cable.url = "ws://localhost:5000"
