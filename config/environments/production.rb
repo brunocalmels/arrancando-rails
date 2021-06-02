@@ -90,11 +90,12 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
   end
+
   # Lograge for reducing Rails logs noise
   config.lograge.enabled = true
   config.lograge.custom_options = lambda do |event|
     params = event.payload[:params].reject do |k|
-      %w[controller action].include? k
+      %w[controller action params].include? k
     end
     { "params" => params }
   end
