@@ -94,8 +94,11 @@ Rails.application.configure do
   # Lograge for reducing Rails logs noise
   config.lograge.enabled = true
   config.lograge.custom_options = lambda do |event|
-    params = event.payload[:params].reject do |k|
-      %w[controller action params].include? k
+    params = []
+    unless event.payload[:params].nil?
+      params = event.payload[:params].reject do |k|
+        %w[controller action params].include? k
+      end
     end
     { "params" => params }
   end
