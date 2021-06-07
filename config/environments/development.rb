@@ -62,16 +62,25 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # # Lograge Production config, for comparison
+  # Lograge for reducing Rails logs noise
   # config.lograge.enabled = true
+  # config.lograge.formatter = Lograge::Formatters::Json.new
   # config.lograge.custom_options = lambda do |event|
-  #   byebug
-  #   params = event.payload[:params].reject do |k|
-  #     ["controller", "action", "params"].include? k
+  #   params = []
+  #   unless event.payload[:params].nil?
+  #     params = event.payload[:params].reject do |k|
+  #       %w[controller action params imagenes avatar].include? k
+  #     end
   #   end
-  #   { "params" => params }
+  #   { :params => params.transform_values do |v|
+  #     if v.class == Hash
+  #       v.transform_values! { |v2| v2[0..30] }
+  #     elsif v.class == String
+  #       v[0..30]
+  #     end
+  #   end,
+  #    :level => event.payload[:level] }
   # end
-  # config.log_level = :info
 
   config.hosts << "192.168.1.3.xip.io" # Para callbacks de OAuth
 

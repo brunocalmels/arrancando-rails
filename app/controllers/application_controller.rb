@@ -16,6 +16,18 @@ class ApplicationController < ActionController::Base
     render json: { version: APP_VERSION }
   end
 
+  # Lograge setup (https://www.papertrail.com/solution/tips/seven-typical-problems-with-logging-ruby-and-how-to-solve-them/)
+  def append_info_to_payload(payload)
+    super
+    payload[:level] = if payload[:status] == 200
+                        "INFO"
+                      elsif payload[:status] == 302
+                        "WARN"
+                      else
+                        "ERROR"
+                      end
+  end
+
   protected
 
   # rubocop: disable Style/GuardClause
