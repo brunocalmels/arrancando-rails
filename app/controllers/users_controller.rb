@@ -39,12 +39,13 @@ class UsersController < ApplicationController
       .send("rol_#{@rol}"))
     # .page(params[:page])
 
+    @users = @users
+             .page(params[:page])
+             .eager_load(:ciudad)
     respond_to do |format|
       format.html do
         @user_ids = @users.pluck :id
         @users = @users
-                 .page(params[:page])
-                 .eager_load(:ciudad)
                  .with_attached_avatar
       end
       format.xls do
