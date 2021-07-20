@@ -1,0 +1,26 @@
+<% provide(:title, "Ciudades y tiendas") %>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Provincia</th>
+        <th>Tiendas</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ciudades.each do |ciudad| %>
+        <tr>
+          <td style="font-style: italic; font-size: 90%;"><%= ciudad.id %></td>
+          <td><%= ciudad.nombre %></td>
+          <td><%= ciudad.provincia_nombre %></td>
+          <td><%= ciudad.pois_count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<%= paginate @ciudades %>
+<br>

@@ -70,6 +70,11 @@ class PoisController < ApplicationController
   # GET /pois/new
   def new
     @poi = Poi.new(user: current_user)
+    # @ciudades = Ciudad
+    #   .eager_load(:provincia)
+    #   .joins(:pois)
+    #   .distinct
+    #   .order(nombre: :asc)
   end
 
   # GET /pois/1/edit

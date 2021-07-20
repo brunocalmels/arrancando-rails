@@ -72,7 +72,13 @@ Rails.application.routes.draw do
   get "ciudades/search", to: "ciudades#search"
   get "ciudades/importacion_masiva", to: "ciudades#new_importacion_masiva"
   post "ciudades/importacion_masiva", to: "ciudades#importacion_masiva"
-  resources :ciudades
+  resources :ciudades do
+    collection do
+      get :users_count
+      get :publicaciones_count
+      get :pois_count
+    end
+  end
   resources :provincias, except: %i[show]
   resources :paises, except: %i[show]
 

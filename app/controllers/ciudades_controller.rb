@@ -1,4 +1,6 @@
 class CiudadesController < ApplicationController
+  include CiudadesHelper
+
   before_action :set_ciudad, only: %i[show edit update destroy]
   before_action :set_provincias, only: %i[new edit index]
   skip_before_action :verify_authenticity_token, only: %i[importacion_masiva]
@@ -25,9 +27,36 @@ class CiudadesController < ApplicationController
           params[:filterrific],
           select_options: {}
         )
-        @ciudades = ciudades_index_full_query.page(params[:page])
+        @ciudades = ciudades_index_query.page(params[:page])
 
         alert_new_ciudades
+      end
+    end
+  end
+
+  # GET /ciudades/users_count
+  def users_count
+    respond_to do |format|
+      format.html do
+        @ciudades = users_count_query.page(params[:page])
+      end
+    end
+  end
+
+  # GET /ciudades/publicaciones_count
+  def publicaciones_count
+    respond_to do |format|
+      format.html do
+        @ciudades = publicaciones_count_query.page(params[:page])
+      end
+    end
+  end
+
+  # GET /ciudades/pois_count
+  def pois_count
+    respond_to do |format|
+      format.html do
+        @ciudades = pois_count_query.page(params[:page])
       end
     end
   end
@@ -139,24 +168,5 @@ class CiudadesController < ApplicationController
 
   def set_provincias
     @provincias = Provincia.eager_load(:pais).order(nombre: :asc)
-  end
-
-  def ciudades_index_full_query
-    Ciudad
-      .select("
-            ciudades.*,
-            provincias.nombre AS provincia_nombre,
-            COUNT(DISTINCT(publicaciones.id)) AS publicaciones_count,
-            COUNT(DISTINCT(users.id)) AS users_count,
-            COUNT(DISTINCT(pois.id)) AS pois_count
-            ")
-      .joins("
-            ciudades
-            JOIN provincias ON provincias.id = ciudades.provincia_id
-            FULL JOIN publicaciones ON publicaciones.ciudad_id = ciudades.id
-            FULL JOIN users ON users.ciudad_id = ciudades.id
-            FULL JOIN pois ON pois.ciudad_id = ciudades.id
-          ")
-      .group("ciudades.id, provincias.id")
   end
 end
