@@ -161,7 +161,10 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: "Usuario satisfactoriamente guardado." }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        format.html do
+          set_ciudades
+          render :edit
+        end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
