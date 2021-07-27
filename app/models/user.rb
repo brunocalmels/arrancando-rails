@@ -25,8 +25,6 @@
 #  firebase_token    :string
 #  url_instagram     :string
 #
-
-# rubocop:disable Metrics/ClassLength
 class User < ApplicationRecord
   include UsersHelper
   include UsersMigrationHelper
@@ -35,7 +33,7 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true, presence: true
   validates :username, uniqueness: true
-  validate :not_used_username
+  # validate :not_used_username
   has_secure_password
   has_one_attached :avatar
   belongs_to :ciudad
@@ -201,16 +199,13 @@ class User < ApplicationRecord
     self.usernames_pasados = usernames_pasados.drop(1)
   end
 
-  def not_used_username
-    unless username.in? User
-           .where("id != ?", id)
-           .pluck(:usernames_pasados)
-           .flatten
-      return
-    end
-
-    errors.add(:username, "Ya utilizado")
-  end
+  # def not_used_username
+  #   unless username.in? User
+  #          .where("id != ?", id)
+  #          .pluck(:usernames_pasados)
+  #          .flatten
+  #     return
+  #   end
+  #   errors.add(:username, "Ya utilizado")
+  # end
 end
-
-# rubocop:enable Metrics/ClassLength
