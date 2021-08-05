@@ -85,8 +85,12 @@ class PublicacionesController < ApplicationController
       format.html do
         @publicacion.categoria_publicacion_id = params[:publicacion][:categoria_publicacion_id]
         if (params[:publicacion][:imagenes].nil? || save_images_html(params, @publicacion, :publicacion)) && @publicacion.valid? && @publicacion.save
+          if params[:publicacion][:notify_followers]
+            notificar_created(@publicacion)
+          end
           redirect_to new_publicacion_path, notice: "Publicación satisfactoriamente creada."
         else
+          set_ciudades
           render :new
         end
       end

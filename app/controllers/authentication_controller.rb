@@ -2,7 +2,6 @@ class AuthenticationController < ApplicationController
   skip_before_action :authenticate_request
 
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def authenticate
     command = AuthenticateUser.call(params[:email], params[:password])
 
@@ -49,5 +48,4 @@ class AuthenticationController < ApplicationController
   end
 
   # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 end

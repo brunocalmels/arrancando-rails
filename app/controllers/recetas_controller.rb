@@ -81,8 +81,10 @@ class RecetasController < ApplicationController
       format.html do
         if (params[:receta][:imagenes].nil? || save_images_html(params, @receta, :receta)) && @receta.valid? && @receta.save
           parse_ingredientes
+          notificar_created(@receta) if params[:receta][:notify_followers]
           redirect_to new_receta_path, notice: "Receta satisfactoriamente creada."
         else
+          set_ciudades
           render :new
         end
       end
@@ -101,7 +103,6 @@ class RecetasController < ApplicationController
 
   # PATCH/PUT /recetas/1
   # PATCH/PUT /recetas/1.json
-  # rubocop: disable Metrics/MethodLength
   def update
     authorize @receta
     params[:receta][:titulo] = params[:receta][:titulo].strip
@@ -132,8 +133,6 @@ class RecetasController < ApplicationController
       end
     end
   end
-
-  # rubocop: enable Metrics/MethodLength
 
   # rubocop:enable Metrics/AbcSize
   # rubocop: enable Metrics/CyclomaticComplexity

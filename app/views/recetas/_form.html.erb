@@ -2,7 +2,6 @@
   <% if receta.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(receta.errors.count, "error") %> impidió que este receta se guardara:</h2>
-
       <ul>
         <% receta.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,17 +9,14 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= form.label 'Usuario' %>
     <%= form.select :user_id, User.all.collect { |c| [c.username, c.id] } %>
   </div>
-
   <div class="field">
     <%= form.label :titulo %>
     <%= form.text_field :titulo %>
   </div>
-
   <div class="field">
     <%= form.label 'Complejidad' %>
     <%= form.select :complejidad, COMPLEJIDADES_RECETAS %>
@@ -29,25 +25,20 @@
     <%= form.label 'Duración (en minutos)' %>
     <%= form.text_field :duracion %>
   </div>
-
-
   <div class="field">
     <%= form.label "Introducción" %>
     <%= form.text_area :introduccion %>
   </div>
-
   <div class="field">
     <%= form.label :ingredientes %>
     <%= form.text_area :ingredientes %>
   </div>
-
   <% if false %>
-  <div class="field">
-    <%= form.label :ingredientes_items %>
-    <%= form.text_area :ingredientes_items %>
-  </div>
+    <div class="field">
+      <%= form.label :ingredientes_items %>
+      <%= form.text_area :ingredientes_items %>
+    </div>
   <% end %>
-
   <div class='field'>
     <%= form.label 'Ingredientes items'%>
     <div class='field' id="ingredientes_items">
@@ -63,37 +54,32 @@
   </div>
   <p>Para "Cantidad necesaria": Dejar "Cant. necesaria" en la cantidad, con cualquier unidad.</p>
   <%= link_to '+ ingrediente', '', class: 'btn btn-info new_ingrediente_fields' %>
-
   <div class="field">
     <%= form.label :instrucciones %>
     <%= form.text_area :instrucciones %>
   </div>
-
   <div class="field">
     <%= form.label :cuerpo %>
     <%= form.text_area :cuerpo %>
   </div>
   <p style="font-style: italic;">(Sólo por retrocompatibilidad. Se prefiere el uso de Introducción, Ingredientes e Instrucciones.)</p>
-
   <div class="field">
     <%= form.label 'Categoría' %>
     <%= form.select :categoria_receta_id, CategoriaReceta.order(nombre: :asc).collect { |c| [c.nombre_con_version, c.id] } %>
   </div>
-
   <div class="field">
     <%= form.label :habilitado %>
     <%= form.check_box :habilitado %>
   </div>
-
   <div class="multimedia">
     <% receta.imagenes.any? && receta.imagenes.each_with_index do |img, i| %>
-    <div class="item_multimedia">
-      <% case img.blob.content_type %>
-      <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
+      <div class="item_multimedia">
+        <% case img.blob.content_type %>
+        <% when 'video/mp4', 'video/mpg', 'video/mpeg' %>
         <video controls>
           <source src=<%= asset_url_for(img, device: 'web') %> />
         </video>
-      <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
+        <% when "image/jpg", "image/jpeg", "image/png", "image/gif" %>
         <%= image_tag(asset_url_for(img, device: 'web')) %>
       <% end %>
       <div>
@@ -101,15 +87,17 @@
         <%= check_box_tag "remove_imagenes[#{i}]", asset_url_for(img, device: 'web') %>
       </div>
     </div>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= form.label 'Imágenes' %>
-    <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg' %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit :Guardar, class: "btn btn-success" %>
-  </div>
+  <% end %>
+</div>
+<div class="field">
+  <%= form.label 'Imágenes' %>
+  <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg' %>
+</div>
+<div class="field">
+  <%= form.label :notify_followers, "Notificar seguidores" %>
+  <%= form.check_box :notify_followers %>
+</div>
+<div class="actions">
+  <%= form.submit :Guardar, class: "btn btn-success" %>
+</div>
 <% end %>

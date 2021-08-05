@@ -6,6 +6,7 @@ class NotificationSendMultipleWorker
 
   def perform(user_ids, titulo, cuerpo, url)
     user_ids.each do |user_id|
+      p "Sending to user #{user_id}"
       create_notification_and_send(user_id, titulo, cuerpo, url)
     end
   end

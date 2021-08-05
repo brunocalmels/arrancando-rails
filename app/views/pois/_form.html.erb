@@ -78,6 +78,10 @@
   <%= form.label 'Imágenes' %>
   <%= form.file_field :imagenes, multiple: true, class: :input, accept: 'image/png,image/gif,image/jpeg,video/mp4,video/mpg,video/mpeg'%>
 </div>
+<div class="field">
+  <%= form.label :notify_followers, "Notificar seguidores" %>
+  <%= form.check_box :notify_followers %>
+</div>
 <div class="actions">
   <%= form.submit :Guardar, class: "btn btn-success" %>
 </div>
