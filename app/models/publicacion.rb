@@ -30,7 +30,7 @@ class Publicacion < ApplicationRecord
            dependent: :destroy,
            class_name: "ComentarioPublicacion"
 
-  validates :titulo, presence: true
+  validates :titulo, presence: true, uniqueness: true
   validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
 

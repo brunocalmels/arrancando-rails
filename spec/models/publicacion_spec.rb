@@ -19,5 +19,13 @@
 require "rails_helper"
 
 RSpec.describe Publicacion, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:subject) { FactoryBot.build(:publicacion) }
+  context "with duplicated titulo" do
+    it "is not valid" do
+      subject.save
+      pub2 = subject.dup
+      expect(pub2).not_to be_valid
+      expect(pub2.errors).to have_key(:titulo)
+    end
+  end
 end

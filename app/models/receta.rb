@@ -43,7 +43,7 @@ class Receta < ApplicationRecord
                           class_name: "SubcategoriaReceta",
                           join_table: "recetas_subcategoria_recetas"
 
-  validates :titulo, presence: true
+  validates :titulo, presence: true, uniqueness: true
   # validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
   validate :complejidad_inclusion

@@ -21,7 +21,7 @@ FactoryBot.define do
     titulo { Faker::Hipster.sentence(word_count: 1) }
     cuerpo { Faker::Hipster.sentence(word_count: 40) }
     puntajes { {} }
-    user { User.all.sample }
+    user { User.all.sample || FactoryBot.create(:user) }
     ciudad { Ciudad.all.sample }
     categoria_publicacion do
       if CategoriaPublicacion.any?

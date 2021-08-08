@@ -26,7 +26,7 @@ FactoryBot.define do
     titulo { Faker::Dessert.variety }
     cuerpo { Faker::Restaurant.description }
     puntajes { {} }
-    user { User.all.sample }
+    user { User.all.sample || FactoryBot.create(:user) }
     categoria_receta do
       if CategoriaReceta.any?
         CategoriaReceta.all.sample
