@@ -34,7 +34,7 @@ class Publicacion < ApplicationRecord
   validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
   validate :attachments_present, on: :create unless Rails.env.test?
-  validate :duplicate
+  validate :duplicate, on: :create
 
   scope :habilitados, lambda {
     where(habilitado: true)

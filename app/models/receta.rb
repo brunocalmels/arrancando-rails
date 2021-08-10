@@ -48,7 +48,7 @@ class Receta < ApplicationRecord
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
   validate :complejidad_inclusion
   validate :attachments_present, on: :create unless Rails.env.test?
-  validate :duplicate
+  validate :duplicate, on: :create
 
   scope :habilitados, lambda {
     where(habilitado: true)
