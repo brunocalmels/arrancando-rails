@@ -30,11 +30,11 @@ class Publicacion < ApplicationRecord
            dependent: :destroy,
            class_name: "ComentarioPublicacion"
 
-  validates :titulo, presence: true, uniqueness: true
+  validates :titulo, presence: true
   validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
-
   validate :attachments_present, on: :create unless Rails.env.test?
+  validate :duplicate
 
   scope :habilitados, lambda {
     where(habilitado: true)
@@ -160,5 +160,12 @@ class Publicacion < ApplicationRecord
       )
       break
     end
+  end
+
+  def duplicate
+    return if self.class.where(titulo: titulo,
+                               cuerpo: cuerpo).empty?
+
+    errors.add(:duplicada, "Publicación idéntica ya existe")
   end
 end

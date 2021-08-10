@@ -26,11 +26,22 @@ require "rails_helper"
 RSpec.describe Receta, type: :model do
   let(:subject) { FactoryBot.build(:receta) }
   context "with duplicated titulo" do
+    it "is valid" do
+      subject.save
+      pub2 = subject.dup
+      pub2.introduccion = "An intro"
+      pub2.ingredientes = "Some ingredients"
+      pub2.instrucciones = "Plenty of instructions"
+      expect(pub2).to be_valid
+    end
+  end
+
+  context "with duplicated meaningful fields" do
     it "is not valid" do
       subject.save
       pub2 = subject.dup
       expect(pub2).not_to be_valid
-      expect(pub2.errors).to have_key(:titulo)
+      expect(pub2.errors).to have_key(:duplicada)
     end
   end
 end

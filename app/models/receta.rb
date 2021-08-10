@@ -43,11 +43,12 @@ class Receta < ApplicationRecord
                           class_name: "SubcategoriaReceta",
                           join_table: "recetas_subcategoria_recetas"
 
-  validates :titulo, presence: true, uniqueness: true
+  validates :titulo, presence: true
   # validates :cuerpo, presence: true
   validate :attachments_max_length, unless: -> { user.unlim_upload? }
   validate :complejidad_inclusion
   validate :attachments_present, on: :create unless Rails.env.test?
+  validate :duplicate
 
   scope :habilitados, lambda {
     where(habilitado: true)
@@ -181,5 +182,14 @@ class Receta < ApplicationRecord
       )
       break
     end
+  end
+
+  def duplicate
+    return if self.class.where(titulo: titulo,
+                               introduccion: introduccion,
+                               ingredientes: ingredientes,
+                               instrucciones: instrucciones).empty?
+
+    errors.add(:duplicada, "Receta idéntica ya existe")
   end
 end
