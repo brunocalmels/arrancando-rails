@@ -86,6 +86,8 @@ Rails.application.routes.draw do
 
   get :docs, to: "home#docs"
 
+  get :privacidad, to: 'home#privacidad'
+
   root to: "home#index"
 
   # Rompe las rutas a los assets (habría que excluir esas rutas):

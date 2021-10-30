@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  # skip_before_action :authenticate_request
+  skip_before_action :authenticate_request, only: %i[privacidad]
 
   def index
     @user = current_user
@@ -17,9 +17,9 @@ class HomeController < ApplicationController
   def docs
   end
 
-  # # GET /android
-  # def android
-  # end
+  # # GET /privacidad
+  def privacidad
+  end
 
   # POST /contacto
   def contacto
